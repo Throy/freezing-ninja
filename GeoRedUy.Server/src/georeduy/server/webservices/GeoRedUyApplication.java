@@ -4,11 +4,11 @@ import java.util.Set;
 import java.util.HashSet;
 import javax.ws.rs.core.Application;
 
-public class GeoNetUyApplication extends Application {
+public class GeoRedUyApplication extends Application {
 
 	private Set<Object> singletons = new HashSet<Object>();
 	private Set<Class<?>> empty = new HashSet<Class<?>>();
-	public GeoNetUyApplication(){
+	public GeoRedUyApplication(){
 	     singletons.add(new Session());
 	     singletons.add(new Notifications());
 	}

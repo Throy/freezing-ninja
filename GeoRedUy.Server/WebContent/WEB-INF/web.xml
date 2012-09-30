@@ -19,7 +19,7 @@
   </servlet-mapping>
   <context-param>
     <param-name>javax.ws.rs.Application</param-name>
-    <param-value>geonetuy.server.webservices.GeoRedUyApplication</param-value>
+    <param-value>georeduy.server.webservices.GeoRedUyApplication</param-value>
   </context-param>
   <listener>
     <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>

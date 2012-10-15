@@ -42,11 +42,12 @@ public class AuthenticationFilter implements Filter {
 	{	
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		String token = httpRequest.getHeader("Token");
-		
+
 	    if(token != null && SessionController.getInstance().isTokenValid(token))
 	    {
 	    	Client client = SessionController.getInstance().GetClient(token);
 	    	ClientPrincipal principal = new ClientPrincipal(client, token);
+	    	Client.setCurrent(client);
 	    	
 	        chain.doFilter(new ClientRequestWrapper(principal, client.getRoles(), httpRequest), response);
 	    }

@@ -5,16 +5,17 @@ import georeduy.client.util.OnCompletedCallback;
 import georeduy.client.util.TokenRepository;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 
 import com.google.android.maps.GeoPoint;
@@ -61,24 +62,28 @@ public class MainActivity extends MapActivity {
 		mapController.setZoom(6);
 
 		// Test de comunicacion con el servidor
-		RequestParams params = new BasicRequestParams();
-		params.add("userName", "Agustin");
-		params.add("password", "1234");
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("userName", "Agustin");
+		params.put("password", "1234");
 
-		TokenRepository.getInstance().setToken(
-		        GeoRedClient.get("/Session", params));
+		try {
+	        TokenRepository.getInstance().setToken(
+	                GeoRedClient.Get("/Session", params));
+        } catch (Exception e1) {
+	        // TODO: Handle error
+        }
 
 		final AlertDialog alertDialog;
 		alertDialog = new AlertDialog.Builder(this).create();
 
-		params = new BasicRequestParams();
-		params.add("name", "AgustinC");
+		params = new HashMap<String, String>();
+		params.put("name", "AgustinC");
 
-		GeoRedClient.getAsync("/Notifications", params,
+		GeoRedClient.GetAsync("/Notifications/SayHello", params,
 		        new OnCompletedCallback() {
 
 			        @Override
-			        public void onCompleted(String response) {
+			        public void onCompleted(String response, String error) {
 				        alertDialog.setTitle("Rest Client Test");
 				        alertDialog.setMessage(response);
 				        alertDialog.show();
@@ -120,6 +125,9 @@ public class MainActivity extends MapActivity {
 		});
 		t.start();
 
+		Intent myIntent = new Intent(this, GCMActivity.class);
+		startActivity(myIntent);
+		
 	}
 
 	@Override

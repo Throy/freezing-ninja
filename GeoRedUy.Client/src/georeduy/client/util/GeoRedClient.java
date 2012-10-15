@@ -1,52 +1,94 @@
 package georeduy.client.util;
 
-import static com.google.resting.component.EncodingTypes.UTF8;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import android.os.AsyncTask;
 
-import com.google.resting.Resting;
-import com.google.resting.component.RequestParams;
-import com.google.resting.component.impl.ServiceResponse;
-
-import org.apache.http.Header;
-import org.apache.http.message.BasicHeader;
+import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 
 public class GeoRedClient {
-	
-	private static List<Header> getHeaders() {
-		List<Header> headers = new ArrayList<Header>();
-		String token = TokenRepository.getInstance().getToken();
+
+	public static String Get(String uri, Map<String, String> params)
+	        throws Exception {
 		
-		if (token != null)
-			headers.add(new BasicHeader("Token", TokenRepository.getInstance().getToken()));
+		HttpResponse response = GeoRedClient.GetRequest(Config.SERVER_URL + uri, params);
 		
-		return headers;
+		int status = response.getStatusLine().getStatusCode();
+		if (status != 200) {
+			throw new Exception(EntityUtils.toString(response.getEntity()));
+		}
+		
+		return EntityUtils.toString(response.getEntity());
 	}
-	
-	public static String get(String uri, RequestParams requestParams) {
-		ServiceResponse response = Resting.get(Config.SERVER_URL + uri, Config.SERVER_PORT, requestParams, UTF8, getHeaders()); 
+
+	public static void GetAsync(final String uri,
+	        final Map<String, String> requestParams,
+	        final OnCompletedCallback callback) {
 		
-		return response.getResponseString();
-	}
-	
-	public static void getAsync(final String uri, final RequestParams requestParams, final OnCompletedCallback callback) {
-		(new AsyncTask<String, String, String>(){
+		(new AsyncTask<String, String, HttpResponse>() {
 
 			@Override
-            protected String doInBackground(String... params) {
-				ServiceResponse response = Resting.get(Config.SERVER_URL + uri, Config.SERVER_PORT, requestParams, UTF8, getHeaders());
-	            
-				return response.getResponseString();
-            }
-			
-			protected void onPostExecute(String response) {
-				callback.onCompleted(response);
-		        super.onPostExecute(response);
-		    }
-			
+			protected HttpResponse doInBackground(String... params) {
+				try {
+	                return GeoRedClient.GetRequest(Config.SERVER_URL + uri, requestParams);
+                } catch (ClientProtocolException e) {
+	                e.printStackTrace();
+                } catch (IOException e) {
+	                e.printStackTrace();
+                }
+				return null;
+			}
+
+			protected void onPostExecute(HttpResponse response) {
+				String res = null;
+				String error = null;
+                try {
+	                res = EntityUtils.toString(response.getEntity());
+                } catch (ParseException e) {
+                	error = e.getMessage();
+                } catch (IOException e) {
+                	error = e.getMessage();
+                }
+				
+				if (response.getStatusLine().getStatusCode() != 200)
+					error = res;
+				
+				callback.onCompleted(res, error);
+
+				super.onPostExecute(response);
+			}
+
 		}).execute();
+	}
+	
+	private static HttpResponse GetRequest(String endpoint, Map<String, String> params) throws ClientProtocolException, IOException {
+		StringBuilder query = new StringBuilder();
+		
+		Iterator<Entry<String, String>> iterator = params.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Entry<String, String> param = iterator.next();
+			query.append(param.getKey()).append('=').append(param.getValue());
+			
+			if (iterator.hasNext()) {
+				query.append('&');
+			}
+		}
+		
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		HttpGet getRequest = new HttpGet(endpoint + "?" + query.toString());
+		
+		String token = TokenRepository.getInstance().getToken();
+		if (token != null)
+			getRequest.addHeader("Token", token);
+ 
+		return httpClient.execute(getRequest);
 	}
 }

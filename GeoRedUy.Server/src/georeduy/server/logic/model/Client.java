@@ -8,7 +8,8 @@ public class Client {
 	private String m_firstName;
 	private String m_lastName;
 	private String m_email;
-	private List<String>   m_roles = null;
+	private List<String> m_roles = null;
+	private static Client s_currentClient;
 	
 	public Client(int id, String userName, String firstName, String lastName, String email, List<String> roles) {
 		m_id = id;
@@ -40,5 +41,14 @@ public class Client {
 	
 	public List<String> getRoles() {
 	    return m_roles;
-    }	
+    }
+	
+	public static void setCurrent(Client client)
+	{
+		s_currentClient = client;
+	}
+	
+	public static Client Current() {
+    	return s_currentClient;
+	}
 }

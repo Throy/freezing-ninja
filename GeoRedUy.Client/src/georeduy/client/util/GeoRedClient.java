@@ -11,6 +11,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
@@ -90,5 +92,45 @@ public class GeoRedClient {
 			getRequest.addHeader("Token", token);
  
 		return httpClient.execute(getRequest);
+	}
+	
+	public static String Post(String uri, Map<String, String> params)
+	        throws Exception {
+		
+		HttpResponse response = GeoRedClient.PostRequest(Config.SERVER_URL + uri, params);
+		
+		int status = response.getStatusLine().getStatusCode();
+		if (status != 200) {
+			throw new Exception(EntityUtils.toString(response.getEntity()));
+		}
+		
+		return EntityUtils.toString(response.getEntity());
+	}
+	
+	private static HttpResponse PostRequest(String endpoint, Map<String, String> params) throws ClientProtocolException, IOException {
+		StringBuilder query = new StringBuilder();
+		
+		Iterator<Entry<String, String>> iterator = params.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Entry<String, String> param = iterator.next();
+			query.append(param.getKey()).append('=').append(param.getValue());
+			
+			if (iterator.hasNext()) {
+				query.append('&');
+			}
+		}
+		
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		HttpPost postRequest = new HttpPost(endpoint);
+		
+		postRequest.setEntity(new StringEntity(query.toString(), "UTF-8"));
+		
+		String token = TokenRepository.getInstance().getToken();
+		if (token != null)
+			postRequest.addHeader("Token", token);
+ 
+		HttpResponse response = httpClient.execute(postRequest);
+			
+		return response;
 	}
 }

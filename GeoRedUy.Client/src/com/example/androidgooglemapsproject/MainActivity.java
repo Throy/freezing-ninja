@@ -26,6 +26,8 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.impl.BasicRequestParams;
+import com.google.resting.json.JSONException;
+import com.google.resting.json.JSONObject;
 import com.example.androidgooglemapsproject.CustomItemizedOverlay;
 
 public class MainActivity extends MapActivity {
@@ -61,8 +63,28 @@ public class MainActivity extends MapActivity {
 		mapController.animateTo(point);
 		mapController.setZoom(6);
 
-		// Test de comunicacion con el servidor
+		
+		
 		Map<String, String> params = new HashMap<String, String>();
+		JSONObject userInfo = new JSONObject();
+		try {
+	        userInfo.put("userName", "Agustin"); 
+			userInfo.put("password", "1234");
+			userInfo.put("email", "agustin@lavabit.com");
+		} catch (JSONException e2) {
+	        e2.printStackTrace();
+        }
+		params.put("userInfo", userInfo.toString());
+
+		try {
+	        GeoRedClient.Post("/Session/Register", params);
+        } catch (Exception e1) {
+	        // TODO: Handle error
+        	e1.printStackTrace();
+        }
+		
+		// Test de comunicacion con el servidor
+		params = new HashMap<String, String>();
 		params.put("userName", "Agustin");
 		params.put("password", "1234");
 
@@ -71,6 +93,7 @@ public class MainActivity extends MapActivity {
 	                GeoRedClient.Get("/Session", params));
         } catch (Exception e1) {
 	        // TODO: Handle error
+        	e1.printStackTrace();
         }
 
 		final AlertDialog alertDialog;
@@ -125,8 +148,8 @@ public class MainActivity extends MapActivity {
 		});
 		t.start();
 
-		Intent myIntent = new Intent(this, GCMActivity.class);
-		startActivity(myIntent);
+		//Intent myIntent = new Intent(this, GCMActivity.class);
+		//startActivity(myIntent);
 		
 	}
 

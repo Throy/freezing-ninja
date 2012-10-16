@@ -3,7 +3,7 @@ package georeduy.server.logic.model;
 import java.util.List;
 
 public class Client {
-	private int    m_id;
+	private String    m_id;
 	private String m_userName;
 	private String m_firstName;
 	private String m_lastName;
@@ -11,7 +11,7 @@ public class Client {
 	private List<String> m_roles = null;
 	private static Client s_currentClient;
 	
-	public Client(int id, String userName, String firstName, String lastName, String email, List<String> roles) {
+	public Client(String id, String userName, String firstName, String lastName, String email, List<String> roles) {
 		m_id = id;
 		m_userName = userName;
 		m_firstName = firstName;
@@ -19,7 +19,7 @@ public class Client {
 		m_roles = roles;
 	}
 	
-	public int getId() {
+	public String getId() {
 		return m_id;
 	}
 	

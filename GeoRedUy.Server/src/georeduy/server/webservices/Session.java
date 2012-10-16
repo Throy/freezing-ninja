@@ -1,14 +1,19 @@
 package georeduy.server.webservices;
 
+import georeduy.server.data.User;
 import georeduy.server.logic.controllers.SessionController;
 
 import javax.ws.rs.DELETE;
+import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
+
+import com.google.gson.Gson;
+
 
 @Path("/Session")
 public class Session {
@@ -26,5 +31,15 @@ public class Session {
 			ClientPrincipal principal = (ClientPrincipal)context.getUserPrincipal();
 	    	SessionController.getInstance().LogOut(principal.getToken());
 		}	
+	}
+	
+	@POST()
+	@Path("Register")
+	@Produces("text/plain")
+	public String Register(@QueryParam("userInfo") String userInfo) {
+		Gson gson = new Gson();
+		SessionController.getInstance().Register(gson.fromJson(userInfo, User.class));
+		
+		return "hmm";
 	}
 }

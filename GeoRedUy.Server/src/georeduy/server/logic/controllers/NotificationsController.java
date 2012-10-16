@@ -19,7 +19,7 @@ import com.google.android.gcm.server.Sender;
 public class NotificationsController {
 	private static NotificationsController s_instance = null;
 
-	private Map<Integer, String> m_onlineDevices;
+	private Map<String, String> m_onlineDevices;
 
 	private Sender m_sender;
 
@@ -29,7 +29,7 @@ public class NotificationsController {
 	        .newFixedThreadPool(5);
 
 	public NotificationsController() {
-		m_onlineDevices = new HashMap<Integer, String>();
+		m_onlineDevices = new HashMap<String, String>();
 		// TODO: Sacar el api key para un archivo de config o algo.
 		m_sender = new Sender("AIzaSyDIDxeUih1uReYXML7WRjhTU42GzISOfO8");
 	}
@@ -51,7 +51,7 @@ public class NotificationsController {
 	}
 	
 	public void UnregisterDevice(String id) {
-		for (Map.Entry<Integer, String> entry : m_onlineDevices.entrySet()) {
+		for (Map.Entry<String, String> entry : m_onlineDevices.entrySet()) {
 	        if (id.equals(entry.getValue())) {
 	        	m_onlineDevices.remove(entry.getKey());
 	        }
@@ -59,7 +59,7 @@ public class NotificationsController {
 	}
 	
 	public void UpdateDevice(String oldId, String newId) {
-		for (Map.Entry<Integer, String> entry : m_onlineDevices.entrySet()) {
+		for (Map.Entry<String, String> entry : m_onlineDevices.entrySet()) {
 	        if (oldId.equals(entry.getValue())) {
 	        	m_onlineDevices.put(entry.getKey(), newId);
 	        }
@@ -79,7 +79,7 @@ public class NotificationsController {
             String registrationId = m_onlineDevices.get(0);
             Message message = new Message.Builder().build();
             try {
-	            Result result = m_sender.send(message, registrationId, 5);
+	            m_sender.send(message, registrationId, 5);
             } catch (IOException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();

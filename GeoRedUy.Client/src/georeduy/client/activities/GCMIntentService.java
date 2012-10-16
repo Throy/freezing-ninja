@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androidgooglemapsproject;
+package georeduy.client.activities;
 
 import static georeduy.client.util.CommonUtilities.SENDER_ID;
 import static georeduy.client.util.CommonUtilities.displayMessage;
@@ -26,7 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.example.androidgooglemapsproject.R;
+import georeduy.client.activities.R;
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androidgooglemapsproject;
+package georeduy.client.activities;
 
 import static georeduy.client.util.CommonUtilities.DISPLAY_MESSAGE_ACTION;
 import static georeduy.client.util.CommonUtilities.EXTRA_MESSAGE;
@@ -23,6 +23,7 @@ import georeduy.client.util.GCMServer;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.TokenRepository;
 
+import georeduy.client.activities.R;
 import com.google.android.gcm.GCMRegistrar;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.impl.BasicRequestParams;
@@ -104,6 +105,8 @@ public class GCMActivity extends Activity {
                 mRegisterTask.execute(null, null, null);
             //}
         }
+        Intent myIntent = new Intent(this, MapaActivity.class);
+		startActivity(myIntent);
     }
 
     @Override

@@ -18,7 +18,7 @@ package georeduy.client.util;
 import static georeduy.client.util.CommonUtilities.TAG;
 import static georeduy.client.util.CommonUtilities.displayMessage;
 
-import com.example.androidgooglemapsproject.R;
+import georeduy.client.activities.R;
 import com.google.android.gcm.GCMRegistrar;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.impl.BasicRequestParams;

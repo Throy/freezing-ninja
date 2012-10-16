@@ -1,5 +1,6 @@
-package com.example.androidgooglemapsproject;
+package georeduy.client.activities;
 
+import georeduy.client.activities.CustomItemizedOverlay;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.OnCompletedCallback;
 import georeduy.client.util.TokenRepository;
@@ -14,6 +15,7 @@ import android.accounts.AccountManager;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -26,21 +28,22 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.impl.BasicRequestParams;
+<<<<<<< HEAD:GeoRedUy.Client/src/com/example/androidgooglemapsproject/MainActivity.java
 import com.google.resting.json.JSONException;
 import com.google.resting.json.JSONObject;
 import com.example.androidgooglemapsproject.CustomItemizedOverlay;
+=======
+import georeduy.client.activities.R;
+>>>>>>> 8b45cba5dd4cdb6052061dcfd86375bd162a8931:GeoRedUy.Client/src/georeduy/client/activities/MainActivity.java
 
-public class MainActivity extends MapActivity {
-
-	private MapView mapView;
-	private static final int latitudeE6 = 37985339;
-	private static final int longitudeE6 = 23716735;
+public class MainActivity extends Activity {
 	private String returnToken;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+<<<<<<< HEAD:GeoRedUy.Client/src/com/example/androidgooglemapsproject/MainActivity.java
 		setContentView(R.layout.activity_main);
 
 		mapView = (MapView) findViewById(R.id.map_view);
@@ -65,6 +68,10 @@ public class MainActivity extends MapActivity {
 
 		
 		
+=======
+		setContentView(R.layout.loginlayout);
+		// Test de comunicacion con el servidor
+>>>>>>> 8b45cba5dd4cdb6052061dcfd86375bd162a8931:GeoRedUy.Client/src/georeduy/client/activities/MainActivity.java
 		Map<String, String> params = new HashMap<String, String>();
 		JSONObject userInfo = new JSONObject();
 		try {
@@ -153,9 +160,6 @@ public class MainActivity extends MapActivity {
 		
 	}
 
-	@Override
-	protected boolean isRouteDisplayed() {
-		return false;
-	}
+	
 
 }

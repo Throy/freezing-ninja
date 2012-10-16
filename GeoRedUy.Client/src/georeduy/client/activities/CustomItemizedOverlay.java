@@ -1,4 +1,4 @@
-package com.example.androidgooglemapsproject;
+package georeduy.client.activities;
 
 	import java.util.ArrayList;
 	 

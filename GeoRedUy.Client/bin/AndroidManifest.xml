@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.androidgooglemapsproject"
+    package="georeduy.client.activities"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -21,10 +21,10 @@
            where PACKAGE is the application's package name.
     -->
     <permission
-        android:name="com.example.androidgooglemapsproject.permission.C2D_MESSAGE"
+        android:name="georeduy.client.activities.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
     <uses-permission
-        android:name="com.example.androidgooglemapsproject.permission.C2D_MESSAGE" />
+        android:name="georeduy.client.activities.permission.C2D_MESSAGE" />
 
     <!-- This app has permission to register and receive data message. -->
     <uses-permission
@@ -45,6 +45,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".GCMActivity" android:label="@string/title_activity_main"></activity>
+        <activity android:name=".MapaActivity" android:label="@string/title_activity_main"></activity>
         
         <uses-library android:name="com.google.android.maps" />
         
@@ -63,7 +64,7 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <!-- Receives the registration id. -->
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-                <category android:name="com.example.androidgooglemapsproject" />
+                <category android:name="georeduy.client.activities" />
             </intent-filter>
         </receiver>
 

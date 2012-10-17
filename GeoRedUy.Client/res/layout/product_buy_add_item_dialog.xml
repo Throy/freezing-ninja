@@ -1,0 +1,163 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbars="vertical">
+    
+    <!-- product_buy_add_item_dialog -->
+    
+    <!-- layout del cuadro de diálogo Agregar item a la compra.
+		lo utilizan las actividades ProductsListActivity y ProductDetailActivity. -->
+
+    <!-- id -->
+    <TextView
+        android:id="@+id/product_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text="@string/textview_filler" />
+    
+    <!-- name -->
+ 	
+ 	<LinearLayout
+ 	    android:id="@+id/layout1"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+ 	    android:layout_below="@id/product_id"
+	    android:orientation="horizontal">
+	    
+	    <TextView
+        	android:text="@string/textview_name"
+	        android:layout_weight="1"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"/>
+	    
+	    <TextView
+ 	    	android:id="@+id/textview_name"
+	        android:layout_weight="2"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"/>
+	</LinearLayout>
+
+    <!-- price unit -->
+ 	
+ 	<LinearLayout
+ 	    android:id="@+id/layout2"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+ 	    android:layout_below="@id/layout1"
+	    android:orientation="horizontal">
+	    
+	    <TextView
+        	android:text="@string/textview_priceunit"
+	        android:layout_weight="1"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"/>
+	    
+	    <TextView
+ 	    	android:id="@+id/textview_priceunit"
+	        android:layout_weight="2"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"/>
+	</LinearLayout>
+    
+    <!-- units -->
+ 	
+ 	<LinearLayout
+ 	    android:id="@+id/layout3"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+ 	    android:layout_below="@id/layout2"
+	    android:orientation="horizontal">
+	    
+	    <TextView
+        	android:text="@string/textview_units"
+	        android:layout_weight="1"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"/>
+	    
+	    <TextView
+ 	    	android:id="@+id/textview_units"
+	        android:layout_weight="2"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"/>
+	</LinearLayout>
+    
+    <!-- price total -->
+ 	
+ 	<LinearLayout
+ 	    android:id="@+id/layout4"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+ 	    android:layout_below="@id/layout3"
+	    android:orientation="horizontal">
+	    
+	    <TextView
+        	android:text="@string/textview_pricetotal"
+	        android:layout_weight="1"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"/>
+	    
+	    <TextView
+ 	    	android:id="@+id/textview_pricetotal"
+	        android:layout_weight="2"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"/>
+	</LinearLayout>
+
+    <!-- buttons -->
+ 	
+ 	<LinearLayout
+ 	    android:id="@+id/layout5"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+ 	    android:layout_below="@id/layout4"
+	    android:orientation="horizontal">
+	    
+	    <Button
+	        android:id="@+id/button_product_add"
+	        android:text="@string/button_add" 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"
+	        android:focusable="false"
+	        android:onClick="button_product_add_onClick"
+	        />
+	    
+	    <Button
+	        android:id="@+id/button_product_cancel"
+	        android:text="@string/button_cancel" 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"
+	        android:focusable="false"
+	        android:onClick="button_product_cancel_onClick"
+	        />
+	</LinearLayout>
+</RelativeLayout>

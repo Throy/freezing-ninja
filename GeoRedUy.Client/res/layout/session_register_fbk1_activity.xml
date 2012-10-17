@@ -1,0 +1,80 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbars="vertical">
+    
+    <!-- session_register_activity -->
+    
+    <!-- layout de la actividad Registrarse en el sistema por Facebook, paso 1.
+		lo utiliza la actividad SessionRegisterFbk1Activity. -->
+
+    <!-- email -->
+ 	
+ 	<LinearLayout
+ 	    android:id="@+id/layout1"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+	    
+	    <TextView
+        	android:text="@string/textview_email"
+	        android:layout_weight="1"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"/>
+	    
+	 	<EditText
+	 	    android:id="@+id/edittext_email"
+		    android:hint="@string/edittext_session_register_email_hint"
+	        android:layout_weight="2"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:inputType="textEmailAddress" />
+	</LinearLayout>
+
+    <!-- password -->
+ 	
+ 	<LinearLayout
+ 	    android:id="@+id/layout2"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+        android:layout_below="@id/layout1"
+	    android:orientation="horizontal">
+	    
+	    <TextView
+        	android:text="@string/textview_password"
+	        android:layout_weight="1"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"/>
+	    
+	 	<EditText
+	 	    android:id="@+id/edittext_password"
+		    android:hint="@string/edittext_session_register_password1_hint"
+	        android:layout_weight="2"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip" 
+	        android:inputType="textPassword"/>
+	</LinearLayout>
+    
+    <!-- register button -->
+ 	
+ 	<Button
+        android:text="@string/button_session_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout2"
+        android:textSize="18dip"
+        android:onClick="button_register_onClick"/>
+</RelativeLayout>

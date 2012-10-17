@@ -15,8 +15,15 @@
  */
 package georeduy.client.util;
 
+import georeduy.client.activities.R;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * Helper class providing methods and constants common to other classes in the
@@ -58,5 +65,24 @@ public final class CommonUtilities {
         Intent intent = new Intent(DISPLAY_MESSAGE_ACTION);
         intent.putExtra(EXTRA_MESSAGE, message);
         context.sendBroadcast(intent);
+    }
+    
+    public static void AlertMessage(Context context, String message) {
+    	final AlertDialog alertDialog = new AlertDialog.Builder (context).create ();
+
+		TextView mensaje = new TextView (context);
+		mensaje.setText (message);
+		mensaje.setTextSize (24);
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		layoutParams.setMargins (20, 40, 20, 40);
+		mensaje.setLayoutParams (layoutParams);
+		alertDialog.setView (mensaje);
+		
+		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
+			public void onClick (DialogInterface dialog, int which) {
+				alertDialog.cancel();
+			}
+		});
+		alertDialog.show();
     }
 }

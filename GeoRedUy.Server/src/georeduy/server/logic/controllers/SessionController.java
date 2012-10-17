@@ -5,6 +5,9 @@ import georeduy.server.dao.UserDaoImpl;
 import georeduy.server.data.User;
 import georeduy.server.data.UserData;
 import georeduy.server.logic.model.Client;
+import georeduy.server.logic.model.ErrorConstants;
+import georeduy.server.logic.model.Roles;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -33,11 +36,11 @@ public class SessionController {
         return s_instance;
     }
 
-    public String LogIn(String userName, String password) {
+    public String LogIn(String userName, String password) throws Exception {
         
         User user = userDao.findByUsernameAndPassword(userName, password);
         
-        if(user!=null){
+        if (user != null) {
             Client client = new Client(user.getId(), user.getUserName(), 
                     user.getUserData().getName(), 
                     user.getUserData().getLastName(), 
@@ -51,22 +54,24 @@ public class SessionController {
             return token;
         }
 
-        return null; // Hay que hacer algo para el manejo de errores
+        throw new Exception(ErrorConstants.LOGIN_BAD_USERNAME_PASSWORD);
     }
 
     public void LogOut(String token) {
         m_onlineClients.remove(token);
     }
 
-    public boolean Register(User user) {
+    public void Register(User user) throws Exception {
         if (userDao.findByUserName(user.getUserName()) == null) {
+        	List<String> roles = new ArrayList<String>();
+        	roles.add(Roles.REG_USER);
+        	user.setRoles(roles);
+        	
             userDao.saveUser(user);
-            
-            return true;
         }
         else
         {
-        	return false;
+        	throw new Exception(ErrorConstants.REGISTER_USERNAME_EXISTS);
         }
         
     }

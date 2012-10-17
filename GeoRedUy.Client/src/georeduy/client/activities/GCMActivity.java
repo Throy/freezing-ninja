@@ -20,14 +20,6 @@ import static georeduy.client.util.CommonUtilities.EXTRA_MESSAGE;
 import static georeduy.client.util.CommonUtilities.SENDER_ID;
 import georeduy.client.util.Config;
 import georeduy.client.util.GCMServer;
-import georeduy.client.util.GeoRedClient;
-import georeduy.client.util.TokenRepository;
-
-import georeduy.client.activities.R;
-import com.google.android.gcm.GCMRegistrar;
-import com.google.resting.component.RequestParams;
-import com.google.resting.component.impl.BasicRequestParams;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -39,6 +31,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.google.android.gcm.GCMRegistrar;
 
 /**
  * Main UI for the demo app.
@@ -105,8 +99,8 @@ public class GCMActivity extends Activity {
                 mRegisterTask.execute(null, null, null);
             //}
         }
-        Intent myIntent = new Intent(this, MapaActivity.class);
-		startActivity(myIntent);
+        //Intent myIntent = new Intent(this, MapaActivity.class);
+		//startActivity(myIntent);
     }
 
     @Override

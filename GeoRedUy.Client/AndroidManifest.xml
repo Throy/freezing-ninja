@@ -36,16 +36,127 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
+            android:name=".SessionLoginActivity"
+            android:label="@string/title_activity_session_login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
         <activity android:name=".GCMActivity" android:label="@string/title_activity_main"></activity>
         <activity android:name=".MapaActivity" android:label="@string/title_activity_main"></activity>
+        <activity android:name=".SessionRegisterActivity" android:label="@string/title_activity_session_register"></activity>
+        
+        <activity
+            android:name=".MainMenuActivity"
+            android:label="@string/title_activity_main_menu" >
+        </activity>
+        
+        <activity
+            android:name=".DisplayMessageActivity"
+            android:label="@string/title_activity_display_message" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
+        </activity>
+        
+        <!-- session activities -->
+        
+        <activity
+            android:name=".SessionRegisterFbk1Activity"
+            android:label="@string/title_activity_session_register_fbk" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
+            android:name=".SessionRegisterFbk2Activity"
+            android:label="@string/title_activity_session_register_fbk" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <!-- list activities -->
+        
+        <activity
+            android:name=".ListActivity"
+            android:label="@string/title_activity_list" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
+            android:name=".ProductsListActivity"
+            android:label="@string/title_activity_products_list" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
+            android:name=".SitesListActivity"
+            android:label="@string/title_activity_sites_list" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
+            android:name=".UsersListActivity"
+            android:label="@string/title_activity_users_list" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
+            android:name=".VisitsListActivity"
+            android:label="@string/title_activity_visits_list" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <!-- detail activities -->
+        
+        <activity
+            android:name=".ProductDetailActivity"
+            android:label="@string/title_activity_product_detail" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
+            android:name=".UserDetailActivity"
+            android:label="@string/title_activity_user_detail" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
+            android:name=".VisitDetailActivity"
+            android:label="@string/title_activity_visit_detail" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <!-- use case activities -->
+        
+        <activity
+            android:name=".VisitCommentActivity"
+            android:label="@string/title_activity_visit_comment" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         
         <uses-library android:name="com.google.android.maps" />
         

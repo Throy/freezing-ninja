@@ -1,0 +1,71 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    
+    <!-- visit_comment_activity -->
+    
+    <!-- layout de las actividad Publicar comentario de una visita.
+		lo utiliza la actividad VisitCommentActivity. -->
+
+    <!-- visit -->
+ 	
+ 	<LinearLayout
+ 	    android:id="@+id/layout1"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+	    
+	    <TextView
+        	android:text="Visit id"
+	        android:layout_weight="1"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"/>
+	    
+	    <TextView
+ 	    	android:id="@+id/textview_visit_id"
+	        android:layout_weight="3"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"/>
+	</LinearLayout>
+    
+    <!-- comment label -->
+ 	
+    <TextView
+ 	    android:id="@+id/textview_comment"
+        android:text="@string/textview_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/layout1"
+    	android:layout_margin="5dip"
+        android:textSize="18dip"
+        android:textStyle="bold"/>
+    
+    <!-- comment box -->
+ 	
+ 	<EditText
+ 	    android:id="@+id/edittext_comment"
+	    android:hint="@string/edittext_visit_comment_hint"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_comment"
+        android:textSize="18dip" />
+    
+    <!-- comments send button -->
+ 	
+ 	<Button
+        android:text="@string/button_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edittext_comment"
+        android:textSize="18dip"
+        android:onClick="button_send_onClick"/>
+</RelativeLayout>

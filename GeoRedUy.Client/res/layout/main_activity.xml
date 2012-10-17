@@ -1,0 +1,101 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbars="vertical">
+    
+    <!-- activity_main -->
+    
+    <!-- layout de la actividad principal.  -->
+
+    <!--
+ 	
+ 	<LinearLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+ 	
+	 	<EditText
+	 	    android:id="@+id/edit_text_message"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:hint="@string/edit_text_message" />
+	 	
+	 	<Button
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/button_send" 
+	    	android:onClick="sendMessage"/>
+	 	
+	</LinearLayout>
+	
+ 	-->
+	
+	 	<!-- session -->
+	 	
+	 	<Button
+	 	    android:id="@+id/button_session_register"
+	        android:text="@string/button_session_register"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	    	android:onClick="button_session_register_onClick"/>
+	 	
+	 	<Button
+	 	    android:id="@+id/button_session_login"
+	        android:text="@string/button_session_login"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	    	android:onClick="button_session_login_onClick"/>
+	 	
+	 	<Button
+	 	    android:id="@+id/button_session_register_fbk"
+	        android:text="@string/button_session_register_fbk"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	    	android:onClick="button_session_register_fbk_onClick"/>
+		
+	 	<!-- lists -->
+	 	
+	 	<Button
+	 	    android:id="@+id/button_list"
+	        android:text="@string/button_teh_list"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	    	android:onClick="button_teh_list_onClick"/>
+	 	
+	 	<Button
+	 	    android:id="@+id/button_products_list"
+	        android:text="@string/button_products_list" 
+	        android:hint="@string/button_products_list_hint"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	    	android:onClick="button_products_list_onClick"/>
+	 	
+	 	<Button
+	 	    android:id="@+id/button_sites_list"
+	        android:text="@string/button_sites_list" 
+	        android:hint="@string/button_sites_list_hint"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	    	android:onClick="button_sites_list_onClick"/>
+	 	
+	 	<Button
+	 	    android:id="@+id/button_users_list"
+	        android:text="@string/button_users_list"
+	        android:hint="@string/button_users_list_hint"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	    	android:onClick="button_users_list_onClick"/>
+	 	
+	 	<Button
+	 	    android:id="@+id/button_visits_list"
+	        android:text="@string/button_visits_list"
+	        android:hint="@string/button_visits_list_hint"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	    	android:onClick="button_visits_list_onClick"/>
+	
+</LinearLayout>

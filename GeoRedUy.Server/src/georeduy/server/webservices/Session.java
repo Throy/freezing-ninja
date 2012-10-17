@@ -10,9 +10,12 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 
 @Path("/Session")
@@ -20,8 +23,18 @@ public class Session {
 
 	@GET()
 	@Produces("text/plain")
-	public String LogIn(@QueryParam("userName") String userName, @QueryParam("password") String password) {
-	    return SessionController.getInstance().LogIn(userName, password);
+	public Response LogIn(@QueryParam("userName") String userName, @QueryParam("password") String password) {
+		Response response;
+		try {
+			String token = SessionController.getInstance().LogIn(userName, password);
+			response = Response.status(200).entity(token).build();
+	    }
+	    catch (Exception e)
+	    {
+	    	response = Response.status(500).entity(e.getMessage()).build();
+	    }
+		
+		return response;
 	}
 	
 	@DELETE()
@@ -36,10 +49,18 @@ public class Session {
 	@POST()
 	@Path("Register")
 	@Produces("text/plain")
-	public String Register(@QueryParam("userInfo") String userInfo) {
-		Gson gson = new Gson();
-		SessionController.getInstance().Register(gson.fromJson(userInfo, User.class));
+	public Response Register(String userInfo) {
+		Response response;
+		try {
+			Gson gson = new Gson();
+			SessionController.getInstance().Register(gson.fromJson(userInfo.split("=")[1], User.class));
+			response = Response.status(200).entity("User successfuly registered!").build();
+	    }
+	    catch (Exception e)
+	    {
+	    	response = Response.status(500).entity(e.getMessage()).build();
+	    }
 		
-		return "hmm";
+		return response;
 	}
 }

@@ -1,16 +1,15 @@
 package georeduy.client.activities;
 
-import georeduy.client.activities.CustomItemizedOverlay;
+import georeduy.client.model.User;
+import georeduy.client.model.UserData;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.OnCompletedCallback;
 import georeduy.client.util.TokenRepository;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import android.os.Bundle;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
@@ -18,23 +17,9 @@ import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapController;
-import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapView;
-import com.google.resting.component.RequestParams;
-import com.google.resting.component.impl.BasicRequestParams;
-<<<<<<< HEAD:GeoRedUy.Client/src/com/example/androidgooglemapsproject/MainActivity.java
-import com.google.resting.json.JSONException;
-import com.google.resting.json.JSONObject;
-import com.example.androidgooglemapsproject.CustomItemizedOverlay;
-=======
-import georeduy.client.activities.R;
->>>>>>> 8b45cba5dd4cdb6052061dcfd86375bd162a8931:GeoRedUy.Client/src/georeduy/client/activities/MainActivity.java
+import com.google.gson.Gson;
 
 public class MainActivity extends Activity {
 	private String returnToken;
@@ -43,45 +28,20 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-<<<<<<< HEAD:GeoRedUy.Client/src/com/example/androidgooglemapsproject/MainActivity.java
-		setContentView(R.layout.activity_main);
-
-		mapView = (MapView) findViewById(R.id.map_view);
-		mapView.setBuiltInZoomControls(true);
-		super.onCreate(savedInstanceState);
-		List<Overlay> mapOverlays = mapView.getOverlays();
-		Drawable drawable = this.getResources().getDrawable(R.drawable.cart);
-		CustomItemizedOverlay itemizedOverlay = new CustomItemizedOverlay(
-		        drawable, this);
-
-		GeoPoint point = new GeoPoint(latitudeE6, longitudeE6);
-		OverlayItem overlayitem = new OverlayItem(point, "Hola",
-		        "Estoy en atenas!");
-
-		itemizedOverlay.addOverlay(overlayitem);
-		mapOverlays.add(itemizedOverlay);
-
-		MapController mapController = mapView.getController();
-
-		mapController.animateTo(point);
-		mapController.setZoom(6);
-
-		
-		
-=======
 		setContentView(R.layout.loginlayout);
-		// Test de comunicacion con el servidor
->>>>>>> 8b45cba5dd4cdb6052061dcfd86375bd162a8931:GeoRedUy.Client/src/georeduy/client/activities/MainActivity.java
+
 		Map<String, String> params = new HashMap<String, String>();
-		JSONObject userInfo = new JSONObject();
-		try {
-	        userInfo.put("userName", "Agustin"); 
-			userInfo.put("password", "1234");
-			userInfo.put("email", "agustin@lavabit.com");
-		} catch (JSONException e2) {
-	        e2.printStackTrace();
-        }
-		params.put("userInfo", userInfo.toString());
+        
+        User user = new User();
+        user.setPassword("1234");
+        user.setUserName("Agustin");
+        UserData userData = new UserData();
+        userData.setEmail("agustin@lavabit.com");
+        user.setUserData(userData);
+
+        Gson gson = new Gson();
+        
+		params.put("userInfo", gson.toJson(user));
 
 		try {
 	        GeoRedClient.Post("/Session/Register", params);
@@ -155,8 +115,8 @@ public class MainActivity extends Activity {
 		});
 		t.start();
 
-		//Intent myIntent = new Intent(this, GCMActivity.class);
-		//startActivity(myIntent);
+		Intent myIntent = new Intent(this, GCMActivity.class);
+		startActivity(myIntent);
 		
 	}
 

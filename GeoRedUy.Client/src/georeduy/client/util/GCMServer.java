@@ -17,18 +17,16 @@ package georeduy.client.util;
 
 import static georeduy.client.util.CommonUtilities.TAG;
 import static georeduy.client.util.CommonUtilities.displayMessage;
-
 import georeduy.client.activities.R;
-import com.google.android.gcm.GCMRegistrar;
-import com.google.resting.component.RequestParams;
-import com.google.resting.component.impl.BasicRequestParams;
-
-import android.content.Context;
-import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import android.content.Context;
+import android.util.Log;
+
+import com.google.android.gcm.GCMRegistrar;
 
 /**
  * Helper class used to communicate with the demo server.

@@ -1,0 +1,127 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbars="vertical">
+    
+    <!-- user_detail_activity -->
+    
+    <!-- layout de la actividad Ver datos de un usuario.
+		lo utiliza la actividad UserDetailActivity. -->
+
+    <!-- id -->
+ 	
+ 	<LinearLayout
+ 	    android:id="@+id/layout1"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+	    
+	    <TextView
+        	android:text="User id"
+	        android:layout_weight="1"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"/>
+	    
+	    <TextView
+ 	    	android:id="@+id/textview_user_id"
+	        android:layout_weight="2"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"/>
+	</LinearLayout>
+
+    <!-- user name -->
+ 	
+ 	<LinearLayout
+ 	    android:id="@+id/layout2"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+ 	    android:layout_below="@id/layout1"
+	    android:orientation="horizontal">
+	    
+	    <TextView
+        	android:text="@string/textview_username"
+	        android:layout_weight="1"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"/>
+	    
+	    <TextView
+ 	    	android:id="@+id/textview_username"
+	        android:layout_weight="2"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"/>
+	</LinearLayout>
+
+    <!-- full name -->
+ 	
+ 	<LinearLayout
+ 	    android:id="@+id/layout3"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+ 	    android:layout_below="@id/layout2"
+	    android:orientation="horizontal">
+	    
+	    <TextView
+        	android:text="@string/textview_fullname"
+	        android:layout_weight="1"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"/>
+	    
+	    <TextView
+ 	    	android:id="@+id/textview_fullname"
+	        android:layout_weight="2"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"/>
+	</LinearLayout>
+
+    <!-- buttons -->
+ 	
+ 	<LinearLayout
+ 	    android:id="@+id/layout4"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+ 	    android:layout_below="@id/layout3"
+	    android:orientation="horizontal">
+	    
+	    <Button
+	        android:id="@+id/button_user_item_add"
+	        android:text="@string/button_user_item_add" 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"
+	        android:focusable="false"
+	        android:onClick="button_user_item_add_onClick"
+	        />
+	    
+	    <Button
+	        android:id="@+id/button_user_item_rem"
+	        android:text="@string/button_user_item_rem" 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"
+	        android:focusable="false"
+	        android:onClick="button_user_item_rem_onClick"
+	        />
+	</LinearLayout>
+</RelativeLayout>

@@ -59,11 +59,20 @@ public class NotificationsController {
 	}
 	
 	public void UpdateDevice(String oldId, String newId) {
-		for (Map.Entry<String, String> entry : m_onlineDevices.entrySet()) {
-	        if (oldId.equals(entry.getValue())) {
-	        	m_onlineDevices.put(entry.getKey(), newId);
-	        }
-	    }
+		if (m_onlineDevices.containsValue(newId)) {
+			for (Map.Entry<String, String> entry : m_onlineDevices.entrySet()) {
+		        if (oldId.equals(entry.getValue())) {
+		        	m_onlineDevices.remove(entry.getKey());
+		        }
+		    }
+		}
+		else {
+			for (Map.Entry<String, String> entry : m_onlineDevices.entrySet()) {
+		        if (oldId.equals(entry.getValue())) {
+		        	m_onlineDevices.put(entry.getKey(), newId);
+		        }
+		    }
+		}
 	}
 
 	public void SendToClient(int clientId) throws IOException {
@@ -74,29 +83,17 @@ public class NotificationsController {
 	public void BroadCast() {
 		int total = m_onlineDevices.size();
         
-        if (total == 1) {
-            // send a single message using plain post
-            String registrationId = m_onlineDevices.get(0);
-            Message message = new Message.Builder().build();
-            try {
-	            m_sender.send(message, registrationId, 5);
-            } catch (IOException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-            }
-        } else {
-            List<String> partialDevices = new ArrayList<String>(total);
-            int counter = 0;
+        List<String> partialDevices = new ArrayList<String>(total);
+        int counter = 0;
+        
+        for (String device : m_onlineDevices.values()) {
+            counter++;
+            partialDevices.add(device);
             
-            for (String device : m_onlineDevices.values()) {
-                counter++;
-                partialDevices.add(device);
-                
-                int partialSize = partialDevices.size();
-                if (partialSize == MULTICAST_SIZE || counter == total) {
-                    asyncSend(partialDevices);
-                    partialDevices.clear();
-                }
+            int partialSize = partialDevices.size();
+            if (partialSize == MULTICAST_SIZE || counter == total) {
+                asyncSend(partialDevices);
+                partialDevices.clear();
             }
         }
 	}

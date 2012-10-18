@@ -22,13 +22,14 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-//import android.app.AlertDialog;
-//import android.content.DialogInterface;
 
 public class ProductsListActivity extends Activity {
 	
@@ -121,7 +122,7 @@ public class ProductsListActivity extends Activity {
     	*/
     	
 		// nada
-		Dialog alertDialog = new Dialog (this);
+		final Dialog alertDialog = new Dialog (this);
 		alertDialog.setContentView (R.layout.product_buy_add_item_dialog);
 
         TextView viewId = (TextView) alertDialog.findViewById (R.id.product_id);
@@ -134,25 +135,31 @@ public class ProductsListActivity extends Activity {
         Button buttonOk = (Button) alertDialog.findViewById (R.id.button_product_add);
         buttonOk.setOnClickListener (new OnClickListener() {
             public void onClick (View view) {
-				// nada
+				// mostrar confirmación
         		AlertDialog alertDialogOk = new AlertDialog.Builder (ProductsListActivity.this).create ();
-        		alertDialogOk.setTitle ("Agregaste a la compra X unidades del producto de id W "); // + ((TextView) ((View) view.getParent ()).findViewById (R.id.product_id)).getText ().toString ());
+        		alertDialogOk.setTitle ("Producto agregado"); // + ((TextView) ((View) view.getParent ()).findViewById (R.id.product_id)).getText ().toString ());
+        		alertDialogOk.setMessage ("Agregaste a la compra "
+        				+ ((TextView) ((View) view.getParent ().getParent ()).findViewById (R.id.textview_units)).getText ().toString ()
+		        		+ " unidades del producto de id "
+						+ ((TextView) ((View) view.getParent ().getParent ()).findViewById (R.id.product_id)).getText ().toString ()
+						+ ".");
         		
         		alertDialogOk.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
         			public void onClick (DialogInterface dialog, int which) {
+                    	alertDialog.dismiss ();
         			}
         		});
         		alertDialogOk.show();
-        		
-				// cerrar el cuadro de diálogo.
-				finish ();
+        		//alertDialog.dismiss ();
             }
         });
 		
 		// botón cancel
         Button buttonCancel = (Button) alertDialog.findViewById (R.id.button_product_cancel);
         buttonCancel.setOnClickListener (new OnClickListener() {
-            public void onClick (View v) {
+            public void onClick (View view) {
+            	//alertDialog.dismiss();
+            	alertDialog.dismiss ();
             }
         });
 		

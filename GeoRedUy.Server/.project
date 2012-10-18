@@ -3,7 +3,6 @@
 	<name>GeoRedUy.Server</name>
 	<comment></comment>
 	<projects>
-		<project>GeoRedUy.Client</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

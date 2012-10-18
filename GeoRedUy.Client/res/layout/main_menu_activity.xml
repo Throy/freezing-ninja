@@ -33,38 +33,8 @@
 	</LinearLayout>
 	
  	-->
-	
-	 	<!-- session -->
-	 	
-	 	<Button
-	 	    android:id="@+id/button_session_register"
-	        android:text="@string/button_session_register"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	    	android:onClick="button_session_register_onClick"/>
-	 	
-	 	<Button
-	 	    android:id="@+id/button_session_login"
-	        android:text="@string/button_session_login"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	    	android:onClick="button_session_login_onClick"/>
-	 	
-	 	<Button
-	 	    android:id="@+id/button_session_register_fbk"
-	        android:text="@string/button_session_register_fbk"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	    	android:onClick="button_session_register_fbk_onClick"/>
 		
 	 	<!-- lists -->
-	 	
-	 	<Button
-	 	    android:id="@+id/button_list"
-	        android:text="@string/button_teh_list"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	    	android:onClick="button_teh_list_onClick"/>
 	 	
 	 	<Button
 	 	    android:id="@+id/button_products_list"

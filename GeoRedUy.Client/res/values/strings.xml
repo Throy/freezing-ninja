@@ -54,6 +54,8 @@
     <string name="button_add">Agregar</string>
     <string name="button_buy">Comprar</string>
     <string name="button_send">Enviar</string>
+    <string name="button_main_menu">Menú principal</string>
+    
     <string name="button_session_login">Iniciar sesión</string>
     <string name="button_session_register">Registrarse</string>
     <string name="button_session_register_fbk">Registrarse por Facebook</string>

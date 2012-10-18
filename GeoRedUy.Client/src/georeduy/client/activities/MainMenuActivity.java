@@ -12,17 +12,13 @@ import android.view.Menu;
 import android.view.View;
 
 public class MainMenuActivity extends Activity {
-
-	// constantes
-
-    public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 	
 	// inicializadores
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.main_activity);
+        setContentView (R.layout.main_menu_activity);
     }
     
     // para colocar menú contextual.
@@ -34,23 +30,6 @@ public class MainMenuActivity extends Activity {
     }
     
     // funciones del programador
-    
-    // cliquear Enviar -> mostrar mensaje
-    
-    /*
-    public void sendMessage (View view) {
-    	// crear intent
-    	Intent intent_displayMessage = new Intent (this, DisplayMessageActivity.class);
-    	
-    	// agregar mensaje ingresado al intent
-    	EditText editText = (EditText) findViewById (R.id.edit_text_message);
-    	String message = editText.getText().toString();
-    	intent_displayMessage.putExtra (EXTRA_MESSAGE, message);
-    	
-    	// ejecutar intent
-    	startActivity (intent_displayMessage);
-    }
-    */
     
     // cliquear Listar -> abrir lista
     

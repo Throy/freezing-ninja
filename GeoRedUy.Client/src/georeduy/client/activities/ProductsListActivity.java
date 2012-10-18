@@ -39,6 +39,7 @@ public class ProductsListActivity extends Activity {
     public static final String PRODUCT_ITEM_NAME = "tsi2.GeoRedDemo.product_name";
     public static final String PRODUCT_ITEM_DESCRIPTION = "tsi2.GeoRedDemo.product_description";
     public static final String PRODUCT_ITEM_PRICE = "tsi2.GeoRedDemo.product_price";
+    public static final String PRODUCT_ITEM_DATE = "tsi2.GeoRedDemo.product_date";
     
     // extras de intents
 
@@ -72,6 +73,7 @@ public class ProductsListActivity extends Activity {
             itemStringMap.put (PRODUCT_ITEM_NAME, "Producto " + idx);
             itemStringMap.put (PRODUCT_ITEM_DESCRIPTION, "Es un producto " + idx + " y " + (((idx + 5) % 8) + 5));
             itemStringMap.put (PRODUCT_ITEM_PRICE, "$ " + idx);
+            itemStringMap.put (PRODUCT_ITEM_DATE, "2012 / 10 / " + idx);
  
             // adding HashList to ArrayList
             itemsStringList.add (itemStringMap);

@@ -60,8 +60,25 @@ public class SessionLoginActivity extends Activity {
         }
     }
     
+    // cliquear Registrarse -> mostrar formulario para registrarse
+    
     public void button_register_onClick (View view) {
     	Intent intent = new Intent(this, SessionRegisterActivity.class);
 		startActivity(intent);
+    }
+    
+    // cliquear Registrarse -> mostrar formulario de Registrarse por Facebook, paso 1
+    
+    public void button_session_register_fbk_onClick (View view) {
+    	Intent intent_session_register_fbk1 = new Intent (this, SessionRegisterFbk1Activity.class);
+    	startActivity (intent_session_register_fbk1);
+    }
+    
+    // cliquear Msin menu -> abrir menú principal 
+    // *** en realidad no va ***
+    
+    public void button_main_menu_onClick (View view) {
+    	Intent intent_main_menu = new Intent (this, MainMenuActivity.class);
+    	startActivity (intent_main_menu);
     }
 }

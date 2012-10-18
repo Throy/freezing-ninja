@@ -6,6 +6,6 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="libs/gcm.jar"/>
 	<classpathentry kind="lib" path="libs/gson-1.7.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Xeral/Desktop/fing/tsi2/git_workspace/freezing-ninja/GeoRedUy.Server/WebContent/WEB-INF/lib/gson-2.2.2.jar"/>
+	<classpathentry kind="lib" path="libs/gson-2.2.2.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

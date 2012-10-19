@@ -95,13 +95,13 @@
 
         <Button
             android:text="@string/button_session_login"
-            android:layout_width="wrap_content"
+	        android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:onClick="button_login_onClick"
             android:textSize="18dip" />
         <Button
             android:text="@string/button_session_register"
-            android:layout_width="wrap_content"
+	        android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:onClick="button_register_onClick"
             android:textSize="18dip" />

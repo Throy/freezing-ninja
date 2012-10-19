@@ -6,6 +6,7 @@
 package georeduy.client.activities;
 
 // imports
+import georeduy.client.controllers.SessionController;
 import georeduy.client.util.CommonUtilities;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.TokenRepository;
@@ -42,28 +43,24 @@ public class SessionLoginActivity extends Activity {
 		// registrarse, paso 1
 		String username = ((TextView) findViewById (R.id.edittext_username)).getText ().toString ();
 		String password = ((TextView) findViewById (R.id.edittext_password)).getText ().toString ();
-    	
-		// *** sessionController.login (username, password); ***
-		
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("userName", username);
-		params.put("password", password);
 
 		try {
-	        TokenRepository.getInstance().setToken(
-	                GeoRedClient.Get("/Session", params));
+			// intentar iniciar sesión
+			SessionController.getInstance().login (username, password);
 	        
+			// abrir menú de GCM
 	        Intent intent = new Intent(this, GCMActivity.class);
 			startActivity(intent);
-        } catch (Exception e) {
-	        CommonUtilities.AlertMessage(this, e.getMessage());
+        }
+		catch (Exception e) {
+	        CommonUtilities.AlertMessage (this, e.getMessage());
         }
     }
     
     // cliquear Registrarse -> mostrar formulario para registrarse
     
     public void button_register_onClick (View view) {
-    	Intent intent = new Intent(this, SessionRegisterActivity.class);
+    	Intent intent = new Intent (this, SessionRegisterActivity.class);
 		startActivity(intent);
     }
     

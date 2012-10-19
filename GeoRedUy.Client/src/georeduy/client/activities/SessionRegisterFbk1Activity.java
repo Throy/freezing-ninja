@@ -41,7 +41,7 @@ public class SessionRegisterFbk1Activity extends Activity {
 		String email = ((EditText) findViewById (R.id.edittext_email)).getText ().toString ();
 		String password = ((TextView) findViewById (R.id.edittext_password)).getText ().toString ();
     	
-		// *** sessionFacebookController.registerStep1 (email, password); ***
+		// *** sessionFacebookController.registerFbk_step1 (email, password); ***
 		
 		// mustrar confirmación
 		AlertDialog alertDialog = new AlertDialog.Builder (this).create ();

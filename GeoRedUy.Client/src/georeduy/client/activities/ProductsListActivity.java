@@ -152,7 +152,6 @@ public class ProductsListActivity extends Activity {
         			}
         		});
         		alertDialogOk.show();
-        		//alertDialog.dismiss ();
             }
         });
 		
@@ -160,7 +159,6 @@ public class ProductsListActivity extends Activity {
         Button buttonCancel = (Button) alertDialog.findViewById (R.id.button_product_cancel);
         buttonCancel.setOnClickListener (new OnClickListener() {
             public void onClick (View view) {
-            	//alertDialog.dismiss();
             	alertDialog.dismiss ();
             }
         });

@@ -67,9 +67,10 @@ public final class CommonUtilities {
         context.sendBroadcast(intent);
     }
     
-    public static void AlertMessage(Context context, String message) {
+    public static void showAlertMessage (Context context, String title, String message) {
     	final AlertDialog alertDialog = new AlertDialog.Builder (context).create ();
 
+    	/*
 		TextView mensaje = new TextView (context);
 		mensaje.setText (message);
 		mensaje.setTextSize (24);
@@ -77,6 +78,10 @@ public final class CommonUtilities {
 		layoutParams.setMargins (20, 40, 20, 40);
 		mensaje.setLayoutParams (layoutParams);
 		alertDialog.setView (mensaje);
+		*/
+
+		alertDialog.setTitle (title);
+		alertDialog.setMessage (message);
 		
 		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
 			public void onClick (DialogInterface dialog, int which) {

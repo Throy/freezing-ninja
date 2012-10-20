@@ -40,10 +40,11 @@ public class VisitCommentActivity extends Activity {
     public void button_send_onClick (View view) {
 		// nada
 		AlertDialog alertDialog = new AlertDialog.Builder (this).create ();
-		
-		alertDialog.setTitle ("You sent the comment \""
+
+		alertDialog.setTitle ("Confirmación");
+		alertDialog.setMessage ("Enviaste el comentario \""
 				+ ((EditText) findViewById (R.id.edittext_comment)).getText ().toString ()
-				+ "\" on the visit "
+				+ "\" a la visita "
 				+ ((TextView) findViewById (R.id.textview_visit_id)).getText ().toString ()
 				+ ".");
 		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {

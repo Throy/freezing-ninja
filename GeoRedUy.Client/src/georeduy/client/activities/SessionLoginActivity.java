@@ -8,11 +8,6 @@ package georeduy.client.activities;
 // imports
 import georeduy.client.controllers.SessionController;
 import georeduy.client.util.CommonUtilities;
-import georeduy.client.util.GeoRedClient;
-import georeduy.client.util.TokenRepository;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -53,7 +48,7 @@ public class SessionLoginActivity extends Activity {
 			startActivity(intent);
         }
 		catch (Exception e) {
-	        CommonUtilities.AlertMessage (this, e.getMessage());
+	        CommonUtilities.showAlertMessage (this, "Error SLA bloc", e.getMessage());
         }
     }
     

@@ -7,6 +7,7 @@ package georeduy.client.activities;
 
 // imports
 
+import georeduy.client.util.CommonUtilities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -52,6 +53,7 @@ public class UserDetailActivity extends Activity {
     // cliquear botón -> agregar contacto 
     
     public void button_user_item_add_onClick (View view) {
+    	/*
 		// nada
 		AlertDialog alertDialog = new AlertDialog.Builder (UserDetailActivity.this).create ();
 		
@@ -61,11 +63,15 @@ public class UserDetailActivity extends Activity {
 			}
 		});
 		alertDialog.show();
+		*/
+    	
+        CommonUtilities.showAlertMessage (this, "Confirmación", "Cliqueaste en agregar id " + ((TextView) findViewById (R.id.textview_user_id)).getText ().toString ());
     }
     
     // cliquear botón -> quitar contacto 
     
     public void button_user_item_rem_onClick (View view) {
+    	/*
 		// nada
 		AlertDialog alertDialog = new AlertDialog.Builder (UserDetailActivity.this).create ();
 		
@@ -75,5 +81,8 @@ public class UserDetailActivity extends Activity {
 			}
 		});
 		alertDialog.show();
+		*/
+    	
+        CommonUtilities.showAlertMessage (this, "Confirmación", "Cliqueaste en quitar id " + ((TextView) findViewById (R.id.textview_user_id)).getText ().toString ());
     }
 }

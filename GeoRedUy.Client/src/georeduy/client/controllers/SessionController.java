@@ -1,6 +1,11 @@
+// SessionController
+
+// controlador para los casos de uso de sesión.
+
 package georeduy.client.controllers;
 
-import georeduy.client.activities.GCMActivity;
+// imports
+
 import georeduy.client.model.User;
 import georeduy.client.util.CommonUtilities;
 import georeduy.client.util.GeoRedClient;
@@ -10,8 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.Gson;
-
-import android.content.Intent;
 
 public class SessionController
 {
@@ -57,13 +60,13 @@ public class SessionController
         Gson gson = new Gson();
 
 		Map<String, String> params1 = new HashMap <String, String>();
-		params1.put("userInfo", gson.toJson(user));
+		params1.put ("userInfo", gson.toJson(user));
 
 	    GeoRedClient.Post ("/Session/Register", params1);
 	    
 	    Map<String, String> params2 = new HashMap<String, String>();
-		params2.put("userName", user.getUserName ());
-		params2.put("password", user.getPassword ());
+		params2.put ("userName", user.getUserName ());
+		params2.put ("password", user.getPassword ());
 	
 	    TokenRepository.getInstance().setToken (GeoRedClient.Get ("/Session", params2));
 	}

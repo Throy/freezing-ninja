@@ -7,6 +7,7 @@ package georeduy.client.activities;
 // imports
 
 import georeduy.client.lists.SitesListAdapter;
+import georeduy.client.util.CommonUtilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -127,6 +128,7 @@ public class SitesListActivity extends Activity {
     // cliquear botón -> realizar visita
     
     public void button_site_item_onClick (View view) {
+    	/*
 		// nada
 		AlertDialog alertDialog = new AlertDialog.Builder (SitesListActivity.this).create ();
 		
@@ -136,6 +138,9 @@ public class SitesListActivity extends Activity {
 			}
 		});
 		alertDialog.show();
+		*/
+
+        CommonUtilities.showAlertMessage (this, "Confirmación", "Visitaste el sitio de id " + ((TextView) ((View) view.getParent ()).findViewById (R.id.site_id)).getText ().toString ());
     }
 
     @Override

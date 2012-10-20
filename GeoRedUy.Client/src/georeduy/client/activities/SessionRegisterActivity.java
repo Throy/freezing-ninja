@@ -11,13 +11,6 @@ import georeduy.client.controllers.SessionController;
 import georeduy.client.model.User;
 import georeduy.client.model.UserData;
 import georeduy.client.util.CommonUtilities;
-import georeduy.client.util.GeoRedClient;
-import georeduy.client.util.TokenRepository;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -54,8 +47,8 @@ public class SessionRegisterActivity extends Activity {
 		String email = ((TextView) findViewById (R.id.edittext_email)).getText ().toString ();
     	
         // si las contraseñas no coinciden, mostrar mensaje de error.
-		if (!password1.equals (password2)) {
-			CommonUtilities.AlertMessage (this, getString (R.string.register_passwords_do_not_match));
+		if (! password1.equals (password2)) {
+			CommonUtilities.showAlertMessage (this, "Datos incorrectos", getString (R.string.register_passwords_do_not_match));
 			return;
 		}
 
@@ -78,7 +71,7 @@ public class SessionRegisterActivity extends Activity {
 			startActivity(intent);	        
 		}
 		catch (Exception e) {
-	        CommonUtilities.AlertMessage (this, e.getMessage());
+	        CommonUtilities.showAlertMessage (this, "Error SRA broc", e.getMessage());
         }
 		
     }

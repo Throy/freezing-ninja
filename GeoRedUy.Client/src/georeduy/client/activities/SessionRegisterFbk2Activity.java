@@ -44,30 +44,14 @@ public class SessionRegisterFbk2Activity extends Activity {
 		String username = ((TextView) findViewById (R.id.edittext_username)).getText ().toString ();
     	
 		// *** sessionFacebookController.registerFbk_step2 (email, username); ***
-		
+	
 		// mostrar confirmación
 		AlertDialog alertDialog = new AlertDialog.Builder (this).create ();
-		
-		/*
-		alertDialog.setTitle ("Te registraste con\n apodo \""
-				+ ((EditText) findViewById (R.id.edittext_username)).getText ().toString ()
-				+ "\", \n nombre de pila \""
-				+ ((EditText) findViewById (R.id.edittext_firstname)).getText ().toString ()
-				+ "\", \n y apellido \""
-				+ ((EditText) findViewById (R.id.edittext_lastname)).getText ().toString ()
-				+ "\".");
-				*/
 
-		TextView mensaje = new TextView (this);
-		mensaje.setText ("Te registraste por Facebook con\n apodo \""
+		alertDialog.setTitle ("Confirmación");
+		alertDialog.setMessage ("Te registraste por Facebook con apodo \""
 				+ ((EditText) findViewById (R.id.edittext_username)).getText ().toString ()
 				+ "\".");
-		mensaje.setTextSize (24);
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		layoutParams.setMargins (20, 40, 20, 40);
-		mensaje.setLayoutParams (layoutParams);
-		alertDialog.setView (mensaje);
-		
 		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
 			public void onClick (DialogInterface dialog, int which) {
 				// cerrar la actividad.

@@ -28,7 +28,7 @@
     <string name="title_activity_main_menu">GeoRed.uy | Menú principal</string>
     <string name="title_activity_display_message">Teh Message</string>
     
-    <string name="title_activity_session_login">Iniciar sesión</string>
+    <string name="title_activity_session_login">GeoRed.uy | Menú inicial</string>
     <string name="title_activity_session_register">Registrarse en el sistema</string>
     <string name="title_activity_session_register_fbk">Registrarse por Facebook</string>
     

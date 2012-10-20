@@ -117,4 +117,11 @@ public class MainMenuActivity extends Activity {
     	// ejecutar intent.
     	startActivity (intent_visits_list);
     }
+    
+    // cliquear Mapa -> ver mapa
+    
+    public void button_map_onClick (View view) {
+    	Intent intent_map = new Intent (this, MapaActivity.class);
+    	startActivity (intent_map);
+    }
 }

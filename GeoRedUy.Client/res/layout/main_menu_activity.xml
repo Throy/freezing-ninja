@@ -67,5 +67,13 @@
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	    	android:onClick="button_visits_list_onClick"/>
+	 	
+	 	<Button
+	 	    android:id="@+id/button_map"
+	        android:text="@string/button_map"
+	        android:hint="@string/button_map_hint"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	    	android:onClick="button_map_onClick"/>
 	
 </LinearLayout>

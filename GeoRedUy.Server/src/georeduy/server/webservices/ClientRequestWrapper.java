@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletRequestWrapper;
 
 public class ClientRequestWrapper extends HttpServletRequestWrapper {
 
-	ClientPrincipal m_principal;
+	UserPrincipal m_principal;
     List<String> m_roles = null;
 	HttpServletRequest m_realRequest;
   
-	public ClientRequestWrapper(ClientPrincipal principal, List<String> roles, HttpServletRequest request) {
+	public ClientRequestWrapper(UserPrincipal principal, List<String> roles, HttpServletRequest request) {
 	    super(request);
 	    m_principal = principal;
 	    m_roles = roles;

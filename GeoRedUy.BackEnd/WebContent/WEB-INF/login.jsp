@@ -1,9 +1,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%@ page import="georeduy.backend.model.*" %>
+
 <%
     String success = (String)request.getAttribute("Success");
 	String errorMsg = (String)request.getAttribute("ErrorMsg");
+	User user = (User)session.getAttribute("User");
  %>
+
  <% if (success == null) { %>
 <br /><br />
 <h2 style="margin-left:30px;">System administrator login</h2>
@@ -50,7 +54,7 @@
 <%
  } else {
 %>
-	Bienvenido!
+	Bienvenido <%=user.getUserName()%>!
 <%
  }
 %>

@@ -6,6 +6,7 @@ package georeduy.backend.controllers;
  */
 
 
+import georeduy.backend.model.User;
 import georeduy.backend.util.GeoRedClient;
 
 import java.io.IOException;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
 
 
 public class Login extends HttpServlet {
@@ -35,9 +38,15 @@ public class Login extends HttpServlet {
 	
 			try {
 				session.setAttribute("Token", GeoRedClient.Get("/Session", params, null));
+
+				String result = GeoRedClient.Get("/Session/GetUserInfo", null, (String)session.getAttribute("Token"));
+				Gson gson = new Gson();
+				User user = gson.fromJson(result, User.class);
+				session.setAttribute("User", user);
+				
 				request.setAttribute("Success", "true");
 				request.setAttribute("Header", "<meta http-equiv=\"refresh\" content=\"2\">");
-	        } catch (Exception e) {
+			} catch (Exception e) {
 	        	request.setAttribute("ErrorMsg", e.getMessage());
 	        }
     	}

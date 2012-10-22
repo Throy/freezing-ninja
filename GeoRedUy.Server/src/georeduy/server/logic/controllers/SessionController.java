@@ -3,8 +3,6 @@ package georeduy.server.logic.controllers;
 import georeduy.server.dao.UserDao;
 import georeduy.server.dao.UserDaoImpl;
 import georeduy.server.data.User;
-import georeduy.server.data.UserData;
-import georeduy.server.logic.model.Client;
 import georeduy.server.logic.model.ErrorConstants;
 import georeduy.server.logic.model.Roles;
 
@@ -20,11 +18,11 @@ import java.util.Map;
 public class SessionController {
 
     private static SessionController s_instance = null;
-    private Map<String, Client> m_onlineClients;
+    private Map<String, User> m_onlineUsers;
     private UserDao userDao;
 
     public SessionController() {
-        m_onlineClients = new HashMap<String, Client>();
+    	m_onlineUsers = new HashMap<String, User>();
         userDao = new UserDaoImpl();
     }
 
@@ -41,15 +39,11 @@ public class SessionController {
         User user = userDao.findByUsernameAndPassword(userName, password);
         
         if (user != null) {
-            Client client = new Client(user.getId(), user.getUserName(), 
-                    user.getUserData().getName(), 
-                    user.getUserData().getLastName(), 
-                    user.getUserData().getEmail(), user.getRoles());
             String token;
             do {
                 token = GenerateToken();
-            } while (m_onlineClients.containsKey(token));
-            m_onlineClients.put(token, client);
+            } while (m_onlineUsers.containsKey(token));
+            m_onlineUsers.put(token, user);
 
             return token;
         }
@@ -58,7 +52,7 @@ public class SessionController {
     }
 
     public void LogOut(String token) {
-        m_onlineClients.remove(token);
+    	m_onlineUsers.remove(token);
     }
 
     public void Register(User user) throws Exception {
@@ -77,11 +71,11 @@ public class SessionController {
     }
 
     public boolean isTokenValid(String token) {
-        return m_onlineClients.containsKey(token);
+        return m_onlineUsers.containsKey(token);
     }
 
-    public Client GetClient(String token) {
-        return m_onlineClients.get(token);
+    public User GetClient(String token) {
+        return m_onlineUsers.get(token);
     }
 
     private String GenerateToken() {

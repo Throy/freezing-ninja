@@ -1,12 +1,13 @@
 package georeduy.server.data;
 
+import java.util.List;
+
 import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.utils.IndexDirection;
-import java.util.List;
 
 @Entity(value = "users", noClassnameStored = true)
 public class User {
@@ -21,6 +22,8 @@ public class User {
     private UserData userData;
     @Property
     private List<String> roles;
+    
+    private static User s_currentUser;
 
     public String getUserName() {
         return userName;
@@ -87,4 +90,13 @@ public class User {
         }
         return true;
     }
+    
+	public static void setCurrent(User user)
+	{
+		s_currentUser = user;
+	}
+	
+	public static User Current() {
+    	return s_currentUser;
+	}
 }

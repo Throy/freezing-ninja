@@ -1,7 +1,7 @@
 package georeduy.server.webservices;
 
+import georeduy.server.data.User;
 import georeduy.server.logic.controllers.SessionController;
-import georeduy.server.logic.model.Client;
 
 import java.io.IOException;
 
@@ -46,11 +46,11 @@ public class AuthenticationFilter implements Filter {
 		String s = httpRequest.getRequestURI();
 	    if(token != null && SessionController.getInstance().isTokenValid(token))
 	    {
-	    	Client client = SessionController.getInstance().GetClient(token);
-	    	ClientPrincipal principal = new ClientPrincipal(client, token);
-	    	Client.setCurrent(client);
+	    	User user = SessionController.getInstance().GetClient(token);
+	    	UserPrincipal principal = new UserPrincipal(user, token);
+	    	User.setCurrent(user);
 	    	
-	        chain.doFilter(new ClientRequestWrapper(principal, client.getRoles(), httpRequest), response);
+	        chain.doFilter(new ClientRequestWrapper(principal, user.getRoles(), httpRequest), response);
 	    }
 	    else
 	    {

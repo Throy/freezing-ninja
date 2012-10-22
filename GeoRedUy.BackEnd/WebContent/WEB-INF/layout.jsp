@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-    
+
+<%@ page import="georeduy.backend.model.*" %>
+
 <%
     Object content = request.getAttribute("content");
+	User user = (User)session.getAttribute("User");
  %>
  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -41,13 +44,11 @@
         </ul>                
         <span class="menulogon">
             <ul>
-            <!--@if(Request.IsAuthenticated) {
-                <li class="outer" style="position:relative; "><span class="userbtn"><a>@User.Identity.Name</a></span>
+                <li class="outer" style="position:relative; "><span class="userbtn"><a><%=user.getUserName()%></a></span>
                     <ul style="width:100%">
-                        <li class="menuitm">@Html.ActionLink("Logout", "LogOff", "SysAdmin")</li>
+                        <li class="menuitm"><a href="./?LogOut">LogOut</a></li>
                     </ul>
                 </li>
-            }-->
             </ul>
         </span>                   
     </div>

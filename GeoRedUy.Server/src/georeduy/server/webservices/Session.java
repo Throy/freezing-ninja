@@ -2,6 +2,8 @@ package georeduy.server.webservices;
 
 import georeduy.server.data.User;
 import georeduy.server.logic.controllers.SessionController;
+import georeduy.server.logic.model.ErrorConstants;
+import georeduy.server.logic.model.Roles;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
@@ -37,13 +39,35 @@ public class Session {
 		return response;
 	}
 	
-	@DELETE()
-	public void LogOut(@Context SecurityContext context) {
-		if (context.getUserPrincipal() instanceof ClientPrincipal)
-		{
-			ClientPrincipal principal = (ClientPrincipal)context.getUserPrincipal();
-	    	SessionController.getInstance().LogOut(principal.getToken());
-		}	
+	@GET()
+	@Path("LogOut")
+	public Response LogOut(@Context SecurityContext context) {
+		Response response = Response.status(200).build();
+		try {
+			if (context.getUserPrincipal() instanceof UserPrincipal)
+			{
+				UserPrincipal principal = (UserPrincipal)context.getUserPrincipal();
+		    	SessionController.getInstance().LogOut(principal.getToken());
+			}	
+		} catch (Exception e) {
+		    response = Response.status(500).entity(e.getMessage()).build();
+		}
+		
+		return response;
+	}
+	
+	@GET()
+	@Path("GetUserInfo")
+	public Response GetUserInfo(@Context SecurityContext context) {
+		Response response;
+		if (context.isUserInRole(Roles.REG_USER)) {
+			Gson gson = new Gson();
+			UserPrincipal principal = (UserPrincipal)context.getUserPrincipal();
+	    	response = Response.status(200).entity(gson.toJson(principal.getUser())).build();
+		} else {
+			response = Response.status(500).entity(ErrorConstants.ACCESS_DENIED).build();
+		}
+		return response;
 	}
 	
 	@POST()

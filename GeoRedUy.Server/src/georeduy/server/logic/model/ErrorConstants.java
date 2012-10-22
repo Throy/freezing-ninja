@@ -6,4 +6,7 @@ public class ErrorConstants {
 	
 	public static final String REGISTER_USERNAME_EXISTS =
             "REGISTER_USERNAME_EXISTS";
+	
+	public static final String ACCESS_DENIED =
+            "ACCESS_DENIED";
 }

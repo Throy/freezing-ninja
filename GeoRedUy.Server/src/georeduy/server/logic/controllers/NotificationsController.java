@@ -1,6 +1,6 @@
 package georeduy.server.logic.controllers;
 
-import georeduy.server.logic.model.Client;
+import georeduy.server.data.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,11 +43,11 @@ public class NotificationsController {
 	}
 
 	public void RegisterDevice(String id) {
-		m_onlineDevices.put(Client.Current().getId(), id);
+		m_onlineDevices.put(User.Current().getId(), id);
 	}
 
 	public void UnregisterDevice() {
-		m_onlineDevices.remove(Client.Current().getId());
+		m_onlineDevices.remove(User.Current().getId());
 	}
 	
 	public void UnregisterDevice(String id) {

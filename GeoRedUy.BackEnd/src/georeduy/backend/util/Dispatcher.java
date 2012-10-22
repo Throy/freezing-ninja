@@ -74,7 +74,7 @@ public class Dispatcher {
     public static String fetch(String path, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         CharResponseWrapper resWrapper = new CharResponseWrapper(response);
 
-        request.getRequestDispatcher("/w/"+path).include(request, resWrapper);
+        request.getRequestDispatcher("/"+path).include(request, resWrapper);
         request.getRequestDispatcher("/WEB-INF/"+path+".jsp").include(request, resWrapper);
 
         return resWrapper.toString();
@@ -83,7 +83,7 @@ public class Dispatcher {
     public String fetch(String path) throws ServletException, IOException {
         CharResponseWrapper resWrapper = new CharResponseWrapper(_response);
 
-        _request.getRequestDispatcher("/w/"+path).include(_request, resWrapper);
+        _request.getRequestDispatcher("/"+path).include(_request, resWrapper);
         _request.getRequestDispatcher("/WEB-INF/"+path+".jsp").include(_request, resWrapper);
 
         return resWrapper.toString();

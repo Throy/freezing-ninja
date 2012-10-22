@@ -28,7 +28,7 @@
     <string name="title_activity_main_menu">GeoRed.uy | Menú principal</string>
     <string name="title_activity_display_message">Teh Message</string>
     
-    <string name="title_activity_session_login">Iniciar sesión</string>
+    <string name="title_activity_session_login">GeoRed.uy | Menú inicial</string>
     <string name="title_activity_session_register">Registrarse en el sistema</string>
     <string name="title_activity_session_register_fbk">Registrarse por Facebook</string>
     
@@ -54,10 +54,13 @@
     <string name="button_add">Agregar</string>
     <string name="button_buy">Comprar</string>
     <string name="button_send">Enviar</string>
+    <string name="button_main_menu">Menú principal</string>
+    
     <string name="button_session_login">Iniciar sesión</string>
     <string name="button_session_register">Registrarse</string>
     <string name="button_session_register_fbk">Registrarse por Facebook</string>
     
+    <string name="button_map">Mapa</string>
     <string name="button_products_list">Productos</string>
     <string name="button_sites_list">Sitios</string>
     <string name="button_users_list">Usuarios</string>
@@ -69,6 +72,7 @@
     <string name="button_user_item_rem">Quitar</string>
     <string name="button_visit_item">Comentar</string>
     
+    <string name="button_map_hint">Mapa de la ciudad.</string>
     <string name="button_products_list_hint">Lista de todos los productos.</string>
     <string name="button_sites_list_hint">Lista de todos los sitios.</string>
     <string name="button_users_list_hint">Lista de todos los usuarios.</string>

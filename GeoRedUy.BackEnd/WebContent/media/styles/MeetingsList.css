@@ -1,0 +1,148 @@
+﻿.MeetingList
+{
+    position:relative;
+    margin-left:20px;
+    margin-bottom:20px;
+    width: 740px;
+    
+    font-family:Verdana;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius:15px;
+    border-style:outset; 
+    border-width:0px; 
+    border-top-width:1px;
+    border-color:Gray;
+    box-shadow:0 1px 2px #aaa; 
+    -moz-box-shadow:0 1px 2px #AAAAAA;
+    float:left;
+}
+
+.MeetingButton
+{
+    position: absolute;
+    bottom:0;
+    right:0;
+    margin-right:25px;
+    margin-bottom:10px;
+    margin-top:10px;
+}
+
+.Header
+{
+    text-align:left;
+    margin-left:70px;
+}
+
+.field
+{
+    margin-left:15px;
+    border-style:none;
+    font-size:90%;
+}
+.field2
+{
+    margin-left:15px;
+    border-style:none;
+    width:50%;
+    font-size:90%;
+}
+
+.fieldvalue
+{
+     text-align:center;
+     margin-right:25px;
+     height:10px;
+     
+ }
+ .fieldvalue2
+{
+     text-align:right;
+     border-style:none;
+     
+     
+ }
+ 
+ .center
+ {
+    text-align:center;
+ }
+ .list
+ {
+     margin-left:20px;
+     width:500px;
+     border-style:none;
+     float:left;
+ }
+ .image
+ {
+     margin-left:50px;
+     float:left;
+ }
+ .tableCategories
+ {
+     text-align:center;
+     float:left;
+     margin-left:250px;
+ }
+ .hide
+ {
+     display:none;
+ }
+ .scrollable
+ {
+    height:90px;
+    margin-left:20px;
+    margin-bottom:10px;
+    /* overflow:auto;    */
+ }
+ .BeginDateValue
+ {
+    position: absolute;
+    top:0;
+    right:0;
+    margin-right:20px;
+    margin-top:3px;
+    font-size:80%;
+    color:Gray;
+ }
+ .BeginDateField
+ {
+    position: absolute;
+    top:0;
+    font-size:85%;
+    right:0;
+    margin-top:2px;
+    margin-right:90px;
+    color:Gray;
+ }
+ .ampliar
+ {
+    float:right;
+    text-align:center;
+    height:13px;
+    width:28px;
+    margin-right:340px;
+    margin-bottom:10px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    background-color:#997777;/*#e3701b;*/
+}
+.ampliarText
+{
+    position:relative;
+    text-align:center;
+    font-size:80%;
+    vertical-align:middle;
+    padding-bottom:18px;
+    font-weight:bold;
+    color:White;
+    
+}
+.tablacentrada
+{
+    float:right;
+    margin-right:50px;
+    border-style:none;
+}

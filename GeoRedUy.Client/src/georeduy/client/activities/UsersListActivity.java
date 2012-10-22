@@ -8,6 +8,7 @@ package georeduy.client.activities;
 // imports
 
 import georeduy.client.lists.UsersListAdapter;
+import georeduy.client.util.CommonUtilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -111,6 +112,7 @@ public class UsersListActivity extends Activity {
     // cliquear botón -> agregar contacto 
     
     public void button_user_item_add_onClick (View view) {
+    	/*
 		// nada
 		AlertDialog alertDialog = new AlertDialog.Builder (UsersListActivity.this).create ();
 		
@@ -120,11 +122,15 @@ public class UsersListActivity extends Activity {
 			}
 		});
 		alertDialog.show();
+		*/
+		
+        CommonUtilities.showAlertMessage (this, "Confirmación", "Cliqueaste en agregar id " +  ((TextView) ((View) view.getParent ()).findViewById (R.id.user_id)).getText ().toString ());
     }
     
     // cliquear botón -> quitar contacto 
     
     public void button_user_item_rem_onClick (View view) {
+    	/*
 		// nada
 		AlertDialog alertDialog = new AlertDialog.Builder (UsersListActivity.this).create ();
 		
@@ -134,6 +140,9 @@ public class UsersListActivity extends Activity {
 			}
 		});
 		alertDialog.show();
+		*/
+		
+        CommonUtilities.showAlertMessage (this, "Confirmación", "Cliqueaste en quitar id " +  ((TextView) ((View) view.getParent ()).findViewById (R.id.user_id)).getText ().toString ());
     }
 
     @Override

@@ -70,6 +70,7 @@ public class ProductsListAdapter extends BaseAdapter {
         TextView viewName = (TextView) vi.findViewById (R.id.name);
         TextView viewDescription = (TextView) vi.findViewById (R.id.description);
         TextView viewPrice = (TextView) vi.findViewById (R.id.price);
+        TextView viewDate = (TextView) vi.findViewById (R.id.date);
         //ImageView thumb_image=(ImageView) vi.findViewById (R.id.list_image);
  
         // get item string
@@ -80,6 +81,7 @@ public class ProductsListAdapter extends BaseAdapter {
         viewName.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_NAME));
         viewDescription.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_DESCRIPTION));
         viewPrice.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_PRICE));
+        viewDate.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_DATE));
         //imageLoader.DisplayImage(item.get (ProductsListActivity.ITEM_THUMB), thumb_image);
 
         // get item int

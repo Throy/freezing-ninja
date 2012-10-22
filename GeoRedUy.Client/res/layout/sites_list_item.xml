@@ -76,7 +76,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
     	android:layout_margin="5dip"
-        android:textSize="24dip"
+        android:textSize="18dip"
         android:textStyle="bold"
         android:focusable="false"
         android:onClick="button_site_item_onClick"

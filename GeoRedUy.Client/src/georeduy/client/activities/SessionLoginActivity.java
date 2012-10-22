@@ -6,17 +6,16 @@
 package georeduy.client.activities;
 
 // imports
-import georeduy.client.util.CommonUtilities;
-import georeduy.client.util.GeoRedClient;
-import georeduy.client.util.TokenRepository;
+import org.apache.http.HttpResponse;
 
-import java.util.HashMap;
-import java.util.Map;
+import georeduy.client.controllers.SessionController;
+import georeduy.client.util.CommonUtilities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -40,28 +39,49 @@ public class SessionLoginActivity extends Activity {
     
     public void button_login_onClick (View view) {
 		// registrarse, paso 1
-		String username = ((TextView) findViewById (R.id.edittext_username)).getText ().toString ();
-		String password = ((TextView) findViewById (R.id.edittext_password)).getText ().toString ();
-    	
-		// *** sessionController.login (username, password); ***
-		
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("userName", username);
-		params.put("password", password);
+		final String username = ((TextView) findViewById (R.id.edittext_username)).getText ().toString ();
+		final String password = ((TextView) findViewById (R.id.edittext_password)).getText ().toString ();
 
-		try {
-	        TokenRepository.getInstance().setToken(
-	                GeoRedClient.Get("/Session", params));
-	        
-	        Intent intent = new Intent(this, GCMActivity.class);
-			startActivity(intent);
-        } catch (Exception e) {
-	        CommonUtilities.AlertMessage(this, e.getMessage());
-        }
+		(new AsyncTask<Activity, String, String>() {
+
+			@Override
+			protected String doInBackground(Activity... params) {
+				try {
+					// intentar iniciar sesión
+					SessionController.getInstance().login (username, password);
+			        
+					// abrir menú de GCM
+			        Intent intent = new Intent(params[0], GCMActivity.class);
+					startActivity(intent);
+		        }
+				catch (Exception e) {
+			        CommonUtilities.showAlertMessage (params[0], "Error SLA bloc", e.getMessage());
+		        }
+				return "";
+			}
+		}).execute(this);
+
     }
     
+    // cliquear Registrarse -> mostrar formulario para registrarse
+    
     public void button_register_onClick (View view) {
-    	Intent intent = new Intent(this, SessionRegisterActivity.class);
+    	Intent intent = new Intent (this, SessionRegisterActivity.class);
 		startActivity(intent);
+    }
+    
+    // cliquear Registrarse -> mostrar formulario de Registrarse por Facebook, paso 1
+    
+    public void button_session_register_fbk_onClick (View view) {
+    	Intent intent_session_register_fbk1 = new Intent (this, SessionRegisterFbk1Activity.class);
+    	startActivity (intent_session_register_fbk1);
+    }
+    
+    // cliquear Msin menu -> abrir menú principal 
+    // *** en realidad no va ***
+    
+    public void button_main_menu_onClick (View view) {
+    	Intent intent_main_menu = new Intent (this, MainMenuActivity.class);
+    	startActivity (intent_main_menu);
     }
 }

@@ -39,5 +39,6 @@
         android:id="@+id/options_exit"
         android:title="@string/options_exit">
     </item>
+    <item android:id="@+id/options_map" android:title="Go to Map"></item>
 
 </menu>

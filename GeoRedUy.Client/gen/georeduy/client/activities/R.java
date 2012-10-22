@@ -61,6 +61,7 @@ public final class R {
         public static final int name=0x7f070000;
         public static final int options_clear=0x7f07003f;
         public static final int options_exit=0x7f070040;
+        public static final int options_map=0x7f070041;
         public static final int price=0x7f070002;
         public static final int product_id=0x7f07000f;
         public static final int site_id=0x7f07002c;

@@ -133,6 +133,10 @@ public class GCMActivity extends Activity {
             case R.id.options_exit:
                 finish();
                 return true;
+            case R.id.options_map:
+            	Intent myIntent = new Intent(this, MapaActivity.class);
+        		startActivity(myIntent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

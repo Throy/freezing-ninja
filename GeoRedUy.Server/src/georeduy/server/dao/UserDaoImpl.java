@@ -1,13 +1,14 @@
 package georeduy.server.dao;
 
 import com.google.code.morphia.dao.BasicDAO;
-import georeduy.server.data.User;
-import georeduy.server.data.UserData;
+
+import georeduy.server.logic.model.User;
+import georeduy.server.logic.model.UserData;
 import georeduy.server.persistence.MongoConnectionManager;
 import java.util.List;
 import org.bson.types.ObjectId;
 
-public class UserDaoImpl extends BasicDAO<User, ObjectId> implements UserDao {
+public class UserDaoImpl extends BasicDAO<User, ObjectId> implements IUserDao {
 
     public UserDaoImpl() {
         super(User.class, MongoConnectionManager.instance().getDb());

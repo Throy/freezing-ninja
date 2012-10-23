@@ -1,4 +1,5 @@
-package georeduy.server.data;
+package georeduy.server.logic.model;
+
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
 package georeduy.server.logic.controllers;
 
-import georeduy.server.dao.UserDao;
+import georeduy.server.dao.IUserDao;
 import georeduy.server.dao.UserDaoImpl;
-import georeduy.server.data.User;
-import georeduy.server.logic.model.ErrorConstants;
+import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.Roles;
+import georeduy.server.logic.model.User;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -19,7 +19,7 @@ public class SessionController {
 
     private static SessionController s_instance = null;
     private Map<String, User> m_onlineUsers;
-    private UserDao userDao;
+    private IUserDao userDao;
 
     public SessionController() {
     	m_onlineUsers = new HashMap<String, User>();
@@ -48,7 +48,7 @@ public class SessionController {
             return token;
         }
 
-        throw new Exception(ErrorConstants.LOGIN_BAD_USERNAME_PASSWORD);
+        throw new Exception(GeoRedConstants.LOGIN_BAD_USERNAME_PASSWORD);
     }
 
     public void LogOut(String token) {
@@ -65,9 +65,8 @@ public class SessionController {
         }
         else
         {
-        	throw new Exception(ErrorConstants.REGISTER_USERNAME_EXISTS);
-        }
-        
+        	throw new Exception(GeoRedConstants.REGISTER_USERNAME_EXISTS);
+        }        
     }
 
     public boolean isTokenValid(String token) {

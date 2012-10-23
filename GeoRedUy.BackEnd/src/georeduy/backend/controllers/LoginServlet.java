@@ -6,6 +6,7 @@ package georeduy.backend.controllers;
  */
 
 
+import georeduy.backend.model.Roles;
 import georeduy.backend.model.User;
 import georeduy.backend.util.GeoRedClient;
 
@@ -22,7 +23,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 
-public class Login extends HttpServlet {
+public class LoginServlet extends HttpServlet {
    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
@@ -37,15 +38,20 @@ public class Login extends HttpServlet {
 			params.put("password", password);
 	
 			try {
-				session.setAttribute("Token", GeoRedClient.Get("/Session", params, null));
+				String token = GeoRedClient.Get("/Session", params, null);
 
-				String result = GeoRedClient.Get("/Session/GetUserInfo", null, (String)session.getAttribute("Token"));
+				String result = GeoRedClient.Get("/Session/GetUserInfo", null, token);
 				Gson gson = new Gson();
 				User user = gson.fromJson(result, User.class);
-				session.setAttribute("User", user);
 				
-				request.setAttribute("Success", "true");
-				request.setAttribute("Header", "<meta http-equiv=\"refresh\" content=\"2\">");
+				if (user.hasRole(Roles.ADMIN) || user.hasRole(Roles.BUSINESS_MANAGER)) {		
+					session.setAttribute("User", user);
+					session.setAttribute("Token", token);
+					request.setAttribute("Success", "true");
+					request.setAttribute("Header", "<meta http-equiv=\"refresh\" content=\"2\">");
+				} else {
+					request.setAttribute("ErrorMsg", "Insufficient Permissions.");
+				}
 			} catch (Exception e) {
 	        	request.setAttribute("ErrorMsg", e.getMessage());
 	        }

@@ -1,6 +1,6 @@
 package georeduy.server.logic.controllers;
 
-import georeduy.server.data.User;
+import georeduy.server.logic.model.User;
 
 import java.io.IOException;
 import java.util.ArrayList;

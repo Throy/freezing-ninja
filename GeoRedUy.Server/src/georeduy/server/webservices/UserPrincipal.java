@@ -1,7 +1,7 @@
 package georeduy.server.webservices;
 
 
-import georeduy.server.data.User;
+import georeduy.server.logic.model.User;
 
 import java.security.Principal;
 

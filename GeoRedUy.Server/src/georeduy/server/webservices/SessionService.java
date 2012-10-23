@@ -1,9 +1,9 @@
 package georeduy.server.webservices;
 
-import georeduy.server.data.User;
 import georeduy.server.logic.controllers.SessionController;
-import georeduy.server.logic.model.ErrorConstants;
+import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.Roles;
+import georeduy.server.logic.model.User;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
@@ -21,7 +21,7 @@ import com.google.gson.JsonParser;
 
 
 @Path("/Session")
-public class Session {
+public class SessionService {
 
 	@GET()
 	@Produces("text/plain")
@@ -65,7 +65,7 @@ public class Session {
 			UserPrincipal principal = (UserPrincipal)context.getUserPrincipal();
 	    	response = Response.status(200).entity(gson.toJson(principal.getUser())).build();
 		} else {
-			response = Response.status(500).entity(ErrorConstants.ACCESS_DENIED).build();
+			response = Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
 		}
 		return response;
 	}

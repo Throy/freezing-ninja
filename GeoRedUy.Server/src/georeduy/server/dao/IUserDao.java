@@ -1,11 +1,12 @@
 package georeduy.server.dao;
 
-import georeduy.server.data.User;
-import georeduy.server.data.UserData;
+import georeduy.server.logic.model.User;
+import georeduy.server.logic.model.UserData;
+
 import java.util.List;
 import org.bson.types.ObjectId;
 
-public interface UserDao {
+public interface IUserDao {
 
     public void saveUser(User user);
 

@@ -41,15 +41,15 @@ public class LayoutFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		HttpServletResponse httpResponse = (HttpServletResponse)response;
         HttpSession session = httpRequest.getSession();
-        PrintWriter pw = response.getWriter();
-        
-        response.setContentType("text/html;charset=UTF-8");
         
         String contentPath = httpRequest.getRequestURI();
         
         if (contentPath.contains("/GeoRedUy.BackEnd/media/") || contentPath.contains("/GeoRedUy.BackEnd/scripts/")) {
         	chain.doFilter(request, response);
 		} else {
+	        PrintWriter pw = response.getWriter();
+	        response.setContentType("text/html;charset=UTF-8");
+	        
 	        contentPath = contentPath.replace("/GeoRedUy.BackEnd/", "/");
 	        if (contentPath.equals("/"))
 	        	contentPath = "/home";

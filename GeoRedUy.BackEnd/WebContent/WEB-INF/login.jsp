@@ -16,7 +16,7 @@
 <script src="/GeoRedUy.BackEnd/scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
 
 <div style="margin-left:30px;">
-<%=errorMsg%>
+<%=(errorMsg!=null)?errorMsg:""%>
 </div>
 
 <br />

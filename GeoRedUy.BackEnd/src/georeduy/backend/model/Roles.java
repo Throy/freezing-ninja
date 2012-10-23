@@ -1,4 +1,4 @@
-package georeduy.server.logic.model;
+package georeduy.backend.model;
 
 public final class Roles {
 	public static final String REG_USER =

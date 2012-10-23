@@ -8,7 +8,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>@ViewBag.Title</title>
+    <title>GeoRed.UY</title>
     <link href="/GeoRedUy.BackEnd/media/styles/Site.css" rel="stylesheet" type="text/css" />
     <link href="/GeoRedUy.BackEnd/media/styles/forms.css" rel="stylesheet" type="text/css" />
     <link href="/GeoRedUy.BackEnd/media/styles/menu.css" rel="stylesheet" type="text/css" />
@@ -18,7 +18,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-language" content="es" />
 	
-	<%=header %>
+	<%=(header!=null)?header:""%>
     <!--<link href="../../Content/images/ibeticon.png" rel="icon" type="image/x-icon" />
     <link href="../../Content/images/ibeticon.png" rel="shortcut icon" /> -->
 </head>

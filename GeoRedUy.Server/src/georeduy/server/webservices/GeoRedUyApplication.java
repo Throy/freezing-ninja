@@ -9,8 +9,9 @@ public class GeoRedUyApplication extends Application {
 	private Set<Object> singletons = new HashSet<Object>();
 	private Set<Class<?>> empty = new HashSet<Class<?>>();
 	public GeoRedUyApplication(){
-	     singletons.add(new Session());
-	     singletons.add(new Notifications());
+	     singletons.add(new SessionService());
+	     singletons.add(new NotificationsService());
+	     singletons.add(new SitesService());
 	}
 	@Override
 	public Set<Class<?>> getClasses() {

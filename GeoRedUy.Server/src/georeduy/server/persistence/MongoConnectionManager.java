@@ -1,8 +1,9 @@
 package georeduy.server.persistence;
 
 
-import georeduy.server.data.User;
-import georeduy.server.data.UserData;
+import georeduy.server.logic.model.Site;
+import georeduy.server.logic.model.User;
+import georeduy.server.logic.model.UserData;
 
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.Morphia;
@@ -18,8 +19,12 @@ public final class MongoConnectionManager {
 	  private MongoConnectionManager() {
 	    try {
 	      Mongo m = new Mongo("localhost", 27017);
-	      db = new Morphia().map(User.class).map(UserData.class).createDatastore(
-	        m, DB_NAME);
+	      Morphia morphia = new Morphia();
+	      
+	      morphia.map(User.class).map(UserData.class);
+	      morphia.map(Site.class);
+	      
+	      db = morphia.createDatastore(m, DB_NAME);
 	      db.ensureIndexes();
 	    }
 	    catch (Exception e) {

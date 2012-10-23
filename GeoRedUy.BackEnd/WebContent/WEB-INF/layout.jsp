@@ -10,12 +10,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>@ViewBag.Title</title>
+    <title>GeoRed.UY</title>
     <link href="/GeoRedUy.BackEnd/media/styles/Site.css" rel="stylesheet" type="text/css" />
     <link href="/GeoRedUy.BackEnd/media/styles/forms.css" rel="stylesheet" type="text/css" />
     <link href="/GeoRedUy.BackEnd/media/styles/menu.css" rel="stylesheet" type="text/css" />
     <link href="/GeoRedUy.BackEnd/media/styles/lists.css" rel="stylesheet" type="text/css" />
-
+	<link href="/GeoRedUy.BackEnd/media/styles/MeetingsList.css" rel="stylesheet" type="text/css" />
     <script src="/GeoRedUy.BackEnd/scripts/jquery-1.5.1.min.js" type="text/javascript"></script>
     
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
@@ -34,8 +34,8 @@
             <!-- system admin -->
             <li class="outer"><span class="menubtn"><a>Sitios</a></span>
                 <ul>
-                    <li class="menuitm"><a href="./">Nuevo sitio</a></li>
-                    <li class="menuitm"><a href="./">Eliminar sitio</a></li>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/site?NewSite">Nuevo sitio</a></li>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/site?ListSites">Ver sitios</a></li>
                 </ul>
             </li>
             

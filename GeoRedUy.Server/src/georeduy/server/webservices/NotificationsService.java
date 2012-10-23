@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 @Path("/Notifications")
-public class Notifications {
+public class NotificationsService {
 	
     protected void setSuccess(HttpServletResponse resp, int size) {
         resp.setStatus(HttpServletResponse.SC_OK);

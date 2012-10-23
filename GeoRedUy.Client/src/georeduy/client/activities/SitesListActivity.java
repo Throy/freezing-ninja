@@ -15,6 +15,7 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
@@ -32,6 +33,10 @@ public class SitesListActivity extends Activity {
     public static final String SITE_ITEM_NAME = "tsi2.GeoRedDemo.site_name";
     public static final String SITE_ITEM_DESCRIPTION = "tsi2.GeoRedDemo.site_description";
     public static final String SITE_ITEM_ADDRESS = "tsi2.GeoRedDemo.site_address";
+    
+    // extras de intents
+
+    public static final String EXTRA_SITE_ID = "tsi2.GeoRedDemo.site_id";
     
     // constructor
 
@@ -78,6 +83,65 @@ public class SitesListActivity extends Activity {
         ListView listView = (ListView) findViewById (R.id.listView_list);
         listView.setAdapter (adapter);
         
+        // cliquear línea -> iniciar actividad de Ver datos
+        listView.setOnItemClickListener (new OnItemClickListener() {
+
+        	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
+            	// crear intent de la actividad Ver datos de un sitio.
+            	Intent intent_site_detail = new Intent (parent.getContext (), SiteDetailActivity.class);
+            	
+            	// agregar id del sitio al intent
+            	String siteId = ((TextView) view.findViewById (R.id.site_id)).getText().toString();
+            	intent_site_detail.putExtra (EXTRA_SITE_ID, siteId);
+            	
+            	// ejecutar intent.
+            	startActivity (intent_site_detail);
+        		
+        		/*
+        		//AlertDialog dialog = new AlertDialog (this);
+        		
+        		// crear alerta
+        		AlertDialog alertDialog = new AlertDialog.Builder (VisitsListActivity.this).create ();
+        		
+        		// mensaje
+        		alertDialog.setTitle ("Message");
+        		String visitName = ((TextView) view.findViewById (R.id.name)).getText().toString();
+        		alertDialog.setMessage ("What do you think about visit " + visitName + "?");
+
+        		// button ok
+        		alertDialog.setButton (DialogInterface.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+        			public void onClick (DialogInterface dialog, int which) {
+        				// nada
+                		AlertDialog alertDialog = new AlertDialog.Builder (VisitsListActivity.this).create ();
+                		alertDialog.setTitle ("Bueno, ok");
+                		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
+                			public void onClick (DialogInterface dialog, int which) {
+                			}
+                		});
+                		alertDialog.show();
+        			}
+        		});
+
+        		// button cancel
+        		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+        			public void onClick (DialogInterface dialog, int which) {
+        				// nada
+                		AlertDialog alertDialog = new AlertDialog.Builder (VisitsListActivity.this).create ();
+                		alertDialog.setTitle ("Malo, cancel");
+                		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
+                			public void onClick (DialogInterface dialog, int which) {
+                			}
+                		});
+                		alertDialog.show();
+        			}
+        		});
+        		alertDialog.show();
+        		*/
+        	}
+        });
+        
+        /*
+        
         // insertar listener
         listView.setOnItemClickListener (new OnItemClickListener() {
 
@@ -122,6 +186,7 @@ public class SitesListActivity extends Activity {
         		alertDialog.show();
         	}
         });
+        */
 
     }
     

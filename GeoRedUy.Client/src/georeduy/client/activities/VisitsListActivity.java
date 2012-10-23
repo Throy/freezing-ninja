@@ -87,6 +87,7 @@ public class VisitsListActivity extends Activity {
         listView.setOnItemClickListener (new OnItemClickListener() {
 
         	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
+        		
             	// crear intent de la actividad Ver datos de una visita.
             	Intent intent_visit_detail = new Intent (parent.getContext (), VisitDetailActivity.class);
             	

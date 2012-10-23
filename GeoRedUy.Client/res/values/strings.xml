@@ -39,6 +39,7 @@
     <string name="title_activity_visits_list">Visitas</string>
     
     <string name="title_activity_product_detail">Datos de producto</string>
+    <string name="title_activity_site_detail">Datos de sitio</string>
     <string name="title_activity_user_detail">Datos de usuario</string>
     <string name="title_activity_visit_detail">Datos de visita</string>
     
@@ -54,6 +55,8 @@
     <string name="button_add">Agregar</string>
     <string name="button_buy">Comprar</string>
     <string name="button_send">Enviar</string>
+    <string name="button_comment">Comentar</string>
+    <string name="button_visit">Visitar</string>
     <string name="button_main_menu">Menú principal</string>
     
     <string name="button_session_login">Iniciar sesión</string>
@@ -67,10 +70,8 @@
     <string name="button_visits_list">Visitas</string>
     
     <string name="button_product_item">Comprar</string>
-    <string name="button_site_item">Visitar</string>
     <string name="button_user_item_add">Agregar</string>
     <string name="button_user_item_rem">Quitar</string>
-    <string name="button_visit_item">Comentar</string>
     
     <string name="button_map_hint">Mapa de la ciudad.</string>
     <string name="button_products_list_hint">Lista de todos los productos.</string>

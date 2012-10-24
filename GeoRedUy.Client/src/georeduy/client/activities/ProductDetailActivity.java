@@ -8,6 +8,7 @@ package georeduy.client.activities;
 // imports
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -54,5 +55,15 @@ public class ProductDetailActivity extends Activity {
     	// ejecutar intent.
     	startActivity (intent_product_add_item);
     	*/
+
+    	// crear intent de la actividad Agregar item a la compra.
+    	Intent intent_product_buy_add_item = new Intent (this, ProductBuyAddItemActivity.class);
+    	
+    	// agregar id de la visita al intent
+    	String productId =((TextView) findViewById (R.id.textview_product_id)).getText().toString();
+    	intent_product_buy_add_item.putExtra (ProductsListActivity.EXTRA_PRODUCT_ID, productId);
+    	
+    	// ejecutar intent.
+    	startActivity (intent_product_buy_add_item);
     }
 }

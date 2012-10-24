@@ -123,7 +123,8 @@ public class ProductsListActivity extends Activity {
     	startActivity (intent_product_add_item);
     	*/
     	
-		// nada
+    	/*
+		// mostrar cuadro de diálogo complejo
 		final Dialog alertDialog = new Dialog (this);
 		alertDialog.setContentView (R.layout.product_buy_add_item_dialog);
 
@@ -164,6 +165,17 @@ public class ProductsListActivity extends Activity {
         });
 		
 		alertDialog.show();
+		*/
+
+    	// crear intent de la actividad Agregar item a la compra.
+    	Intent intent_product_buy_add_item = new Intent (this, ProductBuyAddItemActivity.class);
+    	
+    	// agregar id de la visita al intent
+    	String productId = ((TextView) ((View) view.getParent ()).findViewById (R.id.product_id)).getText().toString();
+    	intent_product_buy_add_item.putExtra (EXTRA_PRODUCT_ID, productId);
+    	
+    	// ejecutar intent.
+    	startActivity (intent_product_buy_add_item);
     }
 
     @Override

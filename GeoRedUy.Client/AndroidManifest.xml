@@ -168,6 +168,14 @@
                 android:value=".MainActivity" />
         </activity>
         
+        <activity
+            android:name=".ProductBuyAddItemActivity"
+            android:label="@string/title_activity_product_buy_add_item" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
         <uses-library android:name="com.google.android.maps" />
         
         <!--

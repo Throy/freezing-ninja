@@ -56,9 +56,16 @@ public class ProductsController
 	public void getProduct (int productId) {
 	}
 
+	// iniciar compra nueva.
+	public void purchaseNew () {
+	}
+
+	// agregar producto a la compra.
+	public void purchaseAddItem (int productId, int units) {
+	}
+	
 	// realizar compra de productos.
-	// *** en realidad envia Collection <Product> o algo por el estilo. ***
-	public void purchaseProducts () {
+	public void purchaseConfirm () {
 	}
 
 	// publicar evaluación de un producto.

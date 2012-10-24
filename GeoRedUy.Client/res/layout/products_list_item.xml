@@ -76,10 +76,10 @@
     	android:layout_margin="5dip"
         android:textSize="18dip"/>
     
-    <!-- button -->
+    <!-- buy button -->
     <Button
         android:id="@+id/button_product_item"
-        android:text="@string/button_product_item" 
+        android:text="@string/button_buy" 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

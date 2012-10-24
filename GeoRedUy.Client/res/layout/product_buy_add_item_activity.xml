@@ -9,11 +9,11 @@
     <!-- product_buy_add_item_dialog -->
     
     <!-- layout del cuadro de diálogo Agregar item a la compra.
-		lo utilizan las actividades ProductsListActivity y ProductDetailActivity. -->
+		lo utiliza la actividad ProductBuyAddItemActivity. -->
 
     <!-- id -->
     <TextView
-        android:id="@+id/product_id"
+        android:id="@+id/textview_product_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
@@ -25,7 +25,7 @@
  	    android:id="@+id/layout1"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
- 	    android:layout_below="@id/product_id"
+ 	    android:layout_below="@id/textview_product_id"
 	    android:orientation="horizontal">
 	    
 	    <TextView
@@ -94,7 +94,7 @@
 	    <EditText
  	    	android:id="@+id/textview_units"
 	        android:layout_weight="2"
-	        android:layout_width="100dp"
+	        android:layout_width="0dp"
 	        android:layout_height="wrap_content"
 	    	android:layout_margin="5dip"
 	        android:textSize="18dip"
@@ -146,7 +146,8 @@
 	        android:textSize="18dip"
 	        android:textStyle="bold"
 	        android:focusable="false"
-	        />
+	        android:enabled="true"
+	        android:onClick="button_product_add_onClick"/>
 	    
 	    <Button
 	        android:id="@+id/button_product_cancel"
@@ -157,6 +158,6 @@
 	        android:textSize="18dip"
 	        android:textStyle="bold"
 	        android:focusable="false"
-	        />
+	        android:onClick="button_product_cancel_onClick"/>
 	</LinearLayout>
 </RelativeLayout>

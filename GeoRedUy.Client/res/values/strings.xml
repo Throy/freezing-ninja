@@ -44,8 +44,7 @@
     <string name="title_activity_visit_detail">Datos de visita</string>
     
     <string name="title_activity_visit_comment">Publicar comentario de visita</string>
-    
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_product_buy_add_item">Agregar producto a compra</string>
     
     <!-- buttons -->
     
@@ -69,7 +68,6 @@
     <string name="button_users_list">Usuarios</string>
     <string name="button_visits_list">Visitas</string>
     
-    <string name="button_product_item">Comprar</string>
     <string name="button_user_item_add">Agregar</string>
     <string name="button_user_item_rem">Quitar</string>
     

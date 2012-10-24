@@ -169,7 +169,7 @@
         </activity>
         
         <activity
-            android:name=".ProductsBuyAddItemActivity"
+            android:name=".ProductBuyAddItemActivity"
             android:label="@string/title_activity_product_buy_add_item" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

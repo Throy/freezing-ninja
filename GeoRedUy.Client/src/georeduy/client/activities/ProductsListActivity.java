@@ -7,6 +7,7 @@ package georeduy.client.activities;
 
 // imports
 
+import georeduy.client.controllers.ProductsController;
 import georeduy.client.lists.ProductsListAdapter;
 
 import java.util.ArrayList;
@@ -58,27 +59,22 @@ public class ProductsListActivity extends Activity {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.products_list_activity);
         
-        /*
-        ListItem[] itemsList = {item};
-        
-        // poblar lista
-        ArrayAdapter adapter = new ArrayAdapter<ListItem>(this, 
-                android.R.layout.simple_expandable_list_item_1, itemsList); 		// toma los myStringArray [idx].toString()
-        ListView listView = (ListView) findViewById (R.id.listView_list);
-        listView.setAdapter(adapter);
-        */
-        
-        // poblar lista 2
+        // inicializar hashtags
         
         ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
         ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
+        
+        HashMap <Integer, Integer> productPrices = new HashMap <Integer, Integer> ();
 
         for (int idx = 0; idx < 5; idx += 1) {
+        	// inicializar datos
+        	int price = idx * 10;
+        	
             // crear item
             HashMap <String, String> itemStringMap = new HashMap <String, String> ();
             itemStringMap.put (PRODUCT_ITEM_NAME, "Producto " + idx);
-            itemStringMap.put (PRODUCT_ITEM_DESCRIPTION, "Es un producto " + idx + " y " + (((idx + 5) % 8) + 5));
-            itemStringMap.put (PRODUCT_ITEM_PRICE, "$ " + (idx * 10));
+            itemStringMap.put (PRODUCT_ITEM_DESCRIPTION, "Es un producto " + idx);
+            itemStringMap.put (PRODUCT_ITEM_PRICE, "$ " + price);
             itemStringMap.put (PRODUCT_ITEM_DATE, "2012 / 10 / " + idx);
  
             // adding HashList to ArrayList
@@ -90,9 +86,15 @@ public class ProductsListActivity extends Activity {
  
             // adding HashList to ArrayList
             itemsIntList.add (itemIntMap);
+            
+            // agregar precio
+            productPrices.put (idx, price);
         }
- 
-        // poblar lista de items
+
+        // iniciar compra nueva
+        ProductsController.getInstance ().purchaseNew (productPrices);
+        
+        // poblar lista de productos
         ProductsListAdapter adapter = new ProductsListAdapter (this, itemsStringList, itemsIntList);
         ListView listView = (ListView) findViewById (R.id.listView_list);
         listView.setAdapter (adapter);
@@ -233,11 +235,4 @@ public class ProductsListActivity extends Activity {
         }
         return super.onOptionsItemSelected (item);
     }
-
-    @Override
-    protected void onDestroy() {
-        setResult (2);
-        super.onDestroy();
-    }
-
 }

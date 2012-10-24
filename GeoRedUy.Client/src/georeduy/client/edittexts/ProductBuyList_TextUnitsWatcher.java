@@ -6,6 +6,7 @@
 
 package georeduy.client.edittexts;
 
+import georeduy.client.activities.ProductsBuyListActivity;
 import georeduy.client.controllers.ProductsController;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -42,6 +43,7 @@ public class ProductBuyList_TextUnitsWatcher implements TextWatcher
 
 		ProductsController.getInstance().purchaseAddItem (_productId, units);
 		
-		// *** actualizar precio total ***
+		// actualizar precio total
+		ProductsBuyListActivity.getInstance().updatePriceTotal ();
     }
 }

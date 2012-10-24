@@ -22,17 +22,14 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class ProductsBuyListActivity extends Activity {
+	
+	// instancia singleton
+	private static ProductsBuyListActivity _instance;
 	
     // constructor
 
@@ -41,12 +38,27 @@ public class ProductsBuyListActivity extends Activity {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.products_buy_list_activity);
         
-        // poblar lista 2
+        // inicializar singleton
+        _instance = this;
+        
+        // poblar lista de ítems
         
         ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
         ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
+        
+        HashMap <Integer, Integer> productUnits = ProductsController.getInstance ().purchaseGetUnits ();
+        HashMap <Integer, Integer> productPrices = ProductsController.getInstance ().purchaseGetPrices ();
 
         for (int idx = 0; idx < 5; idx += 1) {
+        	// obtener valores
+        	int price = productPrices.get (idx);
+        	int units = 0;
+        	try {
+        		units = productUnits.get (idx);
+        	}
+        	catch (NullPointerException ex) {
+        	}
+        	
             // crear item
             HashMap <String, String> itemStringMap = new HashMap <String, String> ();
             itemStringMap.put (ProductsListActivity.PRODUCT_ITEM_NAME, "Producto " + idx);
@@ -57,8 +69,8 @@ public class ProductsBuyListActivity extends Activity {
             // crear item
             HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
             itemIntMap.put (ProductsListActivity.PRODUCT_ITEM_ID, idx);
-            itemIntMap.put (ProductsListActivity.PRODUCT_ITEM_PRICE, idx * 10);
-            itemIntMap.put (ProductsListActivity.PRODUCT_ITEM_UNITS, idx * 2);
+            itemIntMap.put (ProductsListActivity.PRODUCT_ITEM_PRICE, price);
+            itemIntMap.put (ProductsListActivity.PRODUCT_ITEM_UNITS, units);
  
             // adding HashList to ArrayList
             itemsIntList.add (itemIntMap);
@@ -68,11 +80,22 @@ public class ProductsBuyListActivity extends Activity {
         ProductsBuyListAdapter adapter = new ProductsBuyListAdapter (this, itemsStringList, itemsIntList);
         ListView listView = (ListView) findViewById (R.id.listView_list);
         listView.setAdapter (adapter);
+        
+        // actualizar precio total
+        updatePriceTotal ();
     }
     
-    // cliquear Agregar -> iniciar actividad de Agregar item a la compra. 
+    // actualizar el precio total. 
     
-    public void button_product_item_onClick (View view) {
+    public static ProductsBuyListActivity getInstance() {
+        return _instance;
+    }
+    
+    // actualizar el precio total. 
+    
+    public void updatePriceTotal () {
+        TextView viewPricetotal = (TextView) findViewById (R.id.pricetotal);
+        viewPricetotal.setText ("$ " + ProductsController.getInstance().purchaseGetPricetotal ());
     }
     
     // cliquear Comprar -> iniciar actividad de Comprar productos. 

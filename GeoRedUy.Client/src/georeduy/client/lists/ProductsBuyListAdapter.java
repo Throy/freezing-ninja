@@ -7,6 +7,7 @@ package georeduy.client.lists;
 
 // imports
 
+import georeduy.client.activities.ProductsBuyListActivity;
 import georeduy.client.activities.ProductsListActivity;
 import georeduy.client.activities.R;
 import georeduy.client.controllers.ProductsController;

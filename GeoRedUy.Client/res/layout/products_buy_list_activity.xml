@@ -21,7 +21,7 @@
     
     <!-- price total -->
 	    
-    <LinearLayout
+    <RelativeLayout
 	    xmlns:android="http://schemas.android.com/apk/res/android"
 	    xmlns:tools="http://schemas.android.com/tools"
         android:layout_weight="1"
@@ -32,22 +32,24 @@
 	    android:scrollbars="none">
 	    
 	    <TextView
+ 	    	android:id="@+id/label_pricetotal"
         	android:text="@string/textview_pricetotal"
-	        android:layout_weight="1"
-	        android:layout_width="0dp"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
+	    	android:layout_alignParentLeft="true"
 	    	android:layout_margin="5dip"
 	        android:textSize="24dip"
 	        android:textStyle="bold"/>
 	    
 	    <TextView
  	    	android:id="@+id/pricetotal"
-	        android:layout_weight="2"
-	        android:layout_width="0dp"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
+	    	android:layout_toRightOf="@id/label_pricetotal"
+	    	android:layout_alignParentRight="true"
 	    	android:layout_margin="5dip"
 	        android:textSize="18dip"/>
-	</LinearLayout>
+	</RelativeLayout>
     
     <!-- buttons -->
     

@@ -6,7 +6,7 @@ package georeduy.client.activities;
 
 // imports
 
-import georeduy.client.controllers.VisitsController;
+import georeduy.client.controllers.SitesController;
 import georeduy.client.lists.SitesListAdapter;
 import georeduy.client.util.CommonUtilities;
 
@@ -210,7 +210,7 @@ public class SitesListActivity extends Activity {
     	int siteId = Integer.parseInt (((TextView) ((View) view.getParent ()).findViewById (R.id.site_id)).getText ().toString ());
     	
 		// intentar visitar el sitio
-		VisitsController.getInstance().visitSite (siteId);
+		SitesController.getInstance().visitSite (siteId);
 		
 		// mostrar confirmación
         CommonUtilities.showAlertMessage (this, "Confirmación", "Visitaste el sitio de id " + siteId);

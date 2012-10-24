@@ -8,7 +8,7 @@ package georeduy.client.activities;
 // imports
 
 import georeduy.client.controllers.SessionController;
-import georeduy.client.controllers.VisitsController;
+import georeduy.client.controllers.SitesController;
 import georeduy.client.util.CommonUtilities;
 import android.app.Activity;
 import android.content.Intent;
@@ -49,7 +49,7 @@ public class SiteDetailActivity extends Activity {
     	int siteId = Integer.parseInt (((TextView) findViewById (R.id.textview_site_id)).getText ().toString ());
     	
 		// intentar visitar el sitio
-		VisitsController.getInstance().visitSite (siteId);
+		SitesController.getInstance().visitSite (siteId);
 		
 		// mostrar confirmación
         CommonUtilities.showAlertMessage (this, "Confirmación", "Visitaste el sitio de id " + siteId);

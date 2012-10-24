@@ -13,6 +13,7 @@ import georeduy.client.activities.R;
 import georeduy.client.controllers.SitesController;
 import georeduy.client.util.LocationListenerImpl;
 
+import georeduy.client.maps.CustomItemizedOverlay;
 import georeduy.client.maps.SiteMapOverlay;
 import georeduy.client.maps.MapOverlayItem;
 
@@ -21,6 +22,7 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;
 

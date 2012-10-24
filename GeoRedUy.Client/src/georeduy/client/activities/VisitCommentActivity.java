@@ -7,7 +7,7 @@ package georeduy.client.activities;
 
 // imports
 
-import georeduy.client.controllers.VisitsController;
+import georeduy.client.controllers.SitesController;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -45,7 +45,7 @@ public class VisitCommentActivity extends Activity {
     	String comment = ((EditText) findViewById (R.id.edittext_comment)).getText ().toString ();
     	
 		// intentar visitar el sitio
-		VisitsController.getInstance().publishVisitComment (visitId, comment);
+		SitesController.getInstance().publishVisitComment (visitId, comment);
     	
 		// mostrar confirmación
 		AlertDialog alertDialog = new AlertDialog.Builder (this).create ();

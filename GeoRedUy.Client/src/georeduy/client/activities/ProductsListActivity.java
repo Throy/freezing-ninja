@@ -1,6 +1,6 @@
 // ProductsListActivity
 
-// actividad para el caso de uso Listar oroductos.
+// actividad para el caso de uso Listar productos.
 // utiliza el layout products_list_activity.
 
 package georeduy.client.activities;
@@ -40,10 +40,16 @@ public class ProductsListActivity extends Activity {
     public static final String PRODUCT_ITEM_DESCRIPTION = "tsi2.GeoRedDemo.product_description";
     public static final String PRODUCT_ITEM_PRICE = "tsi2.GeoRedDemo.product_price";
     public static final String PRODUCT_ITEM_DATE = "tsi2.GeoRedDemo.product_date";
+    public static final String PRODUCT_ITEM_UNITS = "tsi2.GeoRedDemo.product_units";
     
     // extras de intents
 
     public static final String EXTRA_PRODUCT_ID = "tsi2.GeoRedDemo.product_id";
+    
+    // resultado de actividad
+    
+    public static final int ACTIVITY_RESULT_NORMAL = 1;
+    public static final int ACTIVITY_RESULT_FINISH = 9;
     
     // constructor
 
@@ -106,6 +112,13 @@ public class ProductsListActivity extends Activity {
             	startActivity (intent_product_detail);
         	}
         });
+    }
+    
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        if (resultCode == ProductsListActivity.ACTIVITY_RESULT_FINISH) {
+            finish();
+        }
     }
     
     // cliquear Agregar -> iniciar actividad de Agregar item a la compra. 
@@ -175,23 +188,14 @@ public class ProductsListActivity extends Activity {
     	intent_product_buy_add_item.putExtra (EXTRA_PRODUCT_ID, productId);
     	
     	// ejecutar intent.
-    	startActivity (intent_product_buy_add_item);
+        startActivity (intent_product_buy_add_item);
     }
     
     // cliquear Comprar -> iniciar actividad de Comprar productos. 
     
     public void button_product_buy_onClick (View view) {
-    	/*
-    	// crear intent de la actividad Agregar item a la compra.
-    	Intent intent_product_buy_add_item = new Intent (this, ProductBuyAddItemActivity.class);
-    	
-    	// agregar id de la visita al intent
-    	String productId = ((TextView) ((View) view.getParent ()).findViewById (R.id.product_id)).getText().toString();
-    	intent_product_buy_add_item.putExtra (EXTRA_PRODUCT_ID, productId);
-    	
-    	// ejecutar intent.
-    	startActivity (intent_product_buy_add_item);
-    	*/
+    	Intent intent_product_buy_list = new Intent (this, ProductsBuyListActivity.class);
+        startActivityForResult (intent_product_buy_list, ProductsListActivity.ACTIVITY_RESULT_NORMAL);
     }
     
     // cliquear Cancelar -> salir del menú.
@@ -201,7 +205,7 @@ public class ProductsListActivity extends Activity {
     	final AlertDialog alertDialog = new AlertDialog.Builder (this).create ();
 
 		alertDialog.setTitle ("Cancelar compra");
-		alertDialog.setMessage ("¿Seguro que serés cancelar la compra?");
+		alertDialog.setMessage ("¿Seguro que querés cancelar la compra?");
 		
 		// cancelar la compra
 		alertDialog.setButton (DialogInterface.BUTTON_POSITIVE, "Sí", new DialogInterface.OnClickListener() {
@@ -228,6 +232,12 @@ public class ProductsListActivity extends Activity {
                 return true;
         }
         return super.onOptionsItemSelected (item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        setResult (2);
+        super.onDestroy();
     }
 
 }

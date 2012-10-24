@@ -9,7 +9,8 @@
     
     <!-- products_list_activity -->
     
-    <!-- layout de la actividade del casos de uso Listar productos. -->
+    <!-- layout del caso de uso Listar productos.
+    	lo utiliza la actividad ProductsListActivity. -->
 
     <ListView
  	    android:id="@+id/listView_list"

@@ -169,8 +169,16 @@
         </activity>
         
         <activity
-            android:name=".ProductBuyAddItemActivity"
+            android:name=".ProductsBuyAddItemActivity"
             android:label="@string/title_activity_product_buy_add_item" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
+            android:name=".ProductsBuyListActivity"
+            android:label="@string/title_activity_product_buy_list" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

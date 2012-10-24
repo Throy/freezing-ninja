@@ -1,7 +1,6 @@
 package georeduy.backend.controllers;
 
 
-import georeduy.backend.model.Site;
 import georeduy.backend.model.Tag;
 import georeduy.backend.util.GeoRedClient;
 
@@ -22,7 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 
-public class SiteServlet extends HttpServlet {
+public class TagsServlet extends HttpServlet {
    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
@@ -30,52 +29,33 @@ public class SiteServlet extends HttpServlet {
     	Gson gson = new Gson();
 		
 		try {    	
-	    	if (request.getParameter("NewSite") != null) {
-	    		request.setAttribute("NewSite", "true");
+	    	if (request.getParameter("NewTag") != null) {
+	    		request.setAttribute("NewTag", "true");
 	    		
-	    	} else if (request.getParameter("AddSite") != null) {  
+	    	} else if (request.getParameter("AddTag") != null) {  
 	    		
 	        	String name = request.getParameter("Name");
 	        	String description = request.getParameter("Description");
-	        	String address = request.getParameter("Address");
-	        	double latitude = Double.parseDouble(request.getParameter("Latitude"));
-	        	double longitude = Double.parseDouble(request.getParameter("Longitude"));
-	        	String imageUrl = request.getParameter("ImageUrl");
 	        	
-	        	Site site = new Site();
-	        	site.setName(name);
-	        	site.setDescription(description);
-	        	site.setAddress(address);
-	        	site.setImageUrl(imageUrl);
-	        	
-	        	Double[] coordinates = {latitude, longitude};
-	        	site.setCoordinates(coordinates);
-	        	
-	        	String tags = request.getParameter("Tags");
-	        	if (tags != null && !tags.trim().equals("")) {
-	        		String[] tagsStr = request.getParameter("Tags").split(",");
-	        		for (String tagStr : tagsStr) {
-	        			Tag tag = new Tag();
-	        			tag.setName(tagStr.trim());
-	        			site.addTag(tag);
-	        		}
-	        	}
+	        	Tag tag = new Tag();
+	        	tag.setDescription(description);
+	        	tag.setName(name);
 	        	
 	        	Map<String, String> params  = new HashMap <String, String>();
-	    		params.put ("siteInfo", gson.toJson(site));
+	    		params.put ("tagInfo", gson.toJson(tag));
 	
-				GeoRedClient.Post("/Sites/New", params, (String)session.getAttribute("Token"));
+				GeoRedClient.Post("/Tags/New", params, (String)session.getAttribute("Token"));
 	    	}
 	    	
 	    	Map<String, String> params = new HashMap <String, String>();
 			params.put ("from", "0");
 			params.put ("count", "10");
 	    	
-	    	String result = GeoRedClient.Get("/Sites/Get", params, (String)session.getAttribute("Token"));
-			Type listType = new TypeToken<ArrayList<Site>>() {}.getType();
+	    	String result = GeoRedClient.Get("/Tags/Get", params, (String)session.getAttribute("Token"));
+			Type listType = new TypeToken<ArrayList<Tag>>() {}.getType();
 	
-			List<Site> sites = gson.fromJson(result, listType);
-			request.setAttribute("Sites", sites);
+			List<Tag> tags = gson.fromJson(result, listType);
+			request.setAttribute("Tags", tags);
     	} catch (Exception e) {
         	request.setAttribute("ErrorMsg", e.getMessage());
         }

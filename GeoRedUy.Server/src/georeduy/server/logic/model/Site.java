@@ -1,16 +1,15 @@
 package georeduy.server.logic.model;
 
 
-import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
-import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Property;
+import com.google.code.morphia.annotations.Reference;
 import com.google.code.morphia.utils.IndexDirection;
-import com.sun.xml.internal.bind.v2.runtime.Coordinator;
 
 @Entity(value = "sites", noClassnameStored = true)
 public class Site {
@@ -28,7 +27,10 @@ public class Site {
     @Property
     private String imageUrl;
     @Property
-    private List<Integer> tags;
+    private List<String> tags = new ArrayList<String>();
+    
+    // No pude hacer andar @Reference asi que lo hago asi
+    private List<Tag> realTags = new ArrayList<Tag>();
 
 	public String getId() {
 		return id;
@@ -89,14 +91,25 @@ public class Site {
 		this.imageUrl = imageUrl;
 	}
 
-
-	public List<Integer> getTags() {
+	public List<String> getTagsIds() {
 		return tags;
 	}
 
+	public List<Tag> getTags() {
+		return realTags;
+	}
 
-	public void setTags(List<Integer> tags) {
-		this.tags = tags;
+
+	public void setTags(List<Tag> tags) {
+		this.realTags = tags;
+	}
+	
+	
+	public void addTag(Tag tag) {
+		if (!tags.contains(tag.getId()))
+			tags.add(tag.getId());
+		
+		this.realTags.add(tag);
 	}
 	
 	

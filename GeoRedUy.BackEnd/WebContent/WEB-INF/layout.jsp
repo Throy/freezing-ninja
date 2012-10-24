@@ -41,6 +41,12 @@
             
             <li class="outer"><span class="menubtn"><a href="/GeoRedUy.BackEnd/test">Test</a></span></li>
             
+            <li class="outer"><span class="menubtn"><a>Tags</a></span>
+                <ul>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/tag?NewTag">Nuevo tag</a></li>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/tag?ListTags">Ver Tags</a></li>
+                </ul>
+            </li>
         </ul>                
         <span class="menulogon">
             <ul>

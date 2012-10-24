@@ -57,10 +57,17 @@ Estas en sites!
             </div>
             
             <div class="editor-label">
-                <label for="Name">Image url</label>
+                <label for="ImageUrl">Image url</label>
             </div>
             <div class="editor-field">
                 <input id="ImageUrl" name="ImageUrl" type="text" value="" />
+            </div>
+            
+            <div class="editor-label">
+                <label for="Tags">Tags</label>
+            </div>
+            <div class="editor-field">
+                <input id="Tags" name="Tags" type="text" value="" />
             </div>
 
             <p>
@@ -76,35 +83,34 @@ Estas en sites!
 <% if (sites != null && sites.size() > 0) { %>
 	<ul class="list1" style="margin:0; position:relative;overflow-x:hidden; overflow-y:auto;">
 	<% for (Site site: sites) { %>
-		<li class="item" style="width:90%;">
+		<li class="item" style="width:98%;">
 		    <div class="shadowl">
 		        <div class="shadowr">
 		            <div class="int">
+		           		<div class="img" style="float:left;">
+	                    	<img class="image" style="margin:0;" width="48px" src="/GeoRedUy.BackEnd/media/images/Thumb/Site.png" alt="Image" />
+	                    </div>
 		                <div class="body">
-		                    <div class="img" style="float:left;">
-		                        <img class="image" style="margin:0;" width="48px" src="/GeoRedUy.BackEnd/media/Images/Thumb/Site.png" alt="Image" />
-		                    </div>
-		                    <div class="title" style="float:left; width:248px">
+		                    <div class="title" style="float:left;margin-right:10px;">
 		                        <h3 style="margin-bottom:0;"><%=site.getName()%></h3>
 		                    </div>
 		                    <div style="float:left;">
 		                        <%=site.getDescription()%>
-		                    </div>
-
-		                    <div class="scrollable">
-		                        <table class="list" border="0" rules="none">
-		                            <!-- fields -->
-		                            <tr class="field"><td class="field"><span>Beginning date: </span></td><td class="field"><div class="fieldvalue">@Html.DisplayFor(m => m.dateBegin)</div></td></tr>
-		    
-		                            <tr class="field"><td class="field"><span>Ending date: </span></td><td class="field"><div class="fieldvalue">@Html.DisplayFor(m => m.dateEnd)</div></td></tr>
-		                        </table>
-		                    </div>
+		                        <br />
 		                        
-		                    <div class="clear"></div>
+		                    </div>
 		                    <div class="footer">
-		                        Creation date: 10/10/10
+		                        Address: <%=site.getAddress()%> 
+		                    	Latitude: <%=site.getCoordinates()[0]%>
+		                    	Longitude: <%=site.getCoordinates()[1]%>
+		                        
 		                        <div class="likes">
-                                	<input class="btn1" type="submit" name="buttonDoAttend" value="Do attend" />
+		                        	<% for (Tag tag: site.getTags()) { %>
+		                        		<%=tag.getName()%>
+		                        	<% } %>
+		                        	
+		                        	<input class="btn1" type="submit" name="editSite" value="Edit" />
+                                	<input class="btn1" type="submit" name="deleteSite" value="Delete" />
 		                   		</div>
 		                    </div>
 		                </div>

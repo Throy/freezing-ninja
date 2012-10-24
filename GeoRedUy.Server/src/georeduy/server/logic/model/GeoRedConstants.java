@@ -15,4 +15,10 @@ public class GeoRedConstants {
 	
 	public static final String SITE_SUCCESSFULY_ADDED =
             "SITE_SUCCESSFULY_ADDED";
+	
+	public static final String TAG_DOES_NOT_EXIST =
+            "TAG_DOESNT_EXIST";
+	
+	public static final String TAG_NAME_EXISTS =
+            "TAG_NAME_EXISTS";
 }

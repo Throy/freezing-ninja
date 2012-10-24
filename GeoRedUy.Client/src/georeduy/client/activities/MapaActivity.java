@@ -1,8 +1,16 @@
 package georeduy.client.activities;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import georeduy.client.model.Site;
+import georeduy.client.util.GeoRedClient;
+import georeduy.client.util.OnCompletedCallback;
 import georeduy.client.activities.R;
+import georeduy.client.controllers.SitesController;
 import georeduy.client.util.LocationListenerImpl;
 
 import georeduy.client.maps.CustomItemizedOverlay;
@@ -13,7 +21,11 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.Gson;
 
+
+import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -46,7 +58,7 @@ public class MapaActivity extends MapActivity {
 		// inicializar overlay, con íconos carrito
 		List<Overlay> mapOverlays = mapView.getOverlays();
 		Drawable drawable = this.getResources().getDrawable (R.drawable.cart);
-		CustomItemizedOverlay itemizedOverlay = new CustomItemizedOverlay (drawable, this);
+		final CustomItemizedOverlay itemizedOverlay = new CustomItemizedOverlay (drawable, this);
 
 		// agregar ítems al overlay
 		GeoPoint point = new GeoPoint (latitudeE6, longitudeE6);
@@ -60,7 +72,7 @@ public class MapaActivity extends MapActivity {
 		MapController mapController = mapView.getController();
 
 		mapController.animateTo(point);
-		mapController.setZoom(9);
+		mapController.setZoom(27);
 		
 		
 		
@@ -100,8 +112,33 @@ public class MapaActivity extends MapActivity {
         }
         catch (Exception e)
         {}
+        
+        SitesController.getInstance().getSitesByPosition(latitudeE6/1000, longitudeE6/1000, 
+		        new OnCompletedCallback() {
 
+			        @Override
+			        public void onCompleted(String response, String error) {
+			        	if (error != null)  {
+				        	Gson gson = new Gson();
+				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();
+				    		
+				    		List<Site> sites = gson.fromJson(response, listType);
+				    		int i = 5000;
+				    		for(Site sitio:sites)
+				    		{
+				    			double lat =  sitio.getCoordinates()[0] *1000 +i;
+				    			double longitud = sitio.getCoordinates()[1] *1000 +i;
+				    			GeoPoint point2 = new GeoPoint ((int)Math.round(lat), (int)Math.round(longitud));
+				    			OverlayItem overlayitem = new OverlayItem(point2, sitio.getName(), sitio.getName());
+				    			itemizedOverlay.addOverlay (overlayitem);
+				    			i += 1000;
+				    		}
+			    		}
+			        }
+		        });
 	}
+	
+	
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;

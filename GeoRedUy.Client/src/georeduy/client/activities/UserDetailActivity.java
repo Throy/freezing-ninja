@@ -7,6 +7,7 @@ package georeduy.client.activities;
 
 // imports
 
+import georeduy.client.controllers.ClientsController;
 import georeduy.client.util.CommonUtilities;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -64,8 +65,15 @@ public class UserDetailActivity extends Activity {
 		});
 		alertDialog.show();
 		*/
+
+    	// obtener el id del usuario
+    	int userId = Integer.parseInt (((TextView) findViewById (R.id.textview_user_id)).getText ().toString ());
     	
-        CommonUtilities.showAlertMessage (this, "Confirmación", "Cliqueaste en agregar id " + ((TextView) findViewById (R.id.textview_user_id)).getText ().toString ());
+		// intentar agregar el contacto
+		ClientsController.getInstance().addContact (userId);
+		
+		// mostrar confirmación
+        CommonUtilities.showAlertMessage (this, "Confirmación", "Cliqueaste en agregar el contacto de id " + userId + ".");
     }
     
     // cliquear botón -> quitar contacto 
@@ -83,6 +91,13 @@ public class UserDetailActivity extends Activity {
 		alertDialog.show();
 		*/
     	
-        CommonUtilities.showAlertMessage (this, "Confirmación", "Cliqueaste en quitar id " + ((TextView) findViewById (R.id.textview_user_id)).getText ().toString ());
+    	// obtener el id del usuario
+    	int userId = Integer.parseInt (((TextView) findViewById (R.id.textview_user_id)).getText ().toString ());
+    	
+		// intentar quitar el contacto
+		ClientsController.getInstance().removeContact (userId);
+		
+		// mostrar confirmación
+        CommonUtilities.showAlertMessage (this, "Confirmación", "Cliqueaste en quitar el contacto de id " + userId + ".");
     }
 }

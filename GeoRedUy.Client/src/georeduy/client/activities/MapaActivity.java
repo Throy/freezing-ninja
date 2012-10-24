@@ -13,14 +13,14 @@ import georeduy.client.activities.R;
 import georeduy.client.controllers.SitesController;
 import georeduy.client.util.LocationListenerImpl;
 
-import georeduy.client.maps.CustomItemizedOverlay;
+import georeduy.client.maps.SiteMapOverlay;
+import georeduy.client.maps.MapOverlayItem;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;
 
@@ -38,27 +38,27 @@ import android.os.Bundle;
 public class MapaActivity extends MapActivity {
 	// mapa
 	private MapView mapView;
-	
+
 	// cordenadas de Atenas
 	private static final int latitudeE6 = 37985339;
 	private static final int longitudeE6 = 23716735;
 	private static final int latitudeE5 = -34892830;
 	private static final int longitudeE5 = -56130030;
 	private LocationManager locationManager;
-	
+
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView (georeduy.client.activities.R.layout.activity_main);
-		
+
 		// obtener mapa
 		mapView = (MapView) findViewById (georeduy.client.activities.R.id.map_view);
 		mapView.setBuiltInZoomControls (true);
 
-		// inicializar overlay, con íconos carrito
-		List<Overlay> mapOverlays = mapView.getOverlays();
+		// inicializar overlay de sitios, con íconos carrito
+		List <Overlay> mapOverlays = mapView.getOverlays();
 		Drawable drawableCarrito = this.getResources().getDrawable (R.drawable.cart);
-		final CustomItemizedOverlay itemizedOverlayCarrito = new CustomItemizedOverlay (drawableCarrito, this);
+		final SiteMapOverlay itemizedOverlayCarrito =new SiteMapOverlay (drawableCarrito, this);
 		
 		Drawable drawableAndroid = this.getResources().getDrawable (R.drawable.android);
 		final CustomItemizedOverlay itemizedOverlayAndroid = new CustomItemizedOverlay (drawableAndroid, this);
@@ -81,41 +81,9 @@ public class MapaActivity extends MapActivity {
 		
 		
 		// Get the location manager
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-      //This component receives callback with the results
-        LocationListener locationListener = new LocationListenerImpl();
-        
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.NO_REQUIREMENT);
-        criteria.setPowerRequirement(Criteria.NO_REQUIREMENT);
-        criteria.setCostAllowed(false);     
-        	
-        String bestProvider = locationManager.getBestProvider(criteria, true);
-        Location porAcaEstaBien = new Location(bestProvider);
-        locationListener.onLocationChanged(porAcaEstaBien);
-        if (locationManager.isProviderEnabled(bestProvider))
-        {
-        	;
-        }
-        try
-        {
-	        //Register the listener with the Location Manager to receive location updates
-	        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-        }
-        catch(Exception e)
-        {}
-        Location acaEstoy = null;
-        try
-        {
-        	if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-        	{
-		        //Register the listener with the Location Manager to receive location updates
-		        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-		        acaEstoy = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        	}
-        }
-        catch (Exception e)
-        {}
+		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		//This component receives callback with the results
+		LocationListener locationListener = new LocationListenerImpl();
         
         SitesController.getInstance().getSitesByPosition(latitudeE5, longitudeE5, 
 		        new OnCompletedCallback() {

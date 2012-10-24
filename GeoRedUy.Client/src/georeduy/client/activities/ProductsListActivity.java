@@ -72,7 +72,7 @@ public class ProductsListActivity extends Activity {
             HashMap <String, String> itemStringMap = new HashMap <String, String> ();
             itemStringMap.put (PRODUCT_ITEM_NAME, "Producto " + idx);
             itemStringMap.put (PRODUCT_ITEM_DESCRIPTION, "Es un producto " + idx + " y " + (((idx + 5) % 8) + 5));
-            itemStringMap.put (PRODUCT_ITEM_PRICE, "$ " + idx);
+            itemStringMap.put (PRODUCT_ITEM_PRICE, "$ " + (idx * 10));
             itemStringMap.put (PRODUCT_ITEM_DATE, "2012 / 10 / " + idx);
  
             // adding HashList to ArrayList

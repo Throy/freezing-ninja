@@ -39,8 +39,8 @@ public class SiteDaoImpl extends BasicDAO<Site, ObjectId> implements ISiteDao {
     }
 
 	@Override
-    public List<Site> getNearSites(Point location) {
-		List<Site> sites = createQuery().field("coordinates").near(location.getX(), location.getY()).asList();
+    public List<Site> getNearSites(double latitude, double longitude, double radius) {
+		List<Site> sites = createQuery().field("coordinates").near(latitude, longitude).asList();
 	    if (sites.size() > 0)
 	    	return sites;
 	    else

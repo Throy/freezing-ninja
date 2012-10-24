@@ -42,8 +42,8 @@ public class MapaActivity extends MapActivity {
 	// cordenadas de Atenas
 	private static final int latitudeE6 = 37985339;
 	private static final int longitudeE6 = 23716735;
-	private static final int latitudeE5 = 37985839;
-	private static final int longitudeE5 = 23716035;
+	private static final int latitudeE5 = -34892830;
+	private static final int longitudeE5 = -56130030;
 	private LocationManager locationManager;
 	
 	@Override
@@ -57,22 +57,26 @@ public class MapaActivity extends MapActivity {
 
 		// inicializar overlay, con íconos carrito
 		List<Overlay> mapOverlays = mapView.getOverlays();
-		Drawable drawable = this.getResources().getDrawable (R.drawable.cart);
-		final CustomItemizedOverlay itemizedOverlay = new CustomItemizedOverlay (drawable, this);
+		Drawable drawableCarrito = this.getResources().getDrawable (R.drawable.cart);
+		final CustomItemizedOverlay itemizedOverlayCarrito = new CustomItemizedOverlay (drawableCarrito, this);
+		
+		Drawable drawableAndroid = this.getResources().getDrawable (R.drawable.android);
+		final CustomItemizedOverlay itemizedOverlayAndroid = new CustomItemizedOverlay (drawableAndroid, this);
 
 		// agregar ítems al overlay
-		GeoPoint point = new GeoPoint (latitudeE6, longitudeE6);
-		OverlayItem overlayitem = new OverlayItem(point, "Hola", "Estoy en atenas!");
-		itemizedOverlay.addOverlay (overlayitem);
+		GeoPoint pointCasaAndres = new GeoPoint (latitudeE5, longitudeE5);
+		OverlayItem overlayitem = new OverlayItem(pointCasaAndres, "Casa Andres", "Estoy en la casa de Andres!");
+		itemizedOverlayAndroid.addOverlay (overlayitem);
 		
 		// agregar overlay al mapa
-		mapOverlays.add (itemizedOverlay);
+		mapOverlays.add (itemizedOverlayAndroid);
+		mapOverlays.add (itemizedOverlayCarrito);
 
 		// encuadrar mapa en Atenas
 		MapController mapController = mapView.getController();
 
-		mapController.animateTo(point);
-		mapController.setZoom(27);
+		mapController.animateTo(pointCasaAndres);
+		mapController.setZoom(17);
 		
 		
 		
@@ -113,25 +117,24 @@ public class MapaActivity extends MapActivity {
         catch (Exception e)
         {}
         
-        SitesController.getInstance().getSitesByPosition(latitudeE6/1000, longitudeE6/1000, 
+        SitesController.getInstance().getSitesByPosition(latitudeE5, longitudeE5, 
 		        new OnCompletedCallback() {
 
 			        @Override
 			        public void onCompleted(String response, String error) {
-			        	if (error != null)  {
+			        	if (error == null)  {
 				        	Gson gson = new Gson();
-				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();
-				    		
+				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();				    		
 				    		List<Site> sites = gson.fromJson(response, listType);
-				    		int i = 5000;
+				    		int i = 500;
 				    		for(Site sitio:sites)
 				    		{
-				    			double lat =  sitio.getCoordinates()[0] *1000 +i;
-				    			double longitud = sitio.getCoordinates()[1] *1000 +i;
+				    			double lat =  sitio.getCoordinates()[0]*1e6 +i;
+				    			double longitud = sitio.getCoordinates()[1]*1e6 +i;
 				    			GeoPoint point2 = new GeoPoint ((int)Math.round(lat), (int)Math.round(longitud));
 				    			OverlayItem overlayitem = new OverlayItem(point2, sitio.getName(), sitio.getName());
-				    			itemizedOverlay.addOverlay (overlayitem);
-				    			i += 1000;
+				    			itemizedOverlayCarrito.addOverlay (overlayitem);
+				    			i += 500;
 				    		}
 			    		}
 			        }

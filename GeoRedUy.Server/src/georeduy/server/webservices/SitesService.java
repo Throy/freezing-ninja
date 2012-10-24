@@ -76,6 +76,7 @@ public class SitesService {
 		if (!context.isUserInRole(Roles.REG_USER)) {
 			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
 		}
+		
 		Gson gson = new Gson();
 		List<Site> sites = SitesController.getInstance().GetByPosition(latitude, longitud);
 		String hola = gson.toJson(sites);

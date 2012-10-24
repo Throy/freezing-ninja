@@ -57,8 +57,8 @@ public class SitesController
 	
 	public void getSitesByPosition (int latitude, int longitude, OnCompletedCallback callback) {
 		Map<String, String> params = new HashMap <String, String>();
-		params.put ("latitude", String.valueOf(latitude));
-		params.put ("longitude", String.valueOf(longitude));
+		params.put ("latitude", Integer.toString(latitude));
+		params.put ("longitude", Integer.toString(longitude));
 		
     	GeoRedClient.GetAsync("/Sites/GetByLocation", params, callback);
 	}

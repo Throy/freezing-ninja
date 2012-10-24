@@ -6,6 +6,7 @@ package georeduy.client.activities;
 
 // imports
 
+import georeduy.client.controllers.VisitsController;
 import georeduy.client.lists.SitesListAdapter;
 import georeduy.client.util.CommonUtilities;
 
@@ -204,8 +205,15 @@ public class SitesListActivity extends Activity {
 		});
 		alertDialog.show();
 		*/
-
-        CommonUtilities.showAlertMessage (this, "Confirmación", "Visitaste el sitio de id " + ((TextView) ((View) view.getParent ()).findViewById (R.id.site_id)).getText ().toString ());
+    	
+    	// obtener el id del sitio
+    	int siteId = Integer.parseInt (((TextView) ((View) view.getParent ()).findViewById (R.id.site_id)).getText ().toString ());
+    	
+		// intentar visitar el sitio
+		VisitsController.getInstance().visitSite (siteId);
+		
+		// mostrar confirmación
+        CommonUtilities.showAlertMessage (this, "Confirmación", "Visitaste el sitio de id " + siteId);
     }
 
     @Override

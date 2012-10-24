@@ -59,28 +59,25 @@ public class MapaActivity extends MapActivity {
 
 		// inicializar overlay de sitios, con íconos carrito
 		List <Overlay> mapOverlays = mapView.getOverlays();
-		Drawable drawableCarrito = this.getResources().getDrawable (R.drawable.cart);
-		final SiteMapOverlay itemizedOverlayCarrito =new SiteMapOverlay (drawableCarrito, this);
-		
 		Drawable drawableAndroid = this.getResources().getDrawable (R.drawable.android);
-		final CustomItemizedOverlay itemizedOverlayAndroid = new CustomItemizedOverlay (drawableAndroid, this);
+		final SiteMapOverlay siteMapOverlay = new SiteMapOverlay (drawableAndroid, this);
 
 		// agregar ítems al overlay
-		GeoPoint pointCasaAndres = new GeoPoint (latitudeE5, longitudeE5);
-		OverlayItem overlayitem = new OverlayItem(pointCasaAndres, "Casa Andres", "Estoy en la casa de Andres!");
-		itemizedOverlayAndroid.addOverlay (overlayitem);
+		GeoPoint point = new GeoPoint (latitudeE5, longitudeE5);
+		for (int idx = 0; idx < 10; idx += 1) {
+			point = new GeoPoint (latitudeE5 - 10000 + idx * 1000, longitudeE5 - 10000 + idx * 1000);
+			MapOverlayItem siteItem = new MapOverlayItem (point, "Sitio " + idx, "Calle " + (idx * 12), idx);
+			siteMapOverlay.addOverlay (siteItem);
+		}
 		
 		// agregar overlay al mapa
-		mapOverlays.add (itemizedOverlayAndroid);
-		mapOverlays.add (itemizedOverlayCarrito);
+		mapOverlays.add (siteMapOverlay);
 
 		// encuadrar mapa en Atenas
 		MapController mapController = mapView.getController();
 
-		mapController.animateTo(pointCasaAndres);
-		mapController.setZoom(17);
-		
-		
+		mapController.animateTo (point);
+		mapController.setZoom (17);
 		
 		// Get the location manager
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -99,11 +96,11 @@ public class MapaActivity extends MapActivity {
 				    		int i = 500;
 				    		for(Site sitio:sites)
 				    		{
-				    			double lat =  sitio.getCoordinates()[0]*1e6 +i;
-				    			double longitud = sitio.getCoordinates()[1]*1e6 +i;
-				    			GeoPoint point2 = new GeoPoint ((int)Math.round(lat), (int)Math.round(longitud));
+				    			double lat =  sitio.getCoordinates() [0]*1e6 +i;
+				    			double longitud = sitio.getCoordinates() [1]*1e6 +i;
+				    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
 				    			OverlayItem overlayitem = new OverlayItem(point2, sitio.getName(), sitio.getName());
-				    			itemizedOverlayCarrito.addOverlay (overlayitem);
+				    			siteMapOverlay.addOverlay (overlayitem);
 				    			i += 500;
 				    		}
 			    		}

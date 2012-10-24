@@ -8,7 +8,6 @@ package georeduy.client.activities;
 // imports
 
 import georeduy.client.controllers.ProductsController;
-import georeduy.client.controllers.VisitsController;
 import georeduy.client.util.CommonUtilities;
 import android.app.Activity;
 import android.app.AlertDialog;

@@ -1,50 +1,71 @@
+// SiteMapOverlay
+
+// overlay del mapa para desplegar sitios.
+
 package georeduy.client.maps;
 
 import georeduy.client.activities.R;
+import georeduy.client.activities.SiteDetailActivity;
+import georeduy.client.activities.SitesListActivity;
 import georeduy.client.util.CommonUtilities;
 
 import java.util.ArrayList;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
-import android.widget.TextView;
-
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
-public class CustomItemizedOverlay extends ItemizedOverlay<OverlayItem> {
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.widget.TextView;
 
-	private ArrayList<OverlayItem> mapOverlays = new ArrayList<OverlayItem>();
+public class SiteMapOverlay extends ItemizedOverlay <OverlayItem> {
+
+	// items del mapa
+	private ArrayList <OverlayItem> mapItems = new ArrayList <OverlayItem>();
 
 	private Context context;
 
-	public CustomItemizedOverlay (Drawable defaultMarker) {
+	public SiteMapOverlay (Drawable defaultMarker) {
 		super(boundCenterBottom (defaultMarker));
 	}
 
-	public CustomItemizedOverlay (Drawable defaultMarker, Context context) {
+	public SiteMapOverlay (Drawable defaultMarker, Context context) {
 		this(defaultMarker);
 		this.context = context;
 	}
 
 	@Override
 	protected OverlayItem createItem (int i) {
-		return mapOverlays.get(i);
+		return mapItems.get(i);
 	}
 
 	@Override
 	public int size() {
-		return mapOverlays.size();
+		return mapItems.size();
 	}
 
 	// cliquear en el botón -> mostrar cuadro
 	
 	@Override
 	protected boolean onTap (int index) {
-		OverlayItem item = mapOverlays.get(index);
+		// obtener item
+		MapOverlayItem item = (MapOverlayItem) mapItems.get(index);
+
+    	// crear intent de la actividad Ver datos de un sitio.
+    	Intent intent_site_detail = new Intent (context, SiteDetailActivity.class);
+    	
+    	// agregar id del sitio al intent
+    	intent_site_detail.putExtra (SitesListActivity.EXTRA_SITE_ID, "" + item.getId ());
+    	
+    	// ejecutar intent.
+    	context.startActivity (intent_site_detail);
 		
+		/*
+		
+		// crear cuadro de diálogo
 		AlertDialog dialog = new AlertDialog.Builder (context).create ();
 		
 		// mostrar título y descripción del sitio.
@@ -67,6 +88,7 @@ public class CustomItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 		});
 		
 		dialog.show();
+		*/
 
         //CommonUtilities.showAlertMessage (context, item.getTitle(), item.getSnippet());
 		
@@ -74,7 +96,7 @@ public class CustomItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 	}
 
 	public void addOverlay (OverlayItem overlay) {
-		mapOverlays.add (overlay);
+		mapItems.add (overlay);
 		this.populate();
 	}
 

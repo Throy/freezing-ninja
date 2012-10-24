@@ -69,4 +69,18 @@ public class SitesService {
 		List<Site> sites = SitesController.getInstance().Get(from, count);
 		return Response.status(200).entity(gson.toJson(sites)).build();
 	}
+	
+	@GET()
+	@Produces("text/plain")
+	@Path("GetByLocation")
+	public Response GetByLocation(@QueryParam("latitude") Integer latitude, @QueryParam("longitude") Integer longitud, @Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+		
+		Gson gson = new Gson();
+		List<Site> sites = SitesController.getInstance().GetByPosition(latitude, longitud);
+		String hola = gson.toJson(sites);
+		return Response.status(200).entity(gson.toJson(sites)).build();
+	}
 }

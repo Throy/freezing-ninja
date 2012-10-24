@@ -7,6 +7,7 @@ package georeduy.client.activities;
 
 // imports
 
+import georeduy.client.controllers.SitesController;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -38,14 +39,22 @@ public class VisitCommentActivity extends Activity {
     // cliquear Send -> publicar comentario
     
     public void button_send_onClick (View view) {
-		// nada
+
+    	// obtener el id de la visita y el comentario
+    	int visitId = Integer.parseInt (((TextView) findViewById (R.id.textview_visit_id)).getText ().toString ());
+    	String comment = ((EditText) findViewById (R.id.edittext_comment)).getText ().toString ();
+    	
+		// intentar visitar el sitio
+		SitesController.getInstance().publishVisitComment (visitId, comment);
+    	
+		// mostrar confirmación
 		AlertDialog alertDialog = new AlertDialog.Builder (this).create ();
 
 		alertDialog.setTitle ("Confirmación");
 		alertDialog.setMessage ("Enviaste el comentario \""
-				+ ((EditText) findViewById (R.id.edittext_comment)).getText ().toString ()
-				+ "\" a la visita "
-				+ ((TextView) findViewById (R.id.textview_visit_id)).getText ().toString ()
+		+ comment
+				+ "\" a la visita de id "
+				+ visitId
 				+ ".");
 		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
 			public void onClick (DialogInterface dialog, int which) {
@@ -53,6 +62,7 @@ public class VisitCommentActivity extends Activity {
 				finish ();
 			}
 		});
+		
 		alertDialog.show();
     }
 }

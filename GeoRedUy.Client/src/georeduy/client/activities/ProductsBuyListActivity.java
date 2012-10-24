@@ -87,7 +87,7 @@ public class ProductsBuyListActivity extends Activity {
 		// realizar la compra
 		alertDialog.setButton (DialogInterface.BUTTON_POSITIVE, "Sí", new DialogInterface.OnClickListener() {
 			public void onClick (DialogInterface dialog, int which) {
-				
+				// realizar compra.
 				ProductsController.getInstance ().purchaseConfirm ();
 				
 				// *** mostrar confirmación ***

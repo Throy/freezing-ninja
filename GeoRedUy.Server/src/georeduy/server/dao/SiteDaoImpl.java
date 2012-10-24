@@ -1,22 +1,31 @@
 package georeduy.server.dao;
 
-import com.google.code.morphia.dao.BasicDAO;
-import com.google.code.morphia.query.Query;
-import com.mongodb.WriteResult;
-
 import georeduy.server.logic.model.Site;
-import georeduy.server.logic.model.User;
-import georeduy.server.logic.model.UserData;
 import georeduy.server.persistence.MongoConnectionManager;
 
 import java.awt.Point;
 import java.util.List;
+
 import org.bson.types.ObjectId;
+
+import com.google.code.morphia.dao.BasicDAO;
 
 public class SiteDaoImpl extends BasicDAO<Site, ObjectId> implements ISiteDao {
 
+	private ITagDao tagDao =  new TagDaoImpl();
+	
     public SiteDaoImpl() {
         super(Site.class, MongoConnectionManager.instance().getDb());
+    }
+    
+    private List<Site> ResolveReferences(List<Site> sites) {
+    	for (Site site : sites) {
+    		for (String tagId : site.getTagsIds()) {
+    			site.addTag(tagDao.find(new ObjectId(tagId)));
+    		}
+    	}
+    	
+    	return sites;
     }
 
 	@Override
@@ -32,6 +41,7 @@ public class SiteDaoImpl extends BasicDAO<Site, ObjectId> implements ISiteDao {
 	@Override
     public Site findByName(String name) {
     	List<Site> sites = createQuery().field("name").equal(name).asList();
+    	sites = ResolveReferences(sites);
     	if (sites.size() == 1)
     		return sites.get(0);
     	else
@@ -49,6 +59,6 @@ public class SiteDaoImpl extends BasicDAO<Site, ObjectId> implements ISiteDao {
 
 	@Override
     public List<Site> getSites(int from, int count) {
-		return createQuery().offset(from).limit(count).asList();
+		return ResolveReferences(createQuery().offset(from).limit(count).asList());
     }
 }

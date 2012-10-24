@@ -29,6 +29,10 @@
     <servlet-name>Site</servlet-name>
     <servlet-class>georeduy.backend.controllers.SiteServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Tag</servlet-name>
+    <servlet-class>georeduy.backend.controllers.TagsServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>Home</servlet-name>
     <url-pattern>/home</url-pattern>
@@ -52,6 +56,10 @@
   <servlet-mapping>
     <servlet-name>Site</servlet-name>
     <url-pattern>/site</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Tag</servlet-name>
+    <url-pattern>/tag</url-pattern>
   </servlet-mapping>
   
 	<filter>

@@ -2,6 +2,7 @@ package georeduy.server.persistence;
 
 
 import georeduy.server.logic.model.Site;
+import georeduy.server.logic.model.Tag;
 import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.UserData;
 
@@ -23,6 +24,7 @@ public final class MongoConnectionManager {
 	      
 	      morphia.map(User.class).map(UserData.class);
 	      morphia.map(Site.class);
+	      morphia.map(Tag.class);
 	      
 	      db = morphia.createDatastore(m, DB_NAME);
 	      db.ensureIndexes();

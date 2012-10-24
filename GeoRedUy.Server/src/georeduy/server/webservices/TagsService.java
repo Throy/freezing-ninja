@@ -1,9 +1,11 @@
 package georeduy.server.webservices;
 
 import georeduy.server.logic.controllers.SitesController;
+import georeduy.server.logic.controllers.TagsEventsController;
 import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.Site;
+import georeduy.server.logic.model.Tag;
 
 import java.util.List;
 
@@ -19,12 +21,12 @@ import javax.ws.rs.core.SecurityContext;
 
 import com.google.gson.Gson;
 
-@Path("/Sites")
-public class SitesService {
+@Path("/Tags")
+public class TagsService {
 
 	@POST()
 	@Path("New")
-	public Response New(String siteInfo,
+	public Response New(String tagInfo,
 			@Context HttpServletResponse servletResponse,
 			@Context SecurityContext context) {
 		if (!context.isUserInRole(Roles.REG_USER)) {
@@ -35,9 +37,8 @@ public class SitesService {
 		
 		try {
 			Gson gson = new Gson();
-			String json = siteInfo.split("=")[1];
-			Site site = gson.fromJson(json, Site.class);
-			SitesController.getInstance().NewSite(site);
+			Tag tag = gson.fromJson(tagInfo.split("=")[1], Tag.class);
+			TagsEventsController.getInstance().NewTag(tag);
 			
 			response = Response.status(200).entity(GeoRedConstants.SITE_SUCCESSFULY_ADDED).build();
 	    }
@@ -66,21 +67,7 @@ public class SitesService {
 			from = 0;
 		
 		Gson gson = new Gson();
-		List<Site> sites = SitesController.getInstance().Get(from, count);
-		return Response.status(200).entity(gson.toJson(sites)).build();
-	}
-	
-	@GET()
-	@Produces("text/plain")
-	@Path("GetByLocation")
-	public Response GetByLocation(@QueryParam("latitude") Integer latitude, @QueryParam("longitude") Integer longitud, @Context SecurityContext context) {
-		if (!context.isUserInRole(Roles.REG_USER)) {
-			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
-		}
-		
-		Gson gson = new Gson();
-		List<Site> sites = SitesController.getInstance().GetByPosition(latitude, longitud);
-		String hola = gson.toJson(sites);
-		return Response.status(200).entity(gson.toJson(sites)).build();
+		List<Tag> tags = TagsEventsController.getInstance().Get(from, count);
+		return Response.status(200).entity(gson.toJson(tags)).build();
 	}
 }

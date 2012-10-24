@@ -1,7 +1,7 @@
 package georeduy.backend.model;
 
 
-import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Site {
@@ -12,7 +12,7 @@ public class Site {
     private String address;
     private Double[] coordinates = new Double[2];
     private String imageUrl;
-    private List<Integer> tags;
+    private List<Tag> realTags = new ArrayList<Tag>();
 
 	public String getId() {
 		return id;
@@ -74,13 +74,17 @@ public class Site {
 	}
 
 
-	public List<Integer> getTags() {
-		return tags;
+	public List<Tag> getTags() {
+		return realTags;
 	}
 
 
-	public void setTags(List<Integer> tags) {
-		this.tags = tags;
+	public void setTags(List<Tag> tags) {
+		this.realTags = tags;
+	}
+	
+	public void addTag(Tag tag) {
+		this.realTags.add(tag);
 	}
 	
 	

@@ -1,7 +1,7 @@
 // ProductsListActivity
 
 // actividad para el caso de uso Listar oroductos.
-// utiliza el layout list_activity.
+// utiliza el layout products_list_activity.
 
 package georeduy.client.activities;
 
@@ -50,7 +50,7 @@ public class ProductsListActivity extends Activity {
     @Override
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.list_activity);
+        setContentView (R.layout.products_list_activity);
         
         /*
         ListItem[] itemsList = {item};
@@ -108,7 +108,7 @@ public class ProductsListActivity extends Activity {
         });
     }
     
-    // cliquear botón -> iniciar actividad de Agregar item a la compra. 
+    // cliquear Agregar -> iniciar actividad de Agregar item a la compra. 
     
     public void button_product_item_onClick (View view) {
     	/*
@@ -176,6 +176,47 @@ public class ProductsListActivity extends Activity {
     	
     	// ejecutar intent.
     	startActivity (intent_product_buy_add_item);
+    }
+    
+    // cliquear Comprar -> iniciar actividad de Comprar productos. 
+    
+    public void button_product_buy_onClick (View view) {
+    	/*
+    	// crear intent de la actividad Agregar item a la compra.
+    	Intent intent_product_buy_add_item = new Intent (this, ProductBuyAddItemActivity.class);
+    	
+    	// agregar id de la visita al intent
+    	String productId = ((TextView) ((View) view.getParent ()).findViewById (R.id.product_id)).getText().toString();
+    	intent_product_buy_add_item.putExtra (EXTRA_PRODUCT_ID, productId);
+    	
+    	// ejecutar intent.
+    	startActivity (intent_product_buy_add_item);
+    	*/
+    }
+    
+    // cliquear Cancelar -> salir del menú.
+    
+    public void button_product_cancel_onClick (View view) {
+    	// confirmar cancelación de compra
+    	final AlertDialog alertDialog = new AlertDialog.Builder (this).create ();
+
+		alertDialog.setTitle ("Cancelar compra");
+		alertDialog.setMessage ("¿Seguro que serés cancelar la compra?");
+		
+		// cancelar la compra
+		alertDialog.setButton (DialogInterface.BUTTON_POSITIVE, "Sí", new DialogInterface.OnClickListener() {
+			public void onClick (DialogInterface dialog, int which) {
+				finish();
+			}
+		});
+		
+		// seguir comprando
+		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+			public void onClick (DialogInterface dialog, int which) {
+				alertDialog.cancel();
+			}
+		});
+		alertDialog.show();
     }
 
     @Override

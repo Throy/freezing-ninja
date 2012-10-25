@@ -14,6 +14,7 @@ import georeduy.client.util.OnCompletedCallback;
 import georeduy.client.activities.R;
 import georeduy.client.controllers.SitesController;
 import georeduy.client.util.GPS;
+import georeduy.client.util.GPS.MyLocationListener;
 
 import georeduy.client.maps.CustomItemizedOverlay;
 import georeduy.client.maps.SiteMapOverlay;
@@ -51,9 +52,13 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 	private static final int longitudeE6 = 23716735;
 	private static final int latitudeE5 = -34892830;
 	private static final int longitudeE5 = -56130030;
+	private LocationListener mlocListener;
+    private LocationManager mlocManager;
+    private CustomItemizedOverlay androidOverlay;
+    OverlayItem itemRobotito;
 	//MagicPositionOverlay androidOverlay;	 
 	//private GPS gps;
-	//OverlayItem itemRobotito;
+	
 
 
 	@Override
@@ -62,34 +67,41 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 		//gps = new GPS(this);
 		
 		setContentView (georeduy.client.activities.R.layout.activity_main);
+		mlocManager = (LocationManager) ((Activity) this).getSystemService(Context.LOCATION_SERVICE);
+        mlocListener = new MyLocationListener();
+        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
 
 		// obtener mapa
 		mapView = (MapView) findViewById (georeduy.client.activities.R.id.map_view);
 		mapView.setBuiltInZoomControls (true);		
 		
 		List <Overlay> mapOverlays = mapView.getOverlays();
+		
 		Drawable drawableCarrito = this.getResources().getDrawable (R.drawable.cart);
 		final SiteMapOverlay siteMapOverlay = new SiteMapOverlay(drawableCarrito, this);
 		
+		Drawable drawableAndroid = this.getResources().getDrawable (R.drawable.android);
+		androidOverlay = new CustomItemizedOverlay(drawableAndroid, this);
 		
 		// Create an overlay to show current location
-        //MyLocationOverlay androidOverlay = new MyLocationOverlay(this, mapView);
-        /*androidOverlay.runOnFirstFix(new Runnable() { public void run() {
+        /*final MagicPositionOverlay androidOverlay = new MagicPositionOverlay(this, mapView);
+        androidOverlay.runOnFirstFix(new Runnable() { public void run() {
             mapView.getController().animateTo(androidOverlay.getMyLocation());
-            }});*/
-        //androidOverlay.enableMyLocation();
+            }});
+        androidOverlay.enableMyLocation();
         
 				
 		// agregar overlay al mapa
-		//mapOverlays.add (androidOverlay);
-		//mapOverlays.add(androidOverlay);
+		
+		*/
+		mapOverlays.add(androidOverlay);
 		mapOverlays.add (siteMapOverlay);
 
 		// encuadrar mapa en Atenas
 		MapController mapController = mapView.getController();
 
 		GeoPoint point = new GeoPoint(latitudeE5, longitudeE5);
-		mapController.animateTo (point );
+		mapController.animateTo(point);
 		mapController.setZoom (14);
 		
 		
@@ -119,48 +131,42 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 		        });
         
 	}
-	
-	
+		
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
-	/*
-    @Override
-    protected void onResume() { 
-      //  if(!gps.isRunning()) gps.resumeGPS();   
-        super.onStart();
+    public class MyLocationListener implements LocationListener {
+
+        private final String TAG = MyLocationListener.class.getSimpleName();
+
+        @Override
+        public void onLocationChanged(Location loc) {
+        	androidOverlay.removeOverlay(itemRobotito);
+        	
+        	GeoPoint nuevaUbicacion = new GeoPoint((int)loc.getLatitude(),(int)loc.getLongitude());
+        	itemRobotito = new OverlayItem(nuevaUbicacion, "Me", "This is where you are :)");
+        	
+			androidOverlay.addOverlay(itemRobotito);
+            mapView.getController().animateTo(new GeoPoint((int)loc.getLatitude(),(int)loc.getLongitude()));
+            
+            mapView.invalidate();
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
     }
-
-    @Override
-    protected void onStop() {
-        //gps.stopGPS();
-        super.onStop();
-    }
-
-
-    public void locationChanged(double longitude, double latitude) {
-    	
-    	mapView.invalidate();
-    	/*GeoPoint point = new GeoPoint ((int)(latitude), (int)(longitude));
-    	
-    	androidOverlay.removeOverlay(itemRobotito);
-		itemRobotito = new OverlayItem(point, "Me", "");
-		androidOverlay.addOverlay(itemRobotito);
-		try {
-			wait(1000);
-			mapView.refreshDrawableState();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
-    /*}
-*/
-
-    //@Override
-    //public void displayGPSSettingsDialog() {                
-    //}
-
 
 }

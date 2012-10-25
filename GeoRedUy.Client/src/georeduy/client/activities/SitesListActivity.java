@@ -94,6 +94,13 @@ public class SitesListActivity extends Activity {
             	// agregar id del sitio al intent
             	String siteId = ((TextView) view.findViewById (R.id.site_id)).getText().toString();
             	intent_site_detail.putExtra (EXTRA_SITE_ID, siteId);
+
+                // *** en realidad este párrafo no va ***
+            	String name = ((TextView) view.findViewById (R.id.name)).getText().toString();
+            	String description = ((TextView) view.findViewById (R.id.description)).getText().toString();
+            	String address = ((TextView) view.findViewById (R.id.address)).getText().toString();
+            	intent_site_detail.putExtra (SITE_ITEM_NAME, name);
+            	intent_site_detail.putExtra (SITE_ITEM_ADDRESS, address);
             	
             	// ejecutar intent.
             	startActivity (intent_site_detail);

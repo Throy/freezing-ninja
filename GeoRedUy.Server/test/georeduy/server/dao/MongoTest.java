@@ -1,12 +1,23 @@
 package georeduy.server.dao;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.UserData;
 
+import java.net.UnknownHostException;
 import java.util.List;
-import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.DBRef;
+import com.mongodb.Mongo;
+import com.mongodb.MongoException;
 
 public class MongoTest {
 
@@ -73,5 +84,27 @@ public class MongoTest {
         assertNull(user);
         user = userDao.findByUsernameAndPassword("micalb", "aaa");
         assertNotNull(user);
+    }
+    
+    @Test
+    public void testReference(){
+    	Mongo m;
+        try {
+	        m = new Mongo( "localhost" , 27017 );
+	        DB db = m.getDB( "geouy" );
+	    	DBCollection coll = db.getCollection("retailers");
+	    	DBObject retailer = coll.findOne();
+	    	DBRef userRef = (DBRef) retailer.get("user");
+	    	userRef = new DBRef(db, "db.geouy.users", userRef.getId().toString());
+	    	DBObject user = userRef.fetch();
+	    	String name = (String) retailer.get("name");
+	    	String name2 = (String) retailer.get("name");
+        } catch (UnknownHostException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        } catch (MongoException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        }
     }
 }

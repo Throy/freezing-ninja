@@ -3,7 +3,6 @@ package georeduy.server.dao;
 import georeduy.server.logic.model.Site;
 import georeduy.server.persistence.MongoConnectionManager;
 
-import java.awt.Point;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -51,6 +50,7 @@ public class SiteDaoImpl extends BasicDAO<Site, ObjectId> implements ISiteDao {
 	@Override
     public List<Site> getNearSites(double latitude, double longitude, double radius) {
 		List<Site> sites = createQuery().field("coordinates").near(latitude, longitude).asList();
+		sites = ResolveReferences(sites);
 	    if (sites.size() > 0)
 	    	return sites;
 	    else

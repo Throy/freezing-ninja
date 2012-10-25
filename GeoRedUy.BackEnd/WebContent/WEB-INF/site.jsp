@@ -8,8 +8,6 @@
 	List<Site> sites = (List<Site>)request.getAttribute("Sites");
  %>
 
-Estas en sites!
-
 <%=(errorMsg!=null)?errorMsg:""%>
 
 <% if (newSite != null) {%>

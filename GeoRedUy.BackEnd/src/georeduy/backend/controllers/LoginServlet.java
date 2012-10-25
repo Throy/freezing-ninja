@@ -44,11 +44,13 @@ public class LoginServlet extends HttpServlet {
 				Gson gson = new Gson();
 				User user = gson.fromJson(result, User.class);
 				
-				if (user.hasRole(Roles.ADMIN) || user.hasRole(Roles.BUSINESS_MANAGER)) {		
+				if (user.hasRole(Roles.ADMIN) || user.hasRole(Roles.RETAIL_MANAGER)) {		
 					session.setAttribute("User", user);
 					session.setAttribute("Token", token);
 					request.setAttribute("Success", "true");
 					request.setAttribute("Header", "<meta http-equiv=\"refresh\" content=\"2\">");
+					
+					//response.sendRedirect("/GeoRedUy.BackEnd"+request.getAttribute("contentPath"));
 				} else {
 					request.setAttribute("ErrorMsg", "Insufficient Permissions.");
 				}

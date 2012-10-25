@@ -23,6 +23,8 @@ public class User {
     private UserData userData;
     @Property
     private List<String> roles;
+    @Property
+    private String retailId;
     
     private static User s_currentUser;
 
@@ -65,8 +67,20 @@ public class User {
     public void setRoles(List<String> roles) {
         this.roles = roles;
     }
+    
+    public void addRole(String role) {
+        this.roles.add(role);
+    }
 
-    @Override
+    public String getRetailId() {
+		return retailId;
+	}
+
+	public void setRetailId(String retailId) {
+		this.retailId = retailId;
+	}
+
+	@Override
     public int hashCode() {
         int hash = 7;
         hash = 29 * hash + (this.id != null ? this.id.hashCode() : 0);

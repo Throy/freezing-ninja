@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbars="none">
+    
+    <!-- products_buy_list_activity -->
+    
+    <!-- layout del caso de uso Comprar productos.
+    	lo utiliza la actividad ProductsBuyListActivity. -->
+
+    <ListView
+ 	    android:id="@+id/listView_list"
+        android:layout_weight="4"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"/>
+    
+    <!-- price total -->
+	    
+    <RelativeLayout
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    xmlns:tools="http://schemas.android.com/tools"
+        android:layout_weight="1"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+	    android:orientation="horizontal"
+	    android:scrollbars="none">
+	    
+	    <TextView
+ 	    	android:id="@+id/label_pricetotal"
+        	android:text="@string/textview_pricetotal"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	    	android:layout_alignParentLeft="true"
+	    	android:layout_margin="5dip"
+	        android:textSize="24dip"
+	        android:textStyle="bold"/>
+	    
+	    <TextView
+ 	    	android:id="@+id/pricetotal"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	    	android:layout_toRightOf="@id/label_pricetotal"
+	    	android:layout_alignParentRight="true"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"/>
+	</RelativeLayout>
+    
+    <!-- buttons -->
+    
+    <LinearLayout
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    xmlns:tools="http://schemas.android.com/tools"
+        android:layout_weight="1"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+	    android:orientation="horizontal"
+	    android:scrollbars="none">
+	    
+	    <!-- buy button -->
+	    <Button
+	        android:id="@+id/button_product_buy"
+	        android:text="@string/button_buy"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="24dip"
+	        android:textStyle="bold"
+	        android:onClick="button_product_buy_onClick"
+	        />
+	    
+	    <!-- cancel button -->
+	    <Button
+	        android:id="@+id/button_product_cancel"
+	        android:text="@string/button_cancel"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="24dip"
+	        android:textStyle="bold"
+	        android:onClick="button_product_cancel_onClick"
+	        />
+	</LinearLayout>
+</LinearLayout>

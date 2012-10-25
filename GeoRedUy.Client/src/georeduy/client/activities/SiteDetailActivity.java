@@ -26,7 +26,9 @@ public class SiteDetailActivity extends Activity {
         setContentView (R.layout.site_detail_activity);
         
         // obtener datos del sitio a partir del id.
-        String siteId = getIntent().getStringExtra (SitesListActivity.EXTRA_SITE_ID);
+        String id = getIntent().getStringExtra (SitesListActivity.EXTRA_SITE_ID);
+        String address = getIntent().getStringExtra (SitesListActivity.SITE_ITEM_ADDRESS);
+        String name = getIntent().getStringExtra (SitesListActivity.SITE_ITEM_NAME);
         
         //int idx = Integer.parseInt (siteId);
         // DTVisit visit = getSite (idx);
@@ -35,9 +37,9 @@ public class SiteDetailActivity extends Activity {
         TextView viewName = (TextView) findViewById (R.id.textview_name);
         TextView viewAddress = (TextView) findViewById (R.id.textview_address);
         
-        viewVisitId.setText (siteId);
-        viewName.setText ("Sitio " + siteId);
-        viewAddress.setText ("Calle " + siteId);
+        viewVisitId.setText (id);
+        viewName.setText (name);
+        viewAddress.setText (address);
     }
     
     // funciones del programador

@@ -45,6 +45,7 @@
     
     <string name="title_activity_visit_comment">Publicar comentario de visita</string>
     <string name="title_activity_product_buy_add_item">Agregar producto a compra</string>
+    <string name="title_activity_product_buy_list">Comprar productos</string>
     
     <!-- buttons -->
     

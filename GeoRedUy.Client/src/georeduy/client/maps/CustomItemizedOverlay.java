@@ -77,5 +77,11 @@ public class CustomItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 		mapOverlays.add (overlay);
 		this.populate();
 	}
+	
+	public void removeOverlay(OverlayItem overlay){
+		mapOverlays.remove(overlay);
+		this.populate();
+	}
+	
 
 }

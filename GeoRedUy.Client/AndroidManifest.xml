@@ -180,6 +180,16 @@
                 android:value=".MainActivity" />
         </activity>
         
+        <activity
+            android:name=".ProductsBuyListActivity"
+            android:label="@string/title_activity_product_buy_list" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <uses-library android:name="com.google.android.maps" />
+        
         <!--
           BroadcastReceiver that will receive intents from GCM
           services and handle them to the custom IntentService.

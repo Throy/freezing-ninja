@@ -1,12 +1,16 @@
 package georeduy.server.dao;
 
-import com.google.code.morphia.dao.BasicDAO;
-
 import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.UserData;
 import georeduy.server.persistence.MongoConnectionManager;
+
 import java.util.List;
+
 import org.bson.types.ObjectId;
+
+import com.google.code.morphia.dao.BasicDAO;
+import com.google.code.morphia.query.Query;
+import com.google.code.morphia.query.UpdateOperations;
 
 public class UserDaoImpl extends BasicDAO<User, ObjectId> implements IUserDao {
 
@@ -17,6 +21,17 @@ public class UserDaoImpl extends BasicDAO<User, ObjectId> implements IUserDao {
     @Override
     public void saveUser(User user) {
         this.save(user);
+    }
+    
+    @Override
+    public UpdateOperations<User> getUpdateOperations() {
+    	return this.createUpdateOperations();
+    }
+    
+    @Override
+    public void update(User user, UpdateOperations<User> uo) {
+    	Query<User> query = ds.createQuery(User.class).field("userName").equal(user.getUserName());
+    	this.update(query, uo);
     }
 
     @Override

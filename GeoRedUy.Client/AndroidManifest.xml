@@ -37,6 +37,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+	<uses-library android:name="com.google.android.maps" />
         <activity
             android:name=".SessionLoginActivity"
             android:label="@string/title_activity_session_login" >
@@ -48,7 +49,10 @@
         </activity>
         
         <activity android:name=".GCMActivity" android:label="@string/title_activity_main"></activity>
+        
+        
         <activity android:name=".MapaActivity" android:label="@string/title_activity_main"></activity>
+        
         <activity android:name=".SessionRegisterActivity" android:label="@string/title_activity_session_register"></activity>
         
         <activity
@@ -175,8 +179,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        
-        <uses-library android:name="com.google.android.maps" />
         
         <!--
           BroadcastReceiver that will receive intents from GCM

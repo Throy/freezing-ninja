@@ -12,6 +12,8 @@ public class User {
     private UserData userData;
 
     private List<String> roles;
+    
+    private String retailId;
 
     public String getUserName() {
         return userName;
@@ -36,6 +38,14 @@ public class User {
     public List<String> getRoles() {
         return roles;
     }
+
+    public String getRetailId() {
+		return retailId;
+	}
+
+	public void setRetailId(String retailId) {
+		this.retailId = retailId;
+	}
     
     public boolean hasRole(String role) {
     	return roles.contains(role);

@@ -21,4 +21,19 @@ public class GeoRedConstants {
 	
 	public static final String TAG_NAME_EXISTS =
             "TAG_NAME_EXISTS";
+	
+	public static final String RETAILER_NAME_EXISTS =
+            "RETAILER_NAME_EXISTS";
+	
+	public static final String RETAILER_SUCCESSFULY_ADDED =
+            "RETAILER_SUCCESSFULY_ADDED";
+	
+	public static final String RETAILER_USER_DOES_NOT_EXISTS =
+            "RETAILER_USER_DOES_NOT_EXISTS";
+	
+	public static final String STORE_SUCCESSFULY_ADDED =
+            "STORE_SUCCESSFULY_ADDED";
+	
+	public static final String PRODUCT_SUCCESSFULY_ADDED =
+            "PRODUCT_SUCCESSFULY_ADDED";
 }

@@ -8,8 +8,6 @@
 	List<Tag> tags = (List<Tag>)request.getAttribute("Tags");
  %>
 
-Estas en sites!
-
 <%=(errorMsg!=null)?errorMsg:""%>
 
 <% if (newTag != null) {%>

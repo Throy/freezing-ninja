@@ -28,14 +28,15 @@
 
 <div id="contenedor">
     <div id="menu">
-        <ul style="width:300px;">
+        <ul style="width:600px;">
             <li class="outer"><span class="menubtn"><a href="/GeoRedUy.BackEnd/home">Home</a></span></li>
             
             <!-- system admin -->
-            <li class="outer"><span class="menubtn"><a>Sitios</a></span>
+            <% if (user.hasRole(Roles.ADMIN)) { %>
+            <li class="outer"><span class="menubtn"><a>Site</a></span>
                 <ul>
-                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/site?NewSite">Nuevo sitio</a></li>
-                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/site?ListSites">Ver sitios</a></li>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/site?NewSite">New site</a></li>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/site?ListSites">Show sites</a></li>
                 </ul>
             </li>
             
@@ -43,10 +44,33 @@
             
             <li class="outer"><span class="menubtn"><a>Tags</a></span>
                 <ul>
-                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/tag?NewTag">Nuevo tag</a></li>
-                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/tag?ListTags">Ver Tags</a></li>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/tag?NewTag">New tag</a></li>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/tag?ListTags">Show Tags</a></li>
                 </ul>
             </li>
+            
+            <li class="outer"><span class="menubtn"><a>Retails</a></span>
+                <ul>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/retail?NewForm=Retailer">New retailer</a></li>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/retail?ListRetailers">Show retailers</a></li>
+                </ul>
+            </li>
+            <% } %>
+            
+            <% if (user.hasRole(Roles.RETAIL_MANAGER)) { %>
+            <li class="outer"><span class="menubtn"><a>Stores</a></span>
+                <ul>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/retail?NewForm=Store">New store</a></li>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/retail?ListMyStores">My stores</a></li>
+                </ul>
+            </li>
+            <li class="outer"><span class="menubtn"><a>Products</a></span>
+                <ul>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/retail?NewForm=Product">New product</a></li>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/retail?ListMyProducts">My products</a></li>
+                </ul>
+            </li>
+            <% } %>
         </ul>                
         <span class="menulogon">
             <ul>

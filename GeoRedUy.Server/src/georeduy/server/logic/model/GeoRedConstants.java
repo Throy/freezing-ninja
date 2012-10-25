@@ -4,6 +4,9 @@ public class GeoRedConstants {
 	public static final String LOGIN_BAD_USERNAME_PASSWORD =
             "LOGIN_BAD_USERNAME_PASSWORD";
 	
+	public static final String LOGIN_INVALID_TOKEN =
+            "LOGIN_INVALID_TOKEN";
+	
 	public static final String REGISTER_USERNAME_EXISTS =
             "REGISTER_USERNAME_EXISTS";
 	

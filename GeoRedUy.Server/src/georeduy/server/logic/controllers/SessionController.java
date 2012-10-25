@@ -5,6 +5,7 @@ import georeduy.server.dao.UserDaoImpl;
 import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.User;
+import georeduy.server.util.FacebookUtils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -49,6 +50,31 @@ public class SessionController {
         }
 
         throw new Exception(GeoRedConstants.LOGIN_BAD_USERNAME_PASSWORD);
+    }
+    
+    public String LogInExternal(String tokenType, String accessToken) throws Exception {
+        
+    	FacebookUtils fb = new FacebookUtils();
+        if (fb.isTokenValid(accessToken)) {
+        	User facebookUser = fb.fetchUser();
+        	User user = userDao.findByExternalId(facebookUser.getExternalId());
+        	if (user == null) {
+        		Register(facebookUser);
+        		user = facebookUser;
+        	}
+        	
+        	if (user != null) {
+                String token;
+                do {
+                    token = GenerateToken();
+                } while (m_onlineUsers.containsKey(token));
+                m_onlineUsers.put(token, user);
+
+                return token;
+            }
+        }
+
+        throw new Exception(GeoRedConstants.LOGIN_INVALID_TOKEN);
     }
 
     public void LogOut(String token) {

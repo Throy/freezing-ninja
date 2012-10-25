@@ -20,6 +20,8 @@ public interface IUserDao {
     public User find(ObjectId userId);
 
     public User findByUserName(String user);
+    
+    public User findByExternalId(String id);
 
     public List<User> findUsersByUserData(UserData userData);
 

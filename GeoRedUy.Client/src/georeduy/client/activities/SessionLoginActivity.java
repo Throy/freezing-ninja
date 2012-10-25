@@ -75,11 +75,30 @@ public class SessionLoginActivity extends Activity {
     // cliquear Registrarse -> mostrar formulario de Registrarse por Facebook, paso 1
     
     public void button_session_register_fbk_onClick (View view) {
+    	final Activity thisActivity = this;
     	facebook.authorize(this, PERMS, new DialogListener() {
             @Override
             public void onComplete(Bundle values) {
-            	String token = facebook.getAccessToken();
-            	Log.i("GEOUYRED", "facebook token: " + token);
+            	final String token = facebook.getAccessToken();
+            	
+            	(new AsyncTask<Activity, String, String>() {
+
+        			@Override
+        			protected String doInBackground(Activity... params) {
+        				try {
+        					// intentar iniciar sesión
+        					SessionController.getInstance().loginExternal("facebook", token);
+        			        
+        					// abrir menú de GCM
+        			        Intent intent = new Intent(params[0], GCMActivity.class);
+        					startActivity(intent);
+        		        }
+        				catch (Exception e) {
+        			        CommonUtilities.showAlertMessage (params[0], "Error SLA bloc", e.getMessage());
+        		        }
+        				return "";
+        			}
+        		}).execute(thisActivity);
             }
 
             @Override

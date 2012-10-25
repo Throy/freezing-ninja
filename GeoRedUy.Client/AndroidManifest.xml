@@ -113,6 +113,14 @@
         </activity>
         
         <activity
+            android:name=".StoresListActivity"
+            android:label="@string/title_activity_stores_list" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
             android:name=".UsersListActivity"
             android:label="@string/title_activity_users_list" >
             <meta-data
@@ -141,6 +149,14 @@
         <activity
             android:name=".SiteDetailActivity"
             android:label="@string/title_activity_site_detail" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
+            android:name=".StoreDetailActivity"
+            android:label="@string/title_activity_store_detail" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

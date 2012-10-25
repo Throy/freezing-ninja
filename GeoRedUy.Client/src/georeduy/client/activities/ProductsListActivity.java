@@ -59,12 +59,22 @@ public class ProductsListActivity extends Activity {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.products_list_activity);
         
+        // obtener datos del local a partir del id.
+        Integer storeId = Integer.parseInt (getIntent().getStringExtra (StoresListActivity.EXTRA_STORE_ID));
+        
+        //Store store = ProductsController.getInstance ().getStore (id);
+        
+        setTitle (getTitle () + " del local " + storeId);
+        // setTitle (getTitle () + " del local " + store.getName());
+        
         // inicializar hashtags
         
         ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
         ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
         
         HashMap <Integer, Integer> productPrices = new HashMap <Integer, Integer> ();
+        
+        // ListArray <> listProducts = ProductsController.getInstance ().getProducts (storeId);
 
         for (int idx = 0; idx < 5; idx += 1) {
         	// inicializar datos
@@ -92,7 +102,7 @@ public class ProductsListActivity extends Activity {
         }
 
         // iniciar compra nueva
-        ProductsController.getInstance ().purchaseNew (productPrices);
+        ProductsController.getInstance ().purchaseNew (productPrices, storeId);
         
         // poblar lista de productos
         ProductsListAdapter adapter = new ProductsListAdapter (this, itemsStringList, itemsIntList);

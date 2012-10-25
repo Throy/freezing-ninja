@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 
 public class MainMenuActivity extends Activity {
 	
@@ -88,11 +89,24 @@ public class MainMenuActivity extends Activity {
     	startActivity (intent_sites_list);
     }
     
+    // cliquear Listar locales -> abrir lista
+    
+    public void button_stores_list_onClick (View view) {
+    	// crear intent de la actividad Listar.
+    	Intent intent_stores_list = new Intent (this, StoresListActivity.class);
+    	
+    	// ejecutar intent.
+    	startActivity (intent_stores_list);
+    }
+    
     // cliquear Listar productos -> abrir lista
     
     public void button_products_list_onClick (View view) {
     	// crear intent de la actividad Listar.
     	Intent intent_products_list = new Intent (this, ProductsListActivity.class);
+    	
+    	// agregar id del local al intent
+    	intent_products_list.putExtra (StoresListActivity.EXTRA_STORE_ID, 0);
     	
     	// ejecutar intent.
     	startActivity (intent_products_list);

@@ -38,6 +38,9 @@ public class ProductsController
 	// son parejas <productId, price>. 
 	private HashMap <Integer, Integer> _productPrices;
 	
+	// id del local donde se realiza la compra.
+	private int _storeId;
+	
 	// autoincrementador;
 	//private int autitoIncrement;
 	
@@ -76,9 +79,10 @@ public class ProductsController
 	}
 
 	// iniciar compra nueva.
-	public void purchaseNew (HashMap <Integer, Integer> productPrices) {
+	public void purchaseNew (HashMap <Integer, Integer> productPrices, int storeId) {
         _productUnits = new HashMap <Integer, Integer> ();
         _productPrices = productPrices;
+        _storeId = storeId;
 	}
 
 	// agregar producto a la compra.

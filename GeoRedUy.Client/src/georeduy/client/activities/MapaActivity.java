@@ -103,14 +103,16 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();				    		
 				    		List<Site> sites = gson.fromJson(response, listType);
 				    		int i = 500;
-				    		for(Site sitio:sites)
-				    		{
-				    			double lat =  sitio.getCoordinates() [0]*1e6 +i;
-				    			double longitud = sitio.getCoordinates() [1]*1e6 +i;
-				    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
-				    			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress());
-				    			siteMapOverlay.addOverlay (overlayitem);
-				    			i += 500;				    			
+				    		if (sites != null) {
+					    		for (Site sitio : sites)
+					    		{
+					    			double lat =  sitio.getCoordinates() [0]*1e6 +i;
+					    			double longitud = sitio.getCoordinates() [1]*1e6 +i;
+					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
+					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress());
+					    			siteMapOverlay.addOverlay (overlayitem);
+					    			i += 500;				    			
+					    		}
 				    		}
 				    		mapView.invalidate();
 				    		

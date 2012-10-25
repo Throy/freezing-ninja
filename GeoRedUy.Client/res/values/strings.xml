@@ -61,7 +61,7 @@
     
     <string name="button_session_login">Iniciar sesión</string>
     <string name="button_session_register">Registrarse</string>
-    <string name="button_session_register_fbk">Registrarse por Facebook</string>
+    <string name="button_session_register_fbk">Login con Facebook</string>
     
     <string name="button_map">Mapa</string>
     <string name="button_products_list">Productos</string>

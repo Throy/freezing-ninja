@@ -30,14 +30,14 @@ public class SitesListActivity extends Activity {
 	
 	// datos de los items
 	
-    public static final String SITE_ITEM_ID = "tsi2.GeoRedDemo.site_id";
-    public static final String SITE_ITEM_NAME = "tsi2.GeoRedDemo.site_name";
-    public static final String SITE_ITEM_DESCRIPTION = "tsi2.GeoRedDemo.site_description";
-    public static final String SITE_ITEM_ADDRESS = "tsi2.GeoRedDemo.site_address";
+    public static final String SITE_ITEM_ID = "georeduy.client.activities.site_id";
+    public static final String SITE_ITEM_NAME = "georeduy.client.activities.site_name";
+    public static final String SITE_ITEM_DESCRIPTION = "georeduy.client.activities.site_description";
+    public static final String SITE_ITEM_ADDRESS = "georeduy.client.activities.site_address";
     
     // extras de intents
 
-    public static final String EXTRA_SITE_ID = "tsi2.GeoRedDemo.site_id";
+    public static final String EXTRA_SITE_ID = "georeduy.client.activities.site_id";
     
     // constructor
 

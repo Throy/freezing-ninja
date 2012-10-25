@@ -53,15 +53,17 @@ public class SiteMapOverlay extends ItemizedOverlay <OverlayItem> {
 	protected boolean onTap (int index) {
 		// obtener item
 		MapOverlayItem item = (MapOverlayItem) mapItems.get(index);
-
+		
     	// crear intent de la actividad Ver datos de un sitio.
-    	Intent intent_site_detail = new Intent (context, SiteDetailActivity.class);
+    	Intent siteDetail = new Intent (context, SiteDetailActivity.class);
     	
     	// agregar id del sitio al intent
-    	intent_site_detail.putExtra (SitesListActivity.EXTRA_SITE_ID, "" + item.getId ());
+    	siteDetail.putExtra (SitesListActivity.EXTRA_SITE_ID, "" + item.getId ());
+    	siteDetail.putExtra (SitesListActivity.SITE_ITEM_NAME, "" + item.getTitle());
+    	siteDetail.putExtra (SitesListActivity.SITE_ITEM_ADDRESS, "" + item.getAddress());
     	
     	// ejecutar intent.
-    	context.startActivity (intent_site_detail);
+    	context.startActivity (siteDetail);
 		
 		/*
 		

@@ -52,6 +52,15 @@ public class UserDaoImpl extends BasicDAO<User, ObjectId> implements IUserDao {
     	else
     		return null;
     }
+    
+    @Override
+    public User findByExternalId(String id) {
+    	List<User> users = createQuery().field("externalId").equal(id).asList();
+    	if (users.size() == 1)
+    		return users.get(0);
+    	else
+    		return null;
+    }
 
     @Override
     public User findByUsernameAndPassword(String username, String password) {

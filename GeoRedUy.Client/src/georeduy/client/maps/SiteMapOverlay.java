@@ -101,5 +101,10 @@ public class SiteMapOverlay extends ItemizedOverlay <OverlayItem> {
 		mapItems.add (overlay);
 		this.populate();
 	}
+	
+	public void clear() {
+		mapItems.clear();
+        this.populate();
+    }
 
 }

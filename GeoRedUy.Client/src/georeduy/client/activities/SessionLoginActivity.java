@@ -6,25 +6,27 @@
 package georeduy.client.activities;
 
 // imports
-import org.apache.http.HttpResponse;
-
 import georeduy.client.controllers.SessionController;
 import georeduy.client.util.CommonUtilities;
-
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.android.DialogError;
+import com.facebook.android.Facebook;
+import com.facebook.android.Facebook.DialogListener;
+import com.facebook.android.FacebookError;
+
 public class SessionLoginActivity extends Activity {
-	
+    // facebook api.
+    Facebook facebook = new Facebook("341284062604349");
+    // permissions array
+    private static final String[] PERMS = new String[]{"user_events"};
+    
 	// inicializadores
 	
     @Override
@@ -73,8 +75,41 @@ public class SessionLoginActivity extends Activity {
     // cliquear Registrarse -> mostrar formulario de Registrarse por Facebook, paso 1
     
     public void button_session_register_fbk_onClick (View view) {
-    	Intent intent_session_register_fbk1 = new Intent (this, SessionRegisterFbk1Activity.class);
-    	startActivity (intent_session_register_fbk1);
+    	final Activity thisActivity = this;
+    	facebook.authorize(this, PERMS, new DialogListener() {
+            @Override
+            public void onComplete(Bundle values) {
+            	final String token = facebook.getAccessToken();
+            	
+            	(new AsyncTask<Activity, String, String>() {
+
+        			@Override
+        			protected String doInBackground(Activity... params) {
+        				try {
+        					// intentar iniciar sesión
+        					SessionController.getInstance().loginExternal("facebook", token);
+        			        
+        					// abrir menú de GCM
+        			        Intent intent = new Intent(params[0], GCMActivity.class);
+        					startActivity(intent);
+        		        }
+        				catch (Exception e) {
+        			        CommonUtilities.showAlertMessage (params[0], "Error SLA bloc", e.getMessage());
+        		        }
+        				return "";
+        			}
+        		}).execute(thisActivity);
+            }
+
+            @Override
+            public void onFacebookError(FacebookError error) {}
+
+            @Override
+            public void onError(DialogError e) {}
+
+            @Override
+            public void onCancel() {}
+        });
     }
     
     // cliquear Msin menu -> abrir menú principal 

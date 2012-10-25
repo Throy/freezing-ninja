@@ -40,6 +40,23 @@ public class SessionService {
 	}
 	
 	@GET()
+	@Path("LogInExternal")
+	@Produces("text/plain")
+	public Response LogInExternal(@QueryParam("tokenType") String tokenType, @QueryParam("accessToken") String accessToken) {
+		Response response;
+		try {
+			String token = SessionController.getInstance().LogInExternal(tokenType, accessToken);
+			response = Response.status(200).entity(token).build();
+	    }
+	    catch (Exception e)
+	    {
+	    	response = Response.status(500).entity(e.getMessage()).build();
+	    }
+		
+		return response;
+	}
+	
+	@GET()
 	@Path("LogOut")
 	public Response LogOut(@Context SecurityContext context) {
 		Response response = Response.status(200).build();

@@ -25,6 +25,8 @@ public class User {
     private List<String> roles;
     @Property
     private String retailId;
+    @Property
+    private String externalId;
     
     private static User s_currentUser;
 
@@ -78,6 +80,15 @@ public class User {
 
 	public void setRetailId(String retailId) {
 		this.retailId = retailId;
+	}
+	
+
+	public String getExternalId() {
+		return externalId;
+	}
+
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
 	}
 
 	@Override

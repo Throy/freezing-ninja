@@ -58,6 +58,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     OverlayItem itemRobotito;
 	//MagicPositionOverlay androidOverlay;	 
 	//private GPS gps;
+    private SiteMapOverlay siteMapOverlay;
 	
 
 
@@ -78,7 +79,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 		List <Overlay> mapOverlays = mapView.getOverlays();
 		
 		Drawable drawableCarrito = this.getResources().getDrawable (R.drawable.cart);
-		final SiteMapOverlay siteMapOverlay = new SiteMapOverlay(drawableCarrito, this);
+		siteMapOverlay = new SiteMapOverlay(drawableCarrito, this);
 		
 		Drawable drawableAndroid = this.getResources().getDrawable (R.drawable.android);
 		androidOverlay = new CustomItemizedOverlay(drawableAndroid, this);
@@ -104,6 +105,11 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 		mapController.animateTo(point);
 		mapController.setZoom (14);
 		
+		GeoPoint nuevaUbicacion = new GeoPoint(latitudeE5, longitudeE5);
+    	itemRobotito = new OverlayItem(nuevaUbicacion, "Me", "This is where you are :)");
+    	
+		androidOverlay.addOverlay(itemRobotito);
+		
 		
         SitesController.getInstance().getSitesByPosition(latitudeE5, longitudeE5, 
 		        new OnCompletedCallback() {
@@ -115,14 +121,16 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();				    		
 				    		List<Site> sites = gson.fromJson(response, listType);
 				    		int i = 500;
-				    		for(Site sitio:sites)
-				    		{
-				    			double lat =  sitio.getCoordinates() [0]*1e6 +i;
-				    			double longitud = sitio.getCoordinates() [1]*1e6 +i;
-				    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
-				    			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress());
-				    			siteMapOverlay.addOverlay (overlayitem);
-				    			i += 500;				    			
+				    		if (sites != null) {
+					    		for (Site sitio : sites)
+					    		{
+					    			double lat =  sitio.getCoordinates() [0]*1e6 +i;
+					    			double longitud = sitio.getCoordinates() [1]*1e6 +i;
+					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
+					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress());
+					    			siteMapOverlay.addOverlay (overlayitem);
+					    			i += 500;				    			
+					    		}
 				    		}
 				    		mapView.invalidate();
 				    		
@@ -143,14 +151,45 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
         @Override
         public void onLocationChanged(Location loc) {
         	androidOverlay.removeOverlay(itemRobotito);
-        	
-        	GeoPoint nuevaUbicacion = new GeoPoint((int)loc.getLatitude(),(int)loc.getLongitude());
+        	int latitude = (int)(loc.getLatitude()*1E6);
+        	int longitude = (int)(loc.getLongitude()*1E6);
+        	GeoPoint nuevaUbicacion = new GeoPoint(latitude, longitude);
         	itemRobotito = new OverlayItem(nuevaUbicacion, "Me", "This is where you are :)");
         	
 			androidOverlay.addOverlay(itemRobotito);
-            mapView.getController().animateTo(new GeoPoint((int)loc.getLatitude(),(int)loc.getLongitude()));
+            mapView.getController().animateTo(new GeoPoint(latitude, longitude));
             
             mapView.invalidate();
+            
+            SitesController.getInstance().getSitesByPosition(latitude, longitude, 
+    		        new OnCompletedCallback() {
+
+    			        @Override
+    			        public void onCompleted(String response, String error) {
+    			        	if (error == null)  {
+    				        	Gson gson = new Gson();
+    				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();				    		
+    				    		List<Site> sites = gson.fromJson(response, listType);
+    				    		
+    				    		siteMapOverlay.clear();
+    				    		
+    				    		int i = 500;
+    				    		if (sites != null) {
+    					    		for (Site sitio : sites)
+    					    		{
+    					    			double lat =  sitio.getCoordinates() [0]*1e6 +i;
+    					    			double longitud = sitio.getCoordinates() [1]*1e6 +i;
+    					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
+    					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress());
+    					    			siteMapOverlay.addOverlay (overlayitem);
+    					    			i += 500;				    			
+    					    		}
+    				    		}
+    				    		mapView.invalidate();
+    				    		
+    			    		}
+    			        }
+    		        });
         }
 
         @Override

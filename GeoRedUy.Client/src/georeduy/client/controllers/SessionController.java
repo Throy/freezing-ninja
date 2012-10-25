@@ -54,6 +54,14 @@ public class SessionController
 		TokenRepository.getInstance().setToken (GeoRedClient.Get ("/Session", params));
 	}
 	
+	public void loginExternal (String tokenType, String accessToken) throws Exception {
+		Map <String, String> params = new HashMap<String, String>();
+		params.put ("tokenType", tokenType);
+		params.put ("accessToken", accessToken);
+
+		TokenRepository.getInstance().setToken (GeoRedClient.Get ("/Session/LogInExternal", params));
+	}
+	
 	// registrarse en el sistema, paso 1
 	
 	public void register_step1 (User user) throws Exception {

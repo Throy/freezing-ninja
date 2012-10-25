@@ -1,12 +1,13 @@
 // ProductsListActivity
 
-// actividad para el caso de uso Listar oroductos.
+// actividad para el caso de uso Listar productos.
 // utiliza el layout products_list_activity.
 
 package georeduy.client.activities;
 
 // imports
 
+import georeduy.client.controllers.ProductsController;
 import georeduy.client.lists.ProductsListAdapter;
 
 import java.util.ArrayList;
@@ -40,10 +41,16 @@ public class ProductsListActivity extends Activity {
     public static final String PRODUCT_ITEM_DESCRIPTION = "tsi2.GeoRedDemo.product_description";
     public static final String PRODUCT_ITEM_PRICE = "tsi2.GeoRedDemo.product_price";
     public static final String PRODUCT_ITEM_DATE = "tsi2.GeoRedDemo.product_date";
+    public static final String PRODUCT_ITEM_UNITS = "tsi2.GeoRedDemo.product_units";
     
     // extras de intents
 
     public static final String EXTRA_PRODUCT_ID = "tsi2.GeoRedDemo.product_id";
+    
+    // resultado de actividad
+    
+    public static final int ACTIVITY_RESULT_NORMAL = 1;
+    public static final int ACTIVITY_RESULT_FINISH = 9;
     
     // constructor
 
@@ -52,27 +59,22 @@ public class ProductsListActivity extends Activity {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.products_list_activity);
         
-        /*
-        ListItem[] itemsList = {item};
-        
-        // poblar lista
-        ArrayAdapter adapter = new ArrayAdapter<ListItem>(this, 
-                android.R.layout.simple_expandable_list_item_1, itemsList); 		// toma los myStringArray [idx].toString()
-        ListView listView = (ListView) findViewById (R.id.listView_list);
-        listView.setAdapter(adapter);
-        */
-        
-        // poblar lista 2
+        // inicializar hashtags
         
         ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
         ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
+        
+        HashMap <Integer, Integer> productPrices = new HashMap <Integer, Integer> ();
 
         for (int idx = 0; idx < 5; idx += 1) {
+        	// inicializar datos
+        	int price = idx * 10;
+        	
             // crear item
             HashMap <String, String> itemStringMap = new HashMap <String, String> ();
             itemStringMap.put (PRODUCT_ITEM_NAME, "Producto " + idx);
-            itemStringMap.put (PRODUCT_ITEM_DESCRIPTION, "Es un producto " + idx + " y " + (((idx + 5) % 8) + 5));
-            itemStringMap.put (PRODUCT_ITEM_PRICE, "$ " + (idx * 10));
+            itemStringMap.put (PRODUCT_ITEM_DESCRIPTION, "Es un producto " + idx);
+            itemStringMap.put (PRODUCT_ITEM_PRICE, "$ " + price);
             itemStringMap.put (PRODUCT_ITEM_DATE, "2012 / 10 / " + idx);
  
             // adding HashList to ArrayList
@@ -84,9 +86,15 @@ public class ProductsListActivity extends Activity {
  
             // adding HashList to ArrayList
             itemsIntList.add (itemIntMap);
+            
+            // agregar precio
+            productPrices.put (idx, price);
         }
- 
-        // poblar lista de items
+
+        // iniciar compra nueva
+        ProductsController.getInstance ().purchaseNew (productPrices);
+        
+        // poblar lista de productos
         ProductsListAdapter adapter = new ProductsListAdapter (this, itemsStringList, itemsIntList);
         ListView listView = (ListView) findViewById (R.id.listView_list);
         listView.setAdapter (adapter);
@@ -106,6 +114,13 @@ public class ProductsListActivity extends Activity {
             	startActivity (intent_product_detail);
         	}
         });
+    }
+    
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        if (resultCode == ProductsListActivity.ACTIVITY_RESULT_FINISH) {
+            finish();
+        }
     }
     
     // cliquear Agregar -> iniciar actividad de Agregar item a la compra. 
@@ -175,23 +190,14 @@ public class ProductsListActivity extends Activity {
     	intent_product_buy_add_item.putExtra (EXTRA_PRODUCT_ID, productId);
     	
     	// ejecutar intent.
-    	startActivity (intent_product_buy_add_item);
+        startActivity (intent_product_buy_add_item);
     }
     
     // cliquear Comprar -> iniciar actividad de Comprar productos. 
     
     public void button_product_buy_onClick (View view) {
-    	/*
-    	// crear intent de la actividad Agregar item a la compra.
-    	Intent intent_product_buy_add_item = new Intent (this, ProductBuyAddItemActivity.class);
-    	
-    	// agregar id de la visita al intent
-    	String productId = ((TextView) ((View) view.getParent ()).findViewById (R.id.product_id)).getText().toString();
-    	intent_product_buy_add_item.putExtra (EXTRA_PRODUCT_ID, productId);
-    	
-    	// ejecutar intent.
-    	startActivity (intent_product_buy_add_item);
-    	*/
+    	Intent intent_product_buy_list = new Intent (this, ProductsBuyListActivity.class);
+        startActivityForResult (intent_product_buy_list, ProductsListActivity.ACTIVITY_RESULT_NORMAL);
     }
     
     // cliquear Cancelar -> salir del menú.
@@ -201,7 +207,7 @@ public class ProductsListActivity extends Activity {
     	final AlertDialog alertDialog = new AlertDialog.Builder (this).create ();
 
 		alertDialog.setTitle ("Cancelar compra");
-		alertDialog.setMessage ("¿Seguro que serés cancelar la compra?");
+		alertDialog.setMessage ("¿Seguro que querés cancelar la compra?");
 		
 		// cancelar la compra
 		alertDialog.setButton (DialogInterface.BUTTON_POSITIVE, "Sí", new DialogInterface.OnClickListener() {
@@ -229,5 +235,4 @@ public class ProductsListActivity extends Activity {
         }
         return super.onOptionsItemSelected (item);
     }
-
 }

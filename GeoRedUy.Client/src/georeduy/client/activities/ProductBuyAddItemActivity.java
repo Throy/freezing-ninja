@@ -85,7 +85,7 @@ public class ProductBuyAddItemActivity extends Activity {
 			
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 			}
-		}); 
+		});
 	}
     
     // funciones del programador

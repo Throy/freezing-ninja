@@ -19,6 +19,7 @@ import georeduy.client.util.GPS.MyLocationListener;
 import georeduy.client.maps.CustomItemizedOverlay;
 import georeduy.client.maps.SiteMapOverlay;
 import georeduy.client.maps.MapOverlayItem;
+import georeduy.client.maps.StoreMapOverlay;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -58,7 +59,12 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     OverlayItem itemRobotito;
 	//MagicPositionOverlay androidOverlay;	 
 	//private GPS gps;
+    
+    // overlay de sitios
     private SiteMapOverlay siteMapOverlay;
+    
+    // overlay de locales
+    private StoreMapOverlay storeMapOverlay;
 	
 
 
@@ -79,7 +85,8 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 		List <Overlay> mapOverlays = mapView.getOverlays();
 		
 		Drawable drawableCarrito = this.getResources().getDrawable (R.drawable.cart);
-		siteMapOverlay = new SiteMapOverlay(drawableCarrito, this);
+		siteMapOverlay = new SiteMapOverlay (drawableCarrito, this);
+		storeMapOverlay = new StoreMapOverlay (drawableCarrito, this);
 		
 		Drawable drawableAndroid = this.getResources().getDrawable (R.drawable.android);
 		androidOverlay = new CustomItemizedOverlay(drawableAndroid, this);
@@ -97,6 +104,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 		*/
 		mapOverlays.add(androidOverlay);
 		mapOverlays.add (siteMapOverlay);
+		mapOverlays.add (storeMapOverlay);
 
 		// encuadrar mapa en Atenas
 		MapController mapController = mapView.getController();

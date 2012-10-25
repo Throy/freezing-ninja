@@ -4,10 +4,8 @@
 
 package georeduy.client.maps;
 
-import georeduy.client.activities.R;
 import georeduy.client.activities.SiteDetailActivity;
 import georeduy.client.activities.SitesListActivity;
-import georeduy.client.util.CommonUtilities;
 
 import java.util.ArrayList;
 
@@ -59,6 +57,8 @@ public class SiteMapOverlay extends ItemizedOverlay <OverlayItem> {
     	
     	// agregar id del sitio al intent
     	siteDetail.putExtra (SitesListActivity.EXTRA_SITE_ID, "" + item.getId ());
+
+    	// *** este párrafo en realidad no va ***
     	siteDetail.putExtra (SitesListActivity.SITE_ITEM_NAME, "" + item.getTitle());
     	siteDetail.putExtra (SitesListActivity.SITE_ITEM_ADDRESS, "" + item.getAddress());
     	

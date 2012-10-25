@@ -9,6 +9,7 @@ package georeduy.client.activities;
 
 import georeduy.client.controllers.SessionController;
 import georeduy.client.controllers.SitesController;
+import georeduy.client.model.Site;
 import georeduy.client.util.CommonUtilities;
 import android.app.Activity;
 import android.content.Intent;
@@ -26,18 +27,23 @@ public class SiteDetailActivity extends Activity {
         setContentView (R.layout.site_detail_activity);
         
         // obtener datos del sitio a partir del id.
-        String id = getIntent().getStringExtra (SitesListActivity.EXTRA_SITE_ID);
-        String address = getIntent().getStringExtra (SitesListActivity.SITE_ITEM_ADDRESS);
-        String name = getIntent().getStringExtra (SitesListActivity.SITE_ITEM_NAME);
+        Integer id = Integer.parseInt (getIntent().getStringExtra (SitesListActivity.EXTRA_SITE_ID));
         
-        //int idx = Integer.parseInt (siteId);
-        // DTVisit visit = getSite (idx);
+        Site site = SitesController.getInstance ().getSite (id);
+        
+        // *** en realidad este párrafo no va ***
+        String name = getIntent().getStringExtra (SitesListActivity.SITE_ITEM_NAME);
+        String address = getIntent().getStringExtra (SitesListActivity.SITE_ITEM_ADDRESS);
 
+        // msotrar datos en el menú
         TextView viewVisitId = (TextView) findViewById (R.id.textview_site_id);
         TextView viewName = (TextView) findViewById (R.id.textview_name);
+        TextView viewDescription = (TextView) findViewById (R.id.textview_description);
         TextView viewAddress = (TextView) findViewById (R.id.textview_address);
         
-        viewVisitId.setText (id);
+        /// *** en realidad debería tomar los datos del objeto site. ***
+        viewVisitId.setText ("" + id);
+        viewDescription.setText ("Es un lugar " + id);
         viewName.setText (name);
         viewAddress.setText (address);
     }

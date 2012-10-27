@@ -114,7 +114,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 
 		GeoPoint point = new GeoPoint(latitudeE5, longitudeE5);
 		mapController.animateTo(point);
-		mapController.setZoom (14);
+		mapController.setZoom (18);
 		
 		GeoPoint nuevaUbicacion = new GeoPoint(latitudeE5, longitudeE5);
     	itemRobotito = new OverlayItem(nuevaUbicacion, "Me", "This is where you are :)");

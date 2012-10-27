@@ -105,6 +105,14 @@
         </activity>
         
         <activity
+            android:name=".PurchasesListActivity"
+            android:label="@string/title_activity_purchases_list" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
             android:name=".SitesListActivity"
             android:label="@string/title_activity_sites_list" >
             <meta-data
@@ -147,6 +155,14 @@
         </activity>
         
         <activity
+            android:name=".PurchaseDetailActivity"
+            android:label="@string/title_activity_purchase_detail" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
             android:name=".SiteDetailActivity"
             android:label="@string/title_activity_site_detail" >
             <meta-data
@@ -181,8 +197,16 @@
         <!-- use case activities -->
         
         <activity
+            android:name=".PurchasePublishReviewActivity"
+            android:label="@string/title_activity_purchase_publish_review" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
             android:name=".VisitCommentActivity"
-            android:label="@string/title_activity_visit_comment" >
+            android:label="@string/title_activity_visit_publish_comment" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

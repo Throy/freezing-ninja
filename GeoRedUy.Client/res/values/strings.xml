@@ -34,18 +34,21 @@
     
     <string name="title_activity_list">Teh List</string>
     <string name="title_activity_products_list">Productos</string>
+    <string name="title_activity_purchases_list">Compras</string>
     <string name="title_activity_sites_list">Sitios</string>
     <string name="title_activity_stores_list">Locales</string>
     <string name="title_activity_users_list">Usuarios</string>
     <string name="title_activity_visits_list">Visitas</string>
     
     <string name="title_activity_product_detail">Datos de producto</string>
+    <string name="title_activity_purchase_detail">Datos de compra</string>
     <string name="title_activity_site_detail">Datos de sitio</string>
     <string name="title_activity_store_detail">Datos de local</string>
     <string name="title_activity_user_detail">Datos de usuario</string>
     <string name="title_activity_visit_detail">Datos de visita</string>
     
-    <string name="title_activity_visit_comment">Publicar comentario de visita</string>
+    <string name="title_activity_visit_publish_comment">Publicar comentario de visita</string>
+    <string name="title_activity_purchase_publish_review">Publicar evaluación de compra</string>
     <string name="title_activity_product_buy_add_item">Agregar producto a compra</string>
     <string name="title_activity_product_buy_list">Comprar productos</string>
     
@@ -58,6 +61,7 @@
     <string name="button_buy">Comprar</string>
     <string name="button_send">Enviar</string>
     <string name="button_comment">Comentar</string>
+    <string name="button_review">Evaluar</string>
     <string name="button_visit">Visitar</string>
     <string name="button_main_menu">Menú principal</string>
     
@@ -67,6 +71,7 @@
     
     <string name="button_map">Mapa</string>
     <string name="button_products_list">Productos</string>
+    <string name="button_purchases_list">Compras</string>
     <string name="button_sites_list">Sitios</string>
     <string name="button_stores_list">Locales</string>
     <string name="button_users_list">Usuarios</string>
@@ -76,6 +81,7 @@
     <string name="button_user_item_rem">Quitar</string>
     
     <string name="button_map_hint">Mapa de la ciudad.</string>
+    <string name="button_purchases_list_hint">Lista de todas las compras.</string>
     <string name="button_products_list_hint">Lista de todos los productos.</string>
     <string name="button_sites_list_hint">Lista de todos los sitios.</string>
     <string name="button_stores_list_hint">Lista de todos los locales.</string>
@@ -96,6 +102,7 @@
     <string name="edittext_session_register_password2_hint">Ingresá de nuevo la contraseña</string>
     <string name="edittext_session_register_email_hint">Ingresá tu casilla de correo</string>
     <string name="edittext_visit_comment_hint">Escribí tu comentario sobre la visita</string>
+    <string name="edittext_purchase_review_hint">Escribí tu evaluación de la compra</string>
     
     <!-- textviews -->
     
@@ -116,6 +123,7 @@
     <string name="textview_price">Precio</string>
     <string name="textview_priceunit">Precio unitario</string>
     <string name="textview_pricetotal">Precio total</string>
+    <string name="textview_review">Evaluación</string>
     <string name="textview_units">Unidades</string>
     
     <string name="textview_filler">abc</string>

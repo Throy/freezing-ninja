@@ -206,24 +206,20 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     			        	if (error == null)  {
     				        	Gson gson = new Gson();
     				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();				    		
-    				    		List<Site> sites = gson.fromJson(response, listType);
+    				    		List<Site> sites = gson.fromJson(response, listType);    				    		
+    				    		siteMapOverlay.clear();   				    		
     				    		
-    				    		siteMapOverlay.clear();
-    				    		
-    				    		int i = 500;
     				    		if (sites != null) {
     					    		for (Site sitio : sites)
     					    		{
-    					    			double lat =  sitio.getCoordinates() [0]*1e6 +i;
-    					    			double longitud = sitio.getCoordinates() [1]*1e6 +i;
+    					    			double lat =  sitio.getCoordinates() [0]*1e6;
+    					    			double longitud = sitio.getCoordinates() [1]*1e6;
     					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
     					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress());
-    					    			siteMapOverlay.addOverlay (overlayitem);
-    					    			i += 500;				    			
+    					    			siteMapOverlay.addOverlay (overlayitem);    					    					    			
     					    		}
     				    		}
-    				    		mapView.invalidate();
-    				    		
+    				    		mapView.invalidate();    				    		
     			    		}
     			        }
     		        });
@@ -237,20 +233,17 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     				        	Gson gson = new Gson();
     				        	Type listType = new TypeToken<ArrayList<RetailStore>>() {}.getType();				    		
     				    		List<RetailStore> stores = gson.fromJson(response, listType);
-    				    		int i = 500;
     				    		if (stores != null) {
     					    		for (RetailStore store : stores)
     					    		{
-    					    			double lat =  store.getCoordinates() [0]*1e6 +i;
-    					    			double longitud = store.getCoordinates() [1]*1e6 +i;
+    					    			double lat =  store.getCoordinates() [0]*1e6;
+    					    			double longitud = store.getCoordinates() [1]*1e6;
     					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
     					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, store.getName(), store.getName(), store.getAddress());
-    					    			siteMapOverlay.addOverlay (overlayitem);
-    					    			i += 500;				    			
+    					    			siteMapOverlay.addOverlay (overlayitem);    					    						
     					    		}
     				    		}
-    				    		mapView.invalidate();
-    				    		
+    				    		mapView.invalidate();    				    		
     			    		}
     			        }
     		        });

@@ -53,15 +53,7 @@ public class CustomItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 		
 		// mostrar botones
 		dialog.setButton (DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
-			public void onClick (DialogInterface dialog, int which) {
-				CommonUtilities.showAlertMessage (context, "Confirmación", "Agregaste la visita.");
-				dialog.cancel();
-			}
-		});
-		
-		dialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
-			public void onClick (DialogInterface dialog, int which) {
-				CommonUtilities.showAlertMessage (context, "Cancelación", "Descartaste la visita.");
+			public void onClick (DialogInterface dialog, int which) {				
 				dialog.cancel();
 			}
 		});

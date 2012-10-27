@@ -37,12 +37,12 @@
 	 	<!-- lists -->
 	 	
 	 	<Button
-	 	    android:id="@+id/button_products_list"
-	        android:text="@string/button_products_list" 
-	        android:hint="@string/button_products_list_hint"
+	 	    android:id="@+id/button_users_list"
+	        android:text="@string/button_users_list"
+	        android:hint="@string/button_users_list_hint"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	    	android:onClick="button_products_list_onClick"/>
+	    	android:onClick="button_users_list_onClick"/>
 	 	
 	 	<Button
 	 	    android:id="@+id/button_sites_list"
@@ -53,6 +53,14 @@
 	    	android:onClick="button_sites_list_onClick"/>
 	 	
 	 	<Button
+	 	    android:id="@+id/button_visits_list"
+	        android:text="@string/button_visits_list"
+	        android:hint="@string/button_visits_list_hint"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	    	android:onClick="button_visits_list_onClick"/>
+	 	
+	 	<Button
 	 	    android:id="@+id/button_stores_list"
 	        android:text="@string/button_stores_list" 
 	        android:hint="@string/button_stores_list_hint"
@@ -60,21 +68,23 @@
 	        android:layout_height="wrap_content"
 	    	android:onClick="button_stores_list_onClick"/>
 	 	
+	 	<!--  
 	 	<Button
-	 	    android:id="@+id/button_users_list"
-	        android:text="@string/button_users_list"
-	        android:hint="@string/button_users_list_hint"
+	 	    android:id="@+id/button_products_list"
+	        android:text="@string/button_products_list" 
+	        android:hint="@string/button_products_list_hint"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	    	android:onClick="button_users_list_onClick"/>
+	    	android:onClick="button_products_list_onClick"/>
+	    	-->
 	 	
 	 	<Button
-	 	    android:id="@+id/button_visits_list"
-	        android:text="@string/button_visits_list"
-	        android:hint="@string/button_visits_list_hint"
+	 	    android:id="@+id/button_purchases_list"
+	        android:text="@string/button_purchases_list" 
+	        android:hint="@string/button_purchases_list_hint"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	    	android:onClick="button_visits_list_onClick"/>
+	    	android:onClick="button_purchases_list_onClick"/>
 	 	
 	 	<Button
 	 	    android:id="@+id/button_map"

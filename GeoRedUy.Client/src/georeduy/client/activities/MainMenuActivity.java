@@ -30,24 +30,9 @@ public class MainMenuActivity extends Activity {
         return true;
     }
     
-    // funciones del programador
+    // *** funciones del programador ***
     
-    // cliquear Listar -> abrir lista
-    
-    public void button_teh_list_onClick (View view) {
-    	// crear intent de la actividad Listar.
-    	Intent intent_list = new Intent (this, ListActivity.class);
-    	
-    	/*
-    	// agregar dato al intent
-    	EditText editText = (EditText) findViewById (R.id.editText_message);
-    	String message = editText.getText().toString();
-    	intent_displayMessage.putExtra (EXTRA_MESSAGE, message);
-    	*/
-    	
-    	// ejecutar intent.
-    	startActivity (intent_list);
-    }
+    // *** sesión ***
     
     // cliquear Registrarse -> mostrar formulario para registrarse
     
@@ -78,6 +63,8 @@ public class MainMenuActivity extends Activity {
     	// ejecutar intent.
     	startActivity (intent_session_login);
     }
+    
+    // *** listas ***
     
     // cliquear Listar sitios -> abrir lista
     
@@ -110,6 +97,16 @@ public class MainMenuActivity extends Activity {
     	
     	// ejecutar intent.
     	startActivity (intent_products_list);
+    }
+    
+    // cliquear Listar compras -> abrir lista
+    
+    public void button_purchases_list_onClick (View view) {
+    	// crear intent de la actividad Listar.
+    	Intent intent_purchases_list = new Intent (this, PurchasesListActivity.class);
+    	
+    	// ejecutar intent.
+    	startActivity (intent_purchases_list);
     }
     
     // cliquear Listar usuarios -> abrir lista

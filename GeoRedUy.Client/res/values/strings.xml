@@ -49,6 +49,8 @@
     
     <string name="title_activity_visit_publish_comment">Publicar comentario de visita</string>
     <string name="title_activity_purchase_publish_review">Publicar evaluación de compra</string>
+    <string name="title_activity_configure_notitags">Configurar etiquetas de notif.</string>
+    <string name="title_activity_configure_notitypes">Configurar tipos de notif.</string>
     <string name="title_activity_product_buy_add_item">Agregar producto a compra</string>
     <string name="title_activity_product_buy_list">Comprar productos</string>
     
@@ -59,6 +61,7 @@
     <string name="button_cancel">Cancelar</string>
     <string name="button_add">Agregar</string>
     <string name="button_buy">Comprar</string>
+    <string name="button_save">Guardar</string>
     <string name="button_send">Enviar</string>
     <string name="button_comment">Comentar</string>
     <string name="button_review">Evaluar</string>
@@ -80,6 +83,9 @@
     <string name="button_user_item_add">Agregar</string>
     <string name="button_user_item_rem">Quitar</string>
     
+    <string name="button_configure_notitags">Notiquetas</string>
+    <string name="button_configure_notitypes">Notitipos</string>
+    
     <string name="button_map_hint">Mapa de la ciudad.</string>
     <string name="button_purchases_list_hint">Lista de todas las compras.</string>
     <string name="button_products_list_hint">Lista de todos los productos.</string>
@@ -87,6 +93,8 @@
     <string name="button_stores_list_hint">Lista de todos los locales.</string>
     <string name="button_users_list_hint">Lista de todos los usuarios.</string>
     <string name="button_visits_list_hint">Lista de todas las visitas.</string>
+    <string name="button_configure_notitags_hint">Cambia la configuración de las notificaciones por etiquetas</string>
+    <string name="button_configure_notitypes_hint">Cambia la configuración de las notificaciones por tipos</string>
     
     <!-- edittexts -->
     

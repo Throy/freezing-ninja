@@ -45,7 +45,7 @@ public class VisitDetailActivity extends Activity {
     
     public void button_visit_item_onClick (View view) {
     	// crear intent de la actividad Publicar comentario de una visita.
-    	Intent intent_visit_comment = new Intent (this, VisitCommentActivity.class);
+    	Intent intent_visit_comment = new Intent (this, VisitPublishCommentActivity.class);
     	
     	// agregar id de la visita al intent
     	String visitId = ((TextView) findViewById (R.id.textview_visit_id)).getText().toString();

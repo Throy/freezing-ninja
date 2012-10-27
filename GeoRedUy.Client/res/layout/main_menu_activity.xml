@@ -37,6 +37,14 @@
 	 	<!-- lists -->
 	 	
 	 	<Button
+	 	    android:id="@+id/button_map"
+	        android:text="@string/button_map"
+	        android:hint="@string/button_map_hint"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	    	android:onClick="button_map_onClick"/>
+	 	
+	 	<Button
 	 	    android:id="@+id/button_users_list"
 	        android:text="@string/button_users_list"
 	        android:hint="@string/button_users_list_hint"
@@ -85,13 +93,23 @@
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	    	android:onClick="button_purchases_list_onClick"/>
+		
+	 	<!-- configure -->
 	 	
 	 	<Button
-	 	    android:id="@+id/button_map"
-	        android:text="@string/button_map"
-	        android:hint="@string/button_map_hint"
+	 	    android:id="@+id/button_configure_notitags"
+	        android:text="@string/button_configure_notitags" 
+	        android:hint="@string/button_configure_notitags_hint"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	    	android:onClick="button_map_onClick"/>
+	    	android:onClick="button_configure_notitags_onClick"/>
+	 	
+	 	<Button
+	 	    android:id="@+id/button_configure_notitypes"
+	        android:text="@string/button_configure_notitypes" 
+	        android:hint="@string/button_configure_notitypes_hint"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	    	android:onClick="button_configure_notitypes_onClick"/>
 	
 </LinearLayout>

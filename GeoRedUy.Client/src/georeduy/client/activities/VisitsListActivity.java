@@ -159,7 +159,7 @@ public class VisitsListActivity extends Activity {
 		*/
 
     	// crear intent de la actividad Publicar comentario de una visita.
-    	Intent intent_visit_comment = new Intent (this, VisitCommentActivity.class);
+    	Intent intent_visit_comment = new Intent (this, VisitPublishCommentActivity.class);
     	
     	// agregar id de la visita al intent
     	String visitId = ((TextView) ((View) view.getParent ()).findViewById (R.id.visit_id)).getText().toString();

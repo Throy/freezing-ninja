@@ -1,6 +1,6 @@
-// ConfigureNotificationsTypesActivity
+// ConfigureNotificationsTagsActivity
 
-// actividad para el caso de uso Configurar tipos de notificaiones.
+// actividad para el caso de uso Configurar etiquetas de notificaiones.
 // utiliza el layout configure_notifications_activity.
 
 package georeduy.client.activities;
@@ -8,7 +8,7 @@ package georeduy.client.activities;
 // imports
 
 import georeduy.client.controllers.NotificationsController;
-import georeduy.client.lists.NotificationsTypesListAdapter;
+import georeduy.client.lists.NotificationsTagsListAdapter;
 import georeduy.client.util.CommonUtilities;
 
 import java.util.ArrayList;
@@ -34,17 +34,17 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ConfigureNotificationsTypesActivity extends Activity {
+public class ConfigureNotificationsTagsActivity extends Activity {
 	
 	// datos de los items
 	
-    public static final String NOTITYPE_ITEM_ID = "tsi2.GeoRedDemo.notitype_id";
-    public static final String NOTITYPE_ITEM_NAME = "tsi2.GeoRedDemo.notitype_name";
-    public static final String NOTITYPE_ITEM_DESCRIPTION = "tsi2.GeoRedDemo.notitype_description";
+    public static final String NOTITAG_ITEM_ID = "tsi2.GeoRedDemo.notitag_id";
+    public static final String NOTITAG_ITEM_NAME = "tsi2.GeoRedDemo.notitag_name";
+    public static final String NOTITAG_ITEM_DESCRIPTION = "tsi2.GeoRedDemo.notitag_description";
     
-    // adaptador de lista de notitipos
+    // adaptador de lista de notiquetas
     
-    private static NotificationsTypesListAdapter adapter;
+    private static NotificationsTagsListAdapter adapter;
     
     // constructor
 
@@ -59,20 +59,20 @@ public class ConfigureNotificationsTypesActivity extends Activity {
         ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
         ArrayList <Boolean> itemsIsCheckedList = new ArrayList <Boolean> ();
         
-        // ListArray <NotificationType> listNotitypes = NotificationsController.getInstance ().getNotificationTypes ();
+        // ListArray <NotificationType> listNotitypes = NotificationsController.getInstance ().getNotificationTags ();
 
         for (int idx = 0; idx < 6; idx += 1) {
             // crear item
             HashMap <String, String> itemStringMap = new HashMap <String, String> ();
-            itemStringMap.put (NOTITYPE_ITEM_NAME, "Notitipo " + idx);
-            itemStringMap.put (NOTITYPE_ITEM_DESCRIPTION, "Es un notitipo " + idx);
+            itemStringMap.put (NOTITAG_ITEM_NAME, "Notiqueta " + idx);
+            itemStringMap.put (NOTITAG_ITEM_DESCRIPTION, "Es una notiqueta " + idx);
  
             // adding HashList to ArrayList
             itemsStringList.add (itemStringMap);
 
             // crear item
             HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
-            itemIntMap.put (NOTITYPE_ITEM_ID, idx);
+            itemIntMap.put (NOTITAG_ITEM_ID, idx);
  
             // adding HashList to ArrayList
             itemsIntList.add (itemIntMap);
@@ -81,8 +81,8 @@ public class ConfigureNotificationsTypesActivity extends Activity {
             itemsIsCheckedList.add (idx, false);
         }
         
-        // poblar lista de notitipos
-        adapter = new NotificationsTypesListAdapter (this, itemsStringList, itemsIntList, itemsIsCheckedList);
+        // poblar lista de notiquetas
+        adapter = new NotificationsTagsListAdapter (this, itemsStringList, itemsIntList, itemsIsCheckedList);
         ListView listView = (ListView) findViewById (R.id.listView_list);
         listView.setAdapter (adapter);
         
@@ -90,7 +90,7 @@ public class ConfigureNotificationsTypesActivity extends Activity {
         listView.setOnItemClickListener (new OnItemClickListener() {
 
         	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
-        		// cambiar configuración del tipo de notificación
+        		// cambiar configuración de la etiqueta de notificación
 
 		        ListView listView = (ListView) findViewById (R.id.listView_list);
             	boolean newIsChecked = ! adapter.isChecked (position);
@@ -99,7 +99,7 @@ public class ConfigureNotificationsTypesActivity extends Activity {
         	}
         });
     }
-    
+
     // cliquear Guardar -> confirmar cambios. 
     
     public void button_save_onClick (View view) {
@@ -114,29 +114,29 @@ public class ConfigureNotificationsTypesActivity extends Activity {
 			public void onClick (DialogInterface dialog, int which) {
 				// *** LLAMAR AL CONTROLADOR ***
 		        
-		        String isChecked0 = "Notitipo 0 está DES\n";
-		        String isChecked1 = "Notitipo 1 está DES\n";
-		        String isChecked2 = "Notitipo 2 está DES\n";
-		        String isChecked3 = "Notitipo 3 está DES\n";
-		        String isChecked4 = "Notitipo 4 está DES\n";
+		        String isChecked0 = "Notiqueta 0 está DES\n";
+		        String isChecked1 = "Notiqueta 1 está DES\n";
+		        String isChecked2 = "Notiqueta 2 está DES\n";
+		        String isChecked3 = "Notiqueta 3 está DES\n";
+		        String isChecked4 = "Notiqueta 4 está DES\n";
 		        
 		        if (adapter.isChecked (0)) {
-		        	isChecked0 = "Notitipo 0 está Activado\n";
+		        	isChecked0 = "Notiqueta 0 está Activado\n";
 		        }
 		        if (adapter.isChecked (1)) {
-		        	isChecked1 = "Notitipo 1 está Activado\n";
+		        	isChecked1 = "Notiqueta 1 está Activado\n";
 		        }
 		        if (adapter.isChecked (2)) {
-		        	isChecked2 = "Notitipo 2 está Activado\n";
+		        	isChecked2 = "Notiqueta 2 está Activado\n";
 		        }
 		        if (adapter.isChecked (3)) {
-		        	isChecked3 = "Notitipo 3 está Activado\n";
+		        	isChecked3 = "Notiqueta 3 está Activado\n";
 		        }
 		        if (adapter.isChecked (4)) {
-		        	isChecked4 = "Notitipo 4 está Activado\n";
+		        	isChecked4 = "Notiqueta 4 está Activado\n";
 		        }
 		        
-		    	final AlertDialog alertDialog = new AlertDialog.Builder (ConfigureNotificationsTypesActivity.this).create ();
+		    	final AlertDialog alertDialog = new AlertDialog.Builder (ConfigureNotificationsTagsActivity.this).create ();
 
 				alertDialog.setTitle ("Mensaje");
 				alertDialog.setMessage (isChecked0 + isChecked1 + isChecked2 + isChecked3 + isChecked4);

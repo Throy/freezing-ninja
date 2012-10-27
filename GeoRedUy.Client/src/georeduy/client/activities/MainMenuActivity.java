@@ -139,8 +139,8 @@ public class MainMenuActivity extends Activity {
     // cliquear Configurar notiquetas -> abrir menú
     
     public void button_configure_notitags_onClick (View view) {
-    	//Intent intent_map = new Intent (this, ConfigureNotificationsTagsActivity.class);
-    	//startActivity (intent_map);
+    	Intent intent_map = new Intent (this, ConfigureNotificationsTagsActivity.class);
+    	startActivity (intent_map);
     }
     
     // cliquear Configurar notitipos -> abrir menú

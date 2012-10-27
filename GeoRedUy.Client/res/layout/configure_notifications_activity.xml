@@ -9,8 +9,8 @@
     
     <!-- list_activity -->
     
-    <!-- layout del caso de uso Configurar tipos de notificaciones.
-    	lo utiliza la actividad ConfigureNotificationsTypes2Activity. -->
+    <!-- layout del caso de uso Configurar notificaciones.
+    	lo utilizan las actividades ConfigureNotificationsTagsActivity y ConfigureNotificationsTypesActivity. -->
 
     <ListView
  	    android:id="@+id/listView_list"

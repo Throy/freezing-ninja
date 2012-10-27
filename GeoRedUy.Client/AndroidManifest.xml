@@ -197,6 +197,14 @@
         <!-- configure activities -->
         
         <activity
+            android:name=".ConfigureNotificationsTagsActivity"
+            android:label="@string/title_activity_configure_notitags" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
             android:name=".ConfigureNotificationsTypesActivity"
             android:label="@string/title_activity_configure_notitypes" >
             <meta-data

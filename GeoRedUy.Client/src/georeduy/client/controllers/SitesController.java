@@ -63,6 +63,7 @@ public class SitesController
     	GeoRedClient.GetAsync("/Sites/GetByLocation", params, callback);
 	}
 	
+	
 	// obtener datos de una visita del usuario.
 	
 	public Site getSite (int siteId) {

@@ -15,6 +15,7 @@ import georeduy.server.logic.model.Product;
 import georeduy.server.logic.model.RetailStore;
 import georeduy.server.logic.model.Retailer;
 import georeduy.server.logic.model.Roles;
+import georeduy.server.logic.model.Site;
 import georeduy.server.logic.model.StoreProduct;
 import georeduy.server.logic.model.User;
 
@@ -103,5 +104,9 @@ public class RetailController {
 	
 	public List<Product> GetStoreProducts(int from, int count, String storeId) {
 		return storeProductsDao.getStoreProducts(from, count, storeId);
+	}
+	
+	public List<RetailStore> GetByPosition(int latitude, int longitud) {
+		return retailStoreDao.getNearStores(latitude/1e6, longitud/1e6, 5000);		
 	}
 }

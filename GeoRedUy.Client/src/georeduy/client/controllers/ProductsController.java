@@ -8,6 +8,8 @@ package georeduy.client.controllers;
 // imports
 
 import georeduy.client.model.User;
+import georeduy.client.util.GeoRedClient;
+import georeduy.client.util.OnCompletedCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -122,6 +124,15 @@ public class ProductsController
 		}
 
 		return pricetotal;
+	}
+	
+	
+	public void getStoreByPosition (int latitude, int longitude, OnCompletedCallback callback) {
+		Map<String, String> params = new HashMap <String, String>();
+		params.put ("latitude", Integer.toString(latitude));
+		params.put ("longitude", Integer.toString(longitude));
+		
+    	GeoRedClient.GetAsync("/Retail/GetByLocation", params, callback);
 	}
 
 	// publicar evaluación de un producto.

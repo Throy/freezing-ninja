@@ -6,12 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import georeduy.client.model.RetailStore;
 import georeduy.client.model.Site;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.IGPSActivity;
 import georeduy.client.util.MagicPositionOverlay;
 import georeduy.client.util.OnCompletedCallback;
 import georeduy.client.activities.R;
+import georeduy.client.controllers.ProductsController;
 import georeduy.client.controllers.SitesController;
 import georeduy.client.util.GPS;
 import georeduy.client.util.GPS.MyLocationListener;
@@ -85,7 +87,8 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 		List <Overlay> mapOverlays = mapView.getOverlays();
 		
 		Drawable drawableCarrito = this.getResources().getDrawable (R.drawable.cart);
-		siteMapOverlay = new SiteMapOverlay (drawableCarrito, this);
+		Drawable drawableCasita = this.getResources().getDrawable (R.drawable.place);
+		siteMapOverlay = new SiteMapOverlay (drawableCasita, this);
 		storeMapOverlay = new StoreMapOverlay (drawableCarrito, this);
 		
 		Drawable drawableAndroid = this.getResources().getDrawable (R.drawable.android);
@@ -145,6 +148,32 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 			    		}
 			        }
 		        });
+        ProductsController.getInstance().getStoreByPosition(latitudeE5, longitudeE5, 
+		        new OnCompletedCallback() {
+
+			        @Override
+			        public void onCompleted(String response, String error) {
+			        	if (error == null)  {
+				        	Gson gson = new Gson();
+				        	Type listType = new TypeToken<ArrayList<RetailStore>>() {}.getType();				    		
+				    		List<RetailStore> stores = gson.fromJson(response, listType);
+				    		int i = 500;
+				    		if (stores != null) {
+					    		for (RetailStore store : stores)
+					    		{
+					    			double lat =  store.getCoordinates() [0]*1e6 +i;
+					    			double longitud = store.getCoordinates() [1]*1e6 +i;
+					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
+					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, store.getName(), store.getName(), store.getAddress());
+					    			storeMapOverlay.addOverlay (overlayitem);
+					    			i += 500;				    			
+					    		}
+				    		}
+				    		mapView.invalidate();
+				    		
+			    		}
+			        }
+		        });
         
 	}
 		
@@ -189,6 +218,33 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     					    			double longitud = sitio.getCoordinates() [1]*1e6 +i;
     					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
     					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress());
+    					    			siteMapOverlay.addOverlay (overlayitem);
+    					    			i += 500;				    			
+    					    		}
+    				    		}
+    				    		mapView.invalidate();
+    				    		
+    			    		}
+    			        }
+    		        });
+            
+            ProductsController.getInstance().getStoreByPosition(latitudeE5, longitudeE5, 
+    		        new OnCompletedCallback() {
+
+    			        @Override
+    			        public void onCompleted(String response, String error) {
+    			        	if (error == null)  {
+    				        	Gson gson = new Gson();
+    				        	Type listType = new TypeToken<ArrayList<RetailStore>>() {}.getType();				    		
+    				    		List<RetailStore> stores = gson.fromJson(response, listType);
+    				    		int i = 500;
+    				    		if (stores != null) {
+    					    		for (RetailStore store : stores)
+    					    		{
+    					    			double lat =  store.getCoordinates() [0]*1e6 +i;
+    					    			double longitud = store.getCoordinates() [1]*1e6 +i;
+    					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
+    					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, store.getName(), store.getName(), store.getAddress());
     					    			siteMapOverlay.addOverlay (overlayitem);
     					    			i += 500;				    			
     					    		}

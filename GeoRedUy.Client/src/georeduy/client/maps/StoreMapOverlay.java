@@ -49,22 +49,24 @@ public class StoreMapOverlay extends ItemizedOverlay <OverlayItem> {
 	
 	@Override
 	protected boolean onTap (int index) {
-		// obtener item
-		MapOverlayItem item = (MapOverlayItem) mapItems.get(index);
-		
-    	// crear intent de la actividad Ver datos de un local.
-    	Intent storeDetail = new Intent (context, StoreDetailActivity.class);
-    	
-    	// agregar id del local al intent
-    	storeDetail.putExtra (StoresListActivity.EXTRA_STORE_ID, "" + item.getId ());
-    	
-    	// *** este párrafo en realidad no va ***
-    	storeDetail.putExtra (StoresListActivity.STORE_ITEM_NAME, "" + item.getTitle());
-    	storeDetail.putExtra (StoresListActivity.STORE_ITEM_ADDRESS, "" + item.getAddress());
-    	
-    	// ejecutar intent.
-    	context.startActivity (storeDetail);
-    	
+		if (mapItems.size()>0)
+		{
+			// obtener item
+			MapOverlayItem item = (MapOverlayItem) mapItems.get(index);
+			
+	    	// crear intent de la actividad Ver datos de un local.
+	    	Intent storeDetail = new Intent (context, StoreDetailActivity.class);
+	    	
+	    	// agregar id del local al intent
+	    	storeDetail.putExtra (StoresListActivity.EXTRA_STORE_ID, "" + item.getId ());
+	    	
+	    	// *** este párrafo en realidad no va ***
+	    	storeDetail.putExtra (StoresListActivity.STORE_ITEM_NAME, "" + item.getTitle());
+	    	storeDetail.putExtra (StoresListActivity.STORE_ITEM_ADDRESS, "" + item.getAddress());
+	    	
+	    	// ejecutar intent.
+	    	context.startActivity (storeDetail);
+		}
 		return true;
 	}
 

@@ -241,8 +241,8 @@ public class RetailService {
 		}
 		
 		Gson gson = new Gson();
-		List<Site> sites = SitesController.getInstance().GetByPosition(latitude, longitud);
-		String hola = gson.toJson(sites);
-		return Response.status(200).entity(gson.toJson(sites)).build();
+		List<RetailStore> stores = RetailController.getInstance().GetByPosition(latitude, longitud);
+		String hola = gson.toJson(stores);
+		return Response.status(200).entity(gson.toJson(stores)).build();
 	}
 }

@@ -49,51 +49,53 @@ public class SiteMapOverlay extends ItemizedOverlay <OverlayItem> {
 	
 	@Override
 	protected boolean onTap (int index) {
-		// obtener item
-		MapOverlayItem item = (MapOverlayItem) mapItems.get(index);
-		
-    	// crear intent de la actividad Ver datos de un sitio.
-    	Intent siteDetail = new Intent (context, SiteDetailActivity.class);
-    	
-    	// agregar id del sitio al intent
-    	siteDetail.putExtra (SitesListActivity.EXTRA_SITE_ID, "" + item.getId ());
-
-    	// *** este párrafo en realidad no va ***
-    	siteDetail.putExtra (SitesListActivity.SITE_ITEM_NAME, "" + item.getTitle());
-    	siteDetail.putExtra (SitesListActivity.SITE_ITEM_ADDRESS, "" + item.getAddress());
-    	
-    	// ejecutar intent.
-    	context.startActivity (siteDetail);
-		
-		/*
-		
-		// crear cuadro de diálogo
-		AlertDialog dialog = new AlertDialog.Builder (context).create ();
-		
-		// mostrar título y descripción del sitio.
-		dialog.setTitle (item.getTitle());
-		dialog.setMessage (item.getSnippet());
-		
-		// mostrar botones
-		dialog.setButton (DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
-			public void onClick (DialogInterface dialog, int which) {
-				CommonUtilities.showAlertMessage (context, "Confirmación", "Agregaste la visita.");
-				dialog.cancel();
+		if (mapItems.size()>0)
+		{
+			// obtener item
+			MapOverlayItem item = (MapOverlayItem) mapItems.get(index);
+			
+	    	// crear intent de la actividad Ver datos de un sitio.
+	    	Intent siteDetail = new Intent (context, SiteDetailActivity.class);
+	    	
+	    	// agregar id del sitio al intent
+	    	siteDetail.putExtra (SitesListActivity.EXTRA_SITE_ID, "" + item.getId ());
+	
+	    	// *** este párrafo en realidad no va ***
+	    	siteDetail.putExtra (SitesListActivity.SITE_ITEM_NAME, "" + item.getTitle());
+	    	siteDetail.putExtra (SitesListActivity.SITE_ITEM_ADDRESS, "" + item.getAddress());
+	    	
+	    	// ejecutar intent.
+	    	context.startActivity (siteDetail);
+			
+			/*
+			
+			// crear cuadro de diálogo
+			AlertDialog dialog = new AlertDialog.Builder (context).create ();
+			
+			// mostrar título y descripción del sitio.
+			dialog.setTitle (item.getTitle());
+			dialog.setMessage (item.getSnippet());
+			
+			// mostrar botones
+			dialog.setButton (DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+				public void onClick (DialogInterface dialog, int which) {
+					CommonUtilities.showAlertMessage (context, "Confirmación", "Agregaste la visita.");
+					dialog.cancel();
+				}
+			});
+			
+			dialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+				public void onClick (DialogInterface dialog, int which) {
+					CommonUtilities.showAlertMessage (context, "Cancelación", "Descartaste la visita.");
+					dialog.cancel();
+				}
+			});
+			
+			dialog.show();
+			*/
+	
+	        //CommonUtilities.showAlertMessage (context, item.getTitle(), item.getSnippet());
 			}
-		});
-		
-		dialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
-			public void onClick (DialogInterface dialog, int which) {
-				CommonUtilities.showAlertMessage (context, "Cancelación", "Descartaste la visita.");
-				dialog.cancel();
-			}
-		});
-		
-		dialog.show();
-		*/
-
-        //CommonUtilities.showAlertMessage (context, item.getTitle(), item.getSnippet());
-		
 		return true;
 	}
 

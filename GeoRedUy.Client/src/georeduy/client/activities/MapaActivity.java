@@ -138,7 +138,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 					    			double lat =  sitio.getCoordinates() [0]*1e6 +i;
 					    			double longitud = sitio.getCoordinates() [1]*1e6 +i;
 					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
-					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress());
+					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress(), sitio.getId ());
 					    			siteMapOverlay.addOverlay (overlayitem);
 					    			i += 500;				    			
 					    		}
@@ -164,7 +164,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 					    			double lat =  store.getCoordinates() [0]*1e6 +i;
 					    			double longitud = store.getCoordinates() [1]*1e6 +i;
 					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
-					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, store.getName(), store.getName(), store.getAddress());
+					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, store.getName(), store.getName(), store.getAddress(), store.getId ());
 					    			storeMapOverlay.addOverlay (overlayitem);
 					    			i += 500;				    			
 					    		}
@@ -215,7 +215,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     					    			double lat =  sitio.getCoordinates() [0]*1e6;
     					    			double longitud = sitio.getCoordinates() [1]*1e6;
     					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
-    					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress());
+    					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress(), sitio.getId ());
     					    			siteMapOverlay.addOverlay (overlayitem);    					    					    			
     					    		}
     				    		}
@@ -239,7 +239,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     					    			double lat =  store.getCoordinates() [0]*1e6;
     					    			double longitud = store.getCoordinates() [1]*1e6;
     					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
-    					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, store.getName(), store.getName(), store.getAddress());
+    					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, store.getName(), store.getName(), store.getAddress(), store.getId ());
     					    			siteMapOverlay.addOverlay (overlayitem);    					    						
     					    		}
     				    		}

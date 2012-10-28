@@ -111,6 +111,50 @@ public class GeoRedClient {
 		return EntityUtils.toString(response.getEntity());
 	}
 	
+	public static void PostAsync(final String uri,
+	        final Map<String, String> requestParams,
+	        final OnCompletedCallback callback) {
+		
+		(new AsyncTask<String, String, HttpResponse>() {
+
+			@Override
+			protected HttpResponse doInBackground(String... params) {
+				try {
+	                return GeoRedClient.PostRequest(Config.SERVER_URL + uri, requestParams);
+                } catch (ClientProtocolException e) {
+	                e.printStackTrace();
+                } catch (IOException e) {
+	                e.printStackTrace();
+                }
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+				return null;
+			}
+
+			protected void onPostExecute(HttpResponse response) {
+				String res = null;
+				String error = null;
+                try {
+	                res = EntityUtils.toString(response.getEntity());
+                } catch (ParseException e) {
+                	error = e.getMessage();
+                } catch (IOException e) {
+                	error = e.getMessage();
+                }
+				
+				if (response.getStatusLine().getStatusCode() != 200)
+					error = res;
+				
+				callback.onCompleted(res, error);
+
+				super.onPostExecute(response);
+			}
+
+		}).execute();
+	}
+	
 	private static HttpResponse PostRequest(String endpoint, Map<String, String> params) throws ClientProtocolException, IOException {
 		StringBuilder query = new StringBuilder();
 		

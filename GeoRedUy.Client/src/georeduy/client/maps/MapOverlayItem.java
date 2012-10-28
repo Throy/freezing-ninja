@@ -10,20 +10,12 @@ import com.google.android.maps.OverlayItem;
 public class MapOverlayItem extends OverlayItem
 {
 	// id del item.
-	private int _id;
+	private String _id;
 	private String _address;	
-
-	// constructor básico - no usar.
-	
-	public MapOverlayItem (GeoPoint location, String title, String snippet, String address)
-	{
-		super (location, title, snippet);
-		_address = address;		
-	}
 	
 	// constructor con id del item.
 
-	public MapOverlayItem (GeoPoint location, String title, String snippet, String address, int id)
+	public MapOverlayItem (GeoPoint location, String title, String snippet, String address, String id)
 	{
 		super (location, title, snippet);
 		
@@ -33,7 +25,7 @@ public class MapOverlayItem extends OverlayItem
 	
 	// getter del id del item.
 
-	public int getId() {
+	public String getId() {
 		return _id;
 	}
 	

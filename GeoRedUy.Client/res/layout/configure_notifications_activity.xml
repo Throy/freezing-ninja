@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbars="none">
+    
+    <!-- list_activity -->
+    
+    <!-- layout del caso de uso Configurar notificaciones.
+    	lo utilizan las actividades ConfigureNotificationsTagsActivity y ConfigureNotificationsTypesActivity. -->
+
+    <ListView
+ 	    android:id="@+id/listView_list"
+        android:layout_weight="5"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"/>
+    
+    <!-- buttons -->
+    
+    <LinearLayout
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    xmlns:tools="http://schemas.android.com/tools"
+        android:layout_weight="1"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal"
+	    android:orientation="horizontal"
+	    android:scrollbars="none">
+	    
+	    <!-- save button -->
+	    <Button
+	        android:id="@+id/button_save"
+	        android:text="@string/button_save"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="24dip"
+	        android:textStyle="bold"
+	        android:onClick="button_save_onClick"
+	        />
+	    
+	    <!-- cancel button -->
+	    <Button
+	        android:id="@+id/button_cancel"
+	        android:text="@string/button_cancel"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="24dip"
+	        android:textStyle="bold"
+	        android:onClick="button_cancel_onClick"
+	        />
+	</LinearLayout>
+</LinearLayout>

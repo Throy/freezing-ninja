@@ -129,10 +129,24 @@ public class MainMenuActivity extends Activity {
     	startActivity (intent_visits_list);
     }
     
-    // cliquear Mapa -> ver mapa
+    // cliquear Mapa -> abrir mapa
     
     public void button_map_onClick (View view) {
     	Intent intent_map = new Intent (this, MapaActivity.class);
+    	startActivity (intent_map);
+    }
+    
+    // cliquear Configurar notiquetas -> abrir menú
+    
+    public void button_configure_notitags_onClick (View view) {
+    	Intent intent_map = new Intent (this, ConfigureNotificationsTagsActivity.class);
+    	startActivity (intent_map);
+    }
+    
+    // cliquear Configurar notitipos -> abrir menú
+    
+    public void button_configure_notitypes_onClick (View view) {
+    	Intent intent_map = new Intent (this, ConfigureNotificationsTypesActivity.class);
     	startActivity (intent_map);
     }
 }

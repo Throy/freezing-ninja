@@ -1,7 +1,7 @@
 // VisitCommentActivity
 
 // actividad para el caso de uso Publicar comentario de una visita.
-// utiliza el layout visit_comment_activity.
+// utiliza el layout visit_publish_comment_activity.
 
 package georeduy.client.activities;
 
@@ -16,14 +16,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class VisitCommentActivity extends Activity {
+public class VisitPublishCommentActivity extends Activity {
 	
 	// inicializadores
 	
     @Override
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.visit_comment_activity);
+        setContentView (R.layout.visit_publish_comment_activity);
         
         // obtener datos de la visita a partir del id.
         String visitId = getIntent().getStringExtra (VisitsListActivity.EXTRA_VISIT_ID);

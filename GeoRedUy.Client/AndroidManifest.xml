@@ -194,6 +194,24 @@
                 android:value=".MainActivity" />
         </activity>
         
+        <!-- configure activities -->
+        
+        <activity
+            android:name=".ConfigureNotificationsTagsActivity"
+            android:label="@string/title_activity_configure_notitags" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
+            android:name=".ConfigureNotificationsTypesActivity"
+            android:label="@string/title_activity_configure_notitypes" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
         <!-- use case activities -->
         
         <activity
@@ -205,7 +223,7 @@
         </activity>
         
         <activity
-            android:name=".VisitCommentActivity"
+            android:name=".VisitPublishCommentActivity"
             android:label="@string/title_activity_visit_publish_comment" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

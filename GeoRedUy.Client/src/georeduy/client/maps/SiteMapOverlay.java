@@ -28,6 +28,8 @@ public class SiteMapOverlay extends ItemizedOverlay <OverlayItem> {
 
 	public SiteMapOverlay (Drawable defaultMarker) {
 		super(boundCenterBottom (defaultMarker));
+		
+		populate();
 	}
 
 	public SiteMapOverlay (Drawable defaultMarker, Context context) {

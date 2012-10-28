@@ -28,6 +28,8 @@ public class StoreMapOverlay extends ItemizedOverlay <OverlayItem> {
 
 	public StoreMapOverlay (Drawable defaultMarker) {
 		super(boundCenterBottom (defaultMarker));
+		
+		populate();
 	}
 
 	public StoreMapOverlay (Drawable defaultMarker, Context context) {
@@ -49,7 +51,7 @@ public class StoreMapOverlay extends ItemizedOverlay <OverlayItem> {
 	
 	@Override
 	protected boolean onTap (int index) {
-		if (mapItems.size()>0)
+		if (mapItems.size()>=index)
 		{
 			// obtener item
 			MapOverlayItem item = (MapOverlayItem) mapItems.get(index);

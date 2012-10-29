@@ -246,13 +246,10 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     					    			double lat =  store.getCoordinates() [0]*1e6;
     					    			double longitud = store.getCoordinates() [1]*1e6;
     					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
-<<<<<<< HEAD
-    					    			MapOverlayItem overlayStoreItem = new MapOverlayItem(point2, store.getName(), store.getName(), store.getAddress());
+
+    					    			MapOverlayItem overlayStoreItem = new MapOverlayItem(point2, store.getName(), store.getName(), store.getAddress(), store.getId ());
     					    			storeMapOverlay.addOverlay (overlayStoreItem);    					    						
-=======
-    					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, store.getName(), store.getName(), store.getAddress(), store.getId ());
-    					    			siteMapOverlay.addOverlay (overlayitem);    					    						
->>>>>>> a4314584fd9c9c857a99c9ea1740cc76c7d6f98f
+
     					    		}
     				    		}
     				    		mapView.invalidate();    				    		

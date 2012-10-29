@@ -3,21 +3,34 @@ package georeduy.server.logic.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 import georeduy.server.dao.ISiteDao;
 import georeduy.server.dao.ITagDao;
+import georeduy.server.dao.IUserDao;
+import georeduy.server.dao.IVisitDao;
 import georeduy.server.dao.SiteDaoImpl;
 import georeduy.server.dao.TagDaoImpl;
+import georeduy.server.dao.UserDaoImpl;
+import georeduy.server.dao.VisitDaoImpl;
 import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.Site;
 import georeduy.server.logic.model.Tag;
+import georeduy.server.logic.model.User;
+import georeduy.server.logic.model.Visit;
 
 public class SitesController {
 	private static SitesController s_instance = null;
 
-	private ISiteDao siteDao =  new SiteDaoImpl();
 	
-	private ITagDao tagDao =  new TagDaoImpl();
+	// objetos dao
+	private ISiteDao siteDao = new SiteDaoImpl();
+	private ITagDao tagDao = new TagDaoImpl();
+	private IUserDao userDao = new UserDaoImpl();
+	private IVisitDao visitDao = new VisitDaoImpl();
+	
+	// constructores
 	
 	public SitesController() {
 	}
@@ -29,6 +42,8 @@ public class SitesController {
 
 		return s_instance;
 	}
+	
+	// adminsitrar sitios
 	
 	public void NewSite(Site site) throws Exception {
         if (siteDao.findByName(site.getName()) == null) {
@@ -63,5 +78,24 @@ public class SitesController {
 		lista.add(sitio1);
 		lista.add(sitio2);*/
 		return siteDao.getNearSites(latitude/1e6, longitud/1e6, 50);		
+	}
+	
+	// administrar visitas
+	
+	// crear visita
+	public void newVisit (Visit visit) throws Exception {
+		// comprobar existencia del usuario
+		Site realSite = siteDao.find (new ObjectId (visit.getSiteId ()));
+		if (realSite == null) {
+			throw new Exception (GeoRedConstants.SITE_DOES_NOT_EXIST); //+ ":" + visit.getUserId ().trim());
+		}
+		visit.setRealSite (realSite);
+		
+		// agregar usuario
+		visit.setRealUser (User.Current ());
+		visit.setUserId (User.Current ().getId ());
+    	
+		// crear visita
+        visitDao.saveVisit (visit);
 	}
 }

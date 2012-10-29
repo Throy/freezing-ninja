@@ -9,6 +9,7 @@ import georeduy.server.logic.model.StoreProduct;
 import georeduy.server.logic.model.Tag;
 import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.UserData;
+import georeduy.server.logic.model.Visit;
 
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.Morphia;
@@ -28,6 +29,7 @@ public final class MongoConnectionManager {
 	      
 	      morphia.map(User.class).map(UserData.class);
 	      morphia.map(Site.class);
+	      morphia.map(Visit.class);
 	      morphia.map(Tag.class);
 	      morphia.map(Retailer.class);
 	      morphia.map(RetailStore.class);

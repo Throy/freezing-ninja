@@ -39,4 +39,10 @@ public class GeoRedConstants {
 	
 	public static final String PRODUCT_SUCCESSFULY_ADDED =
             "PRODUCT_SUCCESSFULY_ADDED";
+
+	public static final String USER_DOES_NOT_EXIST =
+			"USER_DOES_NOT_EXIST";
+
+	public static final String SITE_DOES_NOT_EXIST =
+			"SITE_DOES_NOT_EXIST";
 }

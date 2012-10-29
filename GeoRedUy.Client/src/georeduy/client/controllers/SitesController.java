@@ -9,6 +9,7 @@ package georeduy.client.controllers;
 
 import georeduy.client.model.Site;
 import georeduy.client.model.User;
+import georeduy.client.model.Visit;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.OnCompletedCallback;
 
@@ -66,7 +67,7 @@ public class SitesController
 	
 	// obtener datos de una visita del usuario.
 	
-	public Site getSite (int siteId) {
+	public Site getSite (String id) {
 		// *** LLAMAR A LA BASE DE DATOS ***
 		
 		return new Site ();
@@ -74,8 +75,16 @@ public class SitesController
 	
 	// visitar sitio.
 	
-	public void visitSite (int siteId) {
-		// *** LLAMAR A LA BASE DE DATOS ***
+	public void visitSite (String siteId, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+        Gson gson = new Gson();
+		
+		// agregar parámetros
+		Visit visitInfo = new Visit ();
+		visitInfo.setSiteId (siteId);
+		params.put ("visitInfo", gson.toJson(visitInfo));
+		
+    	GeoRedClient.PostAsync("/Sites/Visits/New", params, callback);	
 	}
 	
 	// obtener datos visitas del usuario.

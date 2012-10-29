@@ -9,6 +9,7 @@ package georeduy.client.activities;
 import georeduy.client.controllers.SitesController;
 import georeduy.client.lists.SitesListAdapter;
 import georeduy.client.util.CommonUtilities;
+import georeduy.client.util.OnCompletedCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -214,10 +215,18 @@ public class SitesListActivity extends Activity {
 		*/
     	
     	// obtener el id del sitio
-    	int siteId = Integer.parseInt (((TextView) ((View) view.getParent ()).findViewById (R.id.site_id)).getText ().toString ());
+    	String siteId = ((TextView) ((View) view.getParent ()).findViewById (R.id.site_id)).getText ().toString ();
     	
 		// intentar visitar el sitio
-		SitesController.getInstance().visitSite (siteId);
+		SitesController.getInstance().visitSite (siteId, new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted (String response, String error)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		// mostrar confirmación
         CommonUtilities.showAlertMessage (this, "Confirmación", "Visitaste el sitio de id " + siteId);

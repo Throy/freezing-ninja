@@ -62,6 +62,6 @@ public class SitesController {
 		sitio2.setName("prueba2");
 		lista.add(sitio1);
 		lista.add(sitio2);*/
-		return siteDao.getNearSites(latitude/1e6, longitud/1e6, 5000);		
+		return siteDao.getNearSites(latitude/1e6, longitud/1e6, 50);		
 	}
 }

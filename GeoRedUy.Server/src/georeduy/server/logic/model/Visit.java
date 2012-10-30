@@ -18,6 +18,7 @@ import com.google.code.morphia.utils.IndexDirection;
 @Entity(value = "visits", noClassnameStored = true)
 public class Visit {
 
+	// *** esto no está andando, sólo permite una visita por sitio ***
     @Id
     private String id;
     

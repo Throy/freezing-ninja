@@ -52,7 +52,23 @@ public class SitesController
 	
 	// *** hay que ver cuáles se precisan y cuáles no. ***
 	
-	// obtener datos de sitios.
+	// obtener datos de todos los sitios.
+	
+	public void getSites (OnCompletedCallback callback) {
+		Map<String, String> params = new HashMap <String, String>();
+    	GeoRedClient.GetAsync("/Sites/Get", params, callback);
+	}
+	
+	// obtener datos de todos los sitios, por página.
+	
+	public void getSites (Integer from, OnCompletedCallback callback) {
+		Map<String, String> params = new HashMap <String, String>();
+		params.put ("from", Integer.toString (from));
+		params.put ("count", Integer.toString (10));
+    	GeoRedClient.GetAsync("/Sites/Get", params, callback);
+	}
+	
+	// obtener datos de sitios cercanos.
 	// *** falta definir qué ubicaciones valen para la búsqueda. ***
 	
 	public void getSitesByPosition (int latitude, int longitude, OnCompletedCallback callback) {
@@ -62,7 +78,6 @@ public class SitesController
 		
     	GeoRedClient.GetAsync("/Sites/GetByLocation", params, callback);
 	}
-	
 	
 	// obtener datos de un sitio.
 	// devuelve un Site.

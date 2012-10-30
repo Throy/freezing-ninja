@@ -77,6 +77,7 @@ public class SitesListAdapter extends BaseAdapter {
         itemString = _itemsString.get (position);
  
         // set values of the views
+        siteId.setText (itemString.get (SitesListActivity.SITE_ITEM_ID));
         name.setText (itemString.get (SitesListActivity.SITE_ITEM_NAME));
         description.setText (itemString.get (SitesListActivity.SITE_ITEM_DESCRIPTION));
         address.setText (itemString.get (SitesListActivity.SITE_ITEM_ADDRESS));
@@ -88,7 +89,6 @@ public class SitesListAdapter extends BaseAdapter {
  
         // set values of the views
         // *** setTag para guardar cualquier objeto ***
-        siteId.setText (itemInt.get (SitesListActivity.SITE_ITEM_ID).toString ());
         
         // return view
         return vi;

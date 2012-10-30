@@ -279,6 +279,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+    	// mostrar menú con opciones
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;

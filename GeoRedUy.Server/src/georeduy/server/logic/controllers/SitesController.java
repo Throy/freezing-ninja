@@ -63,11 +63,18 @@ public class SitesController {
         }
 	}
 	
-	public List<Site> Get(int from, int count) {
+	// obtener sitios
+	public List<Site> getSites () {
+		return siteDao.getSites();
+	}
+
+	// obtener sitios, por página
+	public List<Site> getSites (int from, int count) {
 		return siteDao.getSites(from, count);
 	}
-	
-	public List<Site> GetByPosition(int latitude, int longitud) {
+
+	// obtener sitios cercanos
+	public List<Site> getSitesByPosition(int latitude, int longitud) {
 		/*List<Site> lista = new ArrayList<Site>();
 		Site sitio1 = new Site();
 		sitio1.coordinates[0] = latitude/1e6;

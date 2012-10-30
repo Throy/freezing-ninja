@@ -84,6 +84,7 @@ public class VisitsListActivity extends Activity {
 		            for (Visit visit : visits) {
 		                // crear item
 		                HashMap <String, String> itemStringMap = new HashMap <String, String> ();
+		                itemStringMap.put (VISIT_ITEM_ID, visit.getId ());
 		                itemStringMap.put (VISIT_ITEM_NAME, visit.getRealSite ().getName ());
 		                itemStringMap.put (VISIT_ITEM_ADDRESS, visit.getRealSite ().getAddress ());
 		                if (visit.getDate () != null) {
@@ -92,7 +93,6 @@ public class VisitsListActivity extends Activity {
 		                else {
 		                	itemStringMap.put (VISIT_ITEM_DATE, "2012 / 11 / X");
 		                }
-		                itemStringMap.put (VISIT_ITEM_ID, visit.getId ());
 		     
 		                // adding HashList to ArrayList
 		                itemsStringList.add (itemStringMap);

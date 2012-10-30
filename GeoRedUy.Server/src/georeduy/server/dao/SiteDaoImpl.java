@@ -65,8 +65,15 @@ public class SiteDaoImpl extends BasicDAO<Site, ObjectId> implements ISiteDao {
 	    	return null;
     }
 
+	// obtener sitios
+	@Override
+    public List<Site> getSites() {
+		return ResolveReferences (createQuery().asList());
+    }
+
+	// obtener sitios, por página
 	@Override
     public List<Site> getSites(int from, int count) {
-		return ResolveReferences(createQuery().offset(from).limit(count).asList());
+		return ResolveReferences (createQuery().offset(from).limit(count).asList());
     }
 }

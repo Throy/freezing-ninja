@@ -53,16 +53,40 @@ public class SitesService {
 		
 		return response;
 	}
-	
+
+	// obtener sitios
 	@GET()
 	@Produces("text/plain")
 	@Path("Get")
-	public Response Get(@QueryParam("from") Integer from,
+	public Response Get (@Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+
+		// obtener sitios
+		try {
+			Gson gson = new Gson();
+			List <Site> sites = SitesController.getInstance().getSites ();
+			return Response.status(200).entity (gson.toJson (sites)).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
+	}
+
+	// obtener sitios, por pagina
+	@GET()
+	@Produces("text/plain")
+	@Path("GetPage")
+	public Response GetPaged(@QueryParam("from") Integer from,
 			@QueryParam("count") Integer count,
 			@Context HttpServletResponse servletResponse,
 			@Context SecurityContext context) {
 		if (!context.isUserInRole(Roles.REG_USER)) {
-			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+			return Response.status(500).entity (GeoRedConstants.ACCESS_DENIED).build();
 		}
 
 		if (count == null)
@@ -71,8 +95,8 @@ public class SitesService {
 			from = 0;
 		
 		Gson gson = new Gson();
-		List<Site> sites = SitesController.getInstance().Get(from, count);
-		return Response.status(200).entity(gson.toJson(sites)).build();
+		List <Site> sites = SitesController.getInstance().getSites (from, count);
+		return Response.status(200).entity (gson.toJson (sites)).build();
 	}
 	
 	@GET()
@@ -84,7 +108,7 @@ public class SitesService {
 		}
 		
 		Gson gson = new Gson();
-		List<Site> sites = SitesController.getInstance().GetByPosition(latitude, longitud);
+		List <Site> sites = SitesController.getInstance().getSitesByPosition (latitude, longitud);
 		return Response.status(200).entity(gson.toJson(sites)).build();
 	}
 	

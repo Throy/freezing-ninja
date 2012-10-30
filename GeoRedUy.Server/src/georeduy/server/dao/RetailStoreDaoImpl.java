@@ -36,7 +36,7 @@ public class RetailStoreDaoImpl extends BasicDAO<RetailStore, ObjectId> implemen
 
 	@Override
     public List<RetailStore> getNearStores(double latitude, double longitude, double radius) {
-		List<RetailStore> stores = createQuery().field("coordinates").near(latitude, longitude).asList();
+		List<RetailStore> stores = createQuery().field("coordinates").near(latitude, longitude,radius).asList();
 	    if (stores.size() > 0)
 	    	return stores;
 	    else

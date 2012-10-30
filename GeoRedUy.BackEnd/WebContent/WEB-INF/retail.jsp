@@ -60,8 +60,52 @@
 </form>
 
 <%} else if (newForm.equals("Store")) {%>
+
+<script type="text/javascript"
+    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDMxElmlzDp8EFWG0el5fZxRrRzN3E3NRU&sensor=false">
+</script>
+
+<script type="text/javascript">
+    var map;
+    var markersArray = [];
+    function googleMapsInitialize() {
+        // initialize map
+        var myOptions = {
+            center: new google.maps.LatLng(-34.892830, -56.130030),
+            zoom: 16,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+        // setting the function that will respond onclick (create a marker)
+        google.maps.event.addListener(map, 'click', function (event) {
+            placeMarker(event.latLng);
+        });
+        // Delete Markers Function
+        google.maps.Map.prototype.clearOverlays = function () {
+            if (markersArray) {
+                for (var i = 0; i < markersArray.length; i++) {
+                    markersArray[i].setMap(null);
+                }
+            }
+        }
+    }
+    function placeMarker(location) {
+        map.clearOverlays();
+        var marker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+        markersArray.push(marker);
+        document.getElementById("Longitude").value = marker.getPosition().lng().toString();
+        document.getElementById("Latitude").value = marker.getPosition().lat().toString();
+    }
+
+ </script>
+<div id="map_canvas" style="width: 500px; height:385px; margin-top:35px; margin-left:50px; margin-bottom:20px; border-style:outset; border-width:2px; border-color:Gray; box-shadow:0 1px 2px #aaa; -moz-box-shadow:0 2px 3px #AAAAAA; float:left"  ></div>
+<script type="text/javascript">googleMapsInitialize();</script>
+
 <form action="?AddStore&ListStores" method="post">    
-	<div class="reg-box big-red" style="margin:0 auto;">
+	<div class="reg-box big-red" style="margin:20px 40px 0px auto; float:right">
         <fieldset>
             <div class="editor-label">
                 <label for="Name">Name</label>
@@ -119,7 +163,7 @@
 </form>
 <% } else if (newForm.equals("Product")) {%>
 <form action="?AddProduct&ListMyProducts" method="post">    
-	<div class="reg-box big-red" style="margin:0 auto;">
+	<div class="reg-box big-red" style="margin:0 auto; float:right">
         <fieldset>
             <div class="editor-label">
                 <label for="Name">Name</label>
@@ -162,7 +206,7 @@
 <% } %>
 
 <% if (retailers != null && retailers.size() > 0) { %>
-	<ul class="list1" style="margin:0; position:relative;overflow-x:hidden; overflow-y:auto;">
+	<ul class="list1" style="margin:0; position:relative;overflow-x:hidden; overflow-y:auto; float:right">
 	<% for (Retailer retailer: retailers) { %>
 		<li class="item" style="width:98%;">
 		    <div class="shadowl">

@@ -11,7 +11,6 @@ import georeduy.client.controllers.ClientsController;
 import georeduy.client.lists.UsersListAdapter;
 import georeduy.client.lists.UsersListAdapter.UserListMode;
 import georeduy.client.model.User;
-import georeduy.client.util.CommonUtilities;
 import georeduy.client.util.OnCompletedCallback;
 
 import java.lang.reflect.Type;
@@ -19,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
@@ -37,11 +37,9 @@ public class ContactAddActivity extends Activity {
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.contact_add_activity);
-
     }
     
-    // cliquear botón -> agregar contacto 
-    
+    // cliquear botón -> agregar contacto     
     public void button_user_item_add_onClick (View view) {
     	// obtener el id del usuario
     	final String userId = ((TextView) ((View) view.getParent ()).findViewById (R.id.user_id)).getText ().toString ();
@@ -52,12 +50,11 @@ public class ContactAddActivity extends Activity {
 			@Override
 			public void onCompleted(String response, String error) {
 				if (error == null) {
-					CommonUtilities.showAlertMessage (ContactAddActivity.this, "Confirmación", "Cliqueaste en agregar el contacto de id " + userId + ".");
-				}
+					Intent myIntent = new Intent(ContactAddActivity.this, ContactListActivity.class);
+	        		startActivity(myIntent);
+	        	}
 			}
 		});		
-		// mostrar confirmación
-        
     }
 
     @Override

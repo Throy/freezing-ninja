@@ -64,7 +64,7 @@ public class UsersListAdapter extends BaseAdapter {
     }
  
     public int getCount() {
-        return _users.size();
+        return (_users.size() > 0) ? _users.size() : 1;
     }
  
     public Object getItem (int position) {
@@ -81,11 +81,34 @@ public class UsersListAdapter extends BaseAdapter {
         if (convertView == null) {
             vi = _inflater.inflate (R.layout.users_list_item, null);
         }
- 
-        // initialize views
+        
+     // initialize views
         TextView userId = (TextView) vi.findViewById (R.id.user_id);
         TextView username = (TextView) vi.findViewById (R.id.username);
         TextView fullname = (TextView) vi.findViewById (R.id.fullname);
+        
+        if (_users.size() == 0) {
+        	switch (_mode) {
+		        case ADD_CONTACTS:
+		        	username.setText ("No contacts found.");
+		        	break;
+		        case LIST_CONTACTS:
+		        	username.setText ("Contact list empty.");
+		        	break;
+        	}
+        	
+        	Button buttonAdd = (Button) vi.findViewById (R.id.button_user_item_add);
+            Button buttonRem = (Button) vi.findViewById (R.id.button_user_item_rem);
+            
+        	buttonAdd.setVisibility (View.INVISIBLE);
+            buttonRem.setVisibility (View.INVISIBLE);
+            
+            userId.setText ("-1");
+    	            
+        	return vi;
+        }
+ 
+        
         //ImageView thumb_image=(ImageView) vi.findViewById (R.id.list_image);
  
         User user = _users.get(position);

@@ -57,22 +57,7 @@ public class ContactListActivity extends Activity {
         
         final ListView listView = (ListView) findViewById (R.id.listView_list);
  
-        ClientsController.getInstance().GetContacts(new OnCompletedCallback() {
-			
-			@Override
-			public void onCompleted(String response, String error) {
-				if (error == null) {
-					Gson gson = new Gson();
-		        	Type listType = new TypeToken<ArrayList<Contact>>() {}.getType();				    		
-		    		List<Contact> contacts = gson.fromJson(response, listType);
-		    		if (contacts != null) {
-		    			ListView listView = (ListView) findViewById (R.id.listView_list);
-		    			UsersListAdapter adapter = new UsersListAdapter (ContactListActivity.this, contacts, UserListMode.LIST_CONTACTS);
-		    	        listView.setAdapter (adapter);
-		    		}
-				}
-			}
-		});
+        refreshList();
         // poblar lista de items
         
         
@@ -80,15 +65,15 @@ public class ContactListActivity extends Activity {
         listView.setOnItemClickListener (new OnItemClickListener() {
 
         	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
-            	// crear intent de la actividad Ver datos de un usuario.
-            	Intent intent_user_detail = new Intent (parent.getContext (), UserDetailActivity.class);
-            	
             	// agregar id del usuario al intent
             	String userId = ((TextView) view.findViewById (R.id.user_id)).getText().toString();
-            	intent_user_detail.putExtra (EXTRA_USER_ID, userId);
-            	
-            	// ejecutar intent.
-            	startActivity (intent_user_detail);
+            	if (userId != null && !userId.equals("-1")) {
+            		// crear intent de la actividad Ver datos de un usuario.
+            		Intent intent_user_detail = new Intent (parent.getContext (), UserDetailActivity.class);
+	            	intent_user_detail.putExtra (EXTRA_USER_ID, userId);	            	
+	            	// ejecutar intent.
+	            	startActivity (intent_user_detail);
+            	}
         	}
         });
 
@@ -97,26 +82,18 @@ public class ContactListActivity extends Activity {
     // cliquear botón -> quitar contacto 
     
     public void button_user_item_rem_onClick (View view) {
-    	/*
-		// nada
-		AlertDialog alertDialog = new AlertDialog.Builder (UsersListActivity.this).create ();
-		
-		alertDialog.setTitle ("Cliqueaste en quitar id " + ((TextView) ((View) view.getParent ()).findViewById (R.id.user_id)).getText ().toString ());
-		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
-			public void onClick (DialogInterface dialog, int which) {
-			}
-		});
-		alertDialog.show();
-		*/
-
     	// obtener el id del usuario
     	String userId = ((TextView) ((View) view.getParent ()).findViewById (R.id.user_id)).getText ().toString ();
 
-		// intentar quitar el contacto
-		ClientsController.getInstance().removeContact (userId);
-		
-		// mostrar confirmación
-        CommonUtilities.showAlertMessage (this, "Confirmación", "Cliqueaste en quitar el contacto de id " + userId + ".");
+    	ClientsController.getInstance().removeContact(userId, new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted(String response, String error) {
+				if (error == null) {
+					refreshList();
+	        	}
+			}
+		});	
     }    
 
     @Override
@@ -136,6 +113,25 @@ public class ContactListActivity extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    
+    public void refreshList() {
+    	ClientsController.getInstance().GetContacts(new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted(String response, String error) {
+				if (error == null) {
+					Gson gson = new Gson();
+		        	Type listType = new TypeToken<ArrayList<Contact>>() {}.getType();				    		
+		    		List<Contact> contacts = gson.fromJson(response, listType);
+		    		if (contacts != null) {
+		    			ListView listView = (ListView) findViewById (R.id.listView_list);
+		    			UsersListAdapter adapter = new UsersListAdapter (ContactListActivity.this, contacts, UserListMode.LIST_CONTACTS);
+		    	        listView.setAdapter (adapter);
+		    		}
+				}
+			}
+		});
     }
 
 }

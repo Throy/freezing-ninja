@@ -48,4 +48,10 @@ public class GeoRedConstants {
 	
 	public static final String CONTACT_SUCCESSFULY_ADDED =
             "CONTACT_SUCCESSFULY_ADDED";
+
+	public static final Object CONTACT_SUCCESSFULY_REMOVED = 
+			"CONTACT_SUCCESSFULY_REMOVED";
+
+	public static final String CONTACT_ALREADY_EXISTS = 
+			"CONTACT_ALREADY_EXISTS";
 }

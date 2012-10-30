@@ -5,6 +5,7 @@
 package georeduy.server.dao;
 
 import georeduy.server.logic.model.Contact;
+import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.Visit;
 import georeduy.server.persistence.MongoConnectionManager;
 
@@ -13,6 +14,8 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import com.google.code.morphia.dao.BasicDAO;
+import com.google.code.morphia.query.Query;
+import com.mongodb.WriteResult;
 
 public class ContactDaoImpl extends BasicDAO <Contact, ObjectId> implements IContactDao {
 	// daos externos
@@ -48,6 +51,15 @@ public class ContactDaoImpl extends BasicDAO <Contact, ObjectId> implements ICon
 	public Contact find (ObjectId contactId) {
         return get (contactId);
 	}
+	
+	@Override
+	public Contact findByContactUserId (String userId) {
+		List<Contact> contacts = createQuery().field("contactUserId").equal(userId).asList();
+    	if (contacts.size() == 1)
+    		return contacts.get(0);
+    	else
+    		return null;
+	}
 
 	// obtener contactos del usuario, sistema paginado
 	@Override
@@ -56,4 +68,11 @@ public class ContactDaoImpl extends BasicDAO <Contact, ObjectId> implements ICon
     	resolveReferences (contacts);
     	return contacts;	
 	}
+
+	@Override
+    public void deleteContact(Contact contact) {
+	    this.deleteByQuery(createQuery().field("contactUserId").equal(contact.getContactUserId()));
+    }
+	
+	
 }

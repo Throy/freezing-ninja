@@ -77,6 +77,16 @@ public class ClientsController
 	}
 
 	// quitar usuario de los contactos
-	public void removeContact (String userId) {
+	public void removeContact (String contactUserId, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+        Gson gson = new Gson();
+		
+		// agregar parámetros
+		Contact contact = new Contact();
+		contact.setContactUserId(contactUserId);
+		
+		params.put ("contactInfo", gson.toJson(contact));
+		
+    	GeoRedClient.PostAsync("/Contacts/RemoveContact", params, callback);	
 	}
 }

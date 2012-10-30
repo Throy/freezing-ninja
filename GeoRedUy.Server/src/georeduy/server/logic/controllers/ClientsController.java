@@ -33,11 +33,19 @@ public class ClientsController {
 	
 	public void AddContact(Contact contact) throws Exception {
         if (userDao.find(new ObjectId(contact.getContactUserId())) != null) {
-        	contact.setUserId(User.Current().getId());
-        	contactDao.saveContact(contact);
+        	if (contactDao.findByContactUserId(contact.getContactUserId()) == null) { 
+	        	contact.setUserId(User.Current().getId());
+	        	contactDao.saveContact(contact);
+        	} else {
+        		throw new Exception(GeoRedConstants.CONTACT_ALREADY_EXISTS);
+        	}
         } else {
         	throw new Exception(GeoRedConstants.USER_DOES_NOT_EXIST);
         }
+	}
+	
+	public void RemoveContact(Contact contact) {
+		contactDao.deleteContact(contact);
 	}
 	
 	public List<Contact> Get(int from, int count) {

@@ -49,6 +49,32 @@ public class ContactsService {
 		return response;
 	}
 	
+	@POST()
+	@Path("RemoveContact")
+	public Response RemoveContact(String contactInfo,
+			@Context HttpServletResponse servletResponse,
+			@Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+		
+		Response response;
+		
+		try {
+			Gson gson = new Gson();
+			Contact contact = gson.fromJson(contactInfo.split("=")[1], Contact.class);
+			ClientsController.getInstance().RemoveContact(contact);
+			
+			response = Response.status(200).entity(GeoRedConstants.CONTACT_SUCCESSFULY_REMOVED).build();
+	    }
+	    catch (Exception e)
+	    {
+	    	response = Response.status(500).entity(e.getMessage()).build();
+	    }
+		
+		return response;
+	}
+	
 	@GET()
 	@Produces("text/plain")
 	@Path("Get")

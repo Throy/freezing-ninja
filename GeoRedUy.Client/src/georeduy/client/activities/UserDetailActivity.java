@@ -9,9 +9,11 @@ package georeduy.client.activities;
 
 import georeduy.client.controllers.ClientsController;
 import georeduy.client.util.CommonUtilities;
+import georeduy.client.util.OnCompletedCallback;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -27,7 +29,7 @@ public class UserDetailActivity extends Activity {
         
         // obtener datos del usuario a partir del id.
         String userId = getIntent().getStringExtra (ContactListActivity.EXTRA_USER_ID);
-        int idx = Integer.parseInt (userId);
+        //int idx = Integer.parseInt (userId);
         
         // traer datatype de la base de datos
         // DTUser user = getUser (idx);
@@ -35,8 +37,8 @@ public class UserDetailActivity extends Activity {
         // inventar nombre
         Character aLower = 'a';
         Character aUpper = 'A';
-        int aLowerValue = aLower + idx;
-        int aUpperValue = aUpper + idx;
+        int aLowerValue = aLower;// + idx;
+        int aUpperValue = aUpper;// + idx;
         char charLower = (char) aLowerValue;
         char charUpper = (char) aUpperValue;
 
@@ -55,13 +57,18 @@ public class UserDetailActivity extends Activity {
     
     public void button_user_item_add_onClick (View view) {
     	// obtener el id del usuario
-    	int userId = Integer.parseInt (((TextView) findViewById (R.id.textview_user_id)).getText ().toString ());
+    	String userId = ((TextView) findViewById (R.id.textview_user_id)).getText ().toString ();
     	
-		// intentar agregar el contacto
-		//ClientsController.getInstance().addContact (userId);
-		
-		// mostrar confirmación
-        CommonUtilities.showAlertMessage (this, "Confirmación", "Cliqueaste en agregar el contacto de id " + userId + ".");
+    	ClientsController.getInstance().AddContact(userId, new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted(String response, String error) {
+				if (error == null) {
+					Intent myIntent = new Intent(UserDetailActivity.this, ContactListActivity.class);
+	        		startActivity(myIntent);
+	        	}
+			}
+		});	
     }
     
     // cliquear botón -> quitar contacto 
@@ -70,10 +77,15 @@ public class UserDetailActivity extends Activity {
     	// obtener el id del usuario
     	String userId = ((TextView) findViewById (R.id.textview_user_id)).getText ().toString ();
     	
-		// intentar quitar el contacto
-		ClientsController.getInstance().removeContact (userId);
-		
-		// mostrar confirmación
-        CommonUtilities.showAlertMessage (this, "Confirmación", "Cliqueaste en quitar el contacto de id " + userId + ".");
+    	ClientsController.getInstance().removeContact(userId, new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted(String response, String error) {
+				if (error == null) {
+					Intent myIntent = new Intent(UserDetailActivity.this, ContactListActivity.class);
+	        		startActivity(myIntent);
+	        	}
+			}
+		});	
     }
 }

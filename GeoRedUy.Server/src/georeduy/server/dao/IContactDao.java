@@ -12,12 +12,16 @@ import org.bson.types.ObjectId;
 
 public interface IContactDao {
 
-	// guardar visita en la base de datos
+	// guardar contacto en la base de datos
 	public void saveContact (Contact contact);
 
-	// obtener visita a partir del id
+	// obtener contacto a partir del id
 	public Contact find (ObjectId contactId);
+	
+	public Contact findByContactUserId (String userId);
 
-	// obtener visitas del usuario, sistema paginado
+	// obtener contactos del usuario, sistema paginado
 	public List <Contact> findByUser (String userId, int from, int count);
+	
+	public void deleteContact(Contact contact);
 }

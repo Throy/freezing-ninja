@@ -141,4 +141,8 @@
     <string name="menu_settings">Configurar</string>
     
     <string name="register_passwords_do_not_match">Los passwords no coinciden</string>
+    <string name="contact_search_hint">Contact name</string>
+    <string name="options_add_contact">Add Contact</string>
+    <string name="submit">Submit</string>
+    <string name="contacts_menu">Contacts</string>
 </resources>

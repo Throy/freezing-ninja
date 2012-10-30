@@ -129,12 +129,15 @@
         </activity>
         
         <activity
-            android:name=".UsersListActivity"
+            android:name=".ContactListActivity"
             android:label="@string/title_activity_users_list" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        
+        <activity android:name=".ContactAddActivity" >
+    	</activity>
         
         <activity
             android:name=".VisitsListActivity"

@@ -45,4 +45,7 @@ public class GeoRedConstants {
 
 	public static final String SITE_DOES_NOT_EXIST =
 			"SITE_DOES_NOT_EXIST";
+	
+	public static final String CONTACT_SUCCESSFULY_ADDED =
+            "CONTACT_SUCCESSFULY_ADDED";
 }

@@ -32,11 +32,6 @@
     </item>
     -->
     
-    <item android:id="@+id/options_map" android:title="Go to Map"></item><item android:id="@+id/options_clear" android:title="@string/options_clear">
-    </item><item
-        android:id="@+id/options_exit"
-        android:title="@string/options_exit">
-    </item>
-    
+    <item android:id="@+id/options_add_contact" android:title="@string/options_add_contact"></item>
 
 </menu>

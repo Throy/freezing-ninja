@@ -8,10 +8,13 @@ package georeduy.client.lists;
 // imports
 
 import georeduy.client.activities.R;
-import georeduy.client.activities.UsersListActivity;
+import georeduy.client.activities.ContactListActivity;
+import georeduy.client.model.Contact;
+import georeduy.client.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,28 +30,41 @@ import android.widget.TextView;
 
 public class UsersListAdapter extends BaseAdapter {
 	
+	public enum UserListMode {
+		ADD_CONTACTS,
+		LIST_CONTACTS
+	};
+	
 	// atributos
 
     private Activity _activity;
-    private ArrayList <HashMap <String, String>> _itemsString;
-    private ArrayList <HashMap <String, Integer>> _itemsInt;
+    private List<User> _users = new ArrayList<User>();
     private static LayoutInflater _inflater = null;
+    private UserListMode _mode;
     //public ImageLoader imageLoader;
     
     // constructor
  
-    public UsersListAdapter (Activity activity,
-    		ArrayList <HashMap <String, String>> itemsString,
-    		ArrayList <HashMap <String, Integer>> itemsInt) {
+    public UsersListAdapter (Activity activity, UserListMode mode, List<User> users) {
         _activity = activity;
-        _itemsString = itemsString;
-        _itemsInt = itemsInt;
+        _users = users;
+        _mode = mode;
+        _inflater = (LayoutInflater) _activity.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
+        //imageLoader=new ImageLoader(activity.getApplicationContext());
+    }
+    
+    public UsersListAdapter (Activity activity, List<Contact> contacts, UserListMode mode) {
+        _activity = activity;
+        for (Contact contact : contacts) {
+        	_users.add(contact.getContactUser());
+        }
+        _mode = mode;
         _inflater = (LayoutInflater) _activity.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
         //imageLoader=new ImageLoader(activity.getApplicationContext());
     }
  
     public int getCount() {
-        return _itemsString.size();
+        return _users.size();
     }
  
     public Object getItem (int position) {
@@ -72,34 +88,29 @@ public class UsersListAdapter extends BaseAdapter {
         TextView fullname = (TextView) vi.findViewById (R.id.fullname);
         //ImageView thumb_image=(ImageView) vi.findViewById (R.id.list_image);
  
-        // get item string
-        HashMap <String, String> itemString = new HashMap <String, String>();
-        itemString = _itemsString.get (position);
- 
+        User user = _users.get(position);
+        
         // set values of the views
-        username.setText (itemString.get (UsersListActivity.USER_ITEM_USERNAME));
-        fullname.setText (itemString.get (UsersListActivity.USER_ITEM_FULLNAME));
+        username.setText (user.getUserName());
+        fullname.setText (user.getUserData().getName() + user.getUserData().getLastName());
         //imageLoader.DisplayImage(item.get (ListActivity.ITEM_THUMB), thumb_image);
-
-        // get item int
-        HashMap <String, Integer> itemInt = new HashMap <String, Integer>();
-        itemInt = _itemsInt.get (position);
  
         // set values of the views
-        // *** setTag para guardar cualquier objeto ***
-        userId.setText (itemInt.get (UsersListActivity.USER_ITEM_ID).toString ());
+        userId.setText (user.getId());
         
         // set button visibilities
         Button buttonAdd = (Button) vi.findViewById (R.id.button_user_item_add);
         Button buttonRem = (Button) vi.findViewById (R.id.button_user_item_rem);
         
-        if (position % 2 == 0) {
-        	buttonAdd.setVisibility (View.VISIBLE);
-            buttonRem.setVisibility (View.INVISIBLE);
-        }
-        else{
-        	buttonAdd.setVisibility (View.INVISIBLE);
-            buttonRem.setVisibility (View.VISIBLE);
+        switch (_mode) {
+	        case ADD_CONTACTS:
+	        	buttonAdd.setVisibility (View.VISIBLE);
+	            buttonRem.setVisibility (View.INVISIBLE);
+	        	break;
+	        case LIST_CONTACTS:
+	        	buttonAdd.setVisibility (View.INVISIBLE);
+	            buttonRem.setVisibility (View.VISIBLE);
+	        	break;
         }
         
         // return view

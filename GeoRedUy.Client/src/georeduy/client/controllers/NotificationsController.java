@@ -7,12 +7,7 @@ package georeduy.client.controllers;
 
 // imports
 
-import georeduy.client.model.User;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import com.google.gson.Gson;
+import georeduy.client.model.Site;
 
 public class NotificationsController
 {
@@ -45,5 +40,9 @@ public class NotificationsController
 	// obtener datos.
 	
 	public void getSomething () {
+	}
+	
+	public void handleNotification(Site site) {
+		String siteName = site.getName();
 	}
 }

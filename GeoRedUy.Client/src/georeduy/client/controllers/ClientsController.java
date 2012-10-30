@@ -7,7 +7,10 @@ package georeduy.client.controllers;
 
 // imports
 
+import georeduy.client.model.Contact;
 import georeduy.client.model.User;
+import georeduy.client.util.GeoRedClient;
+import georeduy.client.util.OnCompletedCallback;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,32 +44,39 @@ public class ClientsController
 	// *******
 	// métodos
 	// *******
-
-	// *** hay que ver cuáles se precisan y cuáles no. ***
 	
 	// obtener datos de los contactos del usuario.
-	// *** en realidad devuelve Collection <User> o algo por el estilo. ***
-	
-	public void getContacts () {
+	public void GetContacts(OnCompletedCallback callback) {
+		Map<String, String> params = new HashMap <String, String>();
+		params.put ("from", "0");
+		params.put ("count", "10");
+		
+    	GeoRedClient.GetAsync("/Contacts/Get", params, callback);
 	}
 	
-	// obtener datos de los no contactos del usuario.
-	// *** en realidad devuelve Collection <User> o algo por el estilo. ***
-	
-	public void getNoncontacts () {
+	public void SearchUsers(String query, OnCompletedCallback callback) {
+		Map<String, String> params = new HashMap <String, String>();
+		params.put ("query", query);
+		params.put ("from", "0");
+		params.put ("count", "10");
+		
+    	GeoRedClient.GetAsync("/Contacts/Search", params, callback);
 	}
 	
-	// obtener datos del usuario.
-	
-	public User getUser () {
-		return new User();
-	}
-
-	// agregar usuario a los contactos
-	public void addContact (int userId) {
+	public void AddContact(String contactUserId, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+        Gson gson = new Gson();
+		
+		// agregar parámetros
+		Contact contact = new Contact();
+		contact.setContactUserId(contactUserId);
+		
+		params.put ("contactInfo", gson.toJson(contact));
+		
+    	GeoRedClient.PostAsync("/Contacts/AddContact", params, callback);	
 	}
 
 	// quitar usuario de los contactos
-	public void removeContact (int userId) {
+	public void removeContact (String userId) {
 	}
 }

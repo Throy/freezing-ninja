@@ -45,6 +45,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 	// mapa
@@ -262,6 +265,25 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
 
+        }
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.contacts_menu:
+            	Intent myIntent = new Intent(this, ContactListActivity.class);
+        		startActivity(myIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

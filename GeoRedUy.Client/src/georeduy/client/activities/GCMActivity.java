@@ -99,8 +99,6 @@ public class GCMActivity extends Activity {
                 mRegisterTask.execute(null, null, null);
             //}
         }
-        //Intent myIntent = new Intent(this, MapaActivity.class);
-		//startActivity(myIntent);
     }
 
     @Override

@@ -26,7 +26,7 @@ public class UserDetailActivity extends Activity {
         setContentView (R.layout.user_detail_activity);
         
         // obtener datos del usuario a partir del id.
-        String userId = getIntent().getStringExtra (UsersListActivity.EXTRA_USER_ID);
+        String userId = getIntent().getStringExtra (ContactListActivity.EXTRA_USER_ID);
         int idx = Integer.parseInt (userId);
         
         // traer datatype de la base de datos
@@ -54,23 +54,11 @@ public class UserDetailActivity extends Activity {
     // cliquear botón -> agregar contacto 
     
     public void button_user_item_add_onClick (View view) {
-    	/*
-		// nada
-		AlertDialog alertDialog = new AlertDialog.Builder (UserDetailActivity.this).create ();
-		
-		alertDialog.setTitle ("Cliqueaste en agregar id " + ((TextView) findViewById (R.id.textview_user_id)).getText ().toString ());
-		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
-			public void onClick (DialogInterface dialog, int which) {
-			}
-		});
-		alertDialog.show();
-		*/
-
     	// obtener el id del usuario
     	int userId = Integer.parseInt (((TextView) findViewById (R.id.textview_user_id)).getText ().toString ());
     	
 		// intentar agregar el contacto
-		ClientsController.getInstance().addContact (userId);
+		//ClientsController.getInstance().addContact (userId);
 		
 		// mostrar confirmación
         CommonUtilities.showAlertMessage (this, "Confirmación", "Cliqueaste en agregar el contacto de id " + userId + ".");
@@ -79,20 +67,8 @@ public class UserDetailActivity extends Activity {
     // cliquear botón -> quitar contacto 
     
     public void button_user_item_rem_onClick (View view) {
-    	/*
-		// nada
-		AlertDialog alertDialog = new AlertDialog.Builder (UserDetailActivity.this).create ();
-		
-		alertDialog.setTitle ("Cliqueaste en quitar id " + ((TextView) findViewById (R.id.textview_user_id)).getText ().toString ());
-		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
-			public void onClick (DialogInterface dialog, int which) {
-			}
-		});
-		alertDialog.show();
-		*/
-    	
     	// obtener el id del usuario
-    	int userId = Integer.parseInt (((TextView) findViewById (R.id.textview_user_id)).getText ().toString ());
+    	String userId = ((TextView) findViewById (R.id.textview_user_id)).getText ().toString ();
     	
 		// intentar quitar el contacto
 		ClientsController.getInstance().removeContact (userId);

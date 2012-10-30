@@ -107,6 +107,6 @@ public class RetailController {
 	}
 	
 	public List<RetailStore> GetByPosition(int latitude, int longitud) {
-		return retailStoreDao.getNearStores(latitude/1e6, longitud/1e6, 5000);		
+		return retailStoreDao.getNearStores(latitude/1e6, longitud/1e6, 50);		
 	}
 }

@@ -78,7 +78,7 @@ public class StoreMapOverlay extends ItemizedOverlay <OverlayItem> {
 	}
 	
 	public void clear() {
-		mapItems.clear();
+		mapItems.clear();		
         this.populate();
     }
 

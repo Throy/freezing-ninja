@@ -6,10 +6,16 @@
 package georeduy.client.activities;
 
 // imports
+import static georeduy.client.util.CommonUtilities.DISPLAY_MESSAGE_ACTION;
+import static georeduy.client.util.CommonUtilities.SENDER_ID;
 import georeduy.client.controllers.SessionController;
 import georeduy.client.util.CommonUtilities;
+import georeduy.client.util.Config;
+import georeduy.client.util.GCMServer;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,8 +26,10 @@ import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
+import com.google.android.gcm.GCMRegistrar;
 
 public class SessionLoginActivity extends Activity {
+	AsyncTask<Void, Void, Void> mRegisterTask;
     // facebook api.
     Facebook facebook = new Facebook("341284062604349");
     // permissions array
@@ -52,9 +60,7 @@ public class SessionLoginActivity extends Activity {
 					// intentar iniciar sesión
 					SessionController.getInstance().login (username, password);
 			        
-					// abrir menú de GCM
-			        Intent intent = new Intent(params[0], GCMActivity.class);
-					startActivity(intent);
+					onLoginSuccess();
 		        }
 				catch (Exception e) {
 			        CommonUtilities.showAlertMessage (params[0], "Error SLA bloc", e.getMessage());
@@ -89,9 +95,7 @@ public class SessionLoginActivity extends Activity {
         					// intentar iniciar sesión
         					SessionController.getInstance().loginExternal("facebook", token);
         			        
-        					// abrir menú de GCM
-        			        Intent intent = new Intent(params[0], GCMActivity.class);
-        					startActivity(intent);
+        					onLoginSuccess();
         		        }
         				catch (Exception e) {
         			        CommonUtilities.showAlertMessage (params[0], "Error SLA bloc", e.getMessage());
@@ -118,5 +122,60 @@ public class SessionLoginActivity extends Activity {
     public void button_main_menu_onClick (View view) {
     	Intent intent_main_menu = new Intent (this, MainMenuActivity.class);
     	startActivity (intent_main_menu);
+    }
+    
+    public void onLoginSuccess() {
+    	// Inicializar GCM
+    	InitGCM();
+    	// Ir al mapa
+        Intent intent = new Intent(this, MapaActivity.class);
+		startActivity(intent);
+    }
+    
+    public void InitGCM() {
+        GCMRegistrar.checkDevice(this);
+        GCMRegistrar.checkManifest(this);
+        
+        final String regId = GCMRegistrar.getRegistrationId(this);
+        if (regId.equals("")) {
+            // Automatically registers application on startup.
+            GCMRegistrar.register(this, SENDER_ID);
+        } else {
+            // Device is already registered on GCM, check server.
+            //if (GCMRegistrar.isRegisteredOnServer(this)) {
+                // Skips registration.
+            //    mDisplay.append(getString(R.string.already_registered) + "\n");
+            //} else {
+                // Try to register again, but not in the UI thread.
+                // It's also necessary to cancel the thread onDestroy(),
+                // hence the use of AsyncTask instead of a raw thread.
+                final Context context = this;
+                mRegisterTask = new AsyncTask<Void, Void, Void>() {
+
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        boolean registered =
+                                GCMServer.register(context, regId);
+                        // At this point all attempts to register with the app
+                        // server failed, so we need to unregister the device
+                        // from GCM - the app will try to register again when
+                        // it is restarted. Note that GCM will send an
+                        // unregistered callback upon completion, but
+                        // GCMIntentService.onUnregistered() will ignore it.
+                        if (!registered) {
+                            GCMRegistrar.unregister(context);
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void result) {
+                        mRegisterTask = null;
+                    }
+
+                };
+                mRegisterTask.execute(null, null, null);
+            //}
+        }
     }
 }

@@ -17,11 +17,17 @@ public class SiteDaoImpl extends BasicDAO<Site, ObjectId> implements ISiteDao {
         super(Site.class, MongoConnectionManager.instance().getDb());
     }
     
+    private Site ResolveReferences(Site site) {
+		for (String tagId : site.getTagsIds()) {
+			site.addTag(tagDao.find(new ObjectId(tagId)));
+		}
+    	
+    	return site;
+    }
+    
     private List<Site> ResolveReferences(List<Site> sites) {
     	for (Site site : sites) {
-    		for (String tagId : site.getTagsIds()) {
-    			site.addTag(tagDao.find(new ObjectId(tagId)));
-    		}
+    		ResolveReferences(site);
     	}
     	
     	return sites;
@@ -34,17 +40,19 @@ public class SiteDaoImpl extends BasicDAO<Site, ObjectId> implements ISiteDao {
 	
     @Override
     public Site find(ObjectId siteId) {
-        return get(siteId);
+        return ResolveReferences(get(siteId));
     }
 
 	@Override
     public Site findByName(String name) {
     	List<Site> sites = createQuery().field("name").equal(name).asList();
     	sites = ResolveReferences(sites);
-    	if (sites.size() == 1)
-    		return sites.get(0);
-    	else
+    	if (sites.size() == 1) {
+    		return ResolveReferences(sites.get(0));
+    	}
+    	else {
     		return null;
+    	}
     }
 
 	@Override

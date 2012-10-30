@@ -17,7 +17,11 @@ package georeduy.client.activities;
 
 import static georeduy.client.util.CommonUtilities.SENDER_ID;
 import static georeduy.client.util.CommonUtilities.displayMessage;
+import georeduy.client.controllers.NotificationsController;
 import georeduy.client.util.GCMServer;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -26,9 +30,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import georeduy.client.activities.R;
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * IntentService responsible for handling GCM messages.
@@ -66,9 +71,41 @@ public class GCMIntentService extends GCMBaseIntentService {
     protected void onMessage(Context context, Intent intent) {
         Log.i(TAG, "Received message");
         String message = getString(R.string.gcm_message);
+        
+        try {
+	        String className = intent.getExtras().getString("className");
+	        Class<?> classOfPayload = Class.forName("georeduy.client.model." + className);
+	        
+	        Method handler = NotificationsController.class.getMethod("handleNotification", classOfPayload);
+	        
+	        Gson gson = new Gson();
+	        String jsonPayLoad = intent.getExtras().getString("jsonPayload");
+	        handler.invoke(NotificationsController.getInstance(), gson.fromJson(jsonPayLoad, classOfPayload));
+        } catch (ClassNotFoundException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        } catch (JsonSyntaxException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        } catch (IllegalAccessException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        } catch (InvocationTargetException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        }
+        
         displayMessage(context, message);
         // notifies user
         generateNotification(context, message);
+        
+        
     }
 
     @Override

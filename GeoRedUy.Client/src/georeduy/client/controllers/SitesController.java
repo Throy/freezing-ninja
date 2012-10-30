@@ -65,12 +65,16 @@ public class SitesController
 	}
 	
 	
-	// obtener datos de una visita del usuario.
+	// obtener datos de un sitio.
+	// devuelve un Site.
 	
-	public Site getSite (String id) {
-		// *** LLAMAR A LA BASE DE DATOS ***
+	public void getSite (String siteId, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
 		
-		return new Site ();
+		// agregar parámetros
+		params.put ("siteId", siteId);
+		
+    	GeoRedClient.GetAsync("/Sites/GetById", params, callback);	
 	}
 	
 	// visitar sitio.

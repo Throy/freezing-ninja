@@ -18,6 +18,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import org.bson.types.ObjectId;
+
 import com.google.gson.Gson;
 
 @Path("/Sites")
@@ -83,8 +85,35 @@ public class SitesService {
 		
 		Gson gson = new Gson();
 		List<Site> sites = SitesController.getInstance().GetByPosition(latitude, longitud);
-		String hola = gson.toJson(sites);
 		return Response.status(200).entity(gson.toJson(sites)).build();
+	}
+	
+	// obtener datos de una visita.
+	// recibe un String con el id, y devuelve uno lleno.
+	@GET()
+	@Produces("text/plain")
+	@Path("GetById")
+	public Response GetById  (@QueryParam("siteId") String siteId, 
+			@Context HttpServletResponse servletResponse,
+			@Context SecurityContext context) {
+		if (! context.isUserInRole (Roles.REG_USER)) {
+			return Response.status(500).entity (GeoRedConstants.ACCESS_DENIED).build();
+		}
+
+		// obtener visita
+		try {
+			Gson gson = new Gson();
+			
+			Site site = SitesController.getInstance().getById (siteId);
+			
+			return Response.status(200).entity (gson.toJson(site)).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
 	}
 	
 	// administrar visitas
@@ -95,28 +124,24 @@ public class SitesService {
 			@Context HttpServletResponse servletResponse,
 			@Context SecurityContext context) {
 		// si no es un usuario registrado, devolver error 500 de acceso denegado
-		if (! context.isUserInRole(Roles.REG_USER)) {
-			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		if (! context.isUserInRole (Roles.REG_USER)) {
+			return Response.status(500).entity (GeoRedConstants.ACCESS_DENIED).build();
 		}
-		
-		Response response;
 		
 		// crear visita
 		try {
 			Gson gson = new Gson();
-			String json = visitInfo.split("=")[1];
-			Visit visit = gson.fromJson(json, Visit.class);
+			visitInfo = visitInfo.split("=")[1];
+			Visit visit = gson.fromJson (visitInfo, Visit.class);
 			SitesController.getInstance().newVisit (visit);
 			
-			response = Response.status(200).entity(GeoRedConstants.SITE_SUCCESSFULY_ADDED).build();
+			return Response.status(200).entity (GeoRedConstants.SITE_SUCCESSFULY_ADDED).build();
 	    }
 		
 		// si salta una excepción, devolver error
-	    catch (Exception e)
+	    catch (Exception ex)
 	    {
-	    	response = Response.status(500).entity(e.getMessage()).build();
+	    	return Response.status(500).entity (ex.getMessage()).build();
 	    }
-		
-		return response;
 	}
 }

@@ -53,7 +53,6 @@ public class SitesController
 	// *** hay que ver cuáles se precisan y cuáles no. ***
 	
 	// obtener datos de sitios.
-	// *** en realidad devuelve Collection <Site> o algo por el estilo. ***
 	// *** falta definir qué ubicaciones valen para la búsqueda. ***
 	
 	public void getSitesByPosition (int latitude, int longitude, OnCompletedCallback callback) {
@@ -91,10 +90,12 @@ public class SitesController
     	GeoRedClient.PostAsync("/Sites/Visits/New", params, callback);	
 	}
 	
-	// obtener datos visitas del usuario.
+	// obtener datos de visitas del usuario.
 	
-	public void getVisits () {
-		// *** en realidad devuelve Collection <User> o algo por el estilo. ***
+	public void getVisits (OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+		
+    	GeoRedClient.GetAsync("/Sites/Visits/GetByUser", params, callback);
 	}
 	
 	// obtener datos de una visita del usuario.

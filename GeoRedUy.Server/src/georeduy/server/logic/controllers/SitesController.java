@@ -1,6 +1,8 @@
 package georeduy.server.logic.controllers;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -99,8 +101,31 @@ public class SitesController {
 		// agregar usuario
 		visit.setRealUser (User.Current ());
 		visit.setUserId (User.Current ().getId ());
+		
+		// agregar fecha
+		Date currentDate = new Date();
+		currentDate.setSeconds (0);
+		visit.setDate (currentDate);
+		/*
+		Calendar currentCal = Calendar.getInstance();
+		currentCal.clear();
+		currentCal.setTime (currentDate);
+		currentCal.set (Calendar.SECOND, 0);
+		currentCal.set (Calendar.MILLISECOND, 0);
+		visit.setDate (currentCal.getTime ());
+		*/
     	
 		// crear visita
         visitDao.saveVisit (visit);
+	}
+
+	// obtener visitas del usuario
+	public List <Visit> getVisitsByUser () {
+    	return visitDao.findByUser (User.Current ().getId ());
+	}
+
+	// obtener visitas del usuario, sistema paginado
+	public List <Visit> getVisitsByUser (int from) {
+    	return visitDao.findByUser (User.Current ().getId (), from, 10);
 	}
 }

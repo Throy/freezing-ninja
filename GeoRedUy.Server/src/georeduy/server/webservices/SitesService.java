@@ -118,6 +118,7 @@ public class SitesService {
 	
 	// administrar visitas
 
+	// crear visita
 	@POST()
 	@Path("Visits/New")
 	public Response VisitsNew (String visitInfo,
@@ -136,6 +137,52 @@ public class SitesService {
 			SitesController.getInstance().newVisit (visit);
 			
 			return Response.status(200).entity (GeoRedConstants.SITE_SUCCESSFULY_ADDED).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
+	}
+
+	// obtener visitas del usuario
+	@GET()
+	@Produces("text/plain")
+	@Path("Visits/GetByUser")
+	public Response VisitsGetByUser (@Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+
+		// obtener visitas del usuario
+		try {
+			Gson gson = new Gson();
+			List<Visit> sites = SitesController.getInstance().getVisitsByUser();
+			return Response.status(200).entity(gson.toJson(sites)).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
+	}
+
+	// obtener visitas del usuario, sistema paginado
+	@GET()
+	@Produces("text/plain")
+	@Path("Visits/GetByUserPage")
+	public Response VisitsGetByUserPage (@QueryParam("pageNumber") Integer pageNumber, @Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+
+		// obtener visitas del usuario
+		try {
+			Gson gson = new Gson();
+			List<Visit> sites = SitesController.getInstance().getVisitsByUser (pageNumber);
+			return Response.status(200).entity(gson.toJson(sites)).build();
 	    }
 		
 		// si salta una excepción, devolver error

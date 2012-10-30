@@ -56,7 +56,9 @@ public class VisitDaoImpl extends BasicDAO <Visit, ObjectId> implements IVisitDa
 	// obtener visita a partir del id
 	@Override
 	public Visit find (ObjectId visitId) {
-        return get (visitId);
+    	Visit visit = get (visitId);
+        resolveReferences (visit);
+        return visit;
 	}
 
 	// obtener visitas del usuario

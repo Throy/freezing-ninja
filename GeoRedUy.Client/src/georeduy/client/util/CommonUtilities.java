@@ -90,4 +90,10 @@ public final class CommonUtilities {
 		});
 		alertDialog.show();
     }
+    
+    /*
+    public static String trimId (String id) {
+    	return id.substring (id.length() - 3, id.length());
+    }
+    */
 }

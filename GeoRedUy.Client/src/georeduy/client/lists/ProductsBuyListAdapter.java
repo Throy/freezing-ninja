@@ -86,6 +86,7 @@ public class ProductsBuyListAdapter extends BaseAdapter {
  
         // set values of the views
         viewName.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_NAME));
+        String productId = itemString.get (ProductsListActivity.PRODUCT_ITEM_ID);
         //imageLoader.DisplayImage(item.get (ProductsListActivity.ITEM_THUMB), thumb_image);
 
         // get item int
@@ -94,8 +95,7 @@ public class ProductsBuyListAdapter extends BaseAdapter {
  
         // set values of the views
         // *** setTag para guardar cualquier objeto ***
-        int productId = itemInt.get (ProductsListActivity.PRODUCT_ITEM_ID);
-        viewProductId.setText ("" + productId);
+        viewProductId.setText (productId);
         viewPrice.setText ("$ " + itemInt.get (ProductsListActivity.PRODUCT_ITEM_PRICE));
         viewPriceUnit.setText (itemInt.get (ProductsListActivity.PRODUCT_ITEM_PRICE).toString ());
         viewUnits.setText (itemInt.get (ProductsListActivity.PRODUCT_ITEM_UNITS).toString ());

@@ -41,7 +41,7 @@ public class VisitPublishCommentActivity extends Activity {
     public void button_send_onClick (View view) {
 
     	// obtener el id de la visita y el comentario
-    	int visitId = Integer.parseInt (((TextView) findViewById (R.id.textview_visit_id)).getText ().toString ());
+    	String visitId = ((TextView) findViewById (R.id.textview_visit_id)).getText ().toString ();
     	String comment = ((EditText) findViewById (R.id.edittext_comment)).getText ().toString ();
     	
 		// intentar visitar el sitio

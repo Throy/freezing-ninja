@@ -82,7 +82,7 @@ public class SitesController {
 		return siteDao.getNearSites(latitude/1e6, longitud/1e6, 50);		
 	}
 	
-	// obtener datos de una visita.
+	// obtener datos de un sitio.
 	public Site getById (String siteId) {
 		return siteDao.find (new ObjectId (siteId));		
 	}
@@ -117,6 +117,11 @@ public class SitesController {
     	
 		// crear visita
         visitDao.saveVisit (visit);
+	}
+	
+	// obtener datos de una visita.
+	public Visit getVisitById (String visitId) {
+		return visitDao.find (new ObjectId (visitId));		
 	}
 
 	// obtener visitas del usuario

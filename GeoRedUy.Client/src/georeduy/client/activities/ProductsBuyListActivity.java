@@ -46,11 +46,13 @@ public class ProductsBuyListActivity extends Activity {
         ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
         ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
         
-        HashMap <Integer, Integer> productUnits = ProductsController.getInstance ().purchaseGetUnits ();
-        HashMap <Integer, Integer> productPrices = ProductsController.getInstance ().purchaseGetPrices ();
+        HashMap <String, Integer> productUnits = ProductsController.getInstance ().purchaseGetUnits ();
+        HashMap <String, Integer> productPrices = ProductsController.getInstance ().purchaseGetPrices ();
 
         for (int idx = 0; idx < 5; idx += 1) {
         	try {
+        		// *** hay que arreglar eso: debería recorrer una lsita con los ids. ***
+        		
             	// obtener valores.
             	int price = productPrices.get (idx);
 

@@ -27,7 +27,7 @@ public class StoreDetailActivity extends Activity {
         setContentView (R.layout.store_detail_activity);
         
         // obtener datos del local a partir del id.
-        Integer id = Integer.parseInt (getIntent().getStringExtra (StoresListActivity.EXTRA_STORE_ID));
+        String id = getIntent().getStringExtra (StoresListActivity.EXTRA_STORE_ID);
         
         //Store store = ProductsController.getInstance ().getStore (id);
         

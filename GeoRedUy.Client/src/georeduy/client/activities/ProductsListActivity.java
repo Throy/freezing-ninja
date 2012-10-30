@@ -60,7 +60,7 @@ public class ProductsListActivity extends Activity {
         setContentView (R.layout.products_list_activity);
         
         // obtener datos del local a partir del id.
-        Integer storeId = Integer.parseInt (getIntent().getStringExtra (StoresListActivity.EXTRA_STORE_ID));
+        String storeId = getIntent().getStringExtra (StoresListActivity.EXTRA_STORE_ID);
         
         //Store store = ProductsController.getInstance ().getStore (id);
         
@@ -72,7 +72,7 @@ public class ProductsListActivity extends Activity {
         ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
         ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
         
-        HashMap <Integer, Integer> productPrices = new HashMap <Integer, Integer> ();
+        HashMap <String, Integer> productPrices = new HashMap <String, Integer> ();
         
         // ListArray <> listProducts = ProductsController.getInstance ().getProducts (storeId);
 
@@ -98,7 +98,7 @@ public class ProductsListActivity extends Activity {
             itemsIntList.add (itemIntMap);
             
             // agregar precio
-            productPrices.put (idx, price);
+            productPrices.put ("" + idx, price);
         }
 
         // iniciar compra nueva

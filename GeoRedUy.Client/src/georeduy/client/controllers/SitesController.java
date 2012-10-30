@@ -99,14 +99,19 @@ public class SitesController
 	}
 	
 	// obtener datos de una visita del usuario.
-	// *** en realidad devuelve Collection <Visit> o algo por el estilo. ***
 	
-	public void getVisit (int visitId) {
+	public void getVisit (String visitId, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+		
+		// agregar parámetros
+		params.put ("visitId", visitId);
+		
+    	GeoRedClient.GetAsync("/Sites/Visits/GetById", params, callback);	
 	}
 	
 	// publicar comentario de una visita.
 	// *** en realdiad falta enviar fotos y videos. ***
 	
-	public void publishVisitComment (int visitId, String message) {
+	public void publishVisitComment (String visitId, String message) {
 	}
 }

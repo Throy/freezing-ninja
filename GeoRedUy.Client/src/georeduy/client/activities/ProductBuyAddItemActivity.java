@@ -24,7 +24,7 @@ public class ProductBuyAddItemActivity extends Activity {
 	// variables
 	
 	// id del producto
-	private int productId;
+	private String productId;
 	
 	
 	// precio unitario
@@ -41,11 +41,11 @@ public class ProductBuyAddItemActivity extends Activity {
 		setContentView (R.layout.product_buy_add_item_activity);
 
 		// obtener datos del producto a partir del id.
-		productId = Integer.parseInt (getIntent().getStringExtra (ProductsListActivity.EXTRA_PRODUCT_ID));
+		productId = getIntent().getStringExtra (ProductsListActivity.EXTRA_PRODUCT_ID);
 
 		// Product product = ProductsController.getInstance().getProduct (idx);
 
-		priceUnit = productId * 10;
+		priceUnit = 1; //productId * 10;
 		units = 1;
 
 		TextView viewProductId = (TextView) findViewById (R.id.textview_product_id);

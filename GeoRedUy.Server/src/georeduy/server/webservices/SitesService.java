@@ -145,6 +145,29 @@ public class SitesService {
 	    	return Response.status(500).entity (ex.getMessage()).build();
 	    }
 	}
+	
+	@GET()
+	@Produces("text/plain")
+	@Path("Visits/GetById")
+	public Response VisitsGetById (@QueryParam("visitId") String visitId, 
+			@Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+		
+		// obtener visita
+		try {
+			Gson gson = new Gson();
+			Visit visit = SitesController.getInstance().getVisitById (visitId);
+			return Response.status(200).entity(gson.toJson(visit)).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
+	}
 
 	// obtener visitas del usuario
 	@GET()
@@ -158,8 +181,8 @@ public class SitesService {
 		// obtener visitas del usuario
 		try {
 			Gson gson = new Gson();
-			List<Visit> sites = SitesController.getInstance().getVisitsByUser();
-			return Response.status(200).entity(gson.toJson(sites)).build();
+			List <Visit> visits = SitesController.getInstance().getVisitsByUser();
+			return Response.status(200).entity (gson.toJson(visits)).build();
 	    }
 		
 		// si salta una excepción, devolver error
@@ -181,8 +204,8 @@ public class SitesService {
 		// obtener visitas del usuario
 		try {
 			Gson gson = new Gson();
-			List<Visit> sites = SitesController.getInstance().getVisitsByUser (pageNumber);
-			return Response.status(200).entity(gson.toJson(sites)).build();
+			List <Visit> visits = SitesController.getInstance().getVisitsByUser (pageNumber);
+			return Response.status(200).entity(gson.toJson (visits)).build();
 	    }
 		
 		// si salta una excepción, devolver error

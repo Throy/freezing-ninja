@@ -64,11 +64,6 @@ public class StoreDetailActivity extends Activity {
 				}
 			}
 		});
-        
-        // *** en realidad este párrafo no va ***
-        String name = getIntent().getStringExtra (StoresListActivity.STORE_ITEM_NAME);
-        String address = getIntent().getStringExtra (StoresListActivity.STORE_ITEM_ADDRESS);
-
     }
     
     // funciones del programador

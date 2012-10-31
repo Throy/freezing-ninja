@@ -145,5 +145,7 @@
     <string name="contact_search_hint">Contact name</string>
     <string name="options_add_contact">Add Contact</string>
     <string name="submit">Submit</string>
+    
     <string name="contacts_menu">Contacts</string>
+    <string name="main_menu">Main menu</string>
 </resources>

@@ -44,6 +44,11 @@ public class RetailStoreDaoImpl extends BasicDAO<RetailStore, ObjectId> implemen
     }
 
 	@Override
+    public List<RetailStore> getStores() {
+		return createQuery().asList();
+    }
+
+	@Override
     public List<RetailStore> getStores(int from, int count) {
 		return createQuery().offset(from).limit(count).asList();
     }

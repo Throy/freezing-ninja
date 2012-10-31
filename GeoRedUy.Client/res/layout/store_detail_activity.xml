@@ -64,40 +64,13 @@
 	        android:textSize="18dip"/>
 	</LinearLayout>
 
-    <!-- description -->
+    <!-- address -->
  	
  	<LinearLayout
  	    android:id="@+id/layout3"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
  	    android:layout_below="@id/layout2"
-	    android:orientation="horizontal">
-	    
-	    <TextView
-        	android:text="@string/textview_description"
-	        android:layout_weight="1"
-	        android:layout_width="0dp"
-	        android:layout_height="wrap_content"
-	    	android:layout_margin="5dip"
-	        android:textSize="18dip"
-	        android:textStyle="bold"/>
-	    
-	    <TextView
- 	    	android:id="@+id/textview_description"
-	        android:layout_weight="2"
-	        android:layout_width="0dp"
-	        android:layout_height="wrap_content"
-	    	android:layout_margin="5dip"
-	        android:textSize="18dip"/>
-	</LinearLayout>
-
-    <!-- address -->
- 	
- 	<LinearLayout
- 	    android:id="@+id/layout4"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
- 	    android:layout_below="@id/layout3"
 	    android:orientation="horizontal">
 	    
 	    <TextView
@@ -111,6 +84,33 @@
 	    
 	    <TextView
  	    	android:id="@+id/textview_address"
+	        android:layout_weight="2"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"/>
+	</LinearLayout>
+
+    <!-- telephone -->
+ 	
+ 	<LinearLayout
+ 	    android:id="@+id/layout4"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+ 	    android:layout_below="@id/layout3"
+	    android:orientation="horizontal">
+	    
+	    <TextView
+        	android:text="@string/textview_telephone"
+	        android:layout_weight="1"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"/>
+	    
+	    <TextView
+ 	    	android:id="@+id/textview_telephone"
 	        android:layout_weight="2"
 	        android:layout_width="0dp"
 	        android:layout_height="wrap_content"

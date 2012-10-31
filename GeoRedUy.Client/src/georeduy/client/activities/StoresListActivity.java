@@ -8,10 +8,12 @@ package georeduy.client.activities;
 
 import georeduy.client.controllers.ProductsController;
 import georeduy.client.lists.StoresListAdapter;
+import georeduy.client.model.RetailStore;
 import georeduy.client.util.CommonUtilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -46,27 +48,32 @@ public class StoresListActivity extends Activity {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.list_activity);
         
+        // obtener locales de la caché
+        List <RetailStore> stores = ProductsController.getInstance ().getStoresByPosition ();
+        
         // poblar lista de locales
         
         ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
         ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
 
-        for (int idx = 0; idx < 5; idx += 1) {
-            // crear item
-            HashMap <String, String> itemStringMap = new HashMap <String, String> ();
-            itemStringMap.put (STORE_ITEM_NAME, "Local " + idx);
-            itemStringMap.put (STORE_ITEM_DESCRIPTION, "Es un lugar " + idx);
-            itemStringMap.put (STORE_ITEM_ADDRESS, "Calle " + idx + " y " + (((idx + 5) % 8) + 6));
- 
-            // adding HashList to ArrayList
-            itemsStringList.add (itemStringMap);
-
-            // crear item
-            HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
-            itemIntMap.put (STORE_ITEM_ID, idx);
- 
-            // adding HashList to ArrayList
-            itemsIntList.add (itemIntMap);
+        if (stores != null) {
+	        for (RetailStore store : stores) {
+	            // crear item
+	            HashMap <String, String> itemStringMap = new HashMap <String, String> ();
+	            itemStringMap.put (STORE_ITEM_ID, store.getId ());
+	            itemStringMap.put (STORE_ITEM_NAME, store.getName ());
+	            itemStringMap.put (STORE_ITEM_DESCRIPTION, "");
+	            itemStringMap.put (STORE_ITEM_ADDRESS, store.getAddress ());
+	 
+	            // adding HashList to ArrayList
+	            itemsStringList.add (itemStringMap);
+	
+	            // crear item
+	            HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
+	 
+	            // adding HashList to ArrayList
+	            itemsIntList.add (itemIntMap);
+	        }
         }
  
         // poblar lista de items

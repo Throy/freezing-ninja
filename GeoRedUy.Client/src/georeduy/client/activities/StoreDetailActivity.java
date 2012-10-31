@@ -7,10 +7,15 @@ package georeduy.client.activities;
 
 // imports
 
+import com.google.gson.Gson;
+
 import georeduy.client.controllers.SessionController;
 import georeduy.client.controllers.ProductsController;
+import georeduy.client.model.RetailStore;
+import georeduy.client.model.Site;
 //import georeduy.client.model.Product;
 import georeduy.client.util.CommonUtilities;
+import georeduy.client.util.OnCompletedCallback;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,25 +32,43 @@ public class StoreDetailActivity extends Activity {
         setContentView (R.layout.store_detail_activity);
         
         // obtener datos del local a partir del id.
-        String id = getIntent().getStringExtra (StoresListActivity.EXTRA_STORE_ID);
+        String storeId = getIntent().getStringExtra (StoresListActivity.EXTRA_STORE_ID);
         
-        //Store store = ProductsController.getInstance ().getStore (id);
+        ProductsController.getInstance ().getStoresByPosition (storeId, new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted (String response, String error)
+			{
+				// TODO Auto-generated method stub
+				if (error == null) {
+
+					// obtener local
+			        Gson gson = new Gson();
+			        RetailStore store = gson.fromJson (response, RetailStore.class);
+
+			        // mostrar datos en el menú
+			        TextView viewStoreId = (TextView) findViewById (R.id.textview_store_id);
+			        TextView viewName = (TextView) findViewById (R.id.textview_name);
+			        TextView viewAddress = (TextView) findViewById (R.id.textview_address);
+			        TextView viewTelephone = (TextView) findViewById (R.id.textview_telephone);
+			        
+			        viewStoreId.setText (store.getId ());
+			        viewName.setText (store.getName ());
+			        viewAddress.setText (store.getAddress ());
+			        viewTelephone.setText (store.getPhoneNumber ());
+				}
+				
+				else {
+					CommonUtilities.showAlertMessage (StoreDetailActivity.this, "Error StoreDetA onCr", "Hubo un error:\n" + error);
+					//finish();
+				}
+			}
+		});
         
         // *** en realidad este párrafo no va ***
         String name = getIntent().getStringExtra (StoresListActivity.STORE_ITEM_NAME);
         String address = getIntent().getStringExtra (StoresListActivity.STORE_ITEM_ADDRESS);
 
-        // msotrar datos en el menú
-        TextView viewStoreId = (TextView) findViewById (R.id.textview_store_id);
-        TextView viewName = (TextView) findViewById (R.id.textview_name);
-        TextView viewDescription = (TextView) findViewById (R.id.textview_description);
-        TextView viewAddress = (TextView) findViewById (R.id.textview_address);
-        
-        /// *** en realidad debería tomar los datos del objeto store. ***
-        viewStoreId.setText ("" + id);
-        viewDescription.setText ("Es un lugar " + id);
-        viewName.setText (name);
-        viewAddress.setText (address);
     }
     
     // funciones del programador

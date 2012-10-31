@@ -77,6 +77,7 @@ public class StoresListAdapter extends BaseAdapter {
         itemString = _itemsString.get (position);
  
         // set values of the views
+        storeId.setText (itemString.get (StoresListActivity.STORE_ITEM_ID));
         name.setText (itemString.get (StoresListActivity.STORE_ITEM_NAME));
         description.setText (itemString.get (StoresListActivity.STORE_ITEM_DESCRIPTION));
         address.setText (itemString.get (StoresListActivity.STORE_ITEM_ADDRESS));
@@ -88,7 +89,6 @@ public class StoresListAdapter extends BaseAdapter {
  
         // set values of the views
         // *** setTag para guardar cualquier objeto ***
-        storeId.setText (itemInt.get (StoresListActivity.STORE_ITEM_ID).toString ());
         
         // return view
         return vi;

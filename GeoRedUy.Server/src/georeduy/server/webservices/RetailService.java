@@ -101,6 +101,7 @@ public class RetailService {
 		return response;
 	}
 	
+	// obtener locales de la empresa del adminsitrador.
 	@GET()
 	@Produces("text/plain")
 	@Path("GetStores")
@@ -118,8 +119,32 @@ public class RetailService {
 			from = 0;
 		
 		Gson gson = new Gson();
-		List<RetailStore> stores = RetailController.getInstance().GetStores(from, count);
+		List<RetailStore> stores = RetailController.getInstance().GetStoresRetailer(from, count);
 		return Response.status(200).entity(gson.toJson(stores)).build();
+	}
+	
+	// obtener todos los locales.
+	@GET()
+	@Produces("text/plain")
+	@Path("GetStoresFull")
+	public Response GetStores(@Context SecurityContext context) {
+		// si no es un usuario registrado, devolver un error.
+		if (! context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+		
+		// obtener locales
+		try {
+			Gson gson = new Gson();
+			List<RetailStore> stores = RetailController.getInstance().GetStores();
+			return Response.status(200).entity(gson.toJson(stores)).build();
+	    }
+		
+		// si ocurre un error, devolverlo.
+	    catch (Exception e)
+	    {
+	    	return Response.status(500).entity(e.getMessage()).build();
+	    }
 	}
 	
 	@POST()
@@ -176,7 +201,7 @@ public class RetailService {
 	public Response GetStore(@QueryParam("id") String id,
 			@Context HttpServletResponse servletResponse,
 			@Context SecurityContext context) {
-		if (!context.isUserInRole(Roles.RETAIL_MANAGER)) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
 			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
 		}
 

@@ -153,17 +153,23 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 			        }
 		        });
         
-        ProductsController.getInstance().getStoreByPosition(latitudeE5, longitudeE5, 
+        ProductsController.getInstance().getStoresByPosition (latitudeE5, longitudeE5, 
 		        new OnCompletedCallback() {
 
 			        @Override
 			        public void onCompleted(String response, String error) {
 			        	if (error == null)  {
+			        		// obtener los locales
 				        	Gson gson = new Gson();
 				        	Type listType = new TypeToken<ArrayList<RetailStore>>() {}.getType();				    		
 				    		List<RetailStore> stores = gson.fromJson(response, listType);
 				    		
+				    		// mostrar los locales
 				    		if (stores != null) {
+					    		// cachear los locales
+					    		ProductsController.getInstance().setStoresByPosition (stores);
+					    		
+					    		
 					    		for (RetailStore store : stores)
 					    		{
 					    			double lat =  store.getCoordinates() [0]*1e6 ;
@@ -232,7 +238,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     			        }
     		        });
             
-            ProductsController.getInstance().getStoreByPosition(latitudeE5, longitudeE5, 
+            ProductsController.getInstance().getStoresByPosition(latitudeE5, longitudeE5, 
     		        new OnCompletedCallback() {
 
     			        @Override
@@ -242,8 +248,11 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     				        	Type listType = new TypeToken<ArrayList<RetailStore>>() {}.getType();				    		
     				    		List<RetailStore> stores = gson.fromJson(response, listType);
     				    		
-    				    		
+    				    		// mostrar los locales
     				    		if (stores != null) {
+    					    		// cachear los locales
+    					    		ProductsController.getInstance().setStoresByPosition (stores);
+    					    		
     					    		for (RetailStore store : stores)
     					    		{
     					    			double lat =  store.getCoordinates() [0]*1e6;

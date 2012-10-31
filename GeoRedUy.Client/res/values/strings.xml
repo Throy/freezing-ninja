@@ -126,6 +126,7 @@
     <string name="textview_address">Dirección</string>
     <string name="textview_date">Fecha</string>
     <string name="textview_email">Correo</string>
+    <string name="textview_telephone">Teléfono</string>
     
     <string name="textview_comment">Comentario</string>
     <string name="textview_price">Precio</string>

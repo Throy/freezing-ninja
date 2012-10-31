@@ -18,6 +18,7 @@ import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.Site;
 import georeduy.server.logic.model.StoreProduct;
 import georeduy.server.logic.model.User;
+import georeduy.server.logic.model.UserData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,17 +51,30 @@ public class RetailController {
 	
 	public void NewRetailer(Retailer retailer) throws Exception {
 		if (retailerDao.findByName(retailer.getName()) == null) {
+			// asignar adminsitrador exisxtente, o crear uno nuevo.
 			User user = userDao.findByUserName(retailer.getUser().getUserName());
-			if (user != null) {
-				retailer.setUser(user);
-				retailerDao.saveRetailer(retailer);
-				List<String> roles = (List<String>) ((ArrayList<String>)user.getRoles()).clone();
-				roles.add(Roles.RETAIL_MANAGER);
-				userDao.update(user, userDao.getUpdateOperations().set("roles", roles).set("retailId", retailer.getId()));
-			} else {
-				throw new Exception(GeoRedConstants.RETAILER_USER_DOES_NOT_EXISTS);
-			}			
-		} else {
+			if (user == null) {
+				user = new User ();
+				user.setUserName (retailer.getUser().getUserName());
+		        user.setPassword ("1234");
+		        UserData userData = new UserData();
+		        userData.setEmail ("");
+		        userData.setName (retailer.getUser().getUserName());
+		        userData.setLastName (retailer.getUser().getUserName());
+		        user.setUserData (userData);
+		        SessionController.getInstance ().Register (user);
+			}
+			retailer.setUser(user);
+			
+			// guardar la empresa en la base de datos.
+			retailerDao.saveRetailer(retailer);
+			
+			// asignar al usuario como administrador.
+			List<String> roles = (List<String>) ((ArrayList<String>) user.getRoles()).clone();
+			roles.add(Roles.RETAIL_MANAGER);
+			userDao.update(user, userDao.getUpdateOperations().set("roles", roles).set("retailId", retailer.getId()));	
+		}
+		else {
         	throw new Exception(GeoRedConstants.RETAILER_NAME_EXISTS);
         }		
 	}
@@ -90,7 +104,15 @@ public class RetailController {
 		return retailerDao.getRetailers(from, count);
 	}
 	
+	public List<RetailStore> GetStores() {
+		return retailStoreDao.getStores();
+	}
+	
 	public List<RetailStore> GetStores(int from, int count) {
+		return retailStoreDao.getStores(from, count);
+	}
+	
+	public List<RetailStore> GetStoresRetailer(int from, int count) {
 		return retailStoreDao.getStores(from, count, User.Current().getRetailId());
 	}
 	

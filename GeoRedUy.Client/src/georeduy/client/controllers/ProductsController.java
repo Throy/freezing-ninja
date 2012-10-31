@@ -7,6 +7,7 @@ package georeduy.client.controllers;
 
 // imports
 
+import georeduy.client.model.RetailStore;
 import georeduy.client.model.User;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.OnCompletedCallback;
@@ -14,6 +15,7 @@ import georeduy.client.util.OnCompletedCallback;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -43,8 +45,8 @@ public class ProductsController
 	// id del local donde se realiza la compra.
 	private String _storeId;
 	
-	// autoincrementador;
-	//private int autitoIncrement;
+	// locales traídos por el mapa
+	private List <RetailStore> _stores;
 	
 	// *************
 	// constructores
@@ -130,13 +132,28 @@ public class ProductsController
 		return pricetotal;
 	}
 	
+	public void getStoresByPosition (String storeId, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+		params.put ("id", storeId);
+    	GeoRedClient.GetAsync("/Retail/GetStore", params, callback);
+	}
 	
-	public void getStoreByPosition (int latitude, int longitude, OnCompletedCallback callback) {
+	public void getStoresByPosition (int latitude, int longitude, OnCompletedCallback callback) {
 		Map <String, String> params = new HashMap <String, String>();
 		params.put ("latitude", Integer.toString(latitude));
 		params.put ("longitude", Integer.toString(longitude));
 		
     	GeoRedClient.GetAsync("/Retail/GetByLocation", params, callback);
+	}
+	
+	// cachear los locales traídos por el mapa
+	public void setStoresByPosition (List <RetailStore> stores) {
+		_stores = stores;
+	}
+
+	// obtener los locales traídos por el mapa
+	public List <RetailStore> getStoresByPosition () {
+		return _stores;
 	}
 
 	// publicar evaluación de un producto.

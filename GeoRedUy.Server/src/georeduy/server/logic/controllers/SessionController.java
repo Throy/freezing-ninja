@@ -81,6 +81,7 @@ public class SessionController {
     	m_onlineUsers.remove(token);
     }
 
+    // registrar un usuario cliente.
     public void Register(User user) throws Exception {
         if (userDao.findByUserName(user.getUserName()) == null) {
         	List<String> roles = new ArrayList<String>();

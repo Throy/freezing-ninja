@@ -74,7 +74,6 @@ public class RetailService {
 		return Response.status(200).entity(gson.toJson(retailers)).build();
 	}
 	
-	@POST()
 	@Path("NewStore")
 	public Response NewStore(String storeInfo,
 			@Context HttpServletResponse servletResponse,

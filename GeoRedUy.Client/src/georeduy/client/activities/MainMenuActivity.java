@@ -113,7 +113,7 @@ public class MainMenuActivity extends Activity {
     
     public void button_users_list_onClick (View view) {
     	// crear intent de la actividad Listar.
-    	Intent intent_users_list = new Intent (this, UsersListActivity.class);
+    	Intent intent_users_list = new Intent (this, ContactListActivity.class);
     	
     	// ejecutar intent.
     	startActivity (intent_users_list);

@@ -80,6 +80,7 @@ public class VisitsListAdapter extends BaseAdapter {
         name.setText (itemString.get (VisitsListActivity.VISIT_ITEM_NAME));
         address.setText (itemString.get (VisitsListActivity.VISIT_ITEM_ADDRESS));
         date.setText (itemString.get (VisitsListActivity.VISIT_ITEM_DATE));
+        visitId.setText (itemString.get (VisitsListActivity.VISIT_ITEM_ID));
         //imageLoader.DisplayImage(item.get (ListActivity.ITEM_THUMB), thumb_image);
 
         // get item int
@@ -88,7 +89,6 @@ public class VisitsListAdapter extends BaseAdapter {
  
         // set values of the views
         // *** setTag para guardar cualquier objeto ***
-        visitId.setText (itemInt.get (VisitsListActivity.VISIT_ITEM_ID).toString ());
         
         // return view
         return vi;

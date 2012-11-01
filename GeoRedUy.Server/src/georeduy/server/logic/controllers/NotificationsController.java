@@ -15,6 +15,7 @@ import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.MulticastResult;
 import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
+import com.google.gson.Gson;
 
 public class NotificationsController {
 	private static NotificationsController s_instance = null;
@@ -75,16 +76,23 @@ public class NotificationsController {
 		}
 	}
 
-	public void SendToClient(int clientId) throws IOException {
-		Message message = new Message.Builder().build();
+	public void SendToClient(int clientId, Object payload) throws IOException {
+		Gson gson = new Gson();
+        
+        Message message = new Message.Builder().addData("className", payload.getClass().getSimpleName()).addData("jsonPayload", gson.toJson(payload)).build();
+        
 		m_sender.send(message, m_onlineDevices.get(clientId), 5);
 	}
 
-	public void BroadCast() {
+	public void BroadCast(Object payload) {
 		int total = m_onlineDevices.size();
         
         List<String> partialDevices = new ArrayList<String>(total);
         int counter = 0;
+        
+        Gson gson = new Gson();
+        String json = gson.toJson(payload);
+        Message message = new Message.Builder().addData("className", payload.getClass().getSimpleName()).addData("jsonPayload", json).build();
         
         for (String device : m_onlineDevices.values()) {
             counter++;
@@ -92,20 +100,20 @@ public class NotificationsController {
             
             int partialSize = partialDevices.size();
             if (partialSize == MULTICAST_SIZE || counter == total) {
-                asyncSend(partialDevices);
+                asyncSend(partialDevices, message);
                 partialDevices.clear();
             }
         }
 	}
 
-	private void asyncSend(List<String> partialDevices) {
+	private void asyncSend(List<String> partialDevices, final Message message) {
 		// make a copy
 		final List<String> devices = new ArrayList<String>(partialDevices);
 		
 		m_threadPool.execute(new Runnable() {
 
 			public void run() {
-				Message message = new Message.Builder().build();
+				
 				MulticastResult multicastResult;
 				try {
 					multicastResult = m_sender.send(message, devices, 5);

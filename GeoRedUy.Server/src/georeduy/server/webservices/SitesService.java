@@ -1,6 +1,7 @@
 package georeduy.server.webservices;
 
 import georeduy.server.logic.controllers.SitesController;
+import georeduy.server.logic.model.Comment;
 import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.Site;
@@ -17,6 +18,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+
+import org.bson.types.ObjectId;
 
 import com.google.gson.Gson;
 
@@ -51,16 +54,40 @@ public class SitesService {
 		
 		return response;
 	}
-	
+
+	// obtener sitios
 	@GET()
 	@Produces("text/plain")
 	@Path("Get")
-	public Response Get(@QueryParam("from") Integer from,
+	public Response Get (@Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+
+		// obtener sitios
+		try {
+			Gson gson = new Gson();
+			List <Site> sites = SitesController.getInstance().getSites ();
+			return Response.status(200).entity (gson.toJson (sites)).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
+	}
+
+	// obtener sitios, por pagina
+	@GET()
+	@Produces("text/plain")
+	@Path("GetPage")
+	public Response GetPaged(@QueryParam("from") Integer from,
 			@QueryParam("count") Integer count,
 			@Context HttpServletResponse servletResponse,
 			@Context SecurityContext context) {
 		if (!context.isUserInRole(Roles.REG_USER)) {
-			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+			return Response.status(500).entity (GeoRedConstants.ACCESS_DENIED).build();
 		}
 
 		if (count == null)
@@ -69,8 +96,8 @@ public class SitesService {
 			from = 0;
 		
 		Gson gson = new Gson();
-		List<Site> sites = SitesController.getInstance().Get(from, count);
-		return Response.status(200).entity(gson.toJson(sites)).build();
+		List <Site> sites = SitesController.getInstance().getSites (from, count);
+		return Response.status(200).entity (gson.toJson (sites)).build();
 	}
 	
 	@GET()
@@ -82,41 +109,233 @@ public class SitesService {
 		}
 		
 		Gson gson = new Gson();
-		List<Site> sites = SitesController.getInstance().GetByPosition(latitude, longitud);
-		String hola = gson.toJson(sites);
+		List <Site> sites = SitesController.getInstance().getSitesByPosition (latitude, longitud);
 		return Response.status(200).entity(gson.toJson(sites)).build();
+	}
+	
+	// obtener datos de una visita.
+	// recibe un String con el id, y devuelve uno lleno.
+	@GET()
+	@Produces("text/plain")
+	@Path("GetById")
+	public Response GetById  (@QueryParam("siteId") String siteId, 
+			@Context HttpServletResponse servletResponse,
+			@Context SecurityContext context) {
+		if (! context.isUserInRole (Roles.REG_USER)) {
+			return Response.status(500).entity (GeoRedConstants.ACCESS_DENIED).build();
+		}
+
+		// obtener visita
+		try {
+			Gson gson = new Gson();
+			
+			Site site = SitesController.getInstance().getById (siteId);
+			
+			return Response.status(200).entity (gson.toJson(site)).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
 	}
 	
 	// administrar visitas
 
+	// crear visita
 	@POST()
 	@Path("Visits/New")
 	public Response VisitsNew (String visitInfo,
 			@Context HttpServletResponse servletResponse,
 			@Context SecurityContext context) {
 		// si no es un usuario registrado, devolver error 500 de acceso denegado
-		if (! context.isUserInRole(Roles.REG_USER)) {
-			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		if (! context.isUserInRole (Roles.REG_USER)) {
+			return Response.status(500).entity (GeoRedConstants.ACCESS_DENIED).build();
 		}
-		
-		Response response;
 		
 		// crear visita
 		try {
 			Gson gson = new Gson();
-			String json = visitInfo.split("=")[1];
-			Visit visit = gson.fromJson(json, Visit.class);
+			visitInfo = visitInfo.split("=")[1];
+			Visit visit = gson.fromJson (visitInfo, Visit.class);
 			SitesController.getInstance().newVisit (visit);
 			
-			response = Response.status(200).entity(GeoRedConstants.SITE_SUCCESSFULY_ADDED).build();
+			return Response.status(200).entity (GeoRedConstants.SITE_SUCCESSFULY_ADDED).build();
 	    }
 		
 		// si salta una excepción, devolver error
-	    catch (Exception e)
+	    catch (Exception ex)
 	    {
-	    	response = Response.status(500).entity(e.getMessage()).build();
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
+	}
+	
+	@GET()
+	@Produces("text/plain")
+	@Path("Visits/GetById")
+	public Response VisitsGetById (@QueryParam("visitId") String visitId, 
+			@Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+		
+		// obtener visita
+		try {
+			Gson gson = new Gson();
+			Visit visit = SitesController.getInstance().getVisitById (visitId);
+			return Response.status(200).entity(gson.toJson(visit)).build();
 	    }
 		
-		return response;
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
+	}
+
+	// obtener visitas del usuario
+	@GET()
+	@Produces("text/plain")
+	@Path("Visits/GetByUser")
+	public Response VisitsGetByUser (@Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+
+		// obtener visitas del usuario
+		try {
+			Gson gson = new Gson();
+			List <Visit> visits = SitesController.getInstance().getVisitsByUser();
+			return Response.status(200).entity (gson.toJson(visits)).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
+	}
+
+	// obtener visitas del usuario, sistema paginado
+	@GET()
+	@Produces("text/plain")
+	@Path("Visits/GetByUserPage")
+	public Response VisitsGetByUserPage (@QueryParam("pageNumber") Integer pageNumber, @Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+
+		// obtener visitas del usuario
+		try {
+			Gson gson = new Gson();
+			List <Visit> visits = SitesController.getInstance().getVisitsByUser (pageNumber);
+			return Response.status(200).entity(gson.toJson (visits)).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
+	}
+	
+	// administrar comentarios
+
+	// crear comentario. recibe un Comment.
+	@POST()
+	@Path("Comments/New")
+	public Response CommentsNew (String commentInfo,
+			@Context HttpServletResponse servletResponse,
+			@Context SecurityContext context) {
+		// si no es un usuario registrado, devolver error 500 de acceso denegado
+		if (! context.isUserInRole (Roles.REG_USER)) {
+			return Response.status(500).entity (GeoRedConstants.ACCESS_DENIED).build();
+		}
+		
+		// crear comentario
+		try {
+			Gson gson = new Gson();
+			commentInfo = commentInfo.split("=")[1];
+			Comment comment = gson.fromJson (commentInfo, Comment.class);
+			SitesController.getInstance().newComment (comment);
+			
+			return Response.status(200).entity (GeoRedConstants.COMMENT_SUCCESSFULY_ADDED).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
+	}
+	
+	@GET()
+	@Produces("text/plain")
+	@Path("Comments/GetById")
+	public Response CommentsGetById (@QueryParam("commentId") String commentId, 
+			@Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+		
+		// obtener comentario
+		try {
+			Gson gson = new Gson();
+			Comment comment = SitesController.getInstance().getCommentById (commentId);
+			return Response.status(200).entity(gson.toJson(comment)).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
+	}
+
+	// obtener comentarios del usuario
+	@GET()
+	@Produces("text/plain")
+	@Path("Comments/GetByUser")
+	public Response CommentsGetByUser (@Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+
+		// obtener comentarios del usuario
+		try {
+			Gson gson = new Gson();
+			List <Comment> comments = SitesController.getInstance().getCommentsByUser();
+			return Response.status(200).entity (gson.toJson(comments)).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
+	}
+
+	// obtener comentarios del usuario, sistema paginado
+	@GET()
+	@Produces("text/plain")
+	@Path("Comments/GetByUserPage")
+	public Response CommentsGetByUserPage (@QueryParam("pageNumber") Integer pageNumber, @Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+
+		// obtener comentarios del usuario
+		try {
+			Gson gson = new Gson();
+			List <Comment> comments = SitesController.getInstance().getCommentsByUser(pageNumber);
+			return Response.status(200).entity (gson.toJson(comments)).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
 	}
 }

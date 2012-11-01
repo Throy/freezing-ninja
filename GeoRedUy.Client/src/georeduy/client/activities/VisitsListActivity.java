@@ -7,10 +7,19 @@ package georeduy.client.activities;
 
 // imports
 
+import georeduy.client.controllers.SitesController;
 import georeduy.client.lists.VisitsListAdapter;
+import georeduy.client.model.Visit;
+import georeduy.client.util.CommonUtilities;
+import georeduy.client.util.OnCompletedCallback;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -55,92 +64,115 @@ public class VisitsListActivity extends Activity {
         listView.setAdapter(adapter);
         */
         
-        // poblar lista 2
+        // poblar lista 3
         
-        ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
-        ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
+        SitesController.getInstance ().getVisits (new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted (String response, String error)
+			{
+				if (error == null) {
 
-        for (int idx = 0; idx < 5; idx += 1) {
-            // crear item
-            HashMap <String, String> itemStringMap = new HashMap <String, String> ();
-            itemStringMap.put (VISIT_ITEM_NAME, "Sitio " + idx);
-            itemStringMap.put (VISIT_ITEM_ADDRESS, "Calle " + idx + " y " + (((idx + 5) % 8) + 5));
-            itemStringMap.put (VISIT_ITEM_DATE, "2012 / 10 / " + idx);
- 
-            // adding HashList to ArrayList
-            itemsStringList.add (itemStringMap);
+					// obtener visitas
+			        Gson gson = new Gson();
+		        	Type listType = new TypeToken <ArrayList <Visit>>() {}.getType();
+		    		List <Visit> visits = gson.fromJson (response, listType);
+		    		
+		            ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
+		            ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
 
-            // crear item
-            HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
-            itemIntMap.put (VISIT_ITEM_ID, idx);
- 
-            // adding HashList to ArrayList
-            itemsIntList.add (itemIntMap);
-        }
- 
-        // poblar lista de items
-        VisitsListAdapter adapter = new VisitsListAdapter (this, itemsStringList, itemsIntList);
-        ListView listView = (ListView) findViewById (R.id.listView_list);
-        listView.setAdapter (adapter);
-        
-        // cliquear línea -> iniciar actividad de Ver datos
-        listView.setOnItemClickListener (new OnItemClickListener() {
+		            for (Visit visit : visits) {
+		                // crear item
+		                HashMap <String, String> itemStringMap = new HashMap <String, String> ();
+		                itemStringMap.put (VISIT_ITEM_ID, visit.getId ());
+		                itemStringMap.put (VISIT_ITEM_NAME, visit.getRealSite ().getName ());
+		                itemStringMap.put (VISIT_ITEM_ADDRESS, visit.getRealSite ().getAddress ());
+		                if (visit.getDate () != null) {
+		                	itemStringMap.put (VISIT_ITEM_DATE, visit.getDate ().toString ());
+		                }
+		                else {
+		                	itemStringMap.put (VISIT_ITEM_DATE, "2012 / 11 / X");
+		                }
+		     
+		                // adding HashList to ArrayList
+		                itemsStringList.add (itemStringMap);
 
-        	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
-        		
-            	// crear intent de la actividad Ver datos de una visita.
-            	Intent intent_visit_detail = new Intent (parent.getContext (), VisitDetailActivity.class);
-            	
-            	// agregar id de la visita al intent
-            	String visitId = ((TextView) view.findViewById (R.id.visit_id)).getText().toString();
-            	intent_visit_detail.putExtra (EXTRA_VISIT_ID, visitId);
-            	
-            	// ejecutar intent.
-            	startActivity (intent_visit_detail);
-        		
-        		/*
-        		//AlertDialog dialog = new AlertDialog (this);
-        		
-        		// crear alerta
-        		AlertDialog alertDialog = new AlertDialog.Builder (VisitsListActivity.this).create ();
-        		
-        		// mensaje
-        		alertDialog.setTitle ("Message");
-        		String visitName = ((TextView) view.findViewById (R.id.name)).getText().toString();
-        		alertDialog.setMessage ("What do you think about visit " + visitName + "?");
+		                // crear item
+		                HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
+		     
+		                // adding HashList to ArrayList
+		                itemsIntList.add (itemIntMap);
+		            }
+		     
+		            // poblar lista de items
+		            VisitsListAdapter adapter = new VisitsListAdapter (VisitsListActivity.this, itemsStringList, itemsIntList);
+		            ListView listView = (ListView) findViewById (R.id.listView_list);
+		            listView.setAdapter (adapter);
+		            
+		            // cliquear línea -> iniciar actividad de Ver datos
+		            listView.setOnItemClickListener (new OnItemClickListener() {
 
-        		// button ok
-        		alertDialog.setButton (DialogInterface.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
-        			public void onClick (DialogInterface dialog, int which) {
-        				// nada
-                		AlertDialog alertDialog = new AlertDialog.Builder (VisitsListActivity.this).create ();
-                		alertDialog.setTitle ("Bueno, ok");
-                		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
-                			public void onClick (DialogInterface dialog, int which) {
-                			}
-                		});
-                		alertDialog.show();
-        			}
-        		});
+		            	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
+		            		
+		                	// crear intent de la actividad Ver datos de una visita.
+		                	Intent intent_visit_detail = new Intent (parent.getContext (), VisitDetailActivity.class);
+		                	
+		                	// agregar id de la visita al intent
+		                	String visitId = ((TextView) view.findViewById (R.id.visit_id)).getText().toString();
+		                	intent_visit_detail.putExtra (EXTRA_VISIT_ID, visitId);
+		                	
+		                	// ejecutar intent.
+		                	startActivity (intent_visit_detail);
+		            		
+		            		/*
+		            		//AlertDialog dialog = new AlertDialog (this);
+		            		
+		            		// crear alerta
+		            		AlertDialog alertDialog = new AlertDialog.Builder (VisitsListActivity.this).create ();
+		            		
+		            		// mensaje
+		            		alertDialog.setTitle ("Message");
+		            		String visitName = ((TextView) view.findViewById (R.id.name)).getText().toString();
+		            		alertDialog.setMessage ("What do you think about visit " + visitName + "?");
 
-        		// button cancel
-        		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-        			public void onClick (DialogInterface dialog, int which) {
-        				// nada
-                		AlertDialog alertDialog = new AlertDialog.Builder (VisitsListActivity.this).create ();
-                		alertDialog.setTitle ("Malo, cancel");
-                		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
-                			public void onClick (DialogInterface dialog, int which) {
-                			}
-                		});
-                		alertDialog.show();
-        			}
-        		});
-        		alertDialog.show();
-        		*/
-        	}
-        });
+		            		// button ok
+		            		alertDialog.setButton (DialogInterface.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+		            			public void onClick (DialogInterface dialog, int which) {
+		            				// nada
+		                    		AlertDialog alertDialog = new AlertDialog.Builder (VisitsListActivity.this).create ();
+		                    		alertDialog.setTitle ("Bueno, ok");
+		                    		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
+		                    			public void onClick (DialogInterface dialog, int which) {
+		                    			}
+		                    		});
+		                    		alertDialog.show();
+		            			}
+		            		});
 
+		            		// button cancel
+		            		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+		            			public void onClick (DialogInterface dialog, int which) {
+		            				// nada
+		                    		AlertDialog alertDialog = new AlertDialog.Builder (VisitsListActivity.this).create ();
+		                    		alertDialog.setTitle ("Malo, cancel");
+		                    		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
+		                    			public void onClick (DialogInterface dialog, int which) {
+		                    			}
+		                    		});
+		                    		alertDialog.show();
+		            			}
+		            		});
+		            		alertDialog.show();
+		            		*/
+		            	}
+		            });
+				}
+				
+				else {
+					CommonUtilities.showAlertMessage (VisitsListActivity.this, "Error VLA onCr", "Hubo un error:\n" + error);
+				}
+			}
+		});
     }
     
     // cliquear botón -> iniciar actividad de Publicar comentario 

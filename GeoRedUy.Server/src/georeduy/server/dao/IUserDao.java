@@ -26,4 +26,6 @@ public interface IUserDao {
     public List<User> findUsersByUserData(UserData userData);
 
     public User findByUsernameAndPassword(String username, String password);
+    
+    public List<User> searchByUsersName(String user, int from, int count);
 }

@@ -54,6 +54,11 @@ public class UserDaoImpl extends BasicDAO<User, ObjectId> implements IUserDao {
     }
     
     @Override
+    public  List<User> searchByUsersName(String userName, int from, int count) {
+    	return createQuery().field("id").notEqual(new ObjectId(User.Current().getId())).field("userName").containsIgnoreCase(userName).offset(from).limit(count).asList();
+    }
+    
+    @Override
     public User findByExternalId(String id) {
     	List<User> users = createQuery().field("externalId").equal(id).asList();
     	if (users.size() == 1)

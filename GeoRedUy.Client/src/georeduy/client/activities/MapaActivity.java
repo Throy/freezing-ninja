@@ -45,6 +45,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 	// mapa
@@ -131,26 +134,13 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 			        	if (error == null)  {
 				        	Gson gson = new Gson();
 				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();				    		
-				    		List<Site> sites = gson.fromJson(response, listType);
-				    		int i = 500;
-				    		if (sites != null) {
-					    		for (Site sitio : sites)
-					    		{
-					    			double lat =  sitio.getCoordinates() [0]*1e6 +i;
-					    			double longitud = sitio.getCoordinates() [1]*1e6 +i;
-					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
-					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress(), sitio.getId ());
-					    			siteMapOverlay.addOverlay (overlayitem);
-					    			i += 500;				    			
-					    		}
-				    		}
-				    		mapView.invalidate();
-				    		
+				    		List <Site> sites = gson.fromJson(response, listType);
+				    		updateSites (sites);
 			    		}
 			        }
 		        });
         
-        ProductsController.getInstance().getStoreByPosition(latitudeE5, longitudeE5, 
+        ProductsController.getInstance().getStoresByPosition (latitudeE5, longitudeE5, 
 		        new OnCompletedCallback() {
 
 			        @Override
@@ -159,20 +149,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 				        	Gson gson = new Gson();
 				        	Type listType = new TypeToken<ArrayList<RetailStore>>() {}.getType();				    		
 				    		List<RetailStore> stores = gson.fromJson(response, listType);
-				    		
-				    		if (stores != null) {
-					    		for (RetailStore store : stores)
-					    		{
-					    			double lat =  store.getCoordinates() [0]*1e6 ;
-					    			double longitud = store.getCoordinates() [1]*1e6;
-					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
-					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, store.getName(), store.getName(), store.getAddress(), store.getId ());
-					    			storeMapOverlay.addOverlay (overlayitem);
-					    							    			
-					    		}
-				    		}
-				    		mapView.invalidate();
-				    		
+				    		updateStores (stores);
 			    		}
 			        }
 		        });
@@ -212,24 +189,12 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     				        	Gson gson = new Gson();
     				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();				    		
     				    		List<Site> sites = gson.fromJson(response, listType);    				    		
-    				    		   				    		
-    				    		
-    				    		if (sites != null) {
-    					    		for (Site sitio : sites)
-    					    		{
-    					    			double lat =  sitio.getCoordinates() [0]*1e6;
-    					    			double longitud = sitio.getCoordinates() [1]*1e6;
-    					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
-    					    			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress(), sitio.getId ());
-    					    			siteMapOverlay.addOverlay (overlayitem);    					    					    			
-    					    		}
-    				    		}
-    				    		mapView.invalidate();    				    		
+    				    		updateSites (sites); 				    		
     			    		}
     			        }
     		        });
             
-            ProductsController.getInstance().getStoreByPosition(latitudeE5, longitudeE5, 
+            ProductsController.getInstance().getStoresByPosition(latitudeE5, longitudeE5, 
     		        new OnCompletedCallback() {
 
     			        @Override
@@ -238,21 +203,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     				        	Gson gson = new Gson();
     				        	Type listType = new TypeToken<ArrayList<RetailStore>>() {}.getType();				    		
     				    		List<RetailStore> stores = gson.fromJson(response, listType);
-    				    		
-    				    		
-    				    		if (stores != null) {
-    					    		for (RetailStore store : stores)
-    					    		{
-    					    			double lat =  store.getCoordinates() [0]*1e6;
-    					    			double longitud = store.getCoordinates() [1]*1e6;
-    					    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
-
-    					    			MapOverlayItem overlayStoreItem = new MapOverlayItem(point2, store.getName(), store.getName(), store.getAddress(), store.getId ());
-    					    			storeMapOverlay.addOverlay (overlayStoreItem);    					    						
-
-    					    		}
-    				    		}
-    				    		mapView.invalidate();    				    		
+    				    		updateStores (stores);			    		
     			    		}
     			        }
     		        });
@@ -271,6 +222,69 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
 
+        }
+    }
+    
+    // actualiza los sitios del mapa
+    private void updateSites (List <Site> sites) {
+		int i = 500;
+		siteMapOverlay.clear ();
+		if (sites != null) {
+    		for (Site sitio : sites)
+    		{
+    			double lat =  sitio.getCoordinates() [0]*1e6;
+    			double longitud = sitio.getCoordinates() [1]*1e6;
+    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
+    			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress(), sitio.getId ());
+    			siteMapOverlay.addOverlay (overlayitem);
+    			i += 500;				    			
+    		}
+		}
+		mapView.invalidate(); 
+    }
+    
+    // actualiza los locales del mapa
+    private void updateStores (List <RetailStore> stores) {
+		if (stores != null) {
+    		// cachear los locales
+    		ProductsController.getInstance().setStoresByPosition (stores);
+    		
+    		for (RetailStore store : stores)
+    		{
+    			double lat =  store.getCoordinates() [0]*1e6;
+    			double longitud = store.getCoordinates() [1]*1e6;
+    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
+    			MapOverlayItem overlayitem = new MapOverlayItem(point2, store.getName(), store.getName(), store.getAddress(), store.getId ());
+    			storeMapOverlay.addOverlay (overlayitem);
+    							    			
+    		}
+		}
+		mapView.invalidate();	
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	// mostrar menú con opciones
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.map_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.contacts_menu:
+            	Intent myIntent = new Intent(this, ContactListActivity.class);
+        		startActivity(myIntent);
+                return true;
+
+            case R.id.main_menu:
+            	Intent intent_main = new Intent(this, MainMenuActivity.class);
+        		startActivity(intent_main);
+                return true;
+                
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

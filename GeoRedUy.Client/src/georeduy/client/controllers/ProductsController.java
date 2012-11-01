@@ -7,6 +7,7 @@ package georeduy.client.controllers;
 
 // imports
 
+import georeduy.client.model.RetailStore;
 import georeduy.client.model.User;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.OnCompletedCallback;
@@ -14,6 +15,7 @@ import georeduy.client.util.OnCompletedCallback;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -34,17 +36,17 @@ public class ProductsController
 
 	// items de la compra.
 	// son parejas <productId, units>. 
-	private HashMap <Integer, Integer> _productUnits;
+	private HashMap <String, Integer> _productUnits;
 
 	// precios de los productos=.
 	// son parejas <productId, price>. 
-	private HashMap <Integer, Integer> _productPrices;
+	private HashMap <String, Integer> _productPrices;
 	
 	// id del local donde se realiza la compra.
-	private int _storeId;
+	private String _storeId;
 	
-	// autoincrementador;
-	//private int autitoIncrement;
+	// locales traídos por el mapa
+	private List <RetailStore> _stores;
 	
 	// *************
 	// constructores
@@ -77,28 +79,28 @@ public class ProductsController
 	// obtener datos del producto.
 	// *** en realidad devuelve Product o algo por el estilo. ***
 	
-	public void getProduct (int productId) {
+	public void getProduct (String productId) {
 	}
 
 	// iniciar compra nueva.
-	public void purchaseNew (HashMap <Integer, Integer> productPrices, int storeId) {
-        _productUnits = new HashMap <Integer, Integer> ();
+	public void purchaseNew (HashMap <String, Integer> productPrices, String storeId) {
+        _productUnits = new HashMap <String, Integer> ();
         _productPrices = productPrices;
         _storeId = storeId;
 	}
 
 	// agregar producto a la compra.
-	public void purchaseAddItem (int productId, int units) {
+	public void purchaseAddItem (String productId, int units) {
 		_productUnits.put (productId, units);
 	}
 
 	// obtener unidades de productos de la compra.
-	public HashMap <Integer, Integer> purchaseGetUnits () {
+	public HashMap <String, Integer> purchaseGetUnits () {
 		return _productUnits;
 	}
 
 	// obtener precios de productos de la compra.
-	public HashMap <Integer, Integer> purchaseGetPrices () {
+	public HashMap <String, Integer> purchaseGetPrices () {
 		return _productPrices;
 	}
 	
@@ -114,28 +116,47 @@ public class ProductsController
 		int pricetotal = 0;
 		
 		// iterar en los items.
-		Iterator <Entry <Integer, Integer>> iter = _productUnits.entrySet().iterator();
+		Iterator <Entry <String, Integer>> iter = _productUnits.entrySet().iterator();
+		
+		int idx = 0;
 		while (iter.hasNext()) {
 			// obtener item
-			Entry <Integer, Integer> item = iter.next();
+			Entry <String, Integer> item = iter.next();
 			
 			// multiplicar precio por unidades.
-			pricetotal += _productPrices.get (item.getKey()) * (Integer) item.getValue();
+			pricetotal += _productPrices.get (idx) * (Integer) item.getValue();
+			
+			idx += 1;
 		}
 
 		return pricetotal;
 	}
 	
+	public void getStoresByPosition (String storeId, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+		params.put ("id", storeId);
+    	GeoRedClient.GetAsync("/Retail/GetStore", params, callback);
+	}
 	
-	public void getStoreByPosition (int latitude, int longitude, OnCompletedCallback callback) {
-		Map<String, String> params = new HashMap <String, String>();
+	public void getStoresByPosition (int latitude, int longitude, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
 		params.put ("latitude", Integer.toString(latitude));
 		params.put ("longitude", Integer.toString(longitude));
 		
     	GeoRedClient.GetAsync("/Retail/GetByLocation", params, callback);
 	}
+	
+	// cachear los locales traídos por el mapa
+	public void setStoresByPosition (List <RetailStore> stores) {
+		_stores = stores;
+	}
+
+	// obtener los locales traídos por el mapa
+	public List <RetailStore> getStoresByPosition () {
+		return _stores;
+	}
 
 	// publicar evaluación de un producto.
-	public void publishProductReview (int productId, String review) {
+	public void publishProductReview (String productId, String review) {
 	}
 }

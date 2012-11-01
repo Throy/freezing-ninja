@@ -17,5 +17,7 @@ public interface ISiteDao {
 
     public List<Site> getNearSites(double latitude, double longitude, double radius);
     
+    public List<Site> getSites();
+    
     public List<Site> getSites(int from, int count);
 }

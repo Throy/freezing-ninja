@@ -52,8 +52,23 @@ public class SitesController
 	
 	// *** hay que ver cuáles se precisan y cuáles no. ***
 	
-	// obtener datos de sitios.
-	// *** en realidad devuelve Collection <Site> o algo por el estilo. ***
+	// obtener datos de todos los sitios.
+	
+	public void getSites (OnCompletedCallback callback) {
+		Map<String, String> params = new HashMap <String, String>();
+    	GeoRedClient.GetAsync("/Sites/Get", params, callback);
+	}
+	
+	// obtener datos de todos los sitios, por página.
+	
+	public void getSites (Integer from, OnCompletedCallback callback) {
+		Map<String, String> params = new HashMap <String, String>();
+		params.put ("from", Integer.toString (from));
+		params.put ("count", Integer.toString (10));
+    	GeoRedClient.GetAsync("/Sites/Get", params, callback);
+	}
+	
+	// obtener datos de sitios cercanos.
 	// *** falta definir qué ubicaciones valen para la búsqueda. ***
 	
 	public void getSitesByPosition (int latitude, int longitude, OnCompletedCallback callback) {
@@ -64,13 +79,16 @@ public class SitesController
     	GeoRedClient.GetAsync("/Sites/GetByLocation", params, callback);
 	}
 	
+	// obtener datos de un sitio.
+	// devuelve un Site.
 	
-	// obtener datos de una visita del usuario.
-	
-	public Site getSite (String id) {
-		// *** LLAMAR A LA BASE DE DATOS ***
+	public void getSite (String siteId, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
 		
-		return new Site ();
+		// agregar parámetros
+		params.put ("siteId", siteId);
+		
+    	GeoRedClient.GetAsync("/Sites/GetById", params, callback);	
 	}
 	
 	// visitar sitio.
@@ -87,21 +105,28 @@ public class SitesController
     	GeoRedClient.PostAsync("/Sites/Visits/New", params, callback);	
 	}
 	
-	// obtener datos visitas del usuario.
+	// obtener datos de visitas del usuario.
 	
-	public void getVisits () {
-		// *** en realidad devuelve Collection <User> o algo por el estilo. ***
+	public void getVisits (OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+		
+    	GeoRedClient.GetAsync("/Sites/Visits/GetByUser", params, callback);
 	}
 	
 	// obtener datos de una visita del usuario.
-	// *** en realidad devuelve Collection <Visit> o algo por el estilo. ***
 	
-	public void getVisit (int visitId) {
+	public void getVisit (String visitId, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+		
+		// agregar parámetros
+		params.put ("visitId", visitId);
+		
+    	GeoRedClient.GetAsync("/Sites/Visits/GetById", params, callback);	
 	}
 	
 	// publicar comentario de una visita.
 	// *** en realdiad falta enviar fotos y videos. ***
 	
-	public void publishVisitComment (int visitId, String message) {
+	public void publishVisitComment (String visitId, String message) {
 	}
 }

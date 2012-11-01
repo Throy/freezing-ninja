@@ -2,11 +2,12 @@ package georeduy.server.webservices;
 
 import georeduy.server.logic.controllers.NotificationsController;
 import georeduy.server.logic.model.Roles;
+import georeduy.server.logic.model.Site;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -68,7 +69,15 @@ public class NotificationsService {
 	@Path("Broadcast")
 	public void Broadcast(@Context HttpServletResponse servletResponse) {
 
-		NotificationsController.getInstance().BroadCast();
+		Site site = new Site();
+		site.setName("Test GCM site");
+		site.setDescription("GCM site desc");
+		Double[] coordinates = new Double[2];
+		coordinates[0] = -34.892930;
+		coordinates[1] = -56.130430;
+		site.setCoordinates(coordinates);
+		
+		NotificationsController.getInstance().BroadCast(site);
     
 		Response.status(200).build();
 	}

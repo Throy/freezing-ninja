@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbars="vertical">
+    
+    <!-- list_activity -->
+    
+    <!-- layout de las actividades de los casos de uso Listar.
+    	el layout se puede poblar con cualquier tipo de items.  -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/contact_search_edit"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.40"
+            android:ems="10"
+            android:hint="@string/contact_search_hint" >
+
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/submit"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="button_submit_onClick"
+            android:text="@string/submit" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        
+        <ListView
+        android:id="@+id/listView_list"
+        android:layout_width="fill_parent"
+        android:layout_height="423dp" />
+    </LinearLayout>
+    
+
+</LinearLayout>

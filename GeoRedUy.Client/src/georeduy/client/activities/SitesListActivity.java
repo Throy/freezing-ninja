@@ -8,11 +8,18 @@ package georeduy.client.activities;
 
 import georeduy.client.controllers.SitesController;
 import georeduy.client.lists.SitesListAdapter;
+import georeduy.client.model.Site;
+import georeduy.client.model.Visit;
 import georeduy.client.util.CommonUtilities;
 import georeduy.client.util.OnCompletedCallback;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -46,108 +53,110 @@ public class SitesListActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.list_activity);
-        
-        /*
-        ListItem[] itemsList = {item};
-        
+
         // poblar lista
-        ArrayAdapter adapter = new ArrayAdapter<ListItem>(this, 
-                android.R.layout.simple_expandable_list_item_1, itemsList); 		// toma los myStringArray [idx].toString()
-        ListView listView = (ListView) findViewById (R.id.listView_list);
-        listView.setAdapter(adapter);
-        */
         
-        // poblar lista 2
-        
-        ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
-        ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
+        SitesController.getInstance ().getSites (new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted (String response, String error)
+			{
+				if (error == null) {
 
-        for (int idx = 0; idx < 5; idx += 1) {
-            // crear item
-            HashMap <String, String> itemStringMap = new HashMap <String, String> ();
-            itemStringMap.put (SITE_ITEM_NAME, "Sitio " + idx);
-            itemStringMap.put (SITE_ITEM_DESCRIPTION, "Es un lugar " + idx);
-            itemStringMap.put (SITE_ITEM_ADDRESS, "Calle " + idx + " y " + (((idx + 5) % 8) + 6));
- 
-            // adding HashList to ArrayList
-            itemsStringList.add (itemStringMap);
+					// obtener sitios
+			        Gson gson = new Gson();
+		        	Type listType = new TypeToken <ArrayList <Site>>() {}.getType();
+		    		List <Site> sites = gson.fromJson (response, listType);
+		            
+		            ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
+		            ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
 
-            // crear item
-            HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
-            itemIntMap.put (SITE_ITEM_ID, idx);
- 
-            // adding HashList to ArrayList
-            itemsIntList.add (itemIntMap);
-        }
- 
-        // poblar lista de items
-        SitesListAdapter adapter = new SitesListAdapter (this, itemsStringList, itemsIntList);
-        ListView listView = (ListView) findViewById (R.id.listView_list);
-        listView.setAdapter (adapter);
-        
-        // cliquear línea -> iniciar actividad de Ver datos
-        listView.setOnItemClickListener (new OnItemClickListener() {
+		            for (Site site : sites) {
+		                // crear item
+		                HashMap <String, String> itemStringMap = new HashMap <String, String> ();
+		                itemStringMap.put (SITE_ITEM_ID, site.getId ());
+		                itemStringMap.put (SITE_ITEM_NAME, site.getName ());
+		                itemStringMap.put (SITE_ITEM_DESCRIPTION, site.getDescription ());
+		                itemStringMap.put (SITE_ITEM_ADDRESS, site.getAddress ());
+		     
+		                // adding HashList to ArrayList
+		                itemsStringList.add (itemStringMap);
 
-        	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
-            	// crear intent de la actividad Ver datos de un sitio.
-            	Intent intent_site_detail = new Intent (parent.getContext (), SiteDetailActivity.class);
-            	
-            	// agregar id del sitio al intent
-            	String siteId = ((TextView) view.findViewById (R.id.site_id)).getText().toString();
-            	intent_site_detail.putExtra (EXTRA_SITE_ID, siteId);
+		                // crear item
+		                HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
+		     
+		                // adding HashList to ArrayList
+		                itemsIntList.add (itemIntMap);
+		            }
+		     
+		            // poblar lista de items
+		            SitesListAdapter adapter = new SitesListAdapter (SitesListActivity.this, itemsStringList, itemsIntList);
+		            ListView listView = (ListView) findViewById (R.id.listView_list);
+		            listView.setAdapter (adapter);
+		            
+		            // cliquear línea -> iniciar actividad de Ver datos
+		            listView.setOnItemClickListener (new OnItemClickListener() {
 
-                // *** en realidad este párrafo no va ***
-            	String name = ((TextView) view.findViewById (R.id.name)).getText().toString();
-            	String description = ((TextView) view.findViewById (R.id.description)).getText().toString();
-            	String address = ((TextView) view.findViewById (R.id.address)).getText().toString();
-            	intent_site_detail.putExtra (SITE_ITEM_NAME, name);
-            	intent_site_detail.putExtra (SITE_ITEM_ADDRESS, address);
-            	
-            	// ejecutar intent.
-            	startActivity (intent_site_detail);
-        		
-        		/*
-        		//AlertDialog dialog = new AlertDialog (this);
-        		
-        		// crear alerta
-        		AlertDialog alertDialog = new AlertDialog.Builder (VisitsListActivity.this).create ();
-        		
-        		// mensaje
-        		alertDialog.setTitle ("Message");
-        		String visitName = ((TextView) view.findViewById (R.id.name)).getText().toString();
-        		alertDialog.setMessage ("What do you think about visit " + visitName + "?");
+		            	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
+		                	// crear intent de la actividad Ver datos de un sitio.
+		                	Intent intent_site_detail = new Intent (parent.getContext (), SiteDetailActivity.class);
+		                	
+		                	// agregar id del sitio al intent
+		                	String siteId = ((TextView) view.findViewById (R.id.site_id)).getText().toString();
+		                	intent_site_detail.putExtra (EXTRA_SITE_ID, siteId);
+		                	
+		                	// ejecutar intent.
+		                	startActivity (intent_site_detail);
+		            		
+		            		/*
+		            		//AlertDialog dialog = new AlertDialog (this);
+		            		
+		            		// crear alerta
+		            		AlertDialog alertDialog = new AlertDialog.Builder (VisitsListActivity.this).create ();
+		            		
+		            		// mensaje
+		            		alertDialog.setTitle ("Message");
+		            		String visitName = ((TextView) view.findViewById (R.id.name)).getText().toString();
+		            		alertDialog.setMessage ("What do you think about visit " + visitName + "?");
 
-        		// button ok
-        		alertDialog.setButton (DialogInterface.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
-        			public void onClick (DialogInterface dialog, int which) {
-        				// nada
-                		AlertDialog alertDialog = new AlertDialog.Builder (VisitsListActivity.this).create ();
-                		alertDialog.setTitle ("Bueno, ok");
-                		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
-                			public void onClick (DialogInterface dialog, int which) {
-                			}
-                		});
-                		alertDialog.show();
-        			}
-        		});
+		            		// button ok
+		            		alertDialog.setButton (DialogInterface.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+		            			public void onClick (DialogInterface dialog, int which) {
+		            				// nada
+		                    		AlertDialog alertDialog = new AlertDialog.Builder (VisitsListActivity.this).create ();
+		                    		alertDialog.setTitle ("Bueno, ok");
+		                    		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
+		                    			public void onClick (DialogInterface dialog, int which) {
+		                    			}
+		                    		});
+		                    		alertDialog.show();
+		            			}
+		            		});
 
-        		// button cancel
-        		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-        			public void onClick (DialogInterface dialog, int which) {
-        				// nada
-                		AlertDialog alertDialog = new AlertDialog.Builder (VisitsListActivity.this).create ();
-                		alertDialog.setTitle ("Malo, cancel");
-                		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
-                			public void onClick (DialogInterface dialog, int which) {
-                			}
-                		});
-                		alertDialog.show();
-        			}
-        		});
-        		alertDialog.show();
-        		*/
-        	}
-        });
+		            		// button cancel
+		            		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+		            			public void onClick (DialogInterface dialog, int which) {
+		            				// nada
+		                    		AlertDialog alertDialog = new AlertDialog.Builder (VisitsListActivity.this).create ();
+		                    		alertDialog.setTitle ("Malo, cancel");
+		                    		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
+		                    			public void onClick (DialogInterface dialog, int which) {
+		                    			}
+		                    		});
+		                    		alertDialog.show();
+		            			}
+		            		});
+		            		alertDialog.show();
+		            		*/
+		            	}
+		            });
+				}
+				
+				else {
+					CommonUtilities.showAlertMessage (SitesListActivity.this, "Error SLA onCr", "Hubo un error:\n" + error);
+				}
+			}
+		});
         
         /*
         

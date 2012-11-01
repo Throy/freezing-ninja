@@ -45,4 +45,19 @@ public class GeoRedConstants {
 
 	public static final String SITE_DOES_NOT_EXIST =
 			"SITE_DOES_NOT_EXIST";
+	
+	public static final String CONTACT_SUCCESSFULY_ADDED =
+            "CONTACT_SUCCESSFULY_ADDED";
+
+	public static final Object CONTACT_SUCCESSFULY_REMOVED = 
+			"CONTACT_SUCCESSFULY_REMOVED";
+
+	public static final String CONTACT_ALREADY_EXISTS = 
+			"CONTACT_ALREADY_EXISTS";
+
+	public static final String VISIT_DOES_NOT_EXIST =
+			"VISIT_DOES_NOT_EXIST";
+
+	public static final Object COMMENT_SUCCESSFULY_ADDED =
+			"COMMENT_SUCCESSFULY_ADDED";
 }

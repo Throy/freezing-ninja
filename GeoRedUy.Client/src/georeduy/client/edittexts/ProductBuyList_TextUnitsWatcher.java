@@ -15,12 +15,12 @@ import android.widget.EditText;
 public class ProductBuyList_TextUnitsWatcher implements TextWatcher
 {
 	// id del producto
-	private int _productId;
+	private String _productId;
 	
 	// edittext
     private EditText _textUnits;
 
-    public ProductBuyList_TextUnitsWatcher (int productId, EditText e) {
+    public ProductBuyList_TextUnitsWatcher (String productId, EditText e) {
     	_productId = productId;
     	_textUnits = e;
     }

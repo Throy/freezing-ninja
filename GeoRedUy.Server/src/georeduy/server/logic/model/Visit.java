@@ -31,6 +31,10 @@ public class Visit {
     @Property
     public Date date;
     
+    // ids de comentarios de la visita
+    @Property
+    private List <Comment> commentsIds;
+    
     // No pude hacer andar @Reference asi que lo hago asi
     private User realUser;
     
@@ -75,6 +79,22 @@ public class Visit {
 	public void setDate (Date date)
 	{
 		this.date = date;
+	}
+
+	/**
+	 * @return the commentsIds
+	 */
+	public List <Comment> getCommentsIds ()
+	{
+		return commentsIds;
+	}
+
+	/**
+	 * @param commentsIds the commentsIds to set
+	 */
+	public void setCommentsIds (List <Comment> commentsIds)
+	{
+		this.commentsIds = commentsIds;
 	}
 
 	public User getRealUser ()

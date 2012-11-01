@@ -54,4 +54,10 @@ public class GeoRedConstants {
 
 	public static final String CONTACT_ALREADY_EXISTS = 
 			"CONTACT_ALREADY_EXISTS";
+
+	public static final String VISIT_DOES_NOT_EXIST =
+			"VISIT_DOES_NOT_EXIST";
+
+	public static final Object COMMENT_SUCCESSFULY_ADDED =
+			"COMMENT_SUCCESSFULY_ADDED";
 }

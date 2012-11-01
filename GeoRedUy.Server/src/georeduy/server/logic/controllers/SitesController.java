@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
+import georeduy.server.dao.CommentDaoImpl;
+import georeduy.server.dao.ICommentDao;
 import georeduy.server.dao.ISiteDao;
 import georeduy.server.dao.ITagDao;
 import georeduy.server.dao.IUserDao;
@@ -15,6 +17,7 @@ import georeduy.server.dao.SiteDaoImpl;
 import georeduy.server.dao.TagDaoImpl;
 import georeduy.server.dao.UserDaoImpl;
 import georeduy.server.dao.VisitDaoImpl;
+import georeduy.server.logic.model.Comment;
 import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.Site;
@@ -27,6 +30,7 @@ public class SitesController {
 
 	
 	// objetos dao
+	private ICommentDao commentDao = new CommentDaoImpl();
 	private ISiteDao siteDao = new SiteDaoImpl();
 	private ITagDao tagDao = new TagDaoImpl();
 	private IUserDao userDao = new UserDaoImpl();
@@ -98,7 +102,7 @@ public class SitesController {
 	
 	// crear visita
 	public void newVisit (Visit visit) throws Exception {
-		// comprobar existencia del usuario
+		// comprobar existencia del sitio
 		Site realSite = siteDao.find (new ObjectId (visit.getSiteId ()));
 		if (realSite == null) {
 			throw new Exception (GeoRedConstants.SITE_DOES_NOT_EXIST); //+ ":" + visit.getUserId ().trim());
@@ -139,5 +143,48 @@ public class SitesController {
 	// obtener visitas del usuario, sistema paginado
 	public List <Visit> getVisitsByUser (int from) {
     	return visitDao.findByUser (User.Current ().getId (), from, 10);
+	}
+	
+	// administrar comentarios
+	
+	// crear comentario
+	public void newComment (Comment comment) throws Exception {
+		// comprobar existencia de la visita
+		Visit realVisit = visitDao.find (new ObjectId (comment.getVisitId ()));
+		if (realVisit == null) {
+			throw new Exception (GeoRedConstants.VISIT_DOES_NOT_EXIST); //+ ":" + visit.getUserId ().trim());
+		}
+		comment.setRealVisit (realVisit);
+		
+		// agregar fecha actual
+		Date currentDate = new Date();
+		currentDate.setSeconds (0);
+		comment.setDate (currentDate);
+		/*
+		Calendar currentCal = Calendar.getInstance();
+		currentCal.clear();
+		currentCal.setTime (currentDate);
+		currentCal.set (Calendar.SECOND, 0);
+		currentCal.set (Calendar.MILLISECOND, 0);
+		visit.setDate (currentCal.getTime ());
+		*/
+    	
+		// crear visita
+        commentDao.saveComment (comment);
+	}
+	
+	// obtener datos de un comentario.
+	public Comment getCommentById (String commentId) {
+		return commentDao.find (new ObjectId (commentId));		
+	}
+
+	// obtener comentarios del usuario
+	public List <Comment> getCommentsByUser () {
+    	return commentDao.findByUser (User.Current ().getId ());
+	}
+
+	// obtener comentarios del usuario, sistema paginado
+	public List <Comment> getCommentsByUser (int from) {
+    	return commentDao.findByUser (User.Current ().getId (), from, 10);
 	}
 }

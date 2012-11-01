@@ -20,10 +20,10 @@ public class Visit {
     
     public Date date;
     
-    private List <String> commentsIds;
+    private List <String> commentsIds = new ArrayList <String>();
 
     // No pude hacer andar @Reference asi que lo hago asi
-    private List <Comment> realComments;
+    private List <Comment> realComments = new ArrayList <Comment>();
     
     // No pude hacer andar @Reference asi que lo hago asi
     private User realUser;

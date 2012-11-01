@@ -4,9 +4,11 @@
 
 package georeduy.server.dao;
 
+import georeduy.server.logic.model.Comment;
 import georeduy.server.logic.model.Visit;
 import georeduy.server.persistence.MongoConnectionManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -23,6 +25,7 @@ public class VisitDaoImpl extends BasicDAO <Visit, ObjectId> implements IVisitDa
 	
 	// daos externos
 
+	private ICommentDao commentDao =  new CommentDaoImpl();
 	private IUserDao userDao =  new UserDaoImpl();
 	private ISiteDao siteDao =  new SiteDaoImpl();
 	
@@ -43,6 +46,12 @@ public class VisitDaoImpl extends BasicDAO <Visit, ObjectId> implements IVisitDa
     private void resolveReferences (Visit visit) {
 		visit.setRealUser (userDao.find (new ObjectId (visit.getUserId ())));
 		visit.setRealSite (siteDao.find (new ObjectId (visit.getSiteId ())));
+		
+		List <Comment> comments = new ArrayList <Comment> ();
+		for (String commentId : visit.getCommentsIds ()) {
+			comments.add (commentDao.find (new ObjectId (commentId)));
+		}
+		visit.setRealComments (comments);
     }
     
     // funciones del dao

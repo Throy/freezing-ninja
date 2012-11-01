@@ -1,18 +1,26 @@
 package georeduy.client.model;
 
 
-
+import java.util.ArrayList;
 import java.util.List;
-
 public class Site {
 
     private String id;
+    
     private String name;
+    
     private String description;
+    
     private String address;
-    private Double[] coordinates = new Double[2];
+    
+    public Double[] coordinates = new Double[2];
+    
     private String imageUrl;
-    private List<Integer> tags;
+    
+    private List<String> tags = new ArrayList<String>();
+    
+    // No pude hacer andar @Reference asi que lo hago asi
+    private List<Tag> realTags = new ArrayList<Tag>();
 
 	public String getId() {
 		return id;
@@ -52,7 +60,7 @@ public class Site {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
+	
 
 	public Double[] getCoordinates() {
 		return coordinates;
@@ -73,14 +81,25 @@ public class Site {
 		this.imageUrl = imageUrl;
 	}
 
-
-	public List<Integer> getTags() {
+	public List<String> getTagsIds() {
 		return tags;
 	}
 
+	public List<Tag> getTags() {
+		return realTags;
+	}
 
-	public void setTags(List<Integer> tags) {
-		this.tags = tags;
+
+	public void setTags(List<Tag> tags) {
+		this.realTags = tags;
+	}
+	
+	
+	public void addTag(Tag tag) {
+		if (!tags.contains(tag.getId()))
+			tags.add(tag.getId());
+		
+		this.realTags.add(tag);
 	}
 	
 	

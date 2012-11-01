@@ -33,7 +33,10 @@ public class Visit {
     
     // ids de comentarios de la visita
     @Property
-    private List <Comment> commentsIds;
+    private List <String> commentsIds;
+
+    // No pude hacer andar @Reference asi que lo hago asi
+    private List <Comment> realComments;
     
     // No pude hacer andar @Reference asi que lo hago asi
     private User realUser;
@@ -84,7 +87,7 @@ public class Visit {
 	/**
 	 * @return the commentsIds
 	 */
-	public List <Comment> getCommentsIds ()
+	public List <String> getCommentsIds ()
 	{
 		return commentsIds;
 	}
@@ -92,9 +95,25 @@ public class Visit {
 	/**
 	 * @param commentsIds the commentsIds to set
 	 */
-	public void setCommentsIds (List <Comment> commentsIds)
+	public void setCommentsIds (List <String> commentsIds)
 	{
 		this.commentsIds = commentsIds;
+	}
+
+	/**
+	 * @return the realComments
+	 */
+	public List <Comment> getRealComments ()
+	{
+		return realComments;
+	}
+
+	/**
+	 * @param realComments the realComments to set
+	 */
+	public void setRealComments (List <Comment> realComments)
+	{
+		this.realComments = realComments;
 	}
 
 	public User getRealUser ()

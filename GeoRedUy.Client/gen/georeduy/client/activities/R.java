@@ -48,11 +48,11 @@ public final class R {
         public static final int button_visits_list=0x7f08000e;
         public static final int checkbox=0x7f080014;
         public static final int contact_search_edit=0x7f080008;
-        public static final int contacts_menu=0x7f080056;
+        public static final int contacts_menu=0x7f080057;
         public static final int date=0x7f080003;
         public static final int description=0x7f080001;
         public static final int display=0x7f08000a;
-        public static final int edittext_comment=0x7f080052;
+        public static final int edittext_comment=0x7f080053;
         public static final int edittext_email=0x7f08003b;
         public static final int edittext_firstname=0x7f080038;
         public static final int edittext_lastname=0x7f080039;
@@ -70,16 +70,16 @@ public final class R {
         public static final int layout5=0x7f08001f;
         public static final int layout6=0x7f08003a;
         public static final int listView_list=0x7f080005;
-        public static final int main_menu=0x7f080057;
+        public static final int main_menu=0x7f080058;
         public static final int map_view=0x7f080004;
-        public static final int menu_settings=0x7f080054;
+        public static final int menu_settings=0x7f080055;
         public static final int name=0x7f080000;
         public static final int notitag_id=0x7f080013;
         public static final int notitype_id=0x7f080015;
-        public static final int options_add_contact=0x7f080055;
-        public static final int options_clear=0x7f080059;
-        public static final int options_exit=0x7f08005a;
-        public static final int options_map=0x7f080058;
+        public static final int options_add_contact=0x7f080056;
+        public static final int options_clear=0x7f08005a;
+        public static final int options_exit=0x7f08005b;
+        public static final int options_map=0x7f080059;
         public static final int price=0x7f080002;
         public static final int pricetotal=0x7f080025;
         public static final int priceunit=0x7f080028;
@@ -89,7 +89,8 @@ public final class R {
         public static final int store_id=0x7f080044;
         public static final int submit=0x7f080009;
         public static final int textview_address=0x7f08003e;
-        public static final int textview_comment=0x7f080051;
+        public static final int textview_comment=0x7f080052;
+        public static final int textview_comments=0x7f080051;
         public static final int textview_date=0x7f08004f;
         public static final int textview_description=0x7f080022;
         public static final int textview_email=0x7f08003c;
@@ -111,7 +112,7 @@ public final class R {
         public static final int units=0x7f080029;
         public static final int user_id=0x7f08004b;
         public static final int username=0x7f08004c;
-        public static final int visit_id=0x7f080053;
+        public static final int visit_id=0x7f080054;
     }
     public static final class layout {
         public static final int _activity_display_message=0x7f030000;

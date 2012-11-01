@@ -2,42 +2,29 @@
 
 // clase de comentarios de la capa lógica del appserver.
 
-package georeduy.server.logic.model;
+package georeduy.client.model;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.google.code.morphia.annotations.Entity;
-import com.google.code.morphia.annotations.Id;
-import com.google.code.morphia.annotations.Indexed;
-import com.google.code.morphia.annotations.Property;
-import com.google.code.morphia.annotations.Reference;
-import com.google.code.morphia.utils.IndexDirection;
-
-@Entity(value = "comments", noClassnameStored = true)
 public class Comment {
 
 	// *** calculo que sólo permitiría un comentario por visita ***
-    @Id
     private String id;
     
-    @Property
     private String visitId;
     
     // No pude hacer andar @Reference asi que lo hago asi
     private Visit realVisit;
     
     // fecha de publicación
-    @Property
     public Date date;
     
     // texto del comentario
-    @Property
     private String text;
     
     // *** falta contenido multimedia del comentario ***
-    
 	public String getId ()
 	{
 		return id;

@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import georeduy.client.controllers.SitesController;
+import georeduy.client.model.Comment;
 import georeduy.client.model.Visit;
 import georeduy.client.util.OnCompletedCallback;
 import android.app.Activity;
@@ -48,6 +49,7 @@ public class VisitDetailActivity extends Activity {
 	            TextView viewName = (TextView) findViewById (R.id.textview_name);
 	            TextView viewAddress = (TextView) findViewById (R.id.textview_address);
 	            TextView viewDate = (TextView) findViewById (R.id.textview_date);
+	            TextView viewComments = (TextView) findViewById (R.id.textview_comments);
 	            
 	            viewVisitId.setText (visit.getId ());
 	            viewName.setText (visit.getRealSite ().getName ());
@@ -57,6 +59,11 @@ public class VisitDetailActivity extends Activity {
                 }
                 else {
                 	viewDate.setText ("2012 / 11 / X");
+                }
+                
+	            viewComments.setText ("");
+                for (Comment comment : visit.getRealComments ()) {
+                	viewComments.setText (viewComments.getText() + comment.getText () + "\n\n");
                 }
 			}
 		});

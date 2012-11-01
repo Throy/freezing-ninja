@@ -4,6 +4,8 @@
 
 package georeduy.client.model;
 
+import georeduy.client.model.Comment;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +19,11 @@ public class Visit {
     private String siteId;
     
     public Date date;
+    
+    private List <String> commentsIds;
+
+    // No pude hacer andar @Reference asi que lo hago asi
+    private List <Comment> realComments;
     
     // No pude hacer andar @Reference asi que lo hago asi
     private User realUser;
@@ -62,6 +69,38 @@ public class Visit {
 	public void setDate (Date date)
 	{
 		this.date = date;
+	}
+
+	/**
+	 * @return the commentsIds
+	 */
+	public List <String> getCommentsIds ()
+	{
+		return commentsIds;
+	}
+
+	/**
+	 * @param commentsIds the commentsIds to set
+	 */
+	public void setCommentsIds (List <String> commentsIds)
+	{
+		this.commentsIds = commentsIds;
+	}
+
+	/**
+	 * @return the realComments
+	 */
+	public List <Comment> getRealComments ()
+	{
+		return realComments;
+	}
+
+	/**
+	 * @param realComments the realComments to set
+	 */
+	public void setRealComments (List <Comment> realComments)
+	{
+		this.realComments = realComments;
 	}
 
 	public User getRealUser ()

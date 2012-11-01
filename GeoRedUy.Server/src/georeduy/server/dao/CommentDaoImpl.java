@@ -19,7 +19,7 @@ public class CommentDaoImpl extends BasicDAO <Comment, ObjectId> implements ICom
 
 	// daos externos
 
-	private IVisitDao visitDao =  new VisitDaoImpl();
+	//private IVisitDao visitDao =  new VisitDaoImpl();
 
 	// constructor
 
@@ -29,15 +29,18 @@ public class CommentDaoImpl extends BasicDAO <Comment, ObjectId> implements ICom
 
 	// resolver referencias de claves foráneas
 
+	/*
 	private void resolveReferences (List <Comment> comments) {
 		for (Comment comment : comments) {
 			resolveReferences (comment);
 		}
 	}
 
+	// *** borrado por stack overflow por recursión indefinida ***
 	private void resolveReferences (Comment comment) {
-		comment.setRealVisit (visitDao.find (new ObjectId (comment.getVisitId ())));
+		//comment.setRealVisit (visitDao.find (new ObjectId (comment.getVisitId ())));
 	}
+	*/
 
 	// funciones del dao
 
@@ -51,7 +54,7 @@ public class CommentDaoImpl extends BasicDAO <Comment, ObjectId> implements ICom
 	@Override
 	public Comment find (ObjectId commentId) {
 		Comment comment = get (commentId);
-		resolveReferences (comment);
+		//resolveReferences (comment);
 		return comment;
 	}
 
@@ -60,7 +63,7 @@ public class CommentDaoImpl extends BasicDAO <Comment, ObjectId> implements ICom
 	public List <Comment> findByUser (String userId) {
 		// obtener comentarios
 		List <Comment> commentsFull = createQuery().asList();
-		resolveReferences (commentsFull);
+		//resolveReferences (commentsFull);
 
 		// filtrar lista
 		List <Comment> commentsFiltered = new ArrayList <Comment> ();
@@ -78,7 +81,7 @@ public class CommentDaoImpl extends BasicDAO <Comment, ObjectId> implements ICom
 	public List <Comment> findByUser (String userId, int from, int count) {
 		// obtener comentarios
 		List <Comment> commentsFull = createQuery().asList();
-		resolveReferences (commentsFull);
+		//resolveReferences (commentsFull);
 
 		// filtrar lista
 		List <Comment> commentsFiltered = new ArrayList <Comment> ();

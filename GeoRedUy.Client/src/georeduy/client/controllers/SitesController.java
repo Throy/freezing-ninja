@@ -50,6 +50,8 @@ public class SitesController
 	// métodos
 	// *******
 	
+	// sitios
+	
 	// *** hay que ver cuáles se precisan y cuáles no. ***
 	
 	// obtener datos de todos los sitios.
@@ -105,6 +107,8 @@ public class SitesController
     	GeoRedClient.PostAsync("/Sites/Visits/New", params, callback);	
 	}
 	
+	// visitas
+	
 	// obtener datos de visitas del usuario.
 	
 	public void getVisits (OnCompletedCallback callback) {
@@ -128,5 +132,27 @@ public class SitesController
 	// *** en realdiad falta enviar fotos y videos. ***
 	
 	public void publishVisitComment (String visitId, String message) {
+		// *** hacer ya ***
+	}
+	
+	// comentarios
+	
+	// obtener datos de comentarios del usuario.
+	
+	public void getComments (OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+		
+    	GeoRedClient.GetAsync("/Sites/Comments/GetByUser", params, callback);
+	}
+	
+	// obtener datos de un comentario del usuario.
+	
+	public void getComment (String commentId, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+		
+		// agregar parámetros
+		params.put ("commentId", commentId);
+		
+    	GeoRedClient.GetAsync("/Sites/Comments/GetById", params, callback);	
 	}
 }

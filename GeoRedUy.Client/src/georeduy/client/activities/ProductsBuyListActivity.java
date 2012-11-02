@@ -9,9 +9,11 @@ package georeduy.client.activities;
 
 import georeduy.client.controllers.ProductsController;
 import georeduy.client.lists.ProductsBuyListAdapter;
+import georeduy.client.model.Product;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -45,35 +47,35 @@ public class ProductsBuyListActivity extends Activity {
         
         ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
         ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
-        
+
+        List <Product> products = ProductsController.getInstance ().purchaseGetProducts ();
         HashMap <String, Integer> productUnits = ProductsController.getInstance ().purchaseGetUnits ();
-        HashMap <String, Integer> productPrices = ProductsController.getInstance ().purchaseGetPrices ();
+        HashMap <String, String> productPrices = ProductsController.getInstance ().purchaseGetPrices ();
 
-        for (int idx = 0; idx < 5; idx += 1) {
+        for (Product product : products) {
         	try {
-        		// *** hay que arreglar eso: debería recorrer una lsita con los ids. ***
-        		
-            	// obtener valores.
-            	int price = productPrices.get (idx);
+        		// si se agregaron unidades, ...
+        		int units = productUnits.get (product.getId ());
+        		if (units >= 1) {
 
-        		// sólo agregar productos con al menos 1 ítem
-        		int units = productUnits.get (idx);
-        		
-                // crear item
-                HashMap <String, String> itemStringMap = new HashMap <String, String> ();
-                itemStringMap.put (ProductsListActivity.PRODUCT_ITEM_NAME, "Producto " + idx);
-     
-                // adding HashList to ArrayList
-                itemsStringList.add (itemStringMap);
+            		// sólo agregar productos con al menos 1 ítem
+            		
+                    // crear item
+                    HashMap <String, String> itemStringMap = new HashMap <String, String> ();
+                    itemStringMap.put (ProductsListActivity.PRODUCT_ITEM_ID, product.getId ());
+                    itemStringMap.put (ProductsListActivity.PRODUCT_ITEM_NAME, product.getName ());
+                    itemStringMap.put (ProductsListActivity.PRODUCT_ITEM_PRICE, product.getPrice ());
+         
+                    // adding HashList to ArrayList
+                    itemsStringList.add (itemStringMap);
 
-                // crear item
-                HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
-                itemIntMap.put (ProductsListActivity.PRODUCT_ITEM_ID, idx);
-                itemIntMap.put (ProductsListActivity.PRODUCT_ITEM_PRICE, price);
-                itemIntMap.put (ProductsListActivity.PRODUCT_ITEM_UNITS, units);
-     
-                // adding HashList to ArrayList
-                itemsIntList.add (itemIntMap);
+                    // crear item
+                    HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
+                    itemIntMap.put (ProductsListActivity.PRODUCT_ITEM_UNITS, units);
+         
+                    // adding HashList to ArrayList
+                    itemsIntList.add (itemIntMap);
+        		}
         	}
         	catch (NullPointerException ex) {
         	}

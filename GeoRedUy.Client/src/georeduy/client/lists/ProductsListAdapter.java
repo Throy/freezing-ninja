@@ -78,9 +78,10 @@ public class ProductsListAdapter extends BaseAdapter {
         itemString = _itemsString.get (position);
  
         // set values of the views
+        viewProductId.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_ID).toString ());
         viewName.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_NAME));
         viewDescription.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_DESCRIPTION));
-        viewPrice.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_PRICE));
+        viewPrice.setText ("$ " + itemString.get (ProductsListActivity.PRODUCT_ITEM_PRICE));
         viewDate.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_DATE));
         //imageLoader.DisplayImage(item.get (ProductsListActivity.ITEM_THUMB), thumb_image);
 
@@ -90,7 +91,6 @@ public class ProductsListAdapter extends BaseAdapter {
  
         // set values of the views
         // *** setTag para guardar cualquier objeto ***
-        viewProductId.setText (itemInt.get (ProductsListActivity.PRODUCT_ITEM_ID).toString ());
         
         // return view
         return vi;

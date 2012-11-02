@@ -8,11 +8,21 @@ package georeduy.client.activities;
 // imports
 
 import georeduy.client.controllers.ProductsController;
+import georeduy.client.controllers.SitesController;
 import georeduy.client.lists.ProductsListAdapter;
+import georeduy.client.model.Product;
+import georeduy.client.model.RetailStore;
+import georeduy.client.model.Site;
 import georeduy.client.util.CommonUtilities;
+import georeduy.client.util.OnCompletedCallback;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -53,6 +63,12 @@ public class ProductsListActivity extends Activity {
     public static final int ACTIVITY_RESULT_NORMAL = 1;
     public static final int ACTIVITY_RESULT_FINISH = 9;
     
+    // id del local
+    public static String storeId;
+    
+    // local
+    public static RetailStore store;
+    
     // constructor
 
     @Override
@@ -61,71 +77,91 @@ public class ProductsListActivity extends Activity {
         setContentView (R.layout.products_list_activity);
         
         // obtener datos del local a partir del id.
-        String storeId = getIntent().getStringExtra (StoresListActivity.EXTRA_STORE_ID);
+        storeId = getIntent().getStringExtra (StoresListActivity.EXTRA_STORE_ID);
         
-        //Store store = ProductsController.getInstance ().getStore (id);
-        
-        setTitle (getTitle () + " del local " + storeId);
-        // setTitle (getTitle () + " del local " + store.getName());
-        
-        // inicializar hashtags
-        
-        ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
-        ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
-        
-        HashMap <String, Integer> productPrices = new HashMap <String, Integer> ();
-        
-        // ListArray <> listProducts = ProductsController.getInstance ().getProducts (storeId);
-
-        for (int idx = 0; idx < 5; idx += 1) {
-        	// inicializar datos
-        	int price = idx * 10;
-        	
-            // crear item
-            HashMap <String, String> itemStringMap = new HashMap <String, String> ();
-            itemStringMap.put (PRODUCT_ITEM_NAME, "Producto " + idx);
-            itemStringMap.put (PRODUCT_ITEM_DESCRIPTION, "Es un producto " + idx);
-            itemStringMap.put (PRODUCT_ITEM_PRICE, "$ " + price);
-            itemStringMap.put (PRODUCT_ITEM_DATE, "2012 / 10 / " + idx);
-            //CommonUtilities.dateToString (visit.getDate ()));
- 
-            // adding HashList to ArrayList
-            itemsStringList.add (itemStringMap);
-
-            // crear item
-            HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
-            itemIntMap.put (PRODUCT_ITEM_ID, idx);
- 
-            // adding HashList to ArrayList
-            itemsIntList.add (itemIntMap);
-            
-            // agregar precio
-            productPrices.put ("" + idx, price);
-        }
-
-        // iniciar compra nueva
-        ProductsController.getInstance ().purchaseNew (productPrices, storeId);
-        
-        // poblar lista de productos
-        ProductsListAdapter adapter = new ProductsListAdapter (this, itemsStringList, itemsIntList);
-        ListView listView = (ListView) findViewById (R.id.listView_list);
-        listView.setAdapter (adapter);
-        
-        // cliquear línea -> iniciar actividad de Ver datos
-        listView.setOnItemClickListener (new OnItemClickListener() {
-
-        	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
-            	// crear intent de la actividad Ver datos de un producto.
-            	Intent intent_product_detail = new Intent (parent.getContext (), ProductDetailActivity.class);
-            	
-            	// agregar id del producto al intent
-            	String productId = ((TextView) view.findViewById (R.id.product_id)).getText().toString();
-            	intent_product_detail.putExtra (EXTRA_PRODUCT_ID, productId);
-            	
-            	// ejecutar intent.
-            	startActivity (intent_product_detail);
+        List <RetailStore> stores = ProductsController.getInstance ().getStoresByPosition ();
+        store = null;
+        for (RetailStore store_idx : stores) {
+        	if (store_idx.getId ().equals (storeId)) {
+        		store = store_idx;
         	}
-        });
+        }
+		
+        setTitle (getTitle () + " de " + store.getName());
+        
+        // poblar lista
+        
+        ProductsController.getInstance ().getProducts (store.getRetailerId (), new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted (String response, String error)
+			{
+				if (error == null) {
+
+					// obtener productos
+			        Gson gson = new Gson();
+		        	Type listType = new TypeToken <ArrayList <Product>>() {}.getType();
+		    		List <Product> products = gson.fromJson (response, listType);
+			        
+			        // inicializar hashtags
+			        
+			        ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
+			        ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
+			        
+			        HashMap <String, String> productPrices = new HashMap <String, String> ();
+
+			        for (Product product : products) {
+			            // crear item
+			            HashMap <String, String> itemStringMap = new HashMap <String, String> ();
+			            itemStringMap.put (PRODUCT_ITEM_ID, product.getId ());
+			            itemStringMap.put (PRODUCT_ITEM_NAME, product.getName ());
+			            itemStringMap.put (PRODUCT_ITEM_DESCRIPTION, product.getDescription ());
+			            itemStringMap.put (PRODUCT_ITEM_PRICE, product.getPrice ());
+			            itemStringMap.put (PRODUCT_ITEM_DATE, "2012 / 10 / X");
+			            //CommonUtilities.dateToString (visit.getDate ()));
+			 
+			            // adding HashList to ArrayList
+			            itemsStringList.add (itemStringMap);
+
+			            // crear item
+			            HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
+			 
+			            // adding HashList to ArrayList
+			            itemsIntList.add (itemIntMap);
+			            
+			            // agregar precio
+			            productPrices.put (product.getId (), product.getPrice ());
+			        }
+
+			        // iniciar compra nueva
+			        ProductsController.getInstance ().purchaseNew (products, productPrices, ProductsListActivity.storeId);
+			        
+			        // poblar lista de productos
+			        ProductsListAdapter adapter = new ProductsListAdapter (ProductsListActivity.this, itemsStringList, itemsIntList);
+			        ListView listView = (ListView) findViewById (R.id.listView_list);
+			        listView.setAdapter (adapter);
+			        
+			        // cliquear línea -> iniciar actividad de Ver datos
+			        listView.setOnItemClickListener (new OnItemClickListener() {
+
+			        	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
+			            	// crear intent de la actividad Ver datos de un producto.
+			            	Intent intent_product_detail = new Intent (parent.getContext (), ProductDetailActivity.class);
+			            	
+			            	// agregar id del producto al intent
+			            	String productId = ((TextView) view.findViewById (R.id.product_id)).getText().toString();
+			            	intent_product_detail.putExtra (EXTRA_PRODUCT_ID, productId);
+			            	
+			            	// ejecutar intent.
+			            	startActivity (intent_product_detail);
+			        	}
+			        });
+            	}
+			
+				else {
+					CommonUtilities.showAlertMessage (ProductsListActivity.this, "Error PLA onCr", "Hubo un error:\n" + error);
+				}
+			}});
     }
     
     @Override

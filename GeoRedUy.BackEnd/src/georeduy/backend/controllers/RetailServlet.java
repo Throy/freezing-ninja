@@ -141,14 +141,14 @@ public class RetailServlet extends HttpServlet {
     public void AddProduct(HttpServletRequest request) throws Exception {
     	String name = request.getParameter("Name");
     	String description = request.getParameter("Description");
-    	String price = request.getParameter("Price");
+    	double price = Double.parseDouble (request.getParameter("Price"));
     	String imageUrl = request.getParameter("ImageUrl");
     	
     	Product product = new Product();
     	product.setName(name);
     	product.setDescription(description);
     	product.setImageUrl(imageUrl);
-    	product.setPrice(price);
+    	product.setPrice(Double.toString(price));
     	
     	Gson gson = new Gson();
     	

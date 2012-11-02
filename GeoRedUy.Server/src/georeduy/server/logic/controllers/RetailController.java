@@ -120,8 +120,8 @@ public class RetailController {
 		return retailStoreDao.find(new ObjectId(id));
 	}
 	
-	public List<Product> GetProducts(int from, int count) {
-		return productDao.getProducts(from, count, User.Current().getRetailId());
+	public List<Product> GetProducts(int from, int count, String retailerId) {
+		return productDao.getProducts(from, count, retailerId);
 	}
 	
 	public List<Product> GetStoreProducts(int from, int count, String storeId) {

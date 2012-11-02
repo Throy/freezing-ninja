@@ -8,6 +8,7 @@ import georeduy.server.logic.model.RetailStore;
 import georeduy.server.logic.model.Retailer;
 import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.Site;
+import georeduy.server.logic.model.User;
 
 import java.util.List;
 
@@ -179,19 +180,28 @@ public class RetailService {
 	@Path("GetProducts")
 	public Response GetProducts(@QueryParam("from") Integer from,
 			@QueryParam("count") Integer count,
+			@QueryParam("retailerId") String retailerId,
 			@Context HttpServletResponse servletResponse,
 			@Context SecurityContext context) {
-		if (!context.isUserInRole(Roles.RETAIL_MANAGER)) {
+		// ** en realidad va RETAIL_MANAGER, lo emparcho así
+		// porque falta la lógica de agregar producto a local
+		//if (!context.isUserInRole(Roles.RETAIL_MANAGER)) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
 			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
 		}
 
-		if (count == null)
+		if (count == null) {
 			count = 15;
-		if (from == null)
+		}
+		if (from == null) {
 			from = 0;
-		
+		}
+		if (retailerId == null) {
+			retailerId = User.Current().getRetailId();
+		}
+
 		Gson gson = new Gson();
-		List<Product> products = RetailController.getInstance().GetProducts(from, count);
+		List<Product> products = RetailController.getInstance().GetProducts(from, count, retailerId);
 		return Response.status(200).entity(gson.toJson(products)).build();
 	}
 	

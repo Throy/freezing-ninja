@@ -107,10 +107,8 @@ public class SitesController {
 		if (realSite == null) {
 			throw new Exception (GeoRedConstants.SITE_DOES_NOT_EXIST); //+ ":" + visit.getUserId ().trim());
 		}
-		visit.setRealSite (realSite);
 		
 		// agregar usuario
-		visit.setRealUser (User.Current ());
 		visit.setUserId (User.Current ().getId ());
 		
 		// agregar fecha

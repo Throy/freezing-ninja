@@ -14,6 +14,7 @@ import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
+import com.google.code.morphia.annotations.Transient;
 import com.google.code.morphia.utils.IndexDirection;
 
 @Entity(value = "visits", noClassnameStored = true)
@@ -32,13 +33,15 @@ public class Visit {
     @Property
     public Date date;
 
-    @Reference
+    @Embedded
     private List <Comment> comments = new ArrayList <Comment>();
     
     // No pude hacer andar @Reference asi que lo hago asi
+    @Transient
     private User realUser;
     
     // No pude hacer andar @Reference asi que lo hago asi
+    @Transient
     private Site realSite;
 
 	public String getId ()

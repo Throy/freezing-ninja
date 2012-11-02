@@ -10,7 +10,7 @@ import com.google.code.morphia.utils.IndexDirection;
 public class Tag {
     @Id
     private String id;
-    @Indexed(unique = true, value = IndexDirection.ASC)
+    @Indexed(unique = true, sparse = true, value = IndexDirection.ASC)
     private String name;
     @Property
     private String description;

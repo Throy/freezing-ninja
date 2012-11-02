@@ -9,6 +9,7 @@ import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Property;
 import com.google.code.morphia.annotations.Reference;
+import com.google.code.morphia.annotations.Transient;
 import com.google.code.morphia.utils.IndexDirection;
 
 @Entity(value = "sites", noClassnameStored = true)
@@ -16,20 +17,27 @@ public class Site {
 
     @Id
     private String id;
+    
     @Indexed(unique = true, value = IndexDirection.ASC)
     private String name;
+    
     @Property
     private String description;
+    
     @Property
     private String address;
+    
     @Indexed(IndexDirection.GEO2D)
     public Double[] coordinates = new Double[2];
+    
     @Property
     private String imageUrl;
+    
     @Property
     private List<String> tags = new ArrayList<String>();
     
     // No pude hacer andar @Reference asi que lo hago asi
+    @Transient
     private List<Tag> realTags = new ArrayList<Tag>();
 
 	public String getId() {

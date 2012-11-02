@@ -56,7 +56,7 @@ public class InitDatabase {
         Site site = new Site();
         site.setName ("Sitio A");
         site.setDescription ("Es un sitio admirable");
-    	Double[] coordinates = {-33.0, -55.0};
+    	Double[] coordinates = {-34.89, -56.13};
     	site.setCoordinates(coordinates);
         site.setAddress ("Calle A");
         site.setImageUrl ("site_a.jpg");

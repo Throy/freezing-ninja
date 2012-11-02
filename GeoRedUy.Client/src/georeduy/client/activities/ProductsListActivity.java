@@ -9,6 +9,7 @@ package georeduy.client.activities;
 
 import georeduy.client.controllers.ProductsController;
 import georeduy.client.lists.ProductsListAdapter;
+import georeduy.client.util.CommonUtilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,6 +87,7 @@ public class ProductsListActivity extends Activity {
             itemStringMap.put (PRODUCT_ITEM_DESCRIPTION, "Es un producto " + idx);
             itemStringMap.put (PRODUCT_ITEM_PRICE, "$ " + price);
             itemStringMap.put (PRODUCT_ITEM_DATE, "2012 / 10 / " + idx);
+            //CommonUtilities.dateToString (visit.getDate ()));
  
             // adding HashList to ArrayList
             itemsStringList.add (itemStringMap);

@@ -62,7 +62,7 @@ public class VisitDetailActivity extends Activity {
                 }
                 
 	            viewComments.setText ("");
-                for (Comment comment : visit.getRealComments ()) {
+                for (Comment comment : visit.getComments ()) {
                 	viewComments.setText (viewComments.getText() + comment.getText () + "\n\n");
                 }
 			}

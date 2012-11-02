@@ -4,6 +4,7 @@
 
 package georeduy.server.dao;
 
+import georeduy.server.logic.model.Comment;
 import georeduy.server.logic.model.Visit;
 
 import java.awt.Point;
@@ -15,6 +16,9 @@ public interface IVisitDao {
 
 	// guardar visita en la base de datos
 	public void saveVisit (Visit visit);
+
+	// guardar visita en la base de datos
+	public void addVisitComment (ObjectId visitId, Comment comment);
 
 	// obtener visita a partir del id
 	public Visit find (ObjectId visitId);

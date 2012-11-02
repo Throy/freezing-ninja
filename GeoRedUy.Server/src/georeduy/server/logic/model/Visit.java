@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.code.morphia.annotations.Embedded;
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
@@ -30,13 +31,9 @@ public class Visit {
     
     @Property
     public Date date;
-    
-    // ids de comentarios de la visita
-    @Property
-    private List <String> commentsIds = new ArrayList <String>();
 
-    // No pude hacer andar @Reference asi que lo hago asi
-    private List <Comment> realComments = new ArrayList <Comment>();
+    @Embedded
+    private List <Comment> comments = new ArrayList <Comment>();
     
     // No pude hacer andar @Reference asi que lo hago asi
     private User realUser;
@@ -85,27 +82,11 @@ public class Visit {
 	}
 
 	/**
-	 * @return the commentsIds
-	 */
-	public List <String> getCommentsIds ()
-	{
-		return commentsIds;
-	}
-
-	/**
-	 * @param commentsIds the commentsIds to set
-	 */
-	public void setCommentsIds (List <String> commentsIds)
-	{
-		this.commentsIds = commentsIds;
-	}
-
-	/**
 	 * @return the realComments
 	 */
 	public List <Comment> getRealComments ()
 	{
-		return realComments;
+		return comments;
 	}
 
 	/**
@@ -113,7 +94,7 @@ public class Visit {
 	 */
 	public void setRealComments (List <Comment> realComments)
 	{
-		this.realComments = realComments;
+		this.comments = realComments;
 	}
 
 	public User getRealUser ()

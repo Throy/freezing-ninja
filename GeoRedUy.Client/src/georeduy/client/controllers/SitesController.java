@@ -7,6 +7,7 @@ package georeduy.client.controllers;
 
 // imports
 
+import georeduy.client.model.Comment;
 import georeduy.client.model.Site;
 import georeduy.client.model.User;
 import georeduy.client.model.Visit;
@@ -129,10 +130,19 @@ public class SitesController
 	}
 	
 	// publicar comentario de una visita.
-	// *** en realdiad falta enviar fotos y videos. ***
+	// *** en realidad falta enviar fotos y videos. ***
 	
-	public void publishVisitComment (String visitId, String message) {
-		// *** hacer ya ***
+	public void publishVisitComment (String visitId, String text, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+        Gson gson = new Gson();
+		
+		// agregar parámetros
+		Comment comment = new Comment ();
+		comment.setText (text);
+		comment.setVisitId (visitId);
+		params.put ("commentInfo", gson.toJson(comment));
+		
+    	GeoRedClient.PostAsync("/Sites/Comments/New", params, callback);
 	}
 	
 	// comentarios

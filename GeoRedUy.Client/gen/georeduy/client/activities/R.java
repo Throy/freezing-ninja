@@ -165,17 +165,13 @@ public final class R {
         public static final int button_buy=0x7f05002f;
         public static final int button_cancel=0x7f05002d;
         public static final int button_comment=0x7f050032;
-        public static final int button_configure_notitags=0x7f050042;
-        public static final int button_configure_notitags_hint=0x7f05004b;
-        public static final int button_configure_notitypes=0x7f050043;
-        public static final int button_configure_notitypes_hint=0x7f05004c;
+        public static final int button_configure_notitags=0x7f050043;
+        public static final int button_configure_notitypes=0x7f050044;
+        public static final int button_contacts_list=0x7f05003e;
         public static final int button_main_menu=0x7f050035;
         public static final int button_map=0x7f050039;
-        public static final int button_map_hint=0x7f050044;
         public static final int button_products_list=0x7f05003a;
-        public static final int button_products_list_hint=0x7f050046;
         public static final int button_purchases_list=0x7f05003b;
-        public static final int button_purchases_list_hint=0x7f050045;
         public static final int button_review=0x7f050033;
         public static final int button_save=0x7f050030;
         public static final int button_send=0x7f050031;
@@ -183,34 +179,29 @@ public final class R {
         public static final int button_session_register=0x7f050037;
         public static final int button_session_register_fbk=0x7f050038;
         public static final int button_sites_list=0x7f05003c;
-        public static final int button_sites_list_hint=0x7f050047;
         public static final int button_stores_list=0x7f05003d;
-        public static final int button_stores_list_hint=0x7f050048;
         /**  buttons 
          */
         public static final int button_teh_list=0x7f05002b;
-        public static final int button_user_item_add=0x7f050040;
-        public static final int button_user_item_rem=0x7f050041;
-        public static final int button_users_list=0x7f05003e;
-        public static final int button_users_list_hint=0x7f050049;
+        public static final int button_user_item_add=0x7f050041;
+        public static final int button_user_item_rem=0x7f050042;
+        public static final int button_users_list=0x7f05003f;
         public static final int button_visit=0x7f050034;
-        public static final int button_visits_list=0x7f05003f;
-        public static final int button_visits_list_hint=0x7f05004a;
-        public static final int contact_search_hint=0x7f05006d;
-        public static final int contacts_menu=0x7f050070;
+        public static final int button_visits_list=0x7f050040;
+        public static final int contact_search_hint=0x7f050065;
         /**  edittexts 
          */
-        public static final int edit_text_message=0x7f05004d;
-        public static final int edittext_purchase_review_hint=0x7f050057;
-        public static final int edittext_session_login_password_hint=0x7f05004f;
-        public static final int edittext_session_login_username_hint=0x7f05004e;
-        public static final int edittext_session_register_email_hint=0x7f050055;
-        public static final int edittext_session_register_firstname_hint=0x7f050051;
-        public static final int edittext_session_register_lastname_hint=0x7f050052;
-        public static final int edittext_session_register_password1_hint=0x7f050053;
-        public static final int edittext_session_register_password2_hint=0x7f050054;
-        public static final int edittext_session_register_username_hint=0x7f050050;
-        public static final int edittext_visit_comment_hint=0x7f050056;
+        public static final int edit_text_message=0x7f050045;
+        public static final int edittext_purchase_review_hint=0x7f05004f;
+        public static final int edittext_session_login_password_hint=0x7f050047;
+        public static final int edittext_session_login_username_hint=0x7f050046;
+        public static final int edittext_session_register_email_hint=0x7f05004d;
+        public static final int edittext_session_register_firstname_hint=0x7f050049;
+        public static final int edittext_session_register_lastname_hint=0x7f05004a;
+        public static final int edittext_session_register_password1_hint=0x7f05004b;
+        public static final int edittext_session_register_password2_hint=0x7f05004c;
+        public static final int edittext_session_register_username_hint=0x7f050048;
+        public static final int edittext_visit_comment_hint=0x7f05004e;
         public static final int error_config=0x7f050002;
         public static final int gcm_deleted=0x7f050009;
         public static final int gcm_error=0x7f050007;
@@ -218,46 +209,44 @@ public final class R {
         public static final int gcm_recoverable_error=0x7f050008;
         public static final int gcm_registered=0x7f050004;
         public static final int gcm_unregistered=0x7f050005;
-        public static final int main_menu=0x7f050071;
         /**  others 
          */
-        public static final int menu_settings=0x7f05006b;
-        public static final int options_add_contact=0x7f05006e;
+        public static final int menu_settings=0x7f050063;
+        public static final int options_add_contact=0x7f050066;
         public static final int options_clear=0x7f050011;
         public static final int options_exit=0x7f050012;
         public static final int options_register=0x7f05000f;
         public static final int options_unregister=0x7f050010;
-        public static final int register_passwords_do_not_match=0x7f05006c;
+        public static final int register_passwords_do_not_match=0x7f050064;
         public static final int server_register_error=0x7f05000d;
         public static final int server_registered=0x7f05000b;
         public static final int server_registering=0x7f05000a;
         public static final int server_unregister_error=0x7f05000e;
         public static final int server_unregistered=0x7f05000c;
-        public static final int submit=0x7f05006f;
-        public static final int textview_address=0x7f050060;
-        public static final int textview_comment=0x7f050064;
-        public static final int textview_date=0x7f050061;
-        public static final int textview_description=0x7f05005f;
-        public static final int textview_email=0x7f050062;
-        public static final int textview_filler=0x7f05006a;
-        public static final int textview_firstname=0x7f05005a;
-        public static final int textview_fullname=0x7f050059;
-        public static final int textview_lastname=0x7f05005b;
-        public static final int textview_name=0x7f05005d;
-        public static final int textview_password=0x7f05005c;
-        public static final int textview_price=0x7f050065;
-        public static final int textview_pricetotal=0x7f050067;
-        public static final int textview_priceunit=0x7f050066;
-        public static final int textview_review=0x7f050068;
-        public static final int textview_telephone=0x7f050063;
-        public static final int textview_title=0x7f05005e;
-        public static final int textview_units=0x7f050069;
+        public static final int submit=0x7f050067;
+        public static final int textview_address=0x7f050058;
+        public static final int textview_comment=0x7f05005c;
+        public static final int textview_date=0x7f050059;
+        public static final int textview_description=0x7f050057;
+        public static final int textview_email=0x7f05005a;
+        public static final int textview_filler=0x7f050062;
+        public static final int textview_firstname=0x7f050052;
+        public static final int textview_fullname=0x7f050051;
+        public static final int textview_lastname=0x7f050053;
+        public static final int textview_name=0x7f050055;
+        public static final int textview_password=0x7f050054;
+        public static final int textview_price=0x7f05005d;
+        public static final int textview_pricetotal=0x7f05005f;
+        public static final int textview_priceunit=0x7f05005e;
+        public static final int textview_review=0x7f050060;
+        public static final int textview_telephone=0x7f05005b;
+        public static final int textview_title=0x7f050056;
+        public static final int textview_units=0x7f050061;
         /**  textviews 
          */
-        public static final int textview_username=0x7f050058;
+        public static final int textview_username=0x7f050050;
         public static final int title_activity_configure_notitags=0x7f050027;
         public static final int title_activity_configure_notitypes=0x7f050028;
-        public static final int title_activity_display_message=0x7f050014;
         public static final int title_activity_list=0x7f050018;
         /**  FIXME: Strings de prueba, revisar 
          */
@@ -266,6 +255,7 @@ public final class R {
  activity titles 
          */
         public static final int title_activity_main_menu=0x7f050013;
+        public static final int title_activity_map=0x7f050014;
         public static final int title_activity_product_buy_add_item=0x7f050029;
         public static final int title_activity_product_buy_list=0x7f05002a;
         public static final int title_activity_product_detail=0x7f05001f;

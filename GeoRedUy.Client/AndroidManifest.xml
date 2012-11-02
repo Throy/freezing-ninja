@@ -48,24 +48,20 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".GCMActivity" android:label="@string/title_activity_main"></activity>
+        <activity android:name=".GCMActivity"
+            android:label="@string/title_activity_main"></activity>
         
         
-        <activity android:name=".MapaActivity" android:label="@string/title_activity_main"></activity>
+        <activity android:name=".MapaActivity"
+            android:label="@string/title_activity_map"></activity>
         
-        <activity android:name=".SessionRegisterActivity" android:label="@string/title_activity_session_register"></activity>
+        <activity android:name=".SessionRegisterActivity"
+            android:label="@string/title_activity_session_register"></activity>
         
         <activity
             android:name=".MainMenuActivity"
-            android:label="@string/title_activity_main_menu" >
-        </activity>
-        
-        <activity
-            android:name=".DisplayMessageActivity"
-            android:label="@string/title_activity_display_message" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+            android:label="@string/title_activity_main_menu"
+            android:theme="@android:style/Theme.Dialog">
         </activity>
         
         <!-- session activities -->
@@ -151,7 +147,8 @@
         
         <activity
             android:name=".ProductDetailActivity"
-            android:label="@string/title_activity_product_detail" >
+            android:label="@string/title_activity_product_detail"
+            android:theme="@android:style/Theme.Dialog">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -159,7 +156,8 @@
         
         <activity
             android:name=".PurchaseDetailActivity"
-            android:label="@string/title_activity_purchase_detail" >
+            android:label="@string/title_activity_purchase_detail"
+            android:theme="@android:style/Theme.Dialog">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -167,7 +165,8 @@
         
         <activity
             android:name=".SiteDetailActivity"
-            android:label="@string/title_activity_site_detail" >
+            android:label="@string/title_activity_site_detail"
+            android:theme="@android:style/Theme.Dialog">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -175,7 +174,8 @@
         
         <activity
             android:name=".StoreDetailActivity"
-            android:label="@string/title_activity_store_detail" >
+            android:label="@string/title_activity_store_detail"
+            android:theme="@android:style/Theme.Dialog">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -183,7 +183,8 @@
         
         <activity
             android:name=".UserDetailActivity"
-            android:label="@string/title_activity_user_detail" >
+            android:label="@string/title_activity_user_detail"
+            android:theme="@android:style/Theme.Dialog">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -191,7 +192,8 @@
         
         <activity
             android:name=".VisitDetailActivity"
-            android:label="@string/title_activity_visit_detail" >
+            android:label="@string/title_activity_visit_detail"
+            android:theme="@android:style/Theme.Dialog">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

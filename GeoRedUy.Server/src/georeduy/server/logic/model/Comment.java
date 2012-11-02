@@ -25,9 +25,6 @@ public class Comment {
     @Property
     private String visitId;
     
-    // No pude hacer andar @Reference asi que lo hago asi
-    private Visit realVisit;
-    
     // fecha de publicación
     @Property
     public Date date;
@@ -56,16 +53,6 @@ public class Comment {
 	public void setVisitId (String visitId)
 	{
 		this.visitId = visitId;
-	}
-
-	public Visit getRealVisit ()
-	{
-		return realVisit;
-	}
-
-	public void setRealVisit (Visit realVisit)
-	{
-		this.realVisit = realVisit;
 	}
 
 	/**

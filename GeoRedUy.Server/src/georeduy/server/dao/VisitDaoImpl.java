@@ -14,20 +14,23 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import com.google.code.morphia.dao.BasicDAO;
+import com.google.code.morphia.query.Query;
+import com.google.code.morphia.query.UpdateOperations;
 
 public class VisitDaoImpl extends BasicDAO <Visit, ObjectId> implements IVisitDao {
 	
-	// constantes
+	// nombres de los campos de Visit
 	
 	private static String idString = "id";
 	private static String userIdString = "userId";
 	private static String visitIdString = "visitId";
+	private static String commentsString = "comments";
 	
 	// daos externos
 
-	private ICommentDao commentDao =  new CommentDaoImpl();
-	private IUserDao userDao =  new UserDaoImpl();
-	private ISiteDao siteDao =  new SiteDaoImpl();
+	private static ICommentDao commentDao =  new CommentDaoImpl();
+	private static IUserDao userDao =  new UserDaoImpl();
+	private static ISiteDao siteDao =  new SiteDaoImpl();
 	
 	// constructor
 	
@@ -47,11 +50,13 @@ public class VisitDaoImpl extends BasicDAO <Visit, ObjectId> implements IVisitDa
 		visit.setRealUser (userDao.find (new ObjectId (visit.getUserId ())));
 		visit.setRealSite (siteDao.find (new ObjectId (visit.getSiteId ())));
 		
+		/*
 		List <Comment> comments = new ArrayList <Comment> ();
 		for (String commentId : visit.getCommentsIds ()) {
 			comments.add (commentDao.find (new ObjectId (commentId)));
 		}
 		visit.setRealComments (comments);
+		*/
     }
     
     // funciones del dao
@@ -60,6 +65,22 @@ public class VisitDaoImpl extends BasicDAO <Visit, ObjectId> implements IVisitDa
 	@Override
 	public void saveVisit (Visit visit) {
 	    this.save (visit);
+	}
+
+	// guardar visita en la base de datos
+	@Override
+	public void addVisitComment (ObjectId visitId, Comment comment) {
+		/*
+		Visit visit = get (visitId);
+		List <String> commentsIds = visit.getCommentsIds ();
+		commentsIds.add (commentId);
+		visit.setCommentsIds (commentsIds);
+		this.save (visit);
+		*/
+		
+		Query query = ds.createQuery(Visit.class).field (idString).equal (visitId);
+		UpdateOperations ops = ds.createUpdateOperations(Visit.class).add (commentsString, comment);
+		ds.update (query, ops);
 	}
 
 	// obtener visita a partir del id

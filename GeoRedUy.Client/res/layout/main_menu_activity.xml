@@ -39,7 +39,6 @@
 	 	<Button
 	 	    android:id="@+id/button_map"
 	        android:text="@string/button_map"
-	        android:hint="@string/button_map_hint"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	    	android:onClick="button_map_onClick"/>
@@ -47,15 +46,13 @@
 	 	<Button
 	 	    android:id="@+id/button_users_list"
 	        android:text="@string/button_users_list"
-	        android:hint="@string/button_users_list_hint"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	    	android:onClick="button_users_list_onClick"/>
 	 	
 	 	<Button
 	 	    android:id="@+id/button_sites_list"
-	        android:text="@string/button_sites_list" 
-	        android:hint="@string/button_sites_list_hint"
+	        android:text="@string/button_sites_list"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	    	android:onClick="button_sites_list_onClick"/>
@@ -63,7 +60,6 @@
 	 	<Button
 	 	    android:id="@+id/button_visits_list"
 	        android:text="@string/button_visits_list"
-	        android:hint="@string/button_visits_list_hint"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	    	android:onClick="button_visits_list_onClick"/>
@@ -71,7 +67,6 @@
 	 	<Button
 	 	    android:id="@+id/button_stores_list"
 	        android:text="@string/button_stores_list" 
-	        android:hint="@string/button_stores_list_hint"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	    	android:onClick="button_stores_list_onClick"/>
@@ -79,8 +74,7 @@
 	 	<!--  
 	 	<Button
 	 	    android:id="@+id/button_products_list"
-	        android:text="@string/button_products_list" 
-	        android:hint="@string/button_products_list_hint"
+	        android:text="@string/button_products_list"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	    	android:onClick="button_products_list_onClick"/>
@@ -88,8 +82,7 @@
 	 	
 	 	<Button
 	 	    android:id="@+id/button_purchases_list"
-	        android:text="@string/button_purchases_list" 
-	        android:hint="@string/button_purchases_list_hint"
+	        android:text="@string/button_purchases_list"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	    	android:onClick="button_purchases_list_onClick"/>
@@ -98,16 +91,14 @@
 	 	
 	 	<Button
 	 	    android:id="@+id/button_configure_notitags"
-	        android:text="@string/button_configure_notitags" 
-	        android:hint="@string/button_configure_notitags_hint"
+	        android:text="@string/button_configure_notitags"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	    	android:onClick="button_configure_notitags_onClick"/>
 	 	
 	 	<Button
 	 	    android:id="@+id/button_configure_notitypes"
-	        android:text="@string/button_configure_notitypes" 
-	        android:hint="@string/button_configure_notitypes_hint"
+	        android:text="@string/button_configure_notitypes"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	    	android:onClick="button_configure_notitypes_onClick"/>

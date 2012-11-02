@@ -32,8 +32,12 @@
     </item>
     -->
     
-    <item android:id="@+id/contacts_menu" android:title="@string/contacts_menu"></item>
+    <item
+        android:id="@+id/contacts_menu"
+        android:title="@string/button_contacts_list"></item>
     
-    <item android:id="@+id/main_menu" android:title="@string/main_menu"></item>
+    <item
+        android:id="@+id/main_menu"
+        android:title="@string/button_main_menu"></item>
 
 </menu>

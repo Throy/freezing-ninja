@@ -19,11 +19,9 @@ public class Visit {
     private String siteId;
     
     public Date date;
-    
-    private List <String> commentsIds = new ArrayList <String>();
 
     // No pude hacer andar @Reference asi que lo hago asi
-    private List <Comment> realComments = new ArrayList <Comment>();
+    private List <Comment> comments = new ArrayList <Comment>();
     
     // No pude hacer andar @Reference asi que lo hago asi
     private User realUser;
@@ -72,35 +70,19 @@ public class Visit {
 	}
 
 	/**
-	 * @return the commentsIds
-	 */
-	public List <String> getCommentsIds ()
-	{
-		return commentsIds;
-	}
-
-	/**
-	 * @param commentsIds the commentsIds to set
-	 */
-	public void setCommentsIds (List <String> commentsIds)
-	{
-		this.commentsIds = commentsIds;
-	}
-
-	/**
 	 * @return the realComments
 	 */
-	public List <Comment> getRealComments ()
+	public List <Comment> getComments ()
 	{
-		return realComments;
+		return comments;
 	}
 
 	/**
 	 * @param realComments the realComments to set
 	 */
-	public void setRealComments (List <Comment> realComments)
+	public void setComments (List <Comment> realComments)
 	{
-		this.realComments = realComments;
+		this.comments = realComments;
 	}
 
 	public User getRealUser ()

@@ -19,7 +19,7 @@ public class CommentDaoImpl extends BasicDAO <Comment, ObjectId> implements ICom
 
 	// daos externos
 
-	//private IVisitDao visitDao =  new VisitDaoImpl();
+	// private static IVisitDao visitDao =  new VisitDaoImpl();
 
 	// constructor
 
@@ -67,11 +67,13 @@ public class CommentDaoImpl extends BasicDAO <Comment, ObjectId> implements ICom
 
 		// filtrar lista
 		List <Comment> commentsFiltered = new ArrayList <Comment> ();
+		/*
 		for (Comment comment : commentsFull) {
 			if (comment.getRealVisit ().getUserId () == User.Current().getId()) {
 				commentsFiltered.add (comment);
 			}
 		}
+		*/
 		
 		return commentsFiltered;
 	}
@@ -85,11 +87,13 @@ public class CommentDaoImpl extends BasicDAO <Comment, ObjectId> implements ICom
 
 		// filtrar lista
 		List <Comment> commentsFiltered = new ArrayList <Comment> ();
+		/*
 		for (Comment comment : commentsFull) {
 			if (comment.getRealVisit ().getUserId () == User.Current().getId()) {
 				commentsFiltered.add (comment);
 			}
 		}
+		*/
 		
 		// *** falta paginar ***
 		

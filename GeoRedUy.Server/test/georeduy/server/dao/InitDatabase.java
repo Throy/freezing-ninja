@@ -164,7 +164,7 @@ public class InitDatabase {
     @Test
     public void LoadUsers() throws Exception {
     	createUsers();
-    	createRetailers ();
+    	//createRetailers ();
     }
 
 }

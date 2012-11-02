@@ -15,7 +15,7 @@ public class User {
 
     @Id
     private String id;
-    @Indexed(unique = true, value = IndexDirection.ASC)
+    @Indexed(unique = true, sparse = true, value = IndexDirection.ASC)
     private String userName;
     @Indexed
     private String password;

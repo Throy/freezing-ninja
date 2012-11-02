@@ -28,7 +28,6 @@ public class VisitDaoImpl extends BasicDAO <Visit, ObjectId> implements IVisitDa
 	
 	// daos externos
 
-	private static ICommentDao commentDao =  new CommentDaoImpl();
 	private static IUserDao userDao =  new UserDaoImpl();
 	private static ISiteDao siteDao =  new SiteDaoImpl();
 	
@@ -78,8 +77,8 @@ public class VisitDaoImpl extends BasicDAO <Visit, ObjectId> implements IVisitDa
 		this.save (visit);
 		*/
 		
-		Query query = ds.createQuery(Visit.class).field (idString).equal (visitId);
-		UpdateOperations ops = ds.createUpdateOperations(Visit.class).add (commentsString, comment);
+		Query <Visit> query = ds.createQuery(Visit.class).field (idString).equal (visitId);
+		UpdateOperations <Visit> ops = ds.createUpdateOperations(Visit.class).add (commentsString, comment);
 		ds.update (query, ops);
 	}
 

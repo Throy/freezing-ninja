@@ -32,7 +32,7 @@ public class Visit {
     @Property
     public Date date;
 
-    @Embedded
+    @Reference
     private List <Comment> comments = new ArrayList <Comment>();
     
     // No pude hacer andar @Reference asi que lo hago asi

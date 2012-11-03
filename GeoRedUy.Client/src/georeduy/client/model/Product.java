@@ -1,5 +1,7 @@
 package georeduy.client.model;
 
+import java.util.Date;
+
 public class Product {
     
     private String id;
@@ -11,6 +13,8 @@ public class Product {
     private String price;
     
     private String imageUrl;
+    
+    private Date releaseDate;
     
     private String retailerId;
     
@@ -44,6 +48,22 @@ public class Product {
 
 	public void setPrice(String price) {
 		this.price = price;
+	}
+
+	/**
+	 * @return the releaseDate
+	 */
+	public Date getReleaseDate ()
+	{
+		return releaseDate;
+	}
+
+	/**
+	 * @param releaseDate the releaseDate to set
+	 */
+	public void setReleaseDate (Date releaseDate)
+	{
+		this.releaseDate = releaseDate;
 	}
 
 	public String getRetailerId() {

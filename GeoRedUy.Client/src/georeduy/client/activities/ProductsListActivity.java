@@ -117,8 +117,7 @@ public class ProductsListActivity extends Activity {
 			            itemStringMap.put (PRODUCT_ITEM_NAME, product.getName ());
 			            itemStringMap.put (PRODUCT_ITEM_DESCRIPTION, product.getDescription ());
 			            itemStringMap.put (PRODUCT_ITEM_PRICE, product.getPrice ());
-			            itemStringMap.put (PRODUCT_ITEM_DATE, "2012 / 10 / X");
-			            //CommonUtilities.dateToString (visit.getDate ()));
+			            itemStringMap.put (PRODUCT_ITEM_DATE, CommonUtilities.dateToString (product.getReleaseDate ()));
 			 
 			            // adding HashList to ArrayList
 			            itemsStringList.add (itemStringMap);

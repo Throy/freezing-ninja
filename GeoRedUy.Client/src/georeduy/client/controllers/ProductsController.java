@@ -84,9 +84,15 @@ public class ProductsController
 	}
 	
 	// obtener datos del producto.
-	// *** en realidad devuelve Product o algo por el estilo. ***
 	
-	public void getProduct (String productId) {
+	public Product getProduct (String productId) {
+		Product product = null;
+		for (Product product_idx : _products) {
+			if (product_idx.getId ().equals (productId)) {
+				return product_idx;
+			}
+		}
+		return product;
 	}
 
 	// iniciar compra nueva.
@@ -98,8 +104,22 @@ public class ProductsController
 	}
 
 	// agregar producto a la compra.
-	public void purchaseAddItem (String productId, int units) {
+	public void purchaseAddItemUnits (String productId, int units) {
 		_productUnits.put (productId, units);
+	}
+	
+	// obtener cantidad de unidades del producto en la compra.
+	
+	public int purchaseGetItemUnits (String productId) {
+		// devolver la cantidad actual
+		try {
+			return _productUnits.get (productId);
+		}
+		
+		// devolver 1 (compra estándar)
+		catch (Exception e) {
+			return 1;
+		}
 	}
 
 	// obtener productos.

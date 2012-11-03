@@ -10,6 +10,7 @@ package georeduy.client.activities;
 import georeduy.client.controllers.ProductsController;
 import georeduy.client.lists.ProductsBuyListAdapter;
 import georeduy.client.model.Product;
+import georeduy.client.util.CommonUtilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,10 +120,19 @@ public class ProductsBuyListActivity extends Activity {
 				// realizar compra.
 				ProductsController.getInstance ().purchaseConfirm ();
 				
-				// *** mostrar confirmación ***
+				// mostrar confirmación
+		    	final AlertDialog alertDialog = new AlertDialog.Builder (ProductsBuyListActivity.this).create ();
+
+				alertDialog.setTitle ("Confirmación");
+				alertDialog.setMessage ("Has comprado productos por un total de $ " + ProductsController.getInstance().purchaseGetPricetotal ());
 				
-				// cerrar actividades.
-				returnMenu ();
+				alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
+					public void onClick (DialogInterface dialog, int which) {
+						// cerrar actividades.
+						returnMenu ();
+					}
+				});
+				alertDialog.show();
 			}
 		});
 		

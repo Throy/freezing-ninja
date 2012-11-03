@@ -10,6 +10,7 @@ import georeduy.backend.util.GeoRedClient;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,6 +150,8 @@ public class RetailServlet extends HttpServlet {
     	product.setDescription(description);
     	product.setImageUrl(imageUrl);
     	product.setPrice(Double.toString(price));
+    	product.setReleaseDate (new Date ());
+    	// *** en realidad, releaseDate debería ser un campo del formulario ***
     	
     	Gson gson = new Gson();
     	

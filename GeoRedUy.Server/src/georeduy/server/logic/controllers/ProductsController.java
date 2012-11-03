@@ -1,21 +1,13 @@
 package georeduy.server.logic.controllers;
 
 import georeduy.server.dao.IProductDao;
-import georeduy.server.dao.IRetailStoreDao;
 import georeduy.server.dao.IStoreProductDao;
 import georeduy.server.dao.ProductDaoImpl;
-import georeduy.server.dao.RetailStoreDaoImpl;
 import georeduy.server.dao.StoreProductDaoImpl;
-import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.Product;
-import georeduy.server.logic.model.RetailStore;
-import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.StoreProduct;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import org.bson.types.ObjectId;
 
 public class ProductsController {
 	// instancia del singleton

@@ -5,6 +5,7 @@ import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.RetailStore;
 import georeduy.server.logic.model.Retailer;
 import georeduy.server.logic.model.Roles;
+import georeduy.server.logic.model.User;
 
 import java.util.List;
 
@@ -86,7 +87,7 @@ public class RetailService {
 			Gson gson = new Gson();
 			String json = storeInfo.split("=")[1];
 			RetailStore store = gson.fromJson(json, RetailStore.class);
-			RetailController.getInstance().NewStore(store);
+			RetailController.getInstance().NewStore(store, User.Current().getRetailId());
 			
 			response = Response.status(200).entity(GeoRedConstants.STORE_SUCCESSFULY_ADDED).build();
 	    }

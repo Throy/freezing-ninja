@@ -75,8 +75,8 @@ public class RetailController {
         }		
 	}
 	
-	public void NewStore(RetailStore store) throws Exception {
-		store.setRetailerId(User.Current().getRetailId());
+	public void NewStore(RetailStore store, String retailerId) throws Exception {
+		store.setRetailerId(retailerId);
 		retailStoreDao.saveStore(store);		
 	}
 	

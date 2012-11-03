@@ -1,22 +1,17 @@
 package georeduy.server.logic.controllers;
 
-import georeduy.server.dao.IProductDao;
 import georeduy.server.dao.IRetailStoreDao;
 import georeduy.server.dao.IRetailerDao;
 import georeduy.server.dao.IStoreProductDao;
 import georeduy.server.dao.IUserDao;
-import georeduy.server.dao.ProductDaoImpl;
 import georeduy.server.dao.RetailStoreDaoImpl;
 import georeduy.server.dao.RetailerDaoImpl;
 import georeduy.server.dao.StoreProductDaoImpl;
 import georeduy.server.dao.UserDaoImpl;
 import georeduy.server.logic.model.GeoRedConstants;
-import georeduy.server.logic.model.Product;
 import georeduy.server.logic.model.RetailStore;
 import georeduy.server.logic.model.Retailer;
 import georeduy.server.logic.model.Roles;
-import georeduy.server.logic.model.Site;
-import georeduy.server.logic.model.StoreProduct;
 import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.UserData;
 
@@ -26,17 +21,16 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 public class RetailController {
+	// instancia del singleton
 	private static RetailController s_instance = null;
 
+	// daos
 	private IRetailStoreDao retailStoreDao =  new RetailStoreDaoImpl();
-	
 	private IRetailerDao retailerDao =  new RetailerDaoImpl();
-	
 	private IUserDao userDao = new UserDaoImpl();
-	
-	private IProductDao productDao = new ProductDaoImpl();
-	
 	private IStoreProductDao storeProductsDao = new StoreProductDaoImpl();
+	
+	// constructores
 	
 	public RetailController() {
 	}
@@ -48,6 +42,8 @@ public class RetailController {
 
 		return s_instance;
 	}
+	
+	// funciones del controlador
 	
 	public void NewRetailer(Retailer retailer) throws Exception {
 		if (retailerDao.findByName(retailer.getName()) == null) {
@@ -84,22 +80,6 @@ public class RetailController {
 		retailStoreDao.saveStore(store);		
 	}
 	
-	public void NewProduct(Product product) throws Exception {
-		product.setRetailerId(User.Current().getRetailId());
-		productDao.saveProduct(product);		
-	}
-	
-	public void AddStoreProduct(String storeId, String productName) throws Exception {
-		StoreProduct storeProduct = new StoreProduct();
-		
-		Product product = productDao.findByName(productName);
-		storeProduct.setProductId(product.getId());
-		
-		storeProduct.setStoreId(storeId);
-		
-		storeProductsDao.saveStoreProduct(storeProduct);
-	}
-	
 	public List<Retailer> GetRetailers(int from, int count) {
 		return retailerDao.getRetailers(from, count);
 	}
@@ -118,14 +98,6 @@ public class RetailController {
 	
 	public RetailStore GetStore(String id) {
 		return retailStoreDao.find(new ObjectId(id));
-	}
-	
-	public List<Product> GetProducts(int from, int count, String retailerId) {
-		return productDao.getProducts(from, count, retailerId);
-	}
-	
-	public List<Product> GetStoreProducts(int from, int count, String storeId) {
-		return storeProductsDao.getStoreProducts(from, count, storeId);
 	}
 	
 	public List<RetailStore> GetByPosition(int latitude, int longitud) {

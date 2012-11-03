@@ -71,16 +71,13 @@ public class ProductsController
 	// *******
 	// métodos
 	// *******
-
-	// *** hay que ver cuáles se precisan y cuáles no. ***
 	
 	// obtener datos de los productos.
-	// *** en realidad debería ser GetStoreProducts y storeId. ***
 	
 	public void getProducts (String retailerId, OnCompletedCallback callback) {
 		Map<String, String> params = new HashMap <String, String>();
-		params.put ("retailerId", retailerId);
-    	GeoRedClient.GetAsync("/Retail/GetProducts", params, callback);
+		params.put ("id", retailerId);
+    	GeoRedClient.GetAsync("/Products/GetByStore", params, callback);
 	}
 	
 	// obtener datos del producto.

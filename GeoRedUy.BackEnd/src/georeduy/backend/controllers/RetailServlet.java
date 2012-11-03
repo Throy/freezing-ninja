@@ -158,7 +158,7 @@ public class RetailServlet extends HttpServlet {
     	Map<String, String> params  = new HashMap <String, String>();
 		params.put ("productInfo", gson.toJson(product));
 
-		GeoRedClient.Post("/Retail/NewProduct", params, (String)request.getSession().getAttribute("Token"));
+		GeoRedClient.Post("/Products/New", params, (String)request.getSession().getAttribute("Token"));
     }
     
     public void AddStoreProduct(HttpServletRequest request) throws Exception {
@@ -166,7 +166,7 @@ public class RetailServlet extends HttpServlet {
 		params.put ("productName", request.getParameter("Name"));
 		params.put ("storeId", request.getParameter("StoreId"));
 
-		GeoRedClient.Get("/Retail/AddStoreProduct", params, (String)request.getSession().getAttribute("Token"));
+		GeoRedClient.Get("/Products/AddStoreProduct", params, (String)request.getSession().getAttribute("Token"));
     }
     
     public void ListRetailers(HttpServletRequest request) throws Exception {
@@ -202,7 +202,7 @@ public class RetailServlet extends HttpServlet {
 		params.put ("from", "0");
 		params.put ("count", "10");
     	
-    	String result = GeoRedClient.Get("/Retail/GetProducts", params, (String)request.getSession().getAttribute("Token"));
+    	String result = GeoRedClient.Get("/Products/GetByRetailer", params, (String)request.getSession().getAttribute("Token"));
 		Type listType = new TypeToken<ArrayList<Product>>() {}.getType();
 		
 		Gson gson = new Gson();
@@ -226,7 +226,7 @@ public class RetailServlet extends HttpServlet {
 		params.put ("count", "10");
 		params.put ("id", request.getParameter("ShowStore"));
     	
-    	result = GeoRedClient.Get("/Retail/GetStoreProducts", params, (String)request.getSession().getAttribute("Token"));
+    	result = GeoRedClient.Get("/Products/GetByStore", params, (String)request.getSession().getAttribute("Token"));
 		Type listType = new TypeToken<ArrayList<Product>>() {}.getType();
 		
 		List<Product> products = gson.fromJson(result, listType);

@@ -91,7 +91,7 @@ public class ProductsListActivity extends Activity {
         
         // poblar lista
         
-        ProductsController.getInstance ().getProducts (store.getRetailerId (), new OnCompletedCallback() {
+        ProductsController.getInstance ().getProducts (store.getId (), new OnCompletedCallback() {
 			
 			@Override
 			public void onCompleted (String response, String error)

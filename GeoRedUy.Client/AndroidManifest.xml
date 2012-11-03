@@ -221,7 +221,8 @@
         
         <activity
             android:name=".PurchasePublishReviewActivity"
-            android:label="@string/title_activity_purchase_publish_review" >
+            android:label="@string/title_activity_purchase_publish_review"
+            android:theme="@android:style/Theme.Dialog">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -229,7 +230,8 @@
         
         <activity
             android:name=".VisitPublishCommentActivity"
-            android:label="@string/title_activity_visit_publish_comment" >
+            android:label="@string/title_activity_visit_publish_comment"
+            android:theme="@android:style/Theme.Dialog">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -237,7 +239,8 @@
         
         <activity
             android:name=".ProductBuyAddItemActivity"
-            android:label="@string/title_activity_product_buy_add_item" >
+            android:label="@string/title_activity_product_buy_add_item"
+            android:theme="@android:style/Theme.Dialog">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

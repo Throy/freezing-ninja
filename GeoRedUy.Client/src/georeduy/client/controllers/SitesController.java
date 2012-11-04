@@ -7,6 +7,7 @@ package georeduy.client.controllers;
 
 // imports
 
+import georeduy.client.model.Comment;
 import georeduy.client.model.Site;
 import georeduy.client.model.User;
 import georeduy.client.model.Visit;
@@ -49,6 +50,8 @@ public class SitesController
 	// *******
 	// métodos
 	// *******
+	
+	// sitios
 	
 	// *** hay que ver cuáles se precisan y cuáles no. ***
 	
@@ -105,6 +108,8 @@ public class SitesController
     	GeoRedClient.PostAsync("/Sites/Visits/New", params, callback);	
 	}
 	
+	// visitas
+	
 	// obtener datos de visitas del usuario.
 	
 	public void getVisits (OnCompletedCallback callback) {
@@ -125,8 +130,39 @@ public class SitesController
 	}
 	
 	// publicar comentario de una visita.
-	// *** en realdiad falta enviar fotos y videos. ***
+	// *** en realidad falta enviar fotos y videos. ***
 	
-	public void publishVisitComment (String visitId, String message) {
+	public void publishVisitComment (String visitId, String text, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+        Gson gson = new Gson();
+		
+		// agregar parámetros
+		Comment comment = new Comment ();
+		comment.setText (text);
+		comment.setVisitId (visitId);
+		params.put ("commentInfo", gson.toJson(comment));
+		
+    	GeoRedClient.PostAsync("/Sites/Comments/New", params, callback);
+	}
+	
+	// comentarios
+	
+	// obtener datos de comentarios del usuario.
+	
+	public void getComments (OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+		
+    	GeoRedClient.GetAsync("/Sites/Comments/GetByUser", params, callback);
+	}
+	
+	// obtener datos de un comentario del usuario.
+	
+	public void getComment (String commentId, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+		
+		// agregar parámetros
+		params.put ("commentId", commentId);
+		
+    	GeoRedClient.GetAsync("/Sites/Comments/GetById", params, callback);	
 	}
 }

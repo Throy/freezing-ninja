@@ -8,6 +8,8 @@ package georeduy.client.activities;
 // imports
 
 import georeduy.client.controllers.SitesController;
+import georeduy.client.util.CommonUtilities;
+import georeduy.client.util.OnCompletedCallback;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -45,24 +47,41 @@ public class VisitPublishCommentActivity extends Activity {
     	String comment = ((EditText) findViewById (R.id.edittext_comment)).getText ().toString ();
     	
 		// intentar visitar el sitio
-		SitesController.getInstance().publishVisitComment (visitId, comment);
-    	
-		// mostrar confirmación
-		AlertDialog alertDialog = new AlertDialog.Builder (this).create ();
+		SitesController.getInstance().publishVisitComment (visitId, comment, new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted (String response, String error)
+			{
+				if (error == null) {
 
-		alertDialog.setTitle ("Confirmación");
-		alertDialog.setMessage ("Enviaste el comentario \""
-		+ comment
-				+ "\" a la visita de id "
-				+ visitId
-				+ ".");
-		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
-			public void onClick (DialogInterface dialog, int which) {
-				// cerrar la actividad.
-				finish ();
-			}
-		});
-		
-		alertDialog.show();
+					// mostrar confirmación
+					AlertDialog alertDialog = new AlertDialog.Builder (VisitPublishCommentActivity.this).create ();
+
+					alertDialog.setTitle ("Confirmación");
+					alertDialog.setMessage ("Enviaste el comentario.");
+					/*
+					alertDialog.setMessage ("Enviaste el comentario \""
+					+ comment
+							+ "\" a la visita de id "
+							+ visitId
+							+ ".");
+							*/
+					alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
+						public void onClick (DialogInterface dialog, int which) {
+							// cerrar la actividad.
+							finish ();
+						}
+					});
+					
+					alertDialog.show();
+					
+				}
+				
+				else {
+					CommonUtilities.showAlertMessage (VisitPublishCommentActivity.this, "Error VPCA bso", "Hubo un error:\n" + error);
+					//finish();
+				}
+			}});
+    	
     }
 }

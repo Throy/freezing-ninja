@@ -1,5 +1,7 @@
 package georeduy.server.logic.model;
 
+import java.util.Date;
+
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
@@ -18,6 +20,10 @@ public class Product {
     private String price;
     @Property
     private String imageUrl;
+    
+    @Property
+    private Date releaseDate;
+    
     @Property
     private String retailerId;
     
@@ -51,6 +57,22 @@ public class Product {
 
 	public void setPrice(String price) {
 		this.price = price;
+	}
+
+	/**
+	 * @return the releaseDate
+	 */
+	public Date getReleaseDate ()
+	{
+		return releaseDate;
+	}
+
+	/**
+	 * @param releaseDate the releaseDate to set
+	 */
+	public void setReleaseDate (Date releaseDate)
+	{
+		this.releaseDate = releaseDate;
 	}
 
 	public String getRetailerId() {

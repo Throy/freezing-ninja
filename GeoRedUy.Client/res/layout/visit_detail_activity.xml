@@ -132,4 +132,13 @@
         android:focusable="false"
         android:onClick="button_visit_item_onClick"
         />
+    
+    <!-- comments -->
+    <TextView
+	    android:id="@+id/textview_comments"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+ 	    android:layout_below="@id/button_visit_item"
+    	android:layout_margin="5dip"
+        android:textSize="15dip"/>
 </RelativeLayout>

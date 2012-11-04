@@ -7,6 +7,8 @@ package georeduy.client.activities;
 
 // imports
 
+import georeduy.client.controllers.ProductsController;
+import georeduy.client.model.Product;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +16,10 @@ import android.view.View;
 import android.widget.TextView;
 
 public class ProductDetailActivity extends Activity {
+	// variables
+	
+	// id del producto
+	private String productId;
 	
 	// inicializadores
 	
@@ -23,10 +29,8 @@ public class ProductDetailActivity extends Activity {
         setContentView (R.layout.product_detail_activity);
         
         // obtener datos de la visita a partir del id.
-        String productId = getIntent().getStringExtra (ProductsListActivity.EXTRA_PRODUCT_ID);
-        
-        //int idx = Integer.parseInt (visitId);
-        // DTVisit visit = getVisit (idx);
+        productId = getIntent().getStringExtra (ProductsListActivity.EXTRA_PRODUCT_ID);
+		Product product = ProductsController.getInstance().getProduct (productId);
 
         TextView viewProductId = (TextView) findViewById (R.id.textview_product_id);
         TextView viewName = (TextView) findViewById (R.id.textview_name);
@@ -34,9 +38,9 @@ public class ProductDetailActivity extends Activity {
         TextView viewPrice = (TextView) findViewById (R.id.textview_price);
         
         viewProductId.setText (productId);
-        viewName.setText ("Producto " + productId);
-        viewDescription.setText ("Es un producto " + productId);
-        viewPrice.setText ("$ " + productId);
+        viewName.setText (product.getName ());
+        viewDescription.setText (product.getDescription ());
+        viewPrice.setText ("$ " + Double.parseDouble (product.getPrice ()));
     }
     
     // funciones del programador
@@ -44,23 +48,11 @@ public class ProductDetailActivity extends Activity {
     // cliquear botón -> iniciar actividad de Agregar item a la compra.
     
     public void button_product_item_onClick (View view) {
-    	/*
-    	// crear intent de la actividad Agregar item a la compra.
-    	Intent intent_product_add_item = new Intent (this, ProductBuyAddItemActivity.class);
-
-    	// agregar id del producto al intent
-    	String productId = ((TextView) findViewById (R.id.textview_product_id)).getText().toString();
-    	intent_product_add_item.putExtra (ProductsListActivity.EXTRA_PRODUCT_ID, productId);
-    	
-    	// ejecutar intent.
-    	startActivity (intent_product_add_item);
-    	*/
-
     	// crear intent de la actividad Agregar item a la compra.
     	Intent intent_product_buy_add_item = new Intent (this, ProductBuyAddItemActivity.class);
     	
     	// agregar id de la visita al intent
-    	String productId =((TextView) findViewById (R.id.textview_product_id)).getText().toString();
+    	productId = ((TextView) findViewById (R.id.textview_product_id)).getText().toString();
     	intent_product_buy_add_item.putExtra (ProductsListActivity.EXTRA_PRODUCT_ID, productId);
     	
     	// ejecutar intent.

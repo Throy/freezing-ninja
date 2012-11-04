@@ -10,7 +10,7 @@ import com.google.code.morphia.utils.IndexDirection;
 public class StoreProduct {
     @Id
     private String id;
-    @Indexed(unique = true, value = IndexDirection.ASC)
+    @Property
     private String storeId;
     @Property
     private String productId;

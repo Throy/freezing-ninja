@@ -26,7 +26,7 @@
     <!-- activity titles -->
     
     <string name="title_activity_main_menu">GeoRed.uy | Menú principal</string>
-    <string name="title_activity_display_message">Teh Message</string>
+    <string name="title_activity_map">GeoRed.uy | Mapa</string>
     
     <string name="title_activity_session_login">GeoRed.uy | Menú inicial</string>
     <string name="title_activity_session_register">Registrarse en el sistema</string>
@@ -73,10 +73,12 @@
     <string name="button_session_register_fbk">Login con Facebook</string>
     
     <string name="button_map">Mapa</string>
+    
     <string name="button_products_list">Productos</string>
     <string name="button_purchases_list">Compras</string>
     <string name="button_sites_list">Sitios</string>
     <string name="button_stores_list">Locales</string>
+    <string name="button_contacts_list">Contactos</string>
     <string name="button_users_list">Usuarios</string>
     <string name="button_visits_list">Visitas</string>
     
@@ -85,16 +87,6 @@
     
     <string name="button_configure_notitags">Notiquetas</string>
     <string name="button_configure_notitypes">Notitipos</string>
-    
-    <string name="button_map_hint">Mapa de la ciudad.</string>
-    <string name="button_purchases_list_hint">Lista de todas las compras.</string>
-    <string name="button_products_list_hint">Lista de todos los productos.</string>
-    <string name="button_sites_list_hint">Lista de todos los sitios.</string>
-    <string name="button_stores_list_hint">Lista de todos los locales.</string>
-    <string name="button_users_list_hint">Lista de todos los usuarios.</string>
-    <string name="button_visits_list_hint">Lista de todas las visitas.</string>
-    <string name="button_configure_notitags_hint">Cambia la configuración de las notificaciones por etiquetas</string>
-    <string name="button_configure_notitypes_hint">Cambia la configuración de las notificaciones por tipos</string>
     
     <!-- edittexts -->
     
@@ -141,11 +133,12 @@
     
     <string name="menu_settings">Configurar</string>
     
-    <string name="register_passwords_do_not_match">Los passwords no coinciden</string>
-    <string name="contact_search_hint">Contact name</string>
-    <string name="options_add_contact">Add Contact</string>
-    <string name="submit">Submit</string>
+    <string name="register_passwords_do_not_match">Las contraseñas no coinciden.</string>
+    <string name="contact_search_hint">Ingresa el nombre</string>
+    <string name="options_add_contact">Agregar contacto</string>
+    <string name="submit">Enviar</string>
     
-    <string name="contacts_menu">Contacts</string>
-    <string name="main_menu">Main menu</string>
+    <color name="greyish">#cbc5b5</color>
+    <color name="whiteish">#f1efe8</color>
+    <color name="dark_gray">#4a4d4a</color>
 </resources>

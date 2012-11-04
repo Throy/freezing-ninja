@@ -7,6 +7,7 @@ package georeduy.client.controllers;
 
 // imports
 
+import georeduy.client.model.Product;
 import georeduy.client.model.RetailStore;
 import georeduy.client.model.User;
 import georeduy.client.util.GeoRedClient;
@@ -34,13 +35,16 @@ public class ProductsController
 	// variables
 	// *********
 
+	// productos
+	private List <Product> _products;
+
 	// items de la compra.
 	// son parejas <productId, units>. 
 	private HashMap <String, Integer> _productUnits;
 
 	// precios de los productos=.
 	// son parejas <productId, price>. 
-	private HashMap <String, Integer> _productPrices;
+	private HashMap <String, String> _productPrices;
 	
 	// id del local donde se realiza la compra.
 	private String _storeId;
@@ -67,31 +71,57 @@ public class ProductsController
 	// *******
 	// métodos
 	// *******
-
-	// *** hay que ver cuáles se precisan y cuáles no. ***
 	
 	// obtener datos de los productos.
-	// *** en realidad devuelve Collection <User> o algo por el estilo. ***
 	
-	public void getProducts () {
+	public void getProducts (String retailerId, OnCompletedCallback callback) {
+		Map<String, String> params = new HashMap <String, String>();
+		params.put ("id", retailerId);
+    	GeoRedClient.GetAsync("/Products/GetByStore", params, callback);
 	}
 	
 	// obtener datos del producto.
-	// *** en realidad devuelve Product o algo por el estilo. ***
 	
-	public void getProduct (String productId) {
+	public Product getProduct (String productId) {
+		Product product = null;
+		for (Product product_idx : _products) {
+			if (product_idx.getId ().equals (productId)) {
+				return product_idx;
+			}
+		}
+		return product;
 	}
 
 	// iniciar compra nueva.
-	public void purchaseNew (HashMap <String, Integer> productPrices, String storeId) {
+	public void purchaseNew (List <Product> products, HashMap <String, String> productPrices, String storeId) {
+		_products = products;
         _productUnits = new HashMap <String, Integer> ();
         _productPrices = productPrices;
         _storeId = storeId;
 	}
 
 	// agregar producto a la compra.
-	public void purchaseAddItem (String productId, int units) {
+	public void purchaseAddItemUnits (String productId, int units) {
 		_productUnits.put (productId, units);
+	}
+	
+	// obtener cantidad de unidades del producto en la compra.
+	
+	public int purchaseGetItemUnits (String productId) {
+		// devolver la cantidad actual
+		try {
+			return _productUnits.get (productId);
+		}
+		
+		// devolver 1 (compra estándar)
+		catch (Exception e) {
+			return 1;
+		}
+	}
+
+	// obtener productos.
+	public List <Product> purchaseGetProducts () {
+		return _products;
 	}
 
 	// obtener unidades de productos de la compra.
@@ -100,20 +130,20 @@ public class ProductsController
 	}
 
 	// obtener precios de productos de la compra.
-	public HashMap <String, Integer> purchaseGetPrices () {
+	public HashMap <String, String> purchaseGetPrices () {
 		return _productPrices;
 	}
 	
 	// realizar compra de productos.
-	public int purchaseConfirm () {
+	public double purchaseConfirm () {
 		// *** LLAMARA AL SERVIDOR DE APLICACIÓN ***
 		
 		return purchaseGetPricetotal ();
 	}
 
 	// realizar compra de productos.
-	public int purchaseGetPricetotal () {
-		int pricetotal = 0;
+	public double purchaseGetPricetotal () {
+		double pricetotal = 0;
 		
 		// iterar en los items.
 		Iterator <Entry <String, Integer>> iter = _productUnits.entrySet().iterator();
@@ -124,7 +154,7 @@ public class ProductsController
 			Entry <String, Integer> item = iter.next();
 			
 			// multiplicar precio por unidades.
-			pricetotal += _productPrices.get (idx) * (Integer) item.getValue();
+			pricetotal += Double.parseDouble (_productPrices.get (item.getKey ())) * (Integer) item.getValue();
 			
 			idx += 1;
 		}
@@ -132,7 +162,7 @@ public class ProductsController
 		return pricetotal;
 	}
 	
-	public void getStoresByPosition (String storeId, OnCompletedCallback callback) {
+	public void getStoreById (String storeId, OnCompletedCallback callback) {
 		Map <String, String> params = new HashMap <String, String>();
 		params.put ("id", storeId);
     	GeoRedClient.GetAsync("/Retail/GetStore", params, callback);

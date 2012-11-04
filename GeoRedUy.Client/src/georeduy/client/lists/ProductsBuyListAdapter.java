@@ -85,8 +85,10 @@ public class ProductsBuyListAdapter extends BaseAdapter {
         itemString = _itemsString.get (position);
  
         // set values of the views
-        viewName.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_NAME));
         String productId = itemString.get (ProductsListActivity.PRODUCT_ITEM_ID);
+        viewName.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_NAME));
+        viewPrice.setText ("$ " + itemString.get (ProductsListActivity.PRODUCT_ITEM_PRICE));
+        viewPriceUnit.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_PRICE).toString ());
         //imageLoader.DisplayImage(item.get (ProductsListActivity.ITEM_THUMB), thumb_image);
 
         // get item int
@@ -96,8 +98,6 @@ public class ProductsBuyListAdapter extends BaseAdapter {
         // set values of the views
         // *** setTag para guardar cualquier objeto ***
         viewProductId.setText (productId);
-        viewPrice.setText ("$ " + itemInt.get (ProductsListActivity.PRODUCT_ITEM_PRICE));
-        viewPriceUnit.setText (itemInt.get (ProductsListActivity.PRODUCT_ITEM_PRICE).toString ());
         viewUnits.setText (itemInt.get (ProductsListActivity.PRODUCT_ITEM_UNITS).toString ());
 
 		// agregar listener al campo viewUnits para actualizar el precio total.

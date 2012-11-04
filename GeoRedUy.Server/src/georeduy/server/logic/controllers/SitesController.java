@@ -107,10 +107,8 @@ public class SitesController {
 		if (realSite == null) {
 			throw new Exception (GeoRedConstants.SITE_DOES_NOT_EXIST); //+ ":" + visit.getUserId ().trim());
 		}
-		visit.setRealSite (realSite);
 		
 		// agregar usuario
-		visit.setRealUser (User.Current ());
 		visit.setUserId (User.Current ().getId ());
 		
 		// agregar fecha
@@ -154,7 +152,6 @@ public class SitesController {
 		if (realVisit == null) {
 			throw new Exception (GeoRedConstants.VISIT_DOES_NOT_EXIST); //+ ":" + visit.getUserId ().trim());
 		}
-		comment.setRealVisit (realVisit);
 		
 		// agregar fecha actual
 		Date currentDate = new Date();
@@ -169,8 +166,12 @@ public class SitesController {
 		visit.setDate (currentCal.getTime ());
 		*/
     	
-		// crear visita
+		// crear comentario
         commentDao.saveComment (comment);
+        
+        // agregar comentario a la visita
+        visitDao.addVisitComment (new ObjectId (comment.getVisitId ()), comment);
+        
 	}
 	
 	// obtener datos de un comentario.

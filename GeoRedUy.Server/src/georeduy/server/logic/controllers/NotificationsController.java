@@ -76,12 +76,15 @@ public class NotificationsController {
 		}
 	}
 
-	public void SendToClient(int clientId, Object payload) throws IOException {
+	public void SendToClient(String userId, Object payload) throws IOException {
+		if (!m_onlineDevices.containsKey(userId))
+			return;
+		
 		Gson gson = new Gson();
         
         Message message = new Message.Builder().addData("className", payload.getClass().getSimpleName()).addData("jsonPayload", gson.toJson(payload)).build();
         
-		m_sender.send(message, m_onlineDevices.get(clientId), 5);
+		m_sender.send(message, m_onlineDevices.get(userId), 5);
 	}
 
 	public void BroadCast(Object payload) {

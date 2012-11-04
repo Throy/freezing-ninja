@@ -18,15 +18,11 @@ import com.google.code.morphia.utils.IndexDirection;
 @Entity(value = "comments", noClassnameStored = true)
 public class Comment {
 
-	// *** calculo que sólo permitiría un comentario por visita ***
     @Id
     private String id;
     
     @Property
     private String visitId;
-    
-    // No pude hacer andar @Reference asi que lo hago asi
-    private Visit realVisit;
     
     // fecha de publicación
     @Property
@@ -37,6 +33,7 @@ public class Comment {
     private String text;
     
     // *** falta contenido multimedia del comentario ***
+    
 	public String getId ()
 	{
 		return id;
@@ -55,16 +52,6 @@ public class Comment {
 	public void setVisitId (String visitId)
 	{
 		this.visitId = visitId;
-	}
-
-	public Visit getRealVisit ()
-	{
-		return realVisit;
-	}
-
-	public void setRealVisit (Visit realVisit)
-	{
-		this.realVisit = realVisit;
 	}
 
 	/**

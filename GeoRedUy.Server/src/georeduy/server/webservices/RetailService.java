@@ -1,13 +1,11 @@
 package georeduy.server.webservices;
 
 import georeduy.server.logic.controllers.RetailController;
-import georeduy.server.logic.controllers.SitesController;
 import georeduy.server.logic.model.GeoRedConstants;
-import georeduy.server.logic.model.Product;
 import georeduy.server.logic.model.RetailStore;
 import georeduy.server.logic.model.Retailer;
 import georeduy.server.logic.model.Roles;
-import georeduy.server.logic.model.Site;
+import georeduy.server.logic.model.User;
 
 import java.util.List;
 
@@ -88,7 +86,7 @@ public class RetailService {
 			Gson gson = new Gson();
 			String json = storeInfo.split("=")[1];
 			RetailStore store = gson.fromJson(json, RetailStore.class);
-			RetailController.getInstance().NewStore(store);
+			RetailController.getInstance().NewStore(store, User.Current().getRetailId());
 			
 			response = Response.status(200).entity(GeoRedConstants.STORE_SUCCESSFULY_ADDED).build();
 	    }
@@ -146,54 +144,6 @@ public class RetailService {
 	    }
 	}
 	
-	@POST()
-	@Path("NewProduct")
-	public Response NewProduct(String productInfo,
-			@Context HttpServletResponse servletResponse,
-			@Context SecurityContext context) {
-		if (!context.isUserInRole(Roles.RETAIL_MANAGER)) {
-			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
-		}
-		
-		Response response;
-		
-		try {
-			Gson gson = new Gson();
-			String json = productInfo.split("=")[1];
-			Product product = gson.fromJson(json, Product.class);
-			RetailController.getInstance().NewProduct(product);
-			
-			response = Response.status(200).entity(GeoRedConstants.PRODUCT_SUCCESSFULY_ADDED).build();
-	    }
-	    catch (Exception e)
-	    {
-	    	response = Response.status(500).entity(e.getMessage()).build();
-	    }
-		
-		return response;
-	}
-	
-	@GET()
-	@Produces("text/plain")
-	@Path("GetProducts")
-	public Response GetProducts(@QueryParam("from") Integer from,
-			@QueryParam("count") Integer count,
-			@Context HttpServletResponse servletResponse,
-			@Context SecurityContext context) {
-		if (!context.isUserInRole(Roles.RETAIL_MANAGER)) {
-			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
-		}
-
-		if (count == null)
-			count = 15;
-		if (from == null)
-			from = 0;
-		
-		Gson gson = new Gson();
-		List<Product> products = RetailController.getInstance().GetProducts(from, count);
-		return Response.status(200).entity(gson.toJson(products)).build();
-	}
-	
 	@GET()
 	@Produces("text/plain")
 	@Path("GetStore")
@@ -207,53 +157,6 @@ public class RetailService {
 		Gson gson = new Gson();
 		RetailStore stores = RetailController.getInstance().GetStore(id);
 		return Response.status(200).entity(gson.toJson(stores)).build();
-	}
-	
-	@GET()
-	@Produces("text/plain")
-	@Path("AddStoreProduct")
-	public Response AddStoreProduct(@QueryParam("productName") String productName,
-			@QueryParam("storeId") String storeId,
-			@Context HttpServletResponse servletResponse,
-			@Context SecurityContext context) {
-		if (!context.isUserInRole(Roles.RETAIL_MANAGER)) {
-			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
-		}
-		
-		Response response;
-		
-		try {
-			RetailController.getInstance().AddStoreProduct(storeId, productName);
-			response = Response.status(200).entity(GeoRedConstants.PRODUCT_SUCCESSFULY_ADDED).build();
-		}
-		catch (Exception e)
-	    {
-	    	response = Response.status(500).entity(e.getMessage()).build();
-	    }
-		
-		return response;
-	}
-	
-	@GET()
-	@Produces("text/plain")
-	@Path("GetStoreProducts")
-	public Response GetStoreProducts(@QueryParam("from") Integer from,
-			@QueryParam("count") Integer count,
-			@QueryParam("id") String id,
-			@Context HttpServletResponse servletResponse,
-			@Context SecurityContext context) {
-		if (!context.isUserInRole(Roles.RETAIL_MANAGER)) {
-			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
-		}
-
-		if (count == null)
-			count = 15;
-		if (from == null)
-			from = 0;
-		
-		Gson gson = new Gson();
-		List<Product> products = RetailController.getInstance().GetStoreProducts(from, count, id);
-		return Response.status(200).entity(gson.toJson(products)).build();
 	}
 	
 	@GET()

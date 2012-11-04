@@ -126,6 +126,7 @@
     <string name="textview_pricetotal">Precio total</string>
     <string name="textview_review">Evaluación</string>
     <string name="textview_units">Unidades</string>
+    <string name="textview_store">Local</string>
     
     <string name="textview_filler">abc</string>
     

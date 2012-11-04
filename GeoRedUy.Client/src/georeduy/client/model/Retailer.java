@@ -1,26 +1,19 @@
-package georeduy.server.logic.model;
+package georeduy.client.model;
 
 import java.util.List;
 
-import com.google.code.morphia.annotations.Entity;
-import com.google.code.morphia.annotations.Id;
-import com.google.code.morphia.annotations.Indexed;
-import com.google.code.morphia.annotations.Property;
-import com.google.code.morphia.utils.IndexDirection;
-
-@Entity(value = "retailers", noClassnameStored = true)
 public class Retailer {
-    @Id
+    
     private String id;
-    @Indexed(unique = true, value = IndexDirection.ASC)
+    
     private String name;
-    @Property
+    
     private String description;
-    @Property
+    
     private String imageUrl;
-    @Property
+    
     private String userId;
-    @Property
+    
     private List<String> storesIds;
     
     private User user;

@@ -13,7 +13,7 @@ import org.bson.types.ObjectId;
 public interface IPurchaseDao {
 
 	// guardar compra en la base de datos
-	public void savePurchase (Purchase purchase);
+	public void savePurchase (Purchase purchase) throws Exception;
 
 	// obtener compra a partir del id
 	public Purchase find (ObjectId purchaseId);

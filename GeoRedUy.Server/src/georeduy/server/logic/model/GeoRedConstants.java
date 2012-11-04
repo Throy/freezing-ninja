@@ -60,6 +60,12 @@ public class GeoRedConstants {
 
 	public static final Object COMMENT_SUCCESSFULY_ADDED =
 			"COMMENT_SUCCESSFULY_ADDED";
+	
+	public static final Object PURCHASE_SUCCESSFULY_ADDED =
+			"PURCHASE_SUCCESSFULY_ADDED";
+
+	public static final String PURCHASE_SAVE_INCONSISTENT_DATA =
+			"PURCHASE_SAVE_INCONSISTENT_DATA";
 
 	public static final Object MESSAGE_SENT = 
 			"MESSAGE_SENT";

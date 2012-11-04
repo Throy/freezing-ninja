@@ -30,6 +30,11 @@ public class StoreProductDaoImpl extends BasicDAO<StoreProduct, ObjectId> implem
         return get(id);
     }
 
+    @Override
+    public StoreProduct find(String productId, String storeId) {
+    	return createQuery().field("storeId").equal(storeId).field("productId").equal(productId).get ();
+    }
+
 	@Override
 	public List<Product> getStoreProducts(int from, int count, String storeId) {
 		List<StoreProduct> storeProducts = createQuery().field("storeId").equal(storeId).offset(from).limit(count).asList();

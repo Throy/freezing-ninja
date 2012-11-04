@@ -77,6 +77,7 @@ public class PurchasesListAdapter extends BaseAdapter {
         itemString = _itemsString.get (position);
  
         // set values of the views
+        viewPurchaseId.setText (itemString.get (PurchasesListActivity.PURCHASE_ITEM_ID));
         viewName.setText (itemString.get (PurchasesListActivity.PURCHASE_ITEM_NAME));
         viewPrice.setText (itemString.get (PurchasesListActivity.PURCHASE_ITEM_PRICE));
         viewDate.setText (itemString.get (PurchasesListActivity.PURCHASE_ITEM_DATE));
@@ -88,7 +89,6 @@ public class PurchasesListAdapter extends BaseAdapter {
  
         // set values of the views
         // *** setTag para guardar cualquier objeto ***
-        viewPurchaseId.setText (itemInt.get (PurchasesListActivity.PURCHASE_ITEM_ID).toString ());
         
         // return view
         return vi;

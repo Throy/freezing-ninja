@@ -46,7 +46,9 @@ public class ContactListActivity extends Activity {
     
     // extras de intents
 
-    public static final String EXTRA_USER_ID = "tsi2.GeoRedDemo.user_id";
+    public static final String EXTRA_USER_ID = "georeduy.client.user_id";
+    
+    public static final String EXTRA_USER_NAME = "georeduy.client.user_name";
     
     // constructor
 
@@ -68,9 +70,11 @@ public class ContactListActivity extends Activity {
             	// agregar id del usuario al intent
             	String userId = ((TextView) view.findViewById (R.id.user_id)).getText().toString();
             	if (userId != null && !userId.equals("-1")) {
+            		String userName = ((TextView) view.findViewById (R.id.username)).getText().toString();
             		// crear intent de la actividad Ver datos de un usuario.
-            		Intent intent_user_detail = new Intent (parent.getContext (), UserDetailActivity.class);
-	            	intent_user_detail.putExtra (EXTRA_USER_ID, userId);	            	
+            		Intent intent_user_detail = new Intent (parent.getContext (), ChatActivity.class);
+	            	intent_user_detail.putExtra (EXTRA_USER_ID, userId);	 
+	            	intent_user_detail.putExtra (EXTRA_USER_NAME, userName);
 	            	// ejecutar intent.
 	            	startActivity (intent_user_detail);
             	}

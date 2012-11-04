@@ -58,6 +58,9 @@
         <activity android:name=".SessionRegisterActivity"
             android:label="@string/title_activity_session_register"></activity>
         
+        <activity android:name=".ChatActivity"
+            android:label="@string/title_activity_main"></activity>
+        
         <activity
             android:name=".MainMenuActivity"
             android:label="@string/title_activity_main_menu"

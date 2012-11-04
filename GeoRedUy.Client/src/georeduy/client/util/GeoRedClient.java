@@ -67,7 +67,8 @@ public class GeoRedClient {
 				if (response.getStatusLine().getStatusCode() != 200)
 					error = res;
 				
-				callback.onCompleted(res, error);
+				if (callback != null)
+					callback.onCompleted(res, error);
 
 				super.onPostExecute(response);
 			}
@@ -146,8 +147,8 @@ public class GeoRedClient {
 				
 				if (response.getStatusLine().getStatusCode() != 200)
 					error = res;
-				
-				callback.onCompleted(res, error);
+				if (callback != null)
+					callback.onCompleted(res, error);
 
 				super.onPostExecute(response);
 			}

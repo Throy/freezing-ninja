@@ -60,4 +60,7 @@ public class GeoRedConstants {
 
 	public static final Object COMMENT_SUCCESSFULY_ADDED =
 			"COMMENT_SUCCESSFULY_ADDED";
+
+	public static final Object MESSAGE_SENT = 
+			"MESSAGE_SENT";
 }

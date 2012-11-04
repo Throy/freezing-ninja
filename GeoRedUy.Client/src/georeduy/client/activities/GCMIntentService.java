@@ -76,11 +76,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 	        String className = intent.getExtras().getString("className");
 	        Class<?> classOfPayload = Class.forName("georeduy.client.model." + className);
 	        
-	        Method handler = NotificationsController.class.getMethod("handleNotification", classOfPayload);
+	        Method handler = NotificationsController.class.getMethod("handleNotification", Context.class, classOfPayload);
 	        
 	        Gson gson = new Gson();
 	        String jsonPayLoad = intent.getExtras().getString("jsonPayload");
-	        handler.invoke(NotificationsController.getInstance(), gson.fromJson(jsonPayLoad, classOfPayload));
+	        handler.invoke(NotificationsController.getInstance(), context, gson.fromJson(jsonPayLoad, classOfPayload));
         } catch (ClassNotFoundException e) {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();

@@ -63,7 +63,7 @@ public class SessionLoginActivity extends Activity {
 					onLoginSuccess();
 		        }
 				catch (Exception e) {
-			        CommonUtilities.showAlertMessage (params[0], "Error SLA bloc", e.getMessage());
+			        CommonUtilities.showAlertMessage (SessionLoginActivity.this, "Error SLA bloc", e.getMessage());
 		        }
 				return "";
 			}
@@ -144,7 +144,7 @@ public class SessionLoginActivity extends Activity {
             // Device is already registered on GCM, check server.
             //if (GCMRegistrar.isRegisteredOnServer(this)) {
                 // Skips registration.
-            //    mDisplay.append(getString(R.string.already_registered) + "\n");
+                // mDisplay.append(getString(R.string.already_registered) + "\n");
             //} else {
                 // Try to register again, but not in the UI thread.
                 // It's also necessary to cancel the thread onDestroy(),

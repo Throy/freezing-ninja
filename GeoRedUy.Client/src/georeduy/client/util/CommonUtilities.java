@@ -51,7 +51,19 @@ public final class CommonUtilities {
      * Intent's extra that contains the message to be displayed.
      */
     public static final String EXTRA_MESSAGE = "message";
+    
+    /**
+     * Intent used to display a message in the screen.
+     */
+    public static final String DISPLAY_CHAT_MESSAGE_ACTION =
+            "georeduy.client.DISPLAY_CHAT_MESSAGE_ACTION";
 
+    /**
+     * Intent's extra that contains the message to be displayed.
+     */
+    public static final String EXTRA_CHAT_MESSAGE = "chat_message";
+    public static final String EXTRA_CHAT_USER_ID = "chat_user_id";
+    
     /**
      * Notifies UI to display a message.
      * <p>

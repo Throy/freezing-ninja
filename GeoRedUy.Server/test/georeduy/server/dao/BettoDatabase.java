@@ -1,4 +1,5 @@
 package georeduy.server.dao;
+import georeduy.server.logic.controllers.ProductsController;
 import georeduy.server.logic.controllers.RetailController;
 import georeduy.server.logic.model.Product;
 import georeduy.server.logic.model.Retailer;
@@ -97,14 +98,14 @@ public class BettoDatabase {
     	product.setDescription("Calzado para correr más");
     	product.setImageUrl("nike_shox.jpg");
     	product.setPrice("4900");
-    	RetailController.getInstance ().NewProduct (product);
+    	ProductsController.getInstance ().newProduct (product, retailer.getId ());
 
     	product = new Product();
     	product.setName("Pelota Total 90");
     	product.setDescription("Balón para meter más goles");
     	product.setImageUrl("nike_total90.jpg");
     	product.setPrice("1200");
-    	RetailController.getInstance ().NewProduct (product);
+    	ProductsController.getInstance ().newProduct (product, retailer.getId ());
     	
     	// mcdonalds
     	retailer = new Retailer ();
@@ -124,14 +125,14 @@ public class BettoDatabase {
     	product.setDescription("Big Mac, refresco y papas fritas");
     	product.setImageUrl("mcd_mccombo1.jpg");
     	product.setPrice("220");
-    	RetailController.getInstance ().NewProduct (product);
+    	ProductsController.getInstance ().newProduct (product, retailer.getId ());
 
     	product = new Product();
     	product.setName("McTwist Lapataia");
     	product.setDescription("Helado de crema con dulce de leche");
     	product.setImageUrl("mcd_mctwist_lapataia.jpg");
     	product.setPrice("80");
-    	RetailController.getInstance ().NewProduct (product);
+    	ProductsController.getInstance ().newProduct (product, retailer.getId ());
     	
     	// multiahorro
     	retailer = new Retailer ();
@@ -151,21 +152,21 @@ public class BettoDatabase {
     	product.setDescription("Las manzanas más ricas");
     	product.setImageUrl("multi_manzanas.jpg");
     	product.setPrice("20");
-    	RetailController.getInstance ().NewProduct (product);
+    	ProductsController.getInstance ().newProduct (product, retailer.getId ());
     	
     	product = new Product();
     	product.setName("Pan flauta");
     	product.setDescription("El pan más crocante");
     	product.setImageUrl("multi_panflauta.jpg");
     	product.setPrice("15");
-    	RetailController.getInstance ().NewProduct (product);
+    	ProductsController.getInstance ().newProduct (product, retailer.getId ());
     	
     	product = new Product();
     	product.setName("Exprimido de naranja");
     	product.setDescription("El jugo más azucarado");
     	product.setImageUrl("multi_exprimido.jpg");
     	product.setPrice("15");
-    	RetailController.getInstance ().NewProduct (product);
+    	ProductsController.getInstance ().newProduct (product, retailer.getId ());
     }
 
     @Test

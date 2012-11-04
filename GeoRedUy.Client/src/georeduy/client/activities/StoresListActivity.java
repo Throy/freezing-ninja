@@ -91,12 +91,6 @@ public class StoresListActivity extends Activity {
             	// agregar id del local al intent
             	String storeId = ((TextView) view.findViewById (R.id.store_id)).getText().toString();
             	intent_store_detail.putExtra (EXTRA_STORE_ID, storeId);
-
-                // *** en realidad este párrafo no va ***
-            	String name = ((TextView) view.findViewById (R.id.name)).getText().toString();
-            	String address = ((TextView) view.findViewById (R.id.address)).getText().toString();
-            	intent_store_detail.putExtra (STORE_ITEM_NAME, name);
-            	intent_store_detail.putExtra (STORE_ITEM_ADDRESS, address);
             	
             	// ejecutar intent.
             	startActivity (intent_store_detail);

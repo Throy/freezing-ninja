@@ -15,11 +15,15 @@
  */
 package georeduy.client.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import georeduy.client.activities.R;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.format.Formatter;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -102,7 +106,12 @@ public final class CommonUtilities {
 		});
 		alertDialog.show();
     }
-    
+
+    // dar formato a fecha
+    public static String dateToString (Date date) {
+    	SimpleDateFormat format = new java.text.SimpleDateFormat("dd/MM HH:MM");
+    	return format.format (date); 
+    }
     /*
     public static String trimId (String id) {
     	return id.substring (id.length() - 3, id.length());

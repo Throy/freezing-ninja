@@ -9,6 +9,7 @@ package georeduy.client.activities;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -17,6 +18,7 @@ import com.google.gson.reflect.TypeToken;
 import georeduy.client.controllers.SitesController;
 import georeduy.client.model.Comment;
 import georeduy.client.model.Visit;
+import georeduy.client.util.CommonUtilities;
 import georeduy.client.util.OnCompletedCallback;
 import android.app.Activity;
 import android.content.Intent;
@@ -55,7 +57,7 @@ public class VisitDetailActivity extends Activity {
 	            viewName.setText (visit.getRealSite ().getName ());
 	            viewAddress.setText (visit.getRealSite ().getAddress ());
                 if (visit.getDate () != null) {
-                	viewDate.setText (visit.getDate ().toString ());
+                	viewDate.setText (CommonUtilities.dateToString (visit.getDate ()));
                 }
                 else {
                 	viewDate.setText ("2012 / 11 / X");

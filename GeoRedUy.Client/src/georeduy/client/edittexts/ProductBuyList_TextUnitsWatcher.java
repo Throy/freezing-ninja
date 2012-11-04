@@ -41,7 +41,7 @@ public class ProductBuyList_TextUnitsWatcher implements TextWatcher
 		catch (NumberFormatException exception) {
 		}
 
-		ProductsController.getInstance().purchaseAddItem (_productId, units);
+		ProductsController.getInstance().purchaseAddItemUnits (_productId, units);
 		
 		// actualizar precio total
 		ProductsBuyListActivity.getInstance().updatePriceTotal ();

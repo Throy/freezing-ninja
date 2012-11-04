@@ -8,6 +8,7 @@ package georeduy.client.activities;
 // imports
 
 import georeduy.client.controllers.ProductsController;
+import georeduy.client.model.Product;
 import georeduy.client.util.CommonUtilities;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,9 +27,11 @@ public class ProductBuyAddItemActivity extends Activity {
 	// id del producto
 	private String productId;
 	
+	// nombre del producto
+	private String productName;
 	
 	// precio unitario
-	private int priceUnit;
+	private Double priceUnit;
 	
 	// unidadtes
 	private int units;
@@ -42,11 +45,11 @@ public class ProductBuyAddItemActivity extends Activity {
 
 		// obtener datos del producto a partir del id.
 		productId = getIntent().getStringExtra (ProductsListActivity.EXTRA_PRODUCT_ID);
+		Product product = ProductsController.getInstance().getProduct (productId);
 
-		// Product product = ProductsController.getInstance().getProduct (idx);
-
-		priceUnit = 1; //productId * 10;
-		units = 1;
+		units = ProductsController.getInstance().purchaseGetItemUnits (productId);
+		priceUnit = Double.parseDouble (product.getPrice ());
+		productName = product.getName ();
 
 		TextView viewProductId = (TextView) findViewById (R.id.textview_product_id);
 		TextView viewName = (TextView) findViewById (R.id.textview_name);
@@ -54,26 +57,26 @@ public class ProductBuyAddItemActivity extends Activity {
 		TextView viewUnits = (TextView) findViewById (R.id.textview_units);
 		TextView viewPriceTotal = (TextView) findViewById (R.id.textview_pricetotal);
 
-		viewProductId.setText ("" + productId);
-		viewName.setText ("Producto " + productId);
+		viewProductId.setText (productId);
+		viewName.setText (productName);
 		viewPriceUnit.setText ("$ " + priceUnit);
-		viewUnits.setText ("" + 1);
+		viewUnits.setText ("" + units);
 		viewPriceTotal.setText ("$ " + priceUnit * units);
 
 		// agregar listener al campo viewUnits para actualizar el precio.
 		viewUnits.addTextChangedListener (new TextWatcher() {
 			public void afterTextChanged (Editable s) {
 				TextView viewUnits = (TextView) findViewById (R.id.textview_units);
-				Button buttonAdd = (Button) findViewById (R.id.button_product_add);
+				//Button buttonAdd = (Button) findViewById (R.id.button_product_add);
 				
-				// actualizar cantidad de unidades, o asignar 0
+				// actualizar cantidad de unidades, o asignar 1
 				try {
 					units = Integer.parseInt (viewUnits.getText ().toString ());
-					buttonAdd.setEnabled (true);
+					//buttonAdd.setEnabled (true);
 				}
 				catch (NumberFormatException exception) {
-					units = 0;
-					buttonAdd.setEnabled (false);
+					units = 1;
+					//buttonAdd.setEnabled (false);
 				}
 				
 				TextView viewPriceTotal = (TextView) findViewById (R.id.textview_pricetotal);
@@ -95,16 +98,13 @@ public class ProductBuyAddItemActivity extends Activity {
     public void button_product_add_onClick (View view) {
     	
 		// intentar agrergar el producto a la compra
-		ProductsController.getInstance().purchaseAddItem (productId, units);
+		ProductsController.getInstance().purchaseAddItemUnits (productId, units);
 		
 		// mostrar confirmación
 		AlertDialog alertDialog = new AlertDialog.Builder (this).create ();
 
 		alertDialog.setTitle ("Producto agregado");
-		alertDialog.setMessage ("Agregaste a la compra "
-				+ units + " unidades del producto de id "
-				+ productId
-				+ ".");
+		alertDialog.setMessage ("Agregaste a la compra\n" + units + " unidades del producto " + productName + ".");
 		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
 			public void onClick (DialogInterface dialog, int which) {
 				// cerrar la actividad.

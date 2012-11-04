@@ -34,7 +34,7 @@ public class StoreDetailActivity extends Activity {
         // obtener datos del local a partir del id.
         String storeId = getIntent().getStringExtra (StoresListActivity.EXTRA_STORE_ID);
         
-        ProductsController.getInstance ().getStoresByPosition (storeId, new OnCompletedCallback() {
+        ProductsController.getInstance ().getStoreById (storeId, new OnCompletedCallback() {
 			
 			@Override
 			public void onCompleted (String response, String error)

@@ -88,7 +88,7 @@ public class VisitsListActivity extends Activity {
 		                itemStringMap.put (VISIT_ITEM_NAME, visit.getRealSite ().getName ());
 		                itemStringMap.put (VISIT_ITEM_ADDRESS, visit.getRealSite ().getAddress ());
 		                if (visit.getDate () != null) {
-		                	itemStringMap.put (VISIT_ITEM_DATE, visit.getDate ().toString ());
+		                	itemStringMap.put (VISIT_ITEM_DATE, CommonUtilities.dateToString (visit.getDate ()));
 		                }
 		                else {
 		                	itemStringMap.put (VISIT_ITEM_DATE, "2012 / 11 / X");

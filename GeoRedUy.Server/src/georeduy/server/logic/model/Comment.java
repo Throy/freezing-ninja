@@ -18,7 +18,6 @@ import com.google.code.morphia.utils.IndexDirection;
 @Entity(value = "comments", noClassnameStored = true)
 public class Comment {
 
-	// *** calculo que sólo permitiría un comentario por visita ***
     @Id
     private String id;
     

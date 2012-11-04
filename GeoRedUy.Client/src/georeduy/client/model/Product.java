@@ -1,13 +1,17 @@
-package georeduy.backend.model;
+package georeduy.client.model;
 
 import java.util.Date;
 
-
 public class Product {
+    
     private String id;
+    
     private String name;
+    
     private String description;
+    
     private String price;
+    
     private String imageUrl;
     
     private Date releaseDate;

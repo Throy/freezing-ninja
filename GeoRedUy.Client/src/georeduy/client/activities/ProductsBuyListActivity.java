@@ -11,6 +11,7 @@ import georeduy.client.controllers.ProductsController;
 import georeduy.client.lists.ProductsBuyListAdapter;
 import georeduy.client.model.Product;
 import georeduy.client.util.CommonUtilities;
+import georeduy.client.util.OnCompletedCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -112,27 +113,38 @@ public class ProductsBuyListActivity extends Activity {
     	final AlertDialog alertDialog = new AlertDialog.Builder (this).create ();
 
 		alertDialog.setTitle ("Realizar compra");
-		alertDialog.setMessage ("¿Seguro que querés realizar la compra?");
+		alertDialog.setMessage ("¿Confirmás la compra?");
 		
 		// realizar la compra
 		alertDialog.setButton (DialogInterface.BUTTON_POSITIVE, "Sí", new DialogInterface.OnClickListener() {
 			public void onClick (DialogInterface dialog, int which) {
 				// realizar compra.
-				ProductsController.getInstance ().purchaseConfirm ();
-				
-				// mostrar confirmación
-		    	final AlertDialog alertDialog = new AlertDialog.Builder (ProductsBuyListActivity.this).create ();
-
-				alertDialog.setTitle ("Confirmación");
-				alertDialog.setMessage ("Has comprado productos por un total de $ " + ProductsController.getInstance().purchaseGetPricetotal ());
-				
-				alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
-					public void onClick (DialogInterface dialog, int which) {
-						// cerrar actividades.
-						returnMenu ();
+				ProductsController.getInstance ().purchaseConfirm (new OnCompletedCallback() {
+					
+					@Override
+					public void onCompleted (String response, String error)
+					{
+						if (error == null) { 
+							// mostrar confirmación
+					    	final AlertDialog alertDialog = new AlertDialog.Builder (ProductsBuyListActivity.this).create ();
+	
+							alertDialog.setTitle ("Confirmación");
+							alertDialog.setMessage ("Has comprado productos por un total de $ " + ProductsController.getInstance().purchaseGetPricetotal ());
+							
+							alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
+								public void onClick (DialogInterface dialog, int which) {
+									// cerrar actividades.
+									returnMenu ();
+								}
+							});
+							alertDialog.show();
+						}
+						
+						else {
+							CommonUtilities.showAlertMessage (ProductsBuyListActivity.this, "Error PBLA bpbo", "Hubo un error:\n" + error);
+						}
 					}
 				});
-				alertDialog.show();
 			}
 		});
 		

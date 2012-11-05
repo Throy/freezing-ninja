@@ -4,12 +4,16 @@
 
 package georeduy.server.dao;
 
+import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.Purchase;
 import georeduy.server.logic.model.PurchaseItem;
 import georeduy.server.logic.model.Product;
+import georeduy.server.logic.model.RetailStore;
+import georeduy.server.logic.model.Retailer;
 import georeduy.server.persistence.MongoConnectionManager;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -26,8 +30,9 @@ public class PurchaseDaoImpl extends BasicDAO <Purchase, ObjectId> implements IP
 	
 	// daos externos
 
-	private static IRetailerDao retailerDao =  new RetailerDaoImpl ();
-	private static IRetailStoreDao storeDao =  new RetailStoreDaoImpl();
+	private static IProductDao productDao = new ProductDaoImpl();
+	private static IRetailerDao retailerDao = new RetailerDaoImpl ();
+	private static IRetailStoreDao storeDao = new RetailStoreDaoImpl();
 	
 	// constructor
 	
@@ -46,12 +51,16 @@ public class PurchaseDaoImpl extends BasicDAO <Purchase, ObjectId> implements IP
     private void resolveReferences (Purchase purchase) {
     	purchase.setRealRetailer (retailerDao.find (new ObjectId (purchase.getRetailerId ())));
     	purchase.setRealStore (storeDao.find (new ObjectId (purchase.getStoreId ())));
+    	
+    	for (PurchaseItem item : purchase.getItems ()) {
+    		item.setRealProduct (productDao.find (new ObjectId (item.getProductId ())));
+    	}
     }
     
     // funciones del dao
 
 	// guardar compra en la base de datos
-	public void savePurchase (Purchase purchase) {
+	public void savePurchase (Purchase purchase)  {
 	    this.save (purchase);
 		
 	}

@@ -109,7 +109,7 @@ public final class CommonUtilities {
 
     // dar formato a fecha
     public static String dateToString (Date date) {
-    	SimpleDateFormat format = new java.text.SimpleDateFormat("dd/MM HH:MM");
+    	SimpleDateFormat format = new java.text.SimpleDateFormat("dd/MMM HH:MM");
     	return format.format (date); 
     }
     /*

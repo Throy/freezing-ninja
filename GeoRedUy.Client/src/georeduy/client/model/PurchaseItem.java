@@ -2,30 +2,20 @@
 
 // clase de comentarios de la capa lógica del appserver.
 
-package georeduy.server.logic.model;
+package georeduy.client.model;
 
-import com.google.code.morphia.annotations.Entity;
-import com.google.code.morphia.annotations.Id;
-import com.google.code.morphia.annotations.Property;
-import com.google.code.morphia.annotations.Transient;
-
-@Entity(value = "purchaseItems", noClassnameStored = true)
 public class PurchaseItem {
 
 	// id del item
-    @Id
     private String id;
     
     // id del producto
-    @Property
     private String productId;
     
     // cantidad de unidades
-    @Property
     public int units;
     
     // No pude hacer andar @Reference asi que lo hago asi
-    @Transient
     private Product realProduct;
 
 	/**

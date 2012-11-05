@@ -8,6 +8,8 @@ package georeduy.client.controllers;
 // imports
 
 import georeduy.client.model.Product;
+import georeduy.client.model.Purchase;
+import georeduy.client.model.PurchaseItem;
 import georeduy.client.model.RetailStore;
 import georeduy.client.model.User;
 import georeduy.client.util.GeoRedClient;
@@ -34,20 +36,21 @@ public class ProductsController
 	// *********
 	// variables
 	// *********
+	
+	// empresa y local donde se realiza la compra
+	private String _retailerId;
+	private String _storeId;
 
-	// productos
+	// productos del local donde se realiza la compra
 	private List <Product> _products;
 
 	// items de la compra.
 	// son parejas <productId, units>. 
 	private HashMap <String, Integer> _productUnits;
 
-	// precios de los productos=.
+	// precios de los productos.
 	// son parejas <productId, price>. 
 	private HashMap <String, String> _productPrices;
-	
-	// id del local donde se realiza la compra.
-	private String _storeId;
 	
 	// locales traídos por el mapa
 	private List <RetailStore> _stores;
@@ -93,11 +96,12 @@ public class ProductsController
 	}
 
 	// iniciar compra nueva.
-	public void purchaseNew (List <Product> products, HashMap <String, String> productPrices, String storeId) {
+	public void purchaseNew (String retailerId, String storeId, List <Product> products, HashMap <String, String> productPrices) {
+		_retailerId = retailerId;
+		_storeId = storeId;
 		_products = products;
         _productUnits = new HashMap <String, Integer> ();
         _productPrices = productPrices;
-        _storeId = storeId;
 	}
 
 	// agregar producto a la compra.
@@ -135,10 +139,36 @@ public class ProductsController
 	}
 	
 	// realizar compra de productos.
-	public double purchaseConfirm () {
-		// *** LLAMARA AL SERVIDOR DE APLICACIÓN ***
+	public void purchaseConfirm (OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
 		
-		return purchaseGetPricetotal ();
+		// agregar items de la compra
+		List <PurchaseItem> items = new ArrayList <PurchaseItem>();
+		Iterator <Entry <String, Integer>> iter = _productUnits.entrySet().iterator();
+		while (iter.hasNext()) {
+			// obtener item
+			Entry <String, Integer> hashItem = iter.next();
+			
+			// sólo agregar ítems con al menos 1 unidad
+			if (hashItem.getValue() >= 1) {
+				PurchaseItem purchaseItem = new PurchaseItem ();
+				purchaseItem.setProductId (hashItem.getKey ());
+				purchaseItem.setUnits (hashItem.getValue());
+				items.add (purchaseItem);
+			}
+		}
+		
+		// agregar compra al llamadao al servicio
+		Purchase purchase = new Purchase();
+		purchase.setItems (items);
+		purchase.setRetailerId (_retailerId);
+		purchase.setStoreId (_storeId);
+
+        Gson gson = new Gson();
+		params.put ("purchaseInfo", gson.toJson(purchase));
+		
+		// llamar al servicio
+    	GeoRedClient.PostAsync("/Products/Purchases/New", params, callback);
 	}
 
 	// realizar compra de productos.
@@ -147,19 +177,21 @@ public class ProductsController
 		
 		// iterar en los items.
 		Iterator <Entry <String, Integer>> iter = _productUnits.entrySet().iterator();
-		
-		int idx = 0;
 		while (iter.hasNext()) {
 			// obtener item
 			Entry <String, Integer> item = iter.next();
 			
 			// multiplicar precio por unidades.
-			pricetotal += Double.parseDouble (_productPrices.get (item.getKey ())) * (Integer) item.getValue();
-			
-			idx += 1;
+			pricetotal += Double.parseDouble (_productPrices.get (item.getKey ())) * item.getValue();
 		}
 
 		return pricetotal;
+	}
+
+	// obtener compras
+	public void getPurchases (OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+    	GeoRedClient.GetAsync("/Products/Purchases/GetByUser", params, callback);
 	}
 	
 	public void getStoreById (String storeId, OnCompletedCallback callback) {

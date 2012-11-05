@@ -8,11 +8,9 @@ package georeduy.client.activities;
 // imports
 
 import georeduy.client.controllers.ProductsController;
-import georeduy.client.controllers.SitesController;
 import georeduy.client.lists.ProductsListAdapter;
 import georeduy.client.model.Product;
 import georeduy.client.model.RetailStore;
-import georeduy.client.model.Site;
 import georeduy.client.util.CommonUtilities;
 import georeduy.client.util.OnCompletedCallback;
 
@@ -45,6 +43,8 @@ import android.widget.TextView;
 
 public class ProductsListActivity extends Activity {
 	
+	// constantes
+	
 	// datos de los items
 	
     public static final String PRODUCT_ITEM_ID = "tsi2.GeoRedDemo.product_id";
@@ -63,10 +63,9 @@ public class ProductsListActivity extends Activity {
     public static final int ACTIVITY_RESULT_NORMAL = 1;
     public static final int ACTIVITY_RESULT_FINISH = 9;
     
-    // id del local
-    public static String storeId;
+    // variables
     
-    // local
+    // local donde se realzia la compra
     public static RetailStore store;
     
     // constructor
@@ -77,7 +76,7 @@ public class ProductsListActivity extends Activity {
         setContentView (R.layout.products_list_activity);
         
         // obtener datos del local a partir del id.
-        storeId = getIntent().getStringExtra (StoresListActivity.EXTRA_STORE_ID);
+        String storeId = getIntent().getStringExtra (StoresListActivity.EXTRA_STORE_ID);
         
         List <RetailStore> stores = ProductsController.getInstance ().getStoresByPosition ();
         store = null;
@@ -90,7 +89,6 @@ public class ProductsListActivity extends Activity {
         setTitle (getTitle () + " de " + store.getName());
         
         // poblar lista
-        
         ProductsController.getInstance ().getProducts (store.getId (), new OnCompletedCallback() {
 			
 			@Override
@@ -133,7 +131,7 @@ public class ProductsListActivity extends Activity {
 			        }
 
 			        // iniciar compra nueva
-			        ProductsController.getInstance ().purchaseNew (products, productPrices, ProductsListActivity.storeId);
+			        ProductsController.getInstance ().purchaseNew (store.getRetailerId (), store.getId (), products, productPrices);
 			        
 			        // poblar lista de productos
 			        ProductsListAdapter adapter = new ProductsListAdapter (ProductsListActivity.this, itemsStringList, itemsIntList);

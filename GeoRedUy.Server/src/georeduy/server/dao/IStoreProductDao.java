@@ -13,5 +13,7 @@ public interface IStoreProductDao {
 
     public StoreProduct find(ObjectId siteId);
 
+    public StoreProduct find(String productId, String storeId);
+
     public List<Product> getStoreProducts(int from, int count, String storeId);
 }

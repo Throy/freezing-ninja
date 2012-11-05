@@ -2,48 +2,32 @@
 
 // clase de visitas de la capa lógica del appserver.
 
-package georeduy.server.logic.model;
+package georeduy.client.model;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.google.code.morphia.annotations.Embedded;
-import com.google.code.morphia.annotations.Entity;
-import com.google.code.morphia.annotations.Id;
-import com.google.code.morphia.annotations.Property;
-import com.google.code.morphia.annotations.Transient;
-
-@Entity(value = "purchases", noClassnameStored = true)
 public class Purchase {
 
-    @Id
     private String id;
     
-    @Property
     private String userId;
     
-    @Property
     private String retailerId;
     
-    @Property
     private String storeId;
     
-    @Property
     public Date date;
     
-    @Property
-    public String pricetotal;
+    private String pricetotal;
 
-    @Embedded
     private List <PurchaseItem> items = new ArrayList <PurchaseItem>();
     
     // No pude hacer andar @Reference asi que lo hago asi
-    @Transient
     private Retailer realRetailer;
     
     // No pude hacer andar @Reference asi que lo hago asi
-    @Transient
     private RetailStore realStore;    
     
 	/**

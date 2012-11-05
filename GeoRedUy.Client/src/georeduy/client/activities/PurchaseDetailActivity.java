@@ -7,6 +7,8 @@ package georeduy.client.activities;
 
 // imports
 
+import georeduy.client.model.Purchase;
+import georeduy.client.util.CommonUtilities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +16,10 @@ import android.view.View;
 import android.widget.TextView;
 
 public class PurchaseDetailActivity extends Activity {
+	
+	// atributos
+	
+	private static Purchase purchase;
 	
 	// inicializadores
 	
@@ -25,16 +31,22 @@ public class PurchaseDetailActivity extends Activity {
         // obtener datos de la visita a partir del id.
         String purchaseId = getIntent().getStringExtra (PurchasesListActivity.EXTRA_PURCHASE_ID);
         
-        int idx = Integer.parseInt (purchaseId);
-        // Purchase purchase = getPurchase (idx);
+        purchase = null;
+        for (Purchase purchase_idx : PurchasesListActivity.purchases) {
+        	if (purchase_idx.getId ().equals (purchaseId)) {
+        		purchase = purchase_idx;
+        	}
+        }
 
         TextView viewPurchaseId = (TextView) findViewById (R.id.textview_purchase_id);
-        TextView viewName = (TextView) findViewById (R.id.textview_name);
+        TextView viewStore = (TextView) findViewById (R.id.textview_store);
         TextView viewPrice = (TextView) findViewById (R.id.textview_price);
+        TextView viewDate = (TextView) findViewById (R.id.textview_date);
         
-        viewPurchaseId.setText (purchaseId);
-        viewName.setText ("Compra " + purchaseId);
-        viewPrice.setText ("$ " + purchaseId);
+        viewPurchaseId.setText (purchase.getId ());
+        viewStore.setText (purchase.getRealStore ().getName ());
+        viewPrice.setText ("$ " + purchase.getPricetotal ());
+        viewDate.setText (CommonUtilities.dateToString (purchase.getDate ()));
     }
     
     // funciones del programador

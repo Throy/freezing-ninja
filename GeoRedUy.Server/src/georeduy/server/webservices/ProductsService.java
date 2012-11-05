@@ -3,6 +3,7 @@ package georeduy.server.webservices;
 import georeduy.server.logic.controllers.ProductsController;
 import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.Product;
+import georeduy.server.logic.model.Purchase;
 import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.User;
 
@@ -122,5 +123,56 @@ public class ProductsService {
 		Gson gson = new Gson();
 		List<Product> products = ProductsController.getInstance().getStoreProducts (from, count, id);
 		return Response.status(200).entity(gson.toJson(products)).build();
+	}
+
+	// realizar compra
+	@POST()
+	@Path("Purchases/New")
+	public Response PurchasesNew(String purchaseInfo,
+			@Context SecurityContext context) {
+		if (! context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+		
+		try {
+			Gson gson = new Gson();
+			String json = purchaseInfo.split("=")[1];
+			Purchase purchase = gson.fromJson(json, Purchase.class);
+			ProductsController.getInstance().newPurchase (purchase);
+			
+			return Response.status(200).entity(GeoRedConstants.PURCHASE_SUCCESSFULY_ADDED).build();
+	    }
+	    catch (Exception e)
+	    {
+	    	return Response.status(500).entity(e.getMessage()).build();
+	    }
+	}
+
+	// obtener compras de un usuario
+	@GET()
+	@Produces("text/plain")
+	@Path("Purchases/GetByUser")
+	public Response PurchasesGetByUser (@QueryParam("userId") String userId,
+			@Context SecurityContext context) {
+		if (! context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+
+		try {
+			// *** falta comprobar que el usuario sea uno a un contacto, o bien uno sea admin. ***
+			
+			// si no se ingresó usuario, usar el propio.
+			if (userId == null) {
+				userId = User.Current ().getId ();
+			}
+			
+			Gson gson = new Gson();
+			List <Purchase> purchases = ProductsController.getInstance().getPurchasesByUser (userId);
+			return Response.status(200).entity(gson.toJson (purchases)).build();
+		}
+	    catch (Exception e)
+	    {
+	    	return Response.status(500).entity(e.getMessage()).build();
+	    }
 	}
 }

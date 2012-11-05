@@ -19,6 +19,7 @@ import georeduy.client.util.GPS;
 import georeduy.client.util.GPS.MyLocationListener;
 
 import georeduy.client.maps.CustomItemizedOverlay;
+import georeduy.client.maps.RadiusOverlay;
 import georeduy.client.maps.SiteMapOverlay;
 import georeduy.client.maps.MapOverlayItem;
 import georeduy.client.maps.StoreMapOverlay;
@@ -71,6 +72,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     // overlay de locales
     private StoreMapOverlay storeMapOverlay;
 	
+    private RadiusOverlay radiusOverlay;
 
 
 	@Override
@@ -97,7 +99,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 		
 		Drawable drawableAndroid = this.getResources().getDrawable (R.drawable.android);
 		androidOverlay = new CustomItemizedOverlay(drawableAndroid, this);
-		
+        radiusOverlay = new RadiusOverlay(new GeoPoint(latitudeE5, longitudeE5), 380);
 		// Create an overlay to show current location
         /*final MagicPositionOverlay androidOverlay = new MagicPositionOverlay(this, mapView);
         androidOverlay.runOnFirstFix(new Runnable() { public void run() {
@@ -109,16 +111,18 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 		// agregar overlay al mapa
 		
 		*/
-		mapOverlays.add(androidOverlay);
+        mapOverlays.add (radiusOverlay);
 		mapOverlays.add (siteMapOverlay);
 		mapOverlays.add (storeMapOverlay);
+		mapOverlays.add(androidOverlay);
+		
 
 		// encuadrar mapa en Atenas
 		MapController mapController = mapView.getController();
 
 		GeoPoint point = new GeoPoint(latitudeE5, longitudeE5);
 		mapController.animateTo(point);
-		mapController.setZoom (18);
+		mapController.setZoom (16);
 		
 		GeoPoint nuevaUbicacion = new GeoPoint(latitudeE5, longitudeE5);
     	itemRobotito = new OverlayItem(nuevaUbicacion, "Me", "This is where you are :)");
@@ -166,11 +170,13 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 
         @Override
         public void onLocationChanged(Location loc) {
-        	androidOverlay.removeOverlay(itemRobotito);
-        	storeMapOverlay.clear();
-			siteMapOverlay.clear();
         	int latitude = (int)(loc.getLatitude()*1E6);
         	int longitude = (int)(loc.getLongitude()*1E6);
+        	androidOverlay.removeOverlay(itemRobotito);
+        	radiusOverlay.point = new GeoPoint(latitude, longitude);
+        	storeMapOverlay.clear();
+			siteMapOverlay.clear();
+        	
         	GeoPoint nuevaUbicacion = new GeoPoint(latitude, longitude);
         	itemRobotito = new OverlayItem(nuevaUbicacion, "Me", "This is where you are :)");
         	
@@ -194,7 +200,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     			        }
     		        });
             
-            ProductsController.getInstance().getStoresByPosition(latitudeE5, longitudeE5, 
+            ProductsController.getInstance().getStoresByPosition(latitude, longitude, 
     		        new OnCompletedCallback() {
 
     			        @Override

@@ -103,16 +103,8 @@ public class UserDaoImpl extends BasicDAO<User, ObjectId> implements IUserDao {
     @Override
     public void setNotificationsTypes (String userId, UserNotificationsTypes notitypes) {
     	
-		Query <User> query = ds.createQuery(User.class).field (idString).equal (userId);
+		Query <User> query = ds.createQuery(User.class).field (idString).equal (new ObjectId (userId));
 		UpdateOperations <User> ops = ds.createUpdateOperations(User.class).set ("notificationsTypes", notitypes);
-		/*
-		ops = ops.set ("notificationsTypes.notitype1_contactsVisits", notitypes.isNotitype1_contactsVisits ());
-		ops = ops.set ("notificationsTypes.notitype2_contactsComments", notitypes.isNotitype2_contactsComments ());
-		ops = ops.set ("notificationsTypes.notitype3_contactsReviews", notitypes.isNotitype3_contactsReviews ());
-		ops = ops.set ("notificationsTypes.notitype4_sites", notitypes.isNotitype4_sites ());
-		ops = ops.set ("notificationsTypes.notitype5_products", notitypes.isNotitype5_products ());
-		ops = ops.set ("notificationsTypes.notitype6_events", notitypes.isNotitype6_events ());
-		*/
 		ds.update (query, ops);
     }
 }

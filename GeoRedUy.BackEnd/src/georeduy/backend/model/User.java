@@ -10,6 +10,8 @@ public class User {
     private String userName;
     
     private UserData userData;
+    
+    private UserNotificationsTypes notificationsTypes;
 
     private List<String> roles;
     
@@ -31,7 +33,23 @@ public class User {
         this.userData = userData;
     }
 
-    public String getId() {
+    /**
+	 * @return the notificationsTypes
+	 */
+	public UserNotificationsTypes getNotificationsTypes ()
+	{
+		return notificationsTypes;
+	}
+
+	/**
+	 * @param notificationsTypes the notificationsTypes to set
+	 */
+	public void setNotificationsTypes (UserNotificationsTypes notificationsTypes)
+	{
+		this.notificationsTypes = notificationsTypes;
+	}
+
+	public String getId() {
         return id;
     }
 

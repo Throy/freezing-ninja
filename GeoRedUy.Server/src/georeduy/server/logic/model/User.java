@@ -15,16 +15,25 @@ public class User {
 
     @Id
     private String id;
+    
     @Indexed(unique = true, sparse = true, value = IndexDirection.ASC)
     private String userName;
+    
     @Indexed
     private String password;
+    
     @Embedded
     private UserData userData;
+    
+    @Embedded
+    private UserNotificationsTypes notificationsTypes;
+    
     @Property
     private List<String> roles;
+    
     @Property
     private String retailId;
+    
     @Property
     private String externalId;
     
@@ -54,7 +63,23 @@ public class User {
         this.userData = userData;
     }
 
-    public String getId() {
+    /**
+	 * @return the notificationsTypes
+	 */
+	public UserNotificationsTypes getNotificationsTypes ()
+	{
+		return notificationsTypes;
+	}
+
+	/**
+	 * @param notificationsTypes the notificationsTypes to set
+	 */
+	public void setNotificationsTypes (UserNotificationsTypes notificationsTypes)
+	{
+		this.notificationsTypes = notificationsTypes;
+	}
+
+	public String getId() {
         return id;
     }
 

@@ -5,6 +5,7 @@ import georeduy.backend.model.Product;
 import georeduy.backend.model.RetailStore;
 import georeduy.backend.model.Retailer;
 import georeduy.backend.model.User;
+import georeduy.backend.model.UserNotificationsTypes;
 import georeduy.backend.util.GeoRedClient;
 
 import java.io.IOException;
@@ -91,21 +92,32 @@ public class RetailServlet extends HttpServlet {
     
     
     public void AddRetailer(HttpServletRequest request) throws Exception {
+    	// obtener datos de la solicitud
     	String name = request.getParameter("Name");
     	String description = request.getParameter("Description");
     	String userName = request.getParameter("UserName");
     	String imageUrl = request.getParameter("ImageUrl");
     	
+    	// crear empresa
     	Retailer retailer = new Retailer();
     	retailer.setName(name);
     	retailer.setDescription(description);
     	retailer.setImageUrl(imageUrl);
     	
+    	// asignar adminstrador de empresa
     	User user = new User();
     	user.setUserName(userName);
-    	
+    	UserNotificationsTypes notiTypes = new UserNotificationsTypes ();
+    	notiTypes.setNotitype1_contactsVisits (false);
+    	notiTypes.setNotitype2_contactsComments (false);
+    	notiTypes.setNotitype3_contactsReviews (false);
+    	notiTypes.setNotitype4_sites (false);
+    	notiTypes.setNotitype5_products (false);
+    	notiTypes.setNotitype6_events (false);
+    	user.setNotificationsTypes (notiTypes);
     	retailer.setUser(user);
     	
+    	// invocar al webservice de crear empresa
     	Gson gson = new Gson();
     	
     	Map<String, String> params  = new HashMap <String, String>();

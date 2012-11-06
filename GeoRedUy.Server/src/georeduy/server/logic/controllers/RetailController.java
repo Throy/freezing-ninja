@@ -14,6 +14,7 @@ import georeduy.server.logic.model.Retailer;
 import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.UserData;
+import georeduy.server.logic.model.UserNotificationsTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,11 +54,22 @@ public class RetailController {
 				user = new User ();
 				user.setUserName (retailer.getUser().getUserName());
 		        user.setPassword ("1234");
+		        
 		        UserData userData = new UserData();
-		        userData.setEmail ("");
+		        userData.setEmail ("admin@" + retailer.getName() + ".com.uy");
 		        userData.setName (retailer.getUser().getUserName());
 		        userData.setLastName (retailer.getUser().getUserName());
 		        user.setUserData (userData);
+
+	        	UserNotificationsTypes notiTypes = new UserNotificationsTypes ();
+	        	notiTypes.setNotitype1_contactsVisits (false);
+	        	notiTypes.setNotitype2_contactsComments (false);
+	        	notiTypes.setNotitype3_contactsReviews (false);
+	        	notiTypes.setNotitype4_sites (false);
+	        	notiTypes.setNotitype5_products (false);
+	        	notiTypes.setNotitype6_events (false);
+	        	user.setNotificationsTypes (notiTypes);
+	        	
 		        SessionController.getInstance ().Register (user);
 			}
 			retailer.setUser(user);

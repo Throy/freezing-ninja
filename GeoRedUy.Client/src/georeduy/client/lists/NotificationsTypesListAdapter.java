@@ -84,6 +84,7 @@ public class NotificationsTypesListAdapter extends BaseAdapter {
         HashMap <String, String> itemString = _itemsString.get (position);
  
         // set values of the views
+        viewNotitypeId.setText (itemString.get (ConfigureNotificationsTypesActivity.NOTITYPE_ITEM_ID));
         viewName.setText (itemString.get (ConfigureNotificationsTypesActivity.NOTITYPE_ITEM_NAME));
         viewDescription.setText (itemString.get (ConfigureNotificationsTypesActivity.NOTITYPE_ITEM_DESCRIPTION));
         
@@ -92,7 +93,6 @@ public class NotificationsTypesListAdapter extends BaseAdapter {
  
         // set values of the views
         // *** setTag para guardar cualquier objeto ***
-        viewNotitypeId.setText (itemInt.get (ConfigureNotificationsTypesActivity.NOTITYPE_ITEM_ID).toString ());
  
         // set value of the checkbox
         checkbox.setChecked (_itemsIsChecked.get (position));

@@ -10,6 +10,7 @@ package georeduy.client.activities;
 import georeduy.client.controllers.SessionController;
 import georeduy.client.model.User;
 import georeduy.client.model.UserData;
+import georeduy.client.model.UserNotificationsTypes;
 import georeduy.client.util.CommonUtilities;
 
 import android.app.Activity;
@@ -61,11 +62,21 @@ public class SessionRegisterActivity extends Activity {
 			        User user = new User();
 			        user.setPassword (password1);
 			        user.setUserName (username);
+			        
 			        UserData userData = new UserData();
 			        userData.setEmail (email);
 			        userData.setName (firstname);
 			        userData.setLastName (lastname);
 			        user.setUserData (userData);
+
+			    	UserNotificationsTypes notiTypes = new UserNotificationsTypes ();
+			    	notiTypes.setNotitype1_contactsVisits (false);
+			    	notiTypes.setNotitype2_contactsComments (false);
+			    	notiTypes.setNotitype3_contactsReviews (false);
+			    	notiTypes.setNotitype4_sites (false);
+			    	notiTypes.setNotitype5_products (false);
+			    	notiTypes.setNotitype6_events (false);
+			    	user.setNotificationsTypes (notiTypes);
 		
 					// intentar registrarse en el sistema
 					SessionController.getInstance().register_step1 (user);

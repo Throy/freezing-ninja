@@ -1,6 +1,9 @@
 package georeduy.server.logic.controllers;
 
+import georeduy.server.dao.IUserDao;
+import georeduy.server.dao.UserDaoImpl;
 import georeduy.server.logic.model.User;
+import georeduy.server.logic.model.UserNotificationsTypes;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import org.bson.types.ObjectId;
 
 import com.google.android.gcm.server.Constants;
 import com.google.android.gcm.server.Message;
@@ -28,6 +33,12 @@ public class NotificationsController {
 
 	private static final Executor m_threadPool = Executors
 	        .newFixedThreadPool(5);
+	
+	// daos
+	
+	private IUserDao userDao = new UserDaoImpl();
+	
+	// constructores
 
 	public NotificationsController() {
 		m_onlineDevices = new HashMap<String, String>();
@@ -152,4 +163,13 @@ public class NotificationsController {
 		});
 	}
 
+    // devuelve la configuración de tipos de notificaciones del usuario.
+    public UserNotificationsTypes getUserNotificationsTypes (String userId) {
+    	return userDao.getNotificationsTypes (userId);
+    }
+
+    // modifica la configuración de tipos de notificaciones del usuario.
+    public void setUserNotificationsTypes (String userId, UserNotificationsTypes notitypes) {
+    	userDao.setNotificationsTypes (userId, notitypes);
+    }
 }

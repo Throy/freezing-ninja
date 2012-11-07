@@ -7,6 +7,9 @@ public class Tag {
     private String name;
     private String description;
     
+    // en el backend no sirve para nada
+    private boolean isChecked;
+    
 	public String getId() {
 		return id;
 	}
@@ -31,6 +34,22 @@ public class Tag {
 		this.description = description;
 	}
 	
+	/**
+	 * @return the isChecked
+	 */
+	public boolean isChecked ()
+	{
+		return isChecked;
+	}
+
+	/**
+	 * @param isChecked the isChecked to set
+	 */
+	public void setChecked (boolean isChecked)
+	{
+		this.isChecked = isChecked;
+	}
+
 	@Override
     public int hashCode() {
 	    final int prime = 31;

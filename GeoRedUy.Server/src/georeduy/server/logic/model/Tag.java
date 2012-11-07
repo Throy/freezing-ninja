@@ -4,6 +4,7 @@ import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Property;
+import com.google.code.morphia.annotations.Transient;
 import com.google.code.morphia.utils.IndexDirection;
 
 @Entity(value = "tags", noClassnameStored = true)
@@ -14,6 +15,9 @@ public class Tag {
     private String name;
     @Property
     private String description;
+    
+    @Transient
+    private boolean isChecked;
     
 	public String getId() {
 		return id;
@@ -39,6 +43,22 @@ public class Tag {
 		this.description = description;
 	}
 	
+	/**
+	 * @return the isChecked
+	 */
+	public boolean isChecked ()
+	{
+		return isChecked;
+	}
+
+	/**
+	 * @param isChecked the isChecked to set
+	 */
+	public void setChecked (boolean isChecked)
+	{
+		this.isChecked = isChecked;
+	}
+
 	@Override
     public int hashCode() {
 	    final int prime = 31;

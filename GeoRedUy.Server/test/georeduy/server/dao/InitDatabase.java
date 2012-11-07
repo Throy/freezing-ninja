@@ -8,6 +8,7 @@ import georeduy.server.logic.model.Retailer;
 import georeduy.server.logic.model.RetailStore;
 import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.Site;
+import georeduy.server.logic.model.Tag;
 import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.UserData;
 import georeduy.server.logic.model.UserNotificationsTypes;
@@ -23,16 +24,19 @@ public class InitDatabase {
 
     private static IUserDao userDao;
     private static ISiteDao siteDao;
+    private static ITagDao tagDao;
 
     @Before
     public void before() {
         userDao = new UserDaoImpl();
         siteDao = new SiteDaoImpl();
+        tagDao = new TagDaoImpl();
     }
 
+    /**
+     * genera los usuarios
+     */
     private void createUsers() {
-    	
-    	// usuarios
 
         User user = userDao.findByUserName("Admin");
         if (user == null) {
@@ -84,8 +88,58 @@ public class InitDatabase {
             user.setRoles(roles);
             userDao.saveUser(user);
         }
-        
-        // sitios
+    }
+
+    /**
+     * genera las etiquetas
+     */
+
+    private void createTags() {
+    	Tag tag = new Tag();
+    	tag.setName ("Arte y diseño");
+    	tag.setDescription ("Discos, libros, muebles");
+    	tagDao.saveTag (tag);
+
+    	tag = new Tag();
+    	tag.setName ("Belleza");
+    	tag.setDescription ("Farmacias, ópticas, centros estéticos");
+    	tagDao.saveTag (tag);
+
+    	tag = new Tag();
+    	tag.setName ("Finanzas");
+    	tag.setDescription ("Ahorros, préstamos, cambios, pagos");
+    	tagDao.saveTag (tag);
+
+    	tag = new Tag();
+    	tag.setName ("Electrónica");
+    	tag.setDescription ("Computadoras, telefonía, televisión, audio");
+    	tagDao.saveTag (tag);
+
+    	tag = new Tag();
+    	tag.setName ("Espectáculos");
+    	tag.setDescription ("Espacios de cine, teatro, danza y música");
+    	tagDao.saveTag (tag);
+
+    	tag = new Tag();
+    	tag.setName ("Restaurantes");
+    	tag.setDescription ("Restaurantes, bares, cafeterías, boliches");
+    	tagDao.saveTag (tag);
+
+    	tag = new Tag();
+    	tag.setName ("Comercios");
+    	tag.setDescription ("Supermercados, shoppings, almacenes");
+    	tagDao.saveTag (tag);
+
+    	tag = new Tag();
+    	tag.setName ("Vestimenta");
+    	tag.setDescription ("Prendas de vestir y accesorios");
+    	tagDao.saveTag (tag);
+    }
+
+    /**
+     * genera los sitios
+     */
+    private void createSites() {
         
         Site site = new Site();
         site.setName ("Puerto del Buceo");
@@ -128,9 +182,13 @@ public class InitDatabase {
         siteDao.saveSite(site);
     }
 
-    // crear empresas con sus locales
+    /**
+     * genera las empresas con sus productos y locales
+     */
     private void createRetailers() throws Exception {
+    	
     	// empresa nike
+    	
     	Retailer retailer = new Retailer();
     	retailer.setName ("Nike");
     	retailer.setDescription ("Marca de vestimenta deportiva");
@@ -195,6 +253,7 @@ public class InitDatabase {
     	ProductsController.getInstance().addStoreProduct (store.getId (), productNikePelota);
     	
     	// empresa mcdonalds
+    	
     	retailer = new Retailer ();
     	retailer.setName ("McDonald's");
     	retailer.setDescription ("Restaurantes de comida rápida");
@@ -258,7 +317,8 @@ public class InitDatabase {
     	ProductsController.getInstance().addStoreProduct (store.getId (), productMcCombo);
     	ProductsController.getInstance().addStoreProduct (store.getId (), productMcTwist);
     	
-    	// multiahorro
+    	// empresa multiahorro
+    	
     	retailer = new Retailer ();
     	retailer.setName ("Multiahorro");
     	retailer.setDescription ("Cadena de supermercados");
@@ -326,6 +386,8 @@ public class InitDatabase {
     @Test
     public void LoadUsers() throws Exception {
     	createUsers();
+    	createTags ();
+    	createSites ();
     	createRetailers ();
     }
 

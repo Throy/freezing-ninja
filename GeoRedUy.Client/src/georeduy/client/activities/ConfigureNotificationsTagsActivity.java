@@ -9,10 +9,19 @@ package georeduy.client.activities;
 
 import georeduy.client.controllers.NotificationsController;
 import georeduy.client.lists.NotificationsTagsListAdapter;
+import georeduy.client.model.Tag;
+import georeduy.client.model.UserNotificationTag;
+import georeduy.client.model.UserNotificationsTypes;
 import georeduy.client.util.CommonUtilities;
+import georeduy.client.util.OnCompletedCallback;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -46,58 +55,81 @@ public class ConfigureNotificationsTagsActivity extends Activity {
     
     private static NotificationsTagsListAdapter adapter;
     
+    // lista de notitipos
+    
+    private static List <Tag> tags;
+    
     // constructor
 
     @Override
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.configure_notifications_activity);
-        
-        // inicializar hashtags
-        
-        ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
-        ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
-        ArrayList <Boolean> itemsIsCheckedList = new ArrayList <Boolean> ();
-        
-        // ListArray <NotificationType> listNotitypes = NotificationsController.getInstance ().getNotificationTags ();
 
-        for (int idx = 0; idx < 6; idx += 1) {
-            // crear item
-            HashMap <String, String> itemStringMap = new HashMap <String, String> ();
-            itemStringMap.put (NOTITAG_ITEM_NAME, "Notiqueta " + idx);
-            itemStringMap.put (NOTITAG_ITEM_DESCRIPTION, "Es una notiqueta " + idx);
- 
-            // adding HashList to ArrayList
-            itemsStringList.add (itemStringMap);
+        tags = null;
+        NotificationsController.getInstance ().getNotificationsTagsConfiguration (new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted (String response, String error)
+			{
+				if (error == null) {
 
-            // crear item
-            HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
-            itemIntMap.put (NOTITAG_ITEM_ID, idx);
- 
-            // adding HashList to ArrayList
-            itemsIntList.add (itemIntMap);
-            
-            // asignar valor de marcado.
-            itemsIsCheckedList.add (idx, false);
-        }
-        
-        // poblar lista de notiquetas
-        adapter = new NotificationsTagsListAdapter (this, itemsStringList, itemsIntList, itemsIsCheckedList);
-        ListView listView = (ListView) findViewById (R.id.listView_list);
-        listView.setAdapter (adapter);
-        
-        // cliquear línea -> iniciar actividad de Ver datos
-        listView.setOnItemClickListener (new OnItemClickListener() {
+					// obtener notitags
+			        Gson gson = new Gson();
+		        	Type listType = new TypeToken <ArrayList <Tag>>() {}.getType();
+					tags = gson.fromJson (response, listType);
+			        
+			        // inicializar hashtags
+			        
+			        ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
+			        ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
+			        ArrayList <Boolean> itemsIsCheckedList = new ArrayList <Boolean> ();
 
-        	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
-        		// cambiar configuración de la etiqueta de notificación
+			        for (Tag tag : tags) {
+			            // crear item
+			            HashMap <String, String> itemStringMap = new HashMap <String, String> ();
+			            itemStringMap.put (NOTITAG_ITEM_ID, tag.getId ());
+			            itemStringMap.put (NOTITAG_ITEM_NAME, tag.getName ());
+			            itemStringMap.put (NOTITAG_ITEM_DESCRIPTION, tag.getDescription ());
+			 
+			            // adding HashList to ArrayList
+			            itemsStringList.add (itemStringMap);
+		
+			            // crear item
+			            HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
+			 
+			            // adding HashList to ArrayList
+			            itemsIntList.add (itemIntMap);
+			            
+			            // asignar valor de marcado.
+			            itemsIsCheckedList.add (tag.isChecked ());
+			        }
+			        
+			        // poblar lista de notiquetas
+			        adapter = new NotificationsTagsListAdapter (ConfigureNotificationsTagsActivity.this, itemsStringList, itemsIntList, itemsIsCheckedList);
+			        ListView listView = (ListView) findViewById (R.id.listView_list);
+			        listView.setAdapter (adapter);
+			        
+			        // cliquear línea -> iniciar actividad de Ver datos
+			        listView.setOnItemClickListener (new OnItemClickListener() {
+		
+			        	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
+			        		// cambiar configuración de la etiqueta de notificación
+		
+					        //ListView listView = (ListView) findViewById (R.id.listView_list);
+			            	boolean newIsChecked = ! adapter.isChecked (position);
+					        adapter.setChecked (position, newIsChecked);
+			            	((CheckBox) view.findViewById (R.id.checkbox)).setChecked (newIsChecked);
+			        	}
+			        });
+            	}
+			
+				else {
+					CommonUtilities.showAlertMessage (ConfigureNotificationsTagsActivity.this, "Error CNTags onCr", "Hubo un error:\n" + error);
+				}
+			}
+		});
 
-		        ListView listView = (ListView) findViewById (R.id.listView_list);
-            	boolean newIsChecked = ! adapter.isChecked (position);
-		        adapter.setChecked (position, newIsChecked);
-            	((CheckBox) view.findViewById (R.id.checkbox)).setChecked (newIsChecked);
-        	}
-        });
     }
 
     // cliquear Guardar -> confirmar cambios. 

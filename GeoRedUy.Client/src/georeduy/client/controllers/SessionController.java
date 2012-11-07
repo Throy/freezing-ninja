@@ -9,6 +9,7 @@ package georeduy.client.controllers;
 import georeduy.client.model.User;
 import georeduy.client.util.CommonUtilities;
 import georeduy.client.util.GeoRedClient;
+import georeduy.client.util.OnCompletedCallback;
 import georeduy.client.util.TokenRepository;
 
 import java.util.HashMap;
@@ -46,37 +47,54 @@ public class SessionController
 	
 	// iniciar sesión.
 	
-	public void login (String username, String password) throws Exception {
+	public void login (String username, String password, final OnCompletedCallback callback) {
 		Map <String, String> params = new HashMap<String, String>();
 		params.put ("userName", username);
 		params.put ("password", password);
 
-		TokenRepository.getInstance().setToken (GeoRedClient.Get ("/Session", params));
+		GeoRedClient.GetAsync ("/Session", params, new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted(String response, String error) {
+				TokenRepository.getInstance().setToken (response);
+				if (callback != null)
+					callback.onCompleted(response, error);
+			}
+		});
+		
 	}
 	
-	public void loginExternal (String tokenType, String accessToken) throws Exception {
+	public void loginExternal (String tokenType, String accessToken, final OnCompletedCallback callback) {
 		Map <String, String> params = new HashMap<String, String>();
 		params.put ("tokenType", tokenType);
 		params.put ("accessToken", accessToken);
 
-		TokenRepository.getInstance().setToken (GeoRedClient.Get ("/Session/LogInExternal", params));
+		GeoRedClient.GetAsync ("/Session/LogInExternal", params, new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted(String response, String error) {
+				TokenRepository.getInstance().setToken (response);
+				if (callback != null)
+					callback.onCompleted(response, error);
+			}
+		});
 	}
 	
 	// registrarse en el sistema, paso 1
 	
-	public void register_step1 (User user) throws Exception {
+	public void register_step1 (final User user, final OnCompletedCallback callback) {
         Gson gson = new Gson();
 
 		Map<String, String> params1 = new HashMap <String, String>();
 		params1.put ("userInfo", gson.toJson(user));
 
-	    GeoRedClient.Post ("/Session/Register", params1);
-	    
-	    Map<String, String> params2 = new HashMap<String, String>();
-		params2.put ("userName", user.getUserName ());
-		params2.put ("password", user.getPassword ());
-	
-	    TokenRepository.getInstance().setToken (GeoRedClient.Get ("/Session", params2));
+	    GeoRedClient.PostAsync ("/Session/Register", params1, new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted(String response, String error) {
+				login(user.getUserName (), user.getPassword (), callback);
+			}
+		});
 	}
 	
 }

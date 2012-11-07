@@ -15,6 +15,7 @@
  */
 package georeduy.client.util;
 
+import static georeduy.client.util.CommonUtilities.SENDER_ID;
 import static georeduy.client.util.CommonUtilities.TAG;
 import static georeduy.client.util.CommonUtilities.displayMessage;
 import georeduy.client.activities.R;
@@ -23,7 +24,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.android.gcm.GCMRegistrar;
@@ -32,7 +35,8 @@ import com.google.android.gcm.GCMRegistrar;
  * Helper class used to communicate with the demo server.
  */
 public final class GCMServer {
-
+	private static AsyncTask<Void, Void, Void> mRegisterTask;
+	
     private static final int MAX_ATTEMPTS = 5;
     private static final int BACKOFF_MILLI_SECONDS = 2000;
     private static final Random random = new Random();
@@ -112,6 +116,53 @@ public final class GCMServer {
             String message = context.getString(R.string.server_unregister_error,
                     e.getMessage());
             CommonUtilities.displayMessage(context, message);
+        }
+    }
+    
+    public static void InitGCM(Activity activity) {
+        GCMRegistrar.checkDevice(activity);
+        GCMRegistrar.checkManifest(activity);
+        
+        final String regId = GCMRegistrar.getRegistrationId(activity);
+        if (regId.equals("")) {
+            // Automatically registers application on startup.
+            GCMRegistrar.register(activity, SENDER_ID);
+        } else {
+            // Device is already registered on GCM, check server.
+            //if (GCMRegistrar.isRegisteredOnServer(this)) {
+                // Skips registration.
+                // mDisplay.append(getString(R.string.already_registered) + "\n");
+            //} else {
+                // Try to register again, but not in the UI thread.
+                // It's also necessary to cancel the thread onDestroy(),
+                // hence the use of AsyncTask instead of a raw thread.
+                final Context context = activity;
+                mRegisterTask = new AsyncTask<Void, Void, Void>() {
+
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        boolean registered =
+                                GCMServer.register(context, regId);
+                        // At this point all attempts to register with the app
+                        // server failed, so we need to unregister the device
+                        // from GCM - the app will try to register again when
+                        // it is restarted. Note that GCM will send an
+                        // unregistered callback upon completion, but
+                        // GCMIntentService.onUnregistered() will ignore it.
+                        if (!registered) {
+                            GCMRegistrar.unregister(context);
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void result) {
+                        mRegisterTask = null;
+                    }
+
+                };
+                mRegisterTask.execute(null, null, null);
+            //}
         }
     }
 }

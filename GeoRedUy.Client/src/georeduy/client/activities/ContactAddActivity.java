@@ -11,6 +11,7 @@ import georeduy.client.controllers.ClientsController;
 import georeduy.client.lists.UsersListAdapter;
 import georeduy.client.lists.UsersListAdapter.UserListMode;
 import georeduy.client.model.User;
+import georeduy.client.util.CommonUtilities;
 import georeduy.client.util.OnCompletedCallback;
 
 import java.lang.reflect.Type;
@@ -50,9 +51,8 @@ public class ContactAddActivity extends Activity {
 			@Override
 			public void onCompleted(String response, String error) {
 				if (error == null) {
-					Intent myIntent = new Intent(ContactAddActivity.this, ContactListActivity.class);
-	        		startActivity(myIntent);
-	        	}
+					finish();
+	        	} 
 			}
 		});		
     }

@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fadingEdge="none" >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_height="fill_parent"
+        android:layout_width="250dip"
+        android:background="@color/darkblack">
+
+        <ListView
+            android:id="@+id/menu_listview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/divider"
+            android:dividerHeight="2dip"
+            android:fadingEdge="vertical" />
+
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </FrameLayout>
+</LinearLayout>

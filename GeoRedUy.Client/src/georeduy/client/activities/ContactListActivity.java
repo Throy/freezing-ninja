@@ -58,7 +58,11 @@ public class ContactListActivity extends Activity {
         setContentView (R.layout.list_activity);
         
         final ListView listView = (ListView) findViewById (R.id.listView_list);
- 
+        
+        UsersListAdapter adapter = new UsersListAdapter (ContactListActivity.this, ClientsController.getInstance().GetContacts(), UserListMode.LIST_CONTACTS);
+        listView.setAdapter (adapter);
+        
+        
         refreshList();
         // poblar lista de items
         

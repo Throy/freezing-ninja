@@ -11,8 +11,10 @@ import georeduy.client.model.Site;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.IGPSActivity;
 import georeduy.client.util.MagicPositionOverlay;
+import georeduy.client.util.MenuHandler;
 import georeduy.client.util.OnCompletedCallback;
 import georeduy.client.activities.R;
+import georeduy.client.controllers.ClientsController;
 import georeduy.client.controllers.ProductsController;
 import georeduy.client.controllers.SitesController;
 import georeduy.client.util.GPS;
@@ -45,11 +47,14 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
-public class MapaActivity extends MapActivity /*implements IGPSActivity */{
+import com.actionbarsherlock.app.SherlockMapActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
+public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity */{
 	// mapa
 	private MapView mapView;
 
@@ -71,6 +76,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     // overlay de locales
     private StoreMapOverlay storeMapOverlay;
 	
+    private MenuHandler menuHandler;
 
 
 	@Override
@@ -154,6 +160,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 			        }
 		        });
         
+        menuHandler = new MenuHandler(this);
 	}
 		
 	@Override
@@ -265,13 +272,19 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	// mostrar menú con opciones
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.map_menu, menu);
+        /*MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.map_menu, menu);*/
+        
+        menuHandler.onCreateOptionsMenu(menu);
+        
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+    	
+    	menuHandler.onOptionsItemSelected(item);
+    	
         switch(item.getItemId()) {
             case R.id.contacts_menu:
             	Intent myIntent = new Intent(this, ContactListActivity.class);
@@ -288,4 +301,23 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
         }
     }
 
+	@Override
+    public void onBackPressed() {
+	    if (!menuHandler.hideAll())
+	    	super.onBackPressed();
+    }
+    
+	public void button_user_item_rem_onClick (View view) {
+		// obtener el id del usuario
+    	String userId = ((TextView) ((View) view.getParent ()).findViewById (R.id.user_id)).getText ().toString ();
+
+		menuHandler.onRemoveContact(userId);
+    }
+
+	@Override
+    protected void onResume() {
+		menuHandler.refreshContactList();
+		
+	    super.onResume();
+    }    
 }

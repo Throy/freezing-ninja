@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:scrollbars="vertical">
+    android:scrollbars="vertical"
+    android:background="@color/darkblack" >
     
     <!-- list_activity -->
     
@@ -15,26 +16,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
+        android:orientation="horizontal" 
+        >
+
         <EditText
             android:id="@+id/contact_search_edit"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="0.40"
             android:ems="10"
-            android:hint="@string/contact_search_hint" >
+            android:hint="@string/contact_search_hint"
+            android:textColor="@color/white" >
 
             <requestFocus />
         </EditText>
-
+
         <Button
             android:id="@+id/submit"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="button_submit_onClick"
-            android:text="@string/submit" />
+            android:text="@string/submit"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

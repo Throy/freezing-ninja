@@ -11,6 +11,8 @@ import georeduy.client.controllers.SessionController;
 import georeduy.client.model.User;
 import georeduy.client.model.UserData;
 import georeduy.client.util.CommonUtilities;
+import georeduy.client.util.GCMServer;
+import georeduy.client.util.OnCompletedCallback;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -68,14 +70,28 @@ public class SessionRegisterActivity extends Activity {
 			        user.setUserData (userData);
 		
 					// intentar registrarse en el sistema
-					SessionController.getInstance().register_step1 (user);
+					SessionController.getInstance().register_step1 (user, new OnCompletedCallback() {
+						
+						@Override
+						public void onCompleted(String response, String error) {
+							if (error != null) {
+								CommonUtilities.showAlertMessage (SessionRegisterActivity.this, "Error SRA broc", error);
+							} else {
+								// Inicializar GCM
+						    	GCMServer.InitGCM(SessionRegisterActivity.this);
+						    	// Ir al mapa
+						        Intent intent = new Intent(SessionRegisterActivity.this, MapaActivity.class);
+								startActivity(intent);
+							}
+						}
+					});
 		
 					// abrir menú de GCM
 			        Intent intent = new Intent (params[0], GCMActivity.class);
 					startActivity(intent);	        
 				}
 				catch (Exception e) {
-			        CommonUtilities.showAlertMessage (params[0], "Error SRA broc", e.getMessage());
+			        
 		        }
 				
 				return "";

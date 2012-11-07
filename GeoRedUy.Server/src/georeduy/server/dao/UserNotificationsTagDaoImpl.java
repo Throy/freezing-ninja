@@ -1,11 +1,6 @@
 package georeduy.server.dao;
 
-import georeduy.server.logic.model.GeoRedConstants;
-import georeduy.server.logic.model.Product;
-import georeduy.server.logic.model.RetailStore;
-import georeduy.server.logic.model.StoreProduct;
 import georeduy.server.logic.model.Tag;
-import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.UserNotificationTag;
 import georeduy.server.persistence.MongoConnectionManager;
 
@@ -15,7 +10,6 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import com.google.code.morphia.dao.BasicDAO;
-import com.google.code.morphia.query.Query;
 
 public class UserNotificationsTagDaoImpl
 		extends BasicDAO <UserNotificationTag, ObjectId>
@@ -43,8 +37,7 @@ public class UserNotificationsTagDaoImpl
     public void saveUserNotificationsTags (String userId, List <UserNotificationTag> userNotitags) {
     	
     	// borrar las etiquetas viejas
-    	Query <UserNotificationTag> query = ds.createQuery (UserNotificationTag.class).field ("userId").equal (new ObjectId (userId));
-    	this.deleteByQuery (query);
+    	ds.delete (ds.createQuery (UserNotificationTag.class).field ("userId").equal (userId));
     	
     	// asignar las etiquetas nuevas
     	for (UserNotificationTag userNotitag : userNotitags) {

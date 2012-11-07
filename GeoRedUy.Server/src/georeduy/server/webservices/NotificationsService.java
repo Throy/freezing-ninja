@@ -201,9 +201,10 @@ public class NotificationsService {
 	}
 
 	// actualizar configuración de etiquetas de notificaciones del usuario.
+	// recibe un ArrayList <Tag>.
 	@POST()
 	@Path("UserConfig/SetTags")
-	public Response UserConfigSetTags (String notitagsInfo,
+	public Response UserConfigSetTags (String tagsInfo,
 			@Context SecurityContext context) {
 		// si no es un usuario registrado, devolver error 500 de acceso denegado
 		if (! context.isUserInRole (Roles.REG_USER)) {
@@ -213,10 +214,10 @@ public class NotificationsService {
 		// actualizar configuración
 		try {
 			Gson gson = new Gson();
-			notitagsInfo = notitagsInfo.split("=")[1];
-        	Type listType = new TypeToken <ArrayList <UserNotificationTag>>() {}.getType();
-			List <UserNotificationTag> notitags = gson.fromJson (notitagsInfo, listType);
-			NotificationsController.getInstance().setUserNotificationsTags (User.Current ().getId (), notitags);
+			tagsInfo = tagsInfo.split("=")[1];
+        	Type listType = new TypeToken <ArrayList <Tag>>() {}.getType();
+			List <Tag> tags = gson.fromJson (tagsInfo, listType);
+			NotificationsController.getInstance().setUserNotificationsTags (User.Current ().getId (), tags);
 			
 			return Response.status(200).entity (GeoRedConstants.COMMENT_SUCCESSFULY_ADDED).build();
 	    }

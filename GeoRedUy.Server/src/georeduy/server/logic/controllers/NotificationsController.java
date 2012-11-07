@@ -4,7 +4,6 @@ import georeduy.server.dao.IUserDao;
 import georeduy.server.dao.IUserNotificationsTagDao;
 import georeduy.server.dao.UserDaoImpl;
 import georeduy.server.dao.UserNotificationsTagDaoImpl;
-import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.Tag;
 import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.UserNotificationTag;
@@ -183,13 +182,15 @@ public class NotificationsController {
     }
 
     // modifica la configuración de etiquetas de notificaciones del usuario.
-    public void setUserNotificationsTags (String userId, List <UserNotificationTag> userNotitags) throws Exception {
-    	
-    	// comprobar las etiquetas nuevas, por si hay inconsistencias.
-    	for (UserNotificationTag userNotitag : userNotitags) {
-    	    if (userNotitag.getId ().equals (userId)) {
-    	    	throw new Exception (GeoRedConstants.USER_NOTITAG_INCONSISTENT_DATA);
-    	    }
+    public void setUserNotificationsTags (String userId, List <Tag> tags) {
+
+    	// generar notitags
+    	List <UserNotificationTag> userNotitags = new ArrayList <UserNotificationTag> ();
+    	for (Tag tag : tags) {
+    		UserNotificationTag userNotitag = new UserNotificationTag ();
+    		userNotitag.setTagId (tag.getId ());
+    		userNotitag.setUserId (userId);
+    		userNotitags.add (userNotitag);
     	}
     	
     	// llamar al dao

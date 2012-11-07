@@ -112,4 +112,19 @@ public class NotificationsTagsListAdapter extends BaseAdapter {
     public boolean isChecked (int position) {
         return _itemsIsChecked.get (position);
     }
+    
+    // devuelve el id del ítem.
+    
+    public String getId (int position) {
+        HashMap <String, String> itemString = _itemsString.get (position);
+ 
+        // set values of the views
+        return itemString.get (ConfigureNotificationsTagsActivity.NOTITAG_ITEM_ID);
+    }
+    
+    // devuelve la cantidad de ítems.
+    
+    public int getSize () {
+        return _itemsIsChecked.size ();
+    }
 }

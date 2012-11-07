@@ -144,41 +144,44 @@ public class ConfigureNotificationsTagsActivity extends Activity {
 		// cancelar la compra
 		alertDialog.setButton (DialogInterface.BUTTON_POSITIVE, "Sí", new DialogInterface.OnClickListener() {
 			public void onClick (DialogInterface dialog, int which) {
-				// *** LLAMAR AL CONTROLADOR ***
-		        
-		        String isChecked0 = "Notiqueta 0 está DES\n";
-		        String isChecked1 = "Notiqueta 1 está DES\n";
-		        String isChecked2 = "Notiqueta 2 está DES\n";
-		        String isChecked3 = "Notiqueta 3 está DES\n";
-		        String isChecked4 = "Notiqueta 4 está DES\n";
-		        
-		        if (adapter.isChecked (0)) {
-		        	isChecked0 = "Notiqueta 0 está Activado\n";
-		        }
-		        if (adapter.isChecked (1)) {
-		        	isChecked1 = "Notiqueta 1 está Activado\n";
-		        }
-		        if (adapter.isChecked (2)) {
-		        	isChecked2 = "Notiqueta 2 está Activado\n";
-		        }
-		        if (adapter.isChecked (3)) {
-		        	isChecked3 = "Notiqueta 3 está Activado\n";
-		        }
-		        if (adapter.isChecked (4)) {
-		        	isChecked4 = "Notiqueta 4 está Activado\n";
-		        }
-		        
-		    	final AlertDialog alertDialog = new AlertDialog.Builder (ConfigureNotificationsTagsActivity.this).create ();
-
-				alertDialog.setTitle ("Mensaje");
-				alertDialog.setMessage (isChecked0 + isChecked1 + isChecked2 + isChecked3 + isChecked4);
 				
-				alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
-					public void onClick (DialogInterface dialog, int which) {
-						finish();
-					}
-				});
-				alertDialog.show();
+				// generar notiTags
+		        
+		        List <Tag> notitags = new ArrayList <Tag>();
+		        for (int idx = 0; idx < adapter.getSize (); idx += 1) {
+		        	if (adapter.isChecked (idx)) {
+		        		Tag tag = new Tag();
+		        		tag.setId (adapter.getId (idx));
+		        		notitags.add(tag);
+		        	}
+		        }
+
+				NotificationsController.getInstance ().setNotificationsTagsConfiguration (notitags, new OnCompletedCallback() {
+					
+					@Override
+					public void onCompleted (String response, String error)
+					{
+						if (error == null) {
+							// mostrar confirmación
+							AlertDialog alertDialog = new AlertDialog.Builder (ConfigureNotificationsTagsActivity.this).create ();
+							alertDialog.setTitle ("Confirmación");
+							alertDialog.setMessage ("Actualizaste la configuración de etiquetas de notificaciones.");
+							
+							alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
+								public void onClick (DialogInterface dialog, int which) {
+									// cerrar la actividad.
+									finish ();
+								}
+							});
+							
+							alertDialog.show();
+						}
+						
+						else {
+							CommonUtilities.showAlertMessage (ConfigureNotificationsTagsActivity.this, "Error CNTags bso", "Hubo un error:\n" + error);
+							//finish();
+						}
+					}});
 			}
 		});
 		

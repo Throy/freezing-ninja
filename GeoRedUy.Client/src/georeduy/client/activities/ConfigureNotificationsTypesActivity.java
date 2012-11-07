@@ -75,6 +75,10 @@ public class ConfigureNotificationsTypesActivity extends Activity {
     
     private static UserNotificationsTypes notitypes;
     
+    // id del usuario
+    
+    private static String userId;
+    
     // constructor
 
     @Override

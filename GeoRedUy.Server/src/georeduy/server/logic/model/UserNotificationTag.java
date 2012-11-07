@@ -9,7 +9,7 @@ import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Property;
 
-@Entity(value = "store_products", noClassnameStored = true)
+@Entity(value = "user_notifications_tags", noClassnameStored = true)
 public class UserNotificationTag {
     @Id
     private String id;

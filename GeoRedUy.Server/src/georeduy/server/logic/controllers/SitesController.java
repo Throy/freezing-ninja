@@ -90,7 +90,7 @@ public class SitesController {
 		sitio2.setName("prueba2");
 		lista.add(sitio1);
 		lista.add(sitio2);*/
-		return siteDao.getNearSites(latitude/1e6, longitud/1e6, 50);		
+		return siteDao.getNearSites(latitude/1e6, longitud/1e6, 0.01);		
 	}
 	
 	// obtener datos de un sitio.

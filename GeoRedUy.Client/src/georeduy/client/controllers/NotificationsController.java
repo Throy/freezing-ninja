@@ -10,6 +10,7 @@ package georeduy.client.controllers;
 import georeduy.client.model.ChatMessage;
 import georeduy.client.model.ChatRoom;
 import georeduy.client.model.Site;
+import georeduy.client.model.UserNotificationsTypes;
 import georeduy.client.util.CommonUtilities;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.OnCompletedCallback;
@@ -111,4 +112,30 @@ public class NotificationsController
 		
 		return chatRoom;
     }
+	
+	// obtiene la configuración de tipos de notificaciones del usuario.
+	
+	public void getNotificationsTypesConfiguration (OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+    	GeoRedClient.GetAsync("/Notifications/UserConfig/GetTypes", params, callback);	
+	}
+	
+	// obtiene la configuración de etiquetas de notificaciones del usuario.
+	
+	public void getNotificationsTagsConfiguration (OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+    	GeoRedClient.GetAsync("/Notifications/UserConfig/GetTags", params, callback);	
+	}
+	
+	// obtiene la configuración de etiquetas de notificaciones del usuario.
+	
+	public void setNotificationsTypesConfiguration (UserNotificationsTypes notitypes, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+		
+		// agregar parámetros
+        Gson gson = new Gson();
+		params.put ("notitypesInfo", gson.toJson (notitypes));
+		
+    	GeoRedClient.PostAsync("/Notifications/UserConfig/SetTypes", params, callback);	
+	}
 }

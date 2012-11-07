@@ -9,10 +9,18 @@ package georeduy.client.activities;
 
 import georeduy.client.controllers.NotificationsController;
 import georeduy.client.lists.NotificationsTypesListAdapter;
+import georeduy.client.model.Product;
+import georeduy.client.model.UserNotificationsTypes;
 import georeduy.client.util.CommonUtilities;
+import georeduy.client.util.OnCompletedCallback;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -35,6 +43,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class ConfigureNotificationsTypesActivity extends Activity {
+	// tipos de configuración de notificaciones
+	
+	private static final String [] notitypeName =
+		{"Visitas de contactos",
+		"Comentarios de contactos",
+		"Evaluaciones de contactos",
+		"Sitios cercanos",
+		"Productos cercanos",
+		"Eventos cercanos"};
+	
+	private static final String [] notitypeDescription =
+		{"Visitas que realizaron contactos",
+		"Comentarios de visitas que realizaron contactos",
+		"Evaluaciones de compras que realizaron contactos",
+		"Sitios cercanos",
+		"Productos cercanos",
+		"Eventos cercanos"};
 	
 	// datos de los items
 	
@@ -46,6 +71,10 @@ public class ConfigureNotificationsTypesActivity extends Activity {
     
     private static NotificationsTypesListAdapter adapter;
     
+    // lista de notitipos
+    
+    private static UserNotificationsTypes notitypes;
+    
     // constructor
 
     @Override
@@ -53,51 +82,73 @@ public class ConfigureNotificationsTypesActivity extends Activity {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.configure_notifications_activity);
         
-        // inicializar hashtags
-        
-        ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
-        ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
-        ArrayList <Boolean> itemsIsCheckedList = new ArrayList <Boolean> ();
-        
-        // ListArray <NotificationType> listNotitypes = NotificationsController.getInstance ().getNotificationTypes ();
+        // poblar lista de items
+        notitypes = null;
+        NotificationsController.getInstance ().getNotificationsTypesConfiguration (new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted (String response, String error)
+			{
+				if (error == null) {
 
-        for (int idx = 0; idx < 6; idx += 1) {
-            // crear item
-            HashMap <String, String> itemStringMap = new HashMap <String, String> ();
-            itemStringMap.put (NOTITYPE_ITEM_NAME, "Notitipo " + idx);
-            itemStringMap.put (NOTITYPE_ITEM_DESCRIPTION, "Es un notitipo " + idx);
- 
-            // adding HashList to ArrayList
-            itemsStringList.add (itemStringMap);
+					// obtener productos
+			        Gson gson = new Gson();
+			        notitypes = gson.fromJson (response, UserNotificationsTypes.class);
+		        
+			        // inicializar hashtags
+			        
+			        ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
+			        ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
+			        ArrayList <Boolean> itemsIsCheckedList = new ArrayList <Boolean> ();
 
-            // crear item
-            HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
-            itemIntMap.put (NOTITYPE_ITEM_ID, idx);
- 
-            // adding HashList to ArrayList
-            itemsIntList.add (itemIntMap);
-            
-            // asignar valor de marcado.
-            itemsIsCheckedList.add (idx, false);
-        }
-        
-        // poblar lista de notitipos
-        adapter = new NotificationsTypesListAdapter (this, itemsStringList, itemsIntList, itemsIsCheckedList);
-        ListView listView = (ListView) findViewById (R.id.listView_list);
-        listView.setAdapter (adapter);
-        
-        // cliquear línea -> iniciar actividad de Ver datos
-        listView.setOnItemClickListener (new OnItemClickListener() {
-
-        	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
-        		// cambiar configuración del tipo de notificación
-
-		        ListView listView = (ListView) findViewById (R.id.listView_list);
-            	boolean newIsChecked = ! adapter.isChecked (position);
-		        adapter.setChecked (position, newIsChecked);
-            	((CheckBox) view.findViewById (R.id.checkbox)).setChecked (newIsChecked);
-        	}
-        });
+            		itemsIsCheckedList.add (notitypes.isNotitype1_contactsVisits ());
+            		itemsIsCheckedList.add (notitypes.isNotitype2_contactsComments ());
+            		itemsIsCheckedList.add (notitypes.isNotitype3_contactsReviews ());
+            		itemsIsCheckedList.add (notitypes.isNotitype4_sites ());
+            		itemsIsCheckedList.add (notitypes.isNotitype5_products ());
+            		itemsIsCheckedList.add (notitypes.isNotitype6_events ());
+			        
+			        for (int idx = 0; idx < 6; idx += 1) {
+			            // crear item
+			            HashMap <String, String> itemStringMap = new HashMap <String, String> ();
+			            itemStringMap.put (NOTITYPE_ITEM_ID, "" + idx);
+			            itemStringMap.put (NOTITYPE_ITEM_NAME, notitypeName [idx]);
+			            itemStringMap.put (NOTITYPE_ITEM_DESCRIPTION, notitypeDescription [idx]);
+			 
+			            // adding HashList to ArrayList
+			            itemsStringList.add (itemStringMap);
+	
+			            // crear item
+			            HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
+			 
+			            // adding HashList to ArrayList
+			            itemsIntList.add (itemIntMap);
+			        }
+			        
+			        // poblar lista de notitipos
+			        adapter = new NotificationsTypesListAdapter (ConfigureNotificationsTypesActivity.this, itemsStringList, itemsIntList, itemsIsCheckedList);
+			        ListView listView = (ListView) findViewById (R.id.listView_list);
+			        listView.setAdapter (adapter);
+			        
+			        // cliquear línea -> iniciar actividad de Ver datos
+			        listView.setOnItemClickListener (new OnItemClickListener() {
+	
+			        	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
+			        		// cambiar configuración del tipo de notificación
+	
+					        // ListView listView = (ListView) findViewById (R.id.listView_list);
+			            	boolean newIsChecked = ! adapter.isChecked (position);
+					        adapter.setChecked (position, newIsChecked);
+			            	((CheckBox) view.findViewById (R.id.checkbox)).setChecked (newIsChecked);
+			        	}
+			        });
+            	}
+			
+				else {
+					CommonUtilities.showAlertMessage (ConfigureNotificationsTypesActivity.this, "Error CNTypes onCr", "Hubo un error:\n" + error);
+				}
+			}
+		});
     }
     
     // cliquear Guardar -> confirmar cambios. 
@@ -112,41 +163,41 @@ public class ConfigureNotificationsTypesActivity extends Activity {
 		// cancelar la compra
 		alertDialog.setButton (DialogInterface.BUTTON_POSITIVE, "Sí", new DialogInterface.OnClickListener() {
 			public void onClick (DialogInterface dialog, int which) {
-				// *** LLAMAR AL CONTROLADOR ***
-		        
-		        String isChecked0 = "Notitipo 0 está DES\n";
-		        String isChecked1 = "Notitipo 1 está DES\n";
-		        String isChecked2 = "Notitipo 2 está DES\n";
-		        String isChecked3 = "Notitipo 3 está DES\n";
-		        String isChecked4 = "Notitipo 4 está DES\n";
-		        
-		        if (adapter.isChecked (0)) {
-		        	isChecked0 = "Notitipo 0 está Activado\n";
-		        }
-		        if (adapter.isChecked (1)) {
-		        	isChecked1 = "Notitipo 1 está Activado\n";
-		        }
-		        if (adapter.isChecked (2)) {
-		        	isChecked2 = "Notitipo 2 está Activado\n";
-		        }
-		        if (adapter.isChecked (3)) {
-		        	isChecked3 = "Notitipo 3 está Activado\n";
-		        }
-		        if (adapter.isChecked (4)) {
-		        	isChecked4 = "Notitipo 4 está Activado\n";
-		        }
-		        
-		    	final AlertDialog alertDialog = new AlertDialog.Builder (ConfigureNotificationsTypesActivity.this).create ();
-
-				alertDialog.setTitle ("Mensaje");
-				alertDialog.setMessage (isChecked0 + isChecked1 + isChecked2 + isChecked3 + isChecked4);
 				
-				alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
-					public void onClick (DialogInterface dialog, int which) {
-						finish();
-					}
-				});
-				alertDialog.show();
+				// enviar configuración al servidor de aplicación
+        		notitypes.setNotitype1_contactsVisits (adapter.isChecked (0));
+        		notitypes.setNotitype2_contactsComments (adapter.isChecked (1));
+        		notitypes.setNotitype3_contactsReviews (adapter.isChecked (2));
+        		notitypes.setNotitype4_sites (adapter.isChecked (3));
+        		notitypes.setNotitype5_products (adapter.isChecked (4));
+        		notitypes.setNotitype6_events (adapter.isChecked (5));
+
+				NotificationsController.getInstance ().setNotificationsTypesConfiguration (notitypes, new OnCompletedCallback() {
+					
+					@Override
+					public void onCompleted (String response, String error)
+					{
+						if (error == null) {
+							// mostrar confirmación
+							AlertDialog alertDialog = new AlertDialog.Builder (ConfigureNotificationsTypesActivity.this).create ();
+							alertDialog.setTitle ("Confirmación");
+							alertDialog.setMessage ("Actualizaste la configuración de tipos de notificaciones.");
+							
+							alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
+								public void onClick (DialogInterface dialog, int which) {
+									// cerrar la actividad.
+									finish ();
+								}
+							});
+							
+							alertDialog.show();
+						}
+						
+						else {
+							CommonUtilities.showAlertMessage (ConfigureNotificationsTypesActivity.this, "Error CNTypes bso", "Hubo un error:\n" + error);
+							//finish();
+						}
+					}});
 			}
 		});
 		

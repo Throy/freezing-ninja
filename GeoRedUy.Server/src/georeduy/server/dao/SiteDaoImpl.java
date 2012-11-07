@@ -57,7 +57,8 @@ public class SiteDaoImpl extends BasicDAO<Site, ObjectId> implements ISiteDao {
 
 	@Override
     public List<Site> getNearSites(double latitude, double longitude, double radius) {
-		List<Site> sites = createQuery().field("coordinates").near(latitude, longitude).asList();
+		double distanceDegrees = 3.1 / 69;		// radio de 3 millas, son 69 millas por grado
+		List<Site> sites = createQuery().field("coordinates").within(latitude, longitude, distanceDegrees).asList();
 		sites = ResolveReferences(sites);
 	    if (sites.size() > 0)
 	    	return sites;

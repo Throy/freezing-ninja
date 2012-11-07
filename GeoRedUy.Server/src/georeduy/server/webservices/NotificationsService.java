@@ -1,11 +1,16 @@
 package georeduy.server.webservices;
 
+import java.util.List;
+
 import georeduy.server.logic.controllers.NotificationsController;
+import georeduy.server.logic.controllers.SitesController;
+import georeduy.server.logic.model.Comment;
 import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.ChatMessage;
 import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.Site;
 import georeduy.server.logic.model.User;
+import georeduy.server.logic.model.UserNotificationsTypes;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
@@ -115,5 +120,57 @@ public class NotificationsService {
 	    }
 		
 		return response;
+	}
+
+
+	// obtener configuración de tipos de notificaciones del usuario.
+	// devuelve un UserNotificationsTypes.
+	@GET()
+	@Produces("text/plain")
+	@Path("UserConfig/GetTypes")
+	public Response UserConfigGetTypes (@Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+
+		// obtener configuración
+		try {
+			Gson gson = new Gson();
+			UserNotificationsTypes notitypes = NotificationsController.getInstance ().getUserNotificationsTypes (User.Current ().getId ());
+			return Response.status(200).entity (gson.toJson(notitypes)).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
+	}
+
+	// actualizar configuración de tipos de notificaciones del usuario.
+	@POST()
+	@Path("UserConfig/SetTypes")
+	public Response UserConfigSetTypes (String notitypesInfo,
+			@Context SecurityContext context) {
+		// si no es un usuario registrado, devolver error 500 de acceso denegado
+		if (! context.isUserInRole (Roles.REG_USER)) {
+			return Response.status(500).entity (GeoRedConstants.ACCESS_DENIED).build();
+		}
+		
+		// crear comentario
+		try {
+			Gson gson = new Gson();
+			notitypesInfo = notitypesInfo.split("=")[1];
+			UserNotificationsTypes notitypes = gson.fromJson (notitypesInfo, UserNotificationsTypes.class);
+			NotificationsController.getInstance().setUserNotificationsTypes (User.Current ().getId (), notitypes);
+			
+			return Response.status(200).entity (GeoRedConstants.COMMENT_SUCCESSFULY_ADDED).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
 	}
 }

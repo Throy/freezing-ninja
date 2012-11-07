@@ -10,6 +10,7 @@ import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.Site;
 import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.UserData;
+import georeduy.server.logic.model.UserNotificationsTypes;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,9 +39,20 @@ public class InitDatabase {
             user = new User();
             user.setPassword("1234");
             user.setUserName("Admin");
+            
             UserData userData = new UserData();
             userData.setEmail("admin@geored.uy");
             user.setUserData(userData);
+
+        	UserNotificationsTypes notiTypes = new UserNotificationsTypes ();
+        	notiTypes.setNotitype1_contactsVisits (false);
+        	notiTypes.setNotitype2_contactsComments (false);
+        	notiTypes.setNotitype3_contactsReviews (false);
+        	notiTypes.setNotitype4_sites (false);
+        	notiTypes.setNotitype5_products (false);
+        	notiTypes.setNotitype6_events (false);
+        	user.setNotificationsTypes (notiTypes);
+            
             List<String> roles = new ArrayList<String>();
             roles.add(Roles.REG_USER);
             roles.add(Roles.ADMIN);
@@ -53,9 +65,20 @@ public class InitDatabase {
             user = new User();
             user.setPassword("1234");
             user.setUserName("Agustin");
+            
             UserData userData = new UserData();
             userData.setEmail("agustin@geored.uy");
             user.setUserData(userData);
+
+        	UserNotificationsTypes notiTypes = new UserNotificationsTypes ();
+        	notiTypes.setNotitype1_contactsVisits (false);
+        	notiTypes.setNotitype2_contactsComments (false);
+        	notiTypes.setNotitype3_contactsReviews (false);
+        	notiTypes.setNotitype4_sites (false);
+        	notiTypes.setNotitype5_products (false);
+        	notiTypes.setNotitype6_events (false);
+        	user.setNotificationsTypes (notiTypes);
+            
             List<String> roles = new ArrayList<String>();
             roles.add(Roles.REG_USER);
             user.setRoles(roles);

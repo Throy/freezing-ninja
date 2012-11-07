@@ -1,6 +1,7 @@
 package georeduy.server.dao;
 
 import georeduy.server.logic.model.RetailStore;
+import georeduy.server.logic.model.Site;
 import georeduy.server.persistence.MongoConnectionManager;
 
 import java.util.List;
@@ -36,8 +37,9 @@ public class RetailStoreDaoImpl extends BasicDAO<RetailStore, ObjectId> implemen
 
 	@Override
     public List<RetailStore> getNearStores(double latitude, double longitude, double radius) {
-		List<RetailStore> stores = createQuery().field("coordinates").near(latitude, longitude,radius).asList();
-	    if (stores.size() > 0)
+		double distanceDegrees = 3.1 / 69;		// radio de 3 millas, son 69 millas por grado
+		List<RetailStore> stores = createQuery().field("coordinates").within(latitude, longitude, distanceDegrees).asList();
+		if (stores.size() > 0)
 	    	return stores;
 	    else
 	    	return null;

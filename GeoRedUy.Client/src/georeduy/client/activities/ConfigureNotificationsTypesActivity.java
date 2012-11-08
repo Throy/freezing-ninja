@@ -75,6 +75,10 @@ public class ConfigureNotificationsTypesActivity extends Activity {
     
     private static UserNotificationsTypes notitypes;
     
+    // id del usuario
+    
+    private static String userId;
+    
     // constructor
 
     @Override
@@ -91,7 +95,7 @@ public class ConfigureNotificationsTypesActivity extends Activity {
 			{
 				if (error == null) {
 
-					// obtener productos
+					// obtener notitypes
 			        Gson gson = new Gson();
 			        notitypes = gson.fromJson (response, UserNotificationsTypes.class);
 		        

@@ -120,6 +120,7 @@
     <string name="textview_email">Correo</string>
     <string name="textview_telephone">Teléfono</string>
     
+    <string name="textview_products">Productos</string>
     <string name="textview_comment">Comentario</string>
     <string name="textview_price">Precio</string>
     <string name="textview_priceunit">Precio unitario</string>

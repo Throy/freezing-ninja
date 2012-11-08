@@ -1,8 +1,12 @@
 package georeduy.server.logic.controllers;
 
 import georeduy.server.dao.IUserDao;
+import georeduy.server.dao.IUserNotificationsTagDao;
 import georeduy.server.dao.UserDaoImpl;
+import georeduy.server.dao.UserNotificationsTagDaoImpl;
+import georeduy.server.logic.model.Tag;
 import georeduy.server.logic.model.User;
+import georeduy.server.logic.model.UserNotificationTag;
 import georeduy.server.logic.model.UserNotificationsTypes;
 import georeduy.server.util.Filter;
 
@@ -14,8 +18,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-
-import org.bson.types.ObjectId;
 
 import com.google.android.gcm.server.Constants;
 import com.google.android.gcm.server.Message;
@@ -39,6 +41,7 @@ public class NotificationsController {
 	// daos
 	
 	private IUserDao userDao = new UserDaoImpl();
+	private IUserNotificationsTagDao userNotitagDao = new UserNotificationsTagDaoImpl();
 	
 	// constructores
 
@@ -196,5 +199,26 @@ public class NotificationsController {
     // modifica la configuración de tipos de notificaciones del usuario.
     public void setUserNotificationsTypes (String userId, UserNotificationsTypes notitypes) {
     	userDao.setNotificationsTypes (userId, notitypes);
+    }
+
+    // devuelve la configuración de etiquetas de notificaciones del usuario.
+    public List <Tag> getUserNotificationsTags (String userId) {
+    	return userNotitagDao.findByUser (userId);
+    }
+
+    // modifica la configuración de etiquetas de notificaciones del usuario.
+    public void setUserNotificationsTags (String userId, List <Tag> tags) {
+
+    	// generar notitags
+    	List <UserNotificationTag> userNotitags = new ArrayList <UserNotificationTag> ();
+    	for (Tag tag : tags) {
+    		UserNotificationTag userNotitag = new UserNotificationTag ();
+    		userNotitag.setTagId (tag.getId ());
+    		userNotitag.setUserId (userId);
+    		userNotitags.add (userNotitag);
+    	}
+    	
+    	// llamar al dao
+    	userNotitagDao.saveUserNotificationsTags (userId, userNotitags);
     }
 }

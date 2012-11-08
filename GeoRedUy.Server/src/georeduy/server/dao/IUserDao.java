@@ -1,7 +1,9 @@
 package georeduy.server.dao;
 
+import georeduy.server.logic.model.Tag;
 import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.UserData;
+import georeduy.server.logic.model.UserNotificationTag;
 import georeduy.server.logic.model.UserNotificationsTypes;
 
 import java.util.List;

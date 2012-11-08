@@ -1,11 +1,14 @@
 package georeduy.server.dao;
 
+import georeduy.server.logic.model.Tag;
 import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.UserData;
+import georeduy.server.logic.model.UserNotificationTag;
 import georeduy.server.logic.model.UserNotificationsTypes;
 import georeduy.server.logic.model.Visit;
 import georeduy.server.persistence.MongoConnectionManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;

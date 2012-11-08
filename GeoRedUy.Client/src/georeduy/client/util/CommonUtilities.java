@@ -15,6 +15,7 @@
  */
 package georeduy.client.util;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -130,6 +131,19 @@ public final class CommonUtilities {
     	return id.substring (id.length() - 3, id.length());
     }
     */
+
+    // dar formato a fecha
+    public static String stringToPrice (String priceString) {
+    	Double priceDouble = Double.parseDouble (priceString);
+    	DecimalFormat format = new DecimalFormat ("###,###.00");
+    	return "$ " + format.format (priceDouble);
+    }
+
+    // dar formato a fecha
+    public static String doubleToPrice (Double priceDouble) {
+    	DecimalFormat format = new DecimalFormat ("###,###.00");
+    	return "$ " + format.format (priceDouble);
+    }
     
 	public static int dpToPx(int dp, Context ctx) {
 		Resources r = ctx.getResources();

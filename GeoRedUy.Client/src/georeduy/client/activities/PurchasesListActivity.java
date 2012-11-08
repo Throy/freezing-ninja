@@ -91,7 +91,7 @@ public class PurchasesListActivity extends Activity {
 			            HashMap <String, String> itemStringMap = new HashMap <String, String> ();
 			            itemStringMap.put (PURCHASE_ITEM_ID, purchase.getId ());
 			            itemStringMap.put (PURCHASE_ITEM_NAME, purchase.getRealStore ().getName ());
-			            itemStringMap.put (PURCHASE_ITEM_PRICE, "$ " + purchase.getPricetotal ());
+			            itemStringMap.put (PURCHASE_ITEM_PRICE, CommonUtilities.stringToPrice (purchase.getPricetotal ()));
 			            itemStringMap.put (PURCHASE_ITEM_DATE, CommonUtilities.dateToString (purchase.getDate ()));
 			 
 			            // adding HashList to ArrayList

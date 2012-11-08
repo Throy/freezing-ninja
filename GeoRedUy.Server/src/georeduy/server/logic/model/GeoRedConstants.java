@@ -19,6 +19,9 @@ public class GeoRedConstants {
 	public static final String SITE_SUCCESSFULY_ADDED =
             "SITE_SUCCESSFULY_ADDED";
 	
+	public static final String EVENT_SUCCESSFULY_ADDED =
+            "EVENT_SUCCESSFULY_ADDED";
+	
 	public static final String TAG_DOES_NOT_EXIST =
             "TAG_DOESNT_EXIST";
 	

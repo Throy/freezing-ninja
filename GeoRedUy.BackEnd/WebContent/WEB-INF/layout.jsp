@@ -39,6 +39,12 @@
                     <li class="menuitm"><a href="/GeoRedUy.BackEnd/site?ListSites">Show sites</a></li>
                 </ul>
             </li>
+                        <li class="outer"><span class="menubtn"><a>Event</a></span>
+                <ul>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/event?NewEvent">New event</a></li>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/event?ListEvents">Show events</a></li>
+                </ul>
+            </li>
             
             <li class="outer"><span class="menubtn"><a href="/GeoRedUy.BackEnd/test">Test</a></span></li>
             

@@ -26,6 +26,10 @@
     <servlet-class>georeduy.backend.controllers.TestServlet</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>Event</servlet-name>
+    <servlet-class>georeduy.backend.controllers.EventServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>Site</servlet-name>
     <servlet-class>georeduy.backend.controllers.SiteServlet</servlet-class>
   </servlet>
@@ -60,6 +64,10 @@
   <servlet-mapping>
     <servlet-name>Site</servlet-name>
     <url-pattern>/site</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+    <servlet-name>Event</servlet-name>
+    <url-pattern>/event</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Tag</servlet-name>

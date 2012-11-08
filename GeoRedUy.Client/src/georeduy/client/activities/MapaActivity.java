@@ -99,7 +99,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 		
 		Drawable drawableAndroid = this.getResources().getDrawable (R.drawable.android);
 		androidOverlay = new CustomItemizedOverlay(drawableAndroid, this);
-        radiusOverlay = new RadiusOverlay(new GeoPoint(latitudeE5, longitudeE5), 380);
+        radiusOverlay = new RadiusOverlay(new GeoPoint(latitudeE5, longitudeE5), 480);
 		// Create an overlay to show current location
         /*final MagicPositionOverlay androidOverlay = new MagicPositionOverlay(this, mapView);
         androidOverlay.runOnFirstFix(new Runnable() { public void run() {
@@ -233,7 +233,6 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     
     // actualiza los sitios del mapa
     private void updateSites (List <Site> sites) {
-		int i = 500;
 		siteMapOverlay.clear ();
 		if (sites != null) {
     		for (Site sitio : sites)
@@ -243,7 +242,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
     			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress(), sitio.getId ());
     			siteMapOverlay.addOverlay (overlayitem);
-    			i += 500;				    			
+    					
     		}
 		}
 		mapView.invalidate(); 
@@ -261,8 +260,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     			double longitud = store.getCoordinates() [1]*1e6;
     			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
     			MapOverlayItem overlayitem = new MapOverlayItem(point2, store.getName(), store.getName(), store.getAddress(), store.getId ());
-    			storeMapOverlay.addOverlay (overlayitem);
-    							    			
+    			storeMapOverlay.addOverlay (overlayitem);    							    			
     		}
 		}
 		mapView.invalidate();	

@@ -74,6 +74,12 @@ public final class CommonUtilities {
     public static final String EXTRA_CHAT_MESSAGE = "chat_message";
     public static final String EXTRA_CHAT_USER_ID = "chat_user_id";
     
+	public static final String EXTRA_USER_ID = "georeduy.client.user_id";
+    public static final String EXTRA_USER_NAME = "georeduy.client.user_name";
+
+	public static final String NEW_SITE_ACTION = "georeduy.client.NEW_SITE_ACTION";
+
+	public static final String NEW_STORE_ACTION = "georeduy.client.NEW_STORE_ACTION";
     /**
      * Notifies UI to display a message.
      * <p>

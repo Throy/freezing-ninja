@@ -8,6 +8,7 @@ import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Property;
+import com.google.code.morphia.annotations.Transient;
 import com.google.code.morphia.utils.IndexDirection;
 
 @Entity(value = "users", noClassnameStored = true)
@@ -36,6 +37,12 @@ public class User {
     
     @Property
     private String externalId;
+    
+    @Transient
+    public Double[] coordinates = new Double[2];
+    
+    @Transient
+    private String token;
     
     private static User s_currentUser;
 
@@ -114,6 +121,22 @@ public class User {
 
 	public void setExternalId(String externalId) {
 		this.externalId = externalId;
+	}
+
+	public Double[] getCoordinates() {
+		return coordinates;
+	}
+
+	public void setCoordinates(Double[] coordinates) {
+		this.coordinates = coordinates;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	@Override

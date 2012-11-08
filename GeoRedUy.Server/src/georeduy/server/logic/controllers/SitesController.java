@@ -8,7 +8,9 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import georeduy.server.dao.CommentDaoImpl;
+import georeduy.server.dao.ContactDaoImpl;
 import georeduy.server.dao.ICommentDao;
+import georeduy.server.dao.IContactDao;
 import georeduy.server.dao.ISiteDao;
 import georeduy.server.dao.ITagDao;
 import georeduy.server.dao.IUserDao;
@@ -24,6 +26,8 @@ import georeduy.server.logic.model.Site;
 import georeduy.server.logic.model.Tag;
 import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.Visit;
+import georeduy.server.util.Filter;
+import georeduy.server.util.Util;
 
 public class SitesController {
 	private static SitesController s_instance = null;
@@ -35,6 +39,7 @@ public class SitesController {
 	private ITagDao tagDao = new TagDaoImpl();
 	private IUserDao userDao = new UserDaoImpl();
 	private IVisitDao visitDao = new VisitDaoImpl();
+	private IContactDao contactsDao = new ContactDaoImpl();
 	
 	// constructores
 	
@@ -51,7 +56,7 @@ public class SitesController {
 	
 	// adminsitrar sitios
 	
-	public void NewSite(Site site) throws Exception {
+	public void NewSite(final Site site) throws Exception {
         if (siteDao.findByName(site.getName()) == null) {
         	List<Tag> realTags = new ArrayList<Tag>();
         	for (Tag tag : site.getTags()) {
@@ -62,6 +67,19 @@ public class SitesController {
         	}
         	site.setTags(realTags);
             siteDao.saveSite(site);
+            
+            NotificationsController.getInstance().BroadCast(site, new Filter() {
+
+				@Override
+                public boolean filter(String userId) {
+					User user = SessionController.getInstance().GetUserById(userId);
+					if (Util.distanceHaversine(site.getCoordinates()[0], site.getCoordinates()[1], 
+						user.getCoordinates()[0], user.getCoordinates()[1]) <= Util.BROADCAST_RANGE) {
+						return false;
+					}
+	                return true;
+                }});
+            
         } else {
         	throw new Exception(GeoRedConstants.SITE_NAME_EXISTS);
         }
@@ -90,6 +108,14 @@ public class SitesController {
 		sitio2.setName("prueba2");
 		lista.add(sitio1);
 		lista.add(sitio2);*/
+		
+		// TODO: revisar si se mantiene que la posicion pasada es la ultima
+		// Actualizo la ultima posicion conocida del usuario
+		Double[] coordinates = new Double[2];
+		coordinates[1] = latitude/1e6;
+		coordinates[0] = longitud/1e6;
+		SessionController.getInstance().GetUserById(User.Current().getId()).setCoordinates(coordinates);
+		
 		return siteDao.getNearSites(latitude/1e6, longitud/1e6, 0.01);		
 	}
 	
@@ -101,7 +127,7 @@ public class SitesController {
 	// administrar visitas
 	
 	// crear visita
-	public void newVisit (Visit visit) throws Exception {
+	public void newVisit (final Visit visit) throws Exception {
 		// comprobar existencia del sitio
 		Site realSite = siteDao.find (new ObjectId (visit.getSiteId ()));
 		if (realSite == null) {
@@ -126,6 +152,21 @@ public class SitesController {
     	
 		// crear visita
         visitDao.saveVisit (visit);
+        
+        // Notificar la visita a los contactos del usuario
+        NotificationsController.getInstance().BroadCast(visit, new Filter() {
+
+			@Override
+            public boolean filter(String userId) {
+				User user = SessionController.getInstance().GetUserById(userId);
+				User visitUser = userDao.find(new ObjectId(visit.getUserId()));
+				if (contactsDao.userHasContact(userId, visit.getUserId()) &&
+						Util.distanceHaversine(visitUser.getCoordinates()[0], visitUser.getCoordinates()[1], 
+					user.getCoordinates()[0], user.getCoordinates()[1]) <= Util.BROADCAST_RANGE) {
+					return false;
+				}
+                return true;
+            }});
 	}
 	
 	// obtener datos de una visita.

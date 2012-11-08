@@ -98,6 +98,14 @@ public class ChatActivity extends Activity {
             }
         }
     };
+
+	@Override
+    protected void onResume() {
+		
+		lv.smoothScrollToPosition(adapter.getCount() - 1);
+		
+	    super.onResume();
+    }
     
     /*@Override
     public void onAttachedToWindow() {
@@ -105,4 +113,6 @@ public class ChatActivity extends Activity {
         Window window = getWindow();
         window.setFormat(PixelFormat.RGBA_8888);
     }*/
+    
+    
 }

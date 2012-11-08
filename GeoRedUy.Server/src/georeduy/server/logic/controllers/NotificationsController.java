@@ -4,12 +4,14 @@ import georeduy.server.dao.IUserDao;
 import georeduy.server.dao.UserDaoImpl;
 import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.UserNotificationsTypes;
+import georeduy.server.util.Filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -114,6 +116,29 @@ public class NotificationsController {
             
             int partialSize = partialDevices.size();
             if (partialSize == MULTICAST_SIZE || counter == total) {
+                asyncSend(partialDevices, message);
+                partialDevices.clear();
+            }
+        }
+	}
+	
+	public void BroadCast(Object payload, Filter filter) {
+		int total = m_onlineDevices.size();
+        
+        List<String> partialDevices = new ArrayList<String>(total);
+        int counter = 0;
+        
+        Gson gson = new Gson();
+        String json = gson.toJson(payload);
+        Message message = new Message.Builder().addData("className", payload.getClass().getSimpleName()).addData("jsonPayload", json).build();
+        
+        for (Entry<String, String> entry : m_onlineDevices.entrySet()) {
+            counter++;
+            if (!filter.filter(entry.getKey()))
+            	partialDevices.add(entry.getValue());
+            
+            int partialSize = partialDevices.size();
+            if (partialSize > 0 && (partialSize == MULTICAST_SIZE || counter == total)) {
                 asyncSend(partialDevices, message);
                 partialDevices.clear();
             }

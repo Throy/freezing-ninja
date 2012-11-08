@@ -48,7 +48,7 @@ public class SiteServlet extends HttpServlet {
 	        	site.setAddress(address);
 	        	site.setImageUrl(imageUrl);
 	        	
-	        	Double[] coordinates = {latitude, longitude};
+	        	Double[] coordinates = {longitude, latitude};
 	        	site.setCoordinates(coordinates);
 	        	
 	        	String tags = request.getParameter("Tags");

@@ -20,10 +20,12 @@ public class SessionController {
 
     private static SessionController s_instance = null;
     private Map<String, User> m_onlineUsers;
+    private Map<String, User> m_onlineUsersById;
     private IUserDao userDao;
 
     public SessionController() {
     	m_onlineUsers = new HashMap<String, User>();
+    	m_onlineUsersById = new HashMap<String, User>();
         userDao = new UserDaoImpl();
     }
 
@@ -45,7 +47,8 @@ public class SessionController {
                 token = GenerateToken();
             } while (m_onlineUsers.containsKey(token));
             m_onlineUsers.put(token, user);
-
+            m_onlineUsersById.put(user.getId(), user);
+            
             return token;
         }
 
@@ -69,7 +72,8 @@ public class SessionController {
                     token = GenerateToken();
                 } while (m_onlineUsers.containsKey(token));
                 m_onlineUsers.put(token, user);
-
+                m_onlineUsersById.put(user.getId(), user);
+                
                 return token;
             }
         }
@@ -78,6 +82,7 @@ public class SessionController {
     }
 
     public void LogOut(String token) {
+    	m_onlineUsersById.remove(m_onlineUsers.get(token).getId());
     	m_onlineUsers.remove(token);
     }
 
@@ -114,5 +119,9 @@ public class SessionController {
         }
         secureRandom.setSeed(secureRandom.generateSeed(128));
         return digest.digest((secureRandom.nextLong() + "").getBytes()).toString();
+    }
+    
+    public User GetUserById(String id) {
+    	return m_onlineUsersById.get(id);
     }
 }

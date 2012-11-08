@@ -2,7 +2,11 @@ package com.actionbarsherlock.app;
 
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.res.Configuration;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -21,8 +25,8 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.android.maps.MapActivity;
 
-public abstract class SherlockMapActivity extends MapActivity implements OnCreatePanelMenuListener, OnPreparePanelListener, OnMenuItemSelectedListener, OnActionModeStartedListener, OnActionModeFinishedListener {
-    private ActionBarSherlock mSherlock;
+public abstract class SherlockMapActivity2 extends MapActivity { //implements OnCreatePanelMenuListener, OnPreparePanelListener, OnMenuItemSelectedListener, OnActionModeStartedListener, OnActionModeFinishedListener {
+  /*  private ActionBarSherlock mSherlock;
 
     protected final ActionBarSherlock getSherlock() {
         if (mSherlock == null) {
@@ -35,6 +39,48 @@ public abstract class SherlockMapActivity extends MapActivity implements OnCreat
     ///////////////////////////////////////////////////////////////////////////
     // Action bar and mode
     ///////////////////////////////////////////////////////////////////////////
+
+    @Override
+    protected boolean isRouteDisplayed() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+
+	@Override
+    protected void onCreate(Bundle arg0) {
+		 LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+	     mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+				
+				@Override
+		        public void onLocationChanged(Location loc) {
+		        	int latitude = (int)(loc.getLatitude()*1E6);
+		        	int longitude = (int)(loc.getLongitude()*1E6);
+				}
+
+				@Override
+	            public void onProviderDisabled(String provider) {
+		            // TODO Auto-generated method stub
+		            
+	            }
+
+				@Override
+	            public void onProviderEnabled(String provider) {
+		            // TODO Auto-generated method stub
+		            
+	            }
+
+				@Override
+	            public void onStatusChanged(String provider, int status,
+	                    Bundle extras) {
+		            // TODO Auto-generated method stub
+		            
+	            }
+			});
+	        
+	    super.onCreate(arg0);
+    }
+
 
 	public ActionBar getSupportActionBar() {
         return getSherlock().getActionBar();

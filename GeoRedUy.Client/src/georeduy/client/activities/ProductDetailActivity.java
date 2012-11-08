@@ -9,6 +9,7 @@ package georeduy.client.activities;
 
 import georeduy.client.controllers.ProductsController;
 import georeduy.client.model.Product;
+import georeduy.client.util.CommonUtilities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ public class ProductDetailActivity extends Activity {
         viewProductId.setText (productId);
         viewName.setText (product.getName ());
         viewDescription.setText (product.getDescription ());
-        viewPrice.setText ("$ " + Double.parseDouble (product.getPrice ()));
+        viewPrice.setText (CommonUtilities.stringToPrice (product.getPrice ()));
     }
     
     // funciones del programador

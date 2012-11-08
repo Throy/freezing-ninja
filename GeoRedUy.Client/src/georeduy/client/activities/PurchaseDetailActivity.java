@@ -8,6 +8,7 @@ package georeduy.client.activities;
 // imports
 
 import georeduy.client.model.Purchase;
+import georeduy.client.model.PurchaseItem;
 import georeduy.client.util.CommonUtilities;
 import android.app.Activity;
 import android.content.Intent;
@@ -42,11 +43,23 @@ public class PurchaseDetailActivity extends Activity {
         TextView viewStore = (TextView) findViewById (R.id.textview_store);
         TextView viewPrice = (TextView) findViewById (R.id.textview_price);
         TextView viewDate = (TextView) findViewById (R.id.textview_date);
+        TextView viewReviews = (TextView) findViewById (R.id.textview_reviews);
         
         viewPurchaseId.setText (purchase.getId ());
         viewStore.setText (purchase.getRealStore ().getName ());
-        viewPrice.setText ("$ " + purchase.getPricetotal ());
+        viewPrice.setText (CommonUtilities.stringToPrice (purchase.getPricetotal ()));
         viewDate.setText (CommonUtilities.dateToString (purchase.getDate ()));
+        
+        String reviewsText = "";
+        
+        for (PurchaseItem item : purchase.getItems ()) {
+        	reviewsText +=        	
+        			item.getRealProduct ().getName () + ": "
+        			+ item.getUnits () + " x "
+        			+ CommonUtilities.stringToPrice (item.getRealProduct ().getPrice ());
+        }
+        
+        viewReviews.setText(reviewsText);
     }
     
     // funciones del programador

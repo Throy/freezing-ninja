@@ -7,7 +7,6 @@ package georeduy.client.activities;
 
 // imports
 
-import georeduy.client.controllers.ProductsController;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;

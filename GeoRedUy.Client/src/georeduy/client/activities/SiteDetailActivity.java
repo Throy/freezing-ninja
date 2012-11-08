@@ -95,11 +95,11 @@ public class SiteDetailActivity extends Activity {
 				// TODO Auto-generated method stub
 				if (error == null) {
 					// mostrar confirmación
-			        CommonUtilities.showAlertMessage (SiteDetailActivity.this, "Confirmación", "Visitaste el sitio de id " + SiteDetailActivity.siteId);
+			        CommonUtilities.showAlertMessage (SiteDetailActivity.this, "Confirmación", "Visitaste el sitio.");
 				}
 				
 				else {
-					CommonUtilities.showAlertMessage (SiteDetailActivity.this, "Error SDA bvi", "Huboun error:\n" + error);
+					CommonUtilities.showAlertMessage (SiteDetailActivity.this, "Error SDA bvi", "Hubo un error:\n" + error);
 				}
 				
 				

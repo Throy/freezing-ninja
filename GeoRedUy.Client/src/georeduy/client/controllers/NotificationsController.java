@@ -10,6 +10,7 @@ package georeduy.client.controllers;
 import georeduy.client.activities.ChatActivity;
 import georeduy.client.activities.GCMActivity;
 import georeduy.client.activities.R;
+import georeduy.client.activities.VisitDetailActivity;
 import georeduy.client.activities.VisitsListActivity;
 import georeduy.client.model.ChatMessage;
 import georeduy.client.model.ChatRoom;
@@ -90,7 +91,7 @@ public class NotificationsController
 	}
 	
 	public void handleNotification(Context context, Visit visit) {
-		Intent chatIntent = new Intent (context, VisitsListActivity.class);
+		Intent chatIntent = new Intent (context, VisitDetailActivity.class);
         chatIntent.putExtra (VisitsListActivity.EXTRA_VISIT_ID, visit.getId());	 
     	
         generateNotification(context, visit.getRealUser().getUserName() + " visited a site near you: ", visit.getRealSite().getName(), chatIntent);

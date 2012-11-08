@@ -89,16 +89,17 @@ public class RetailController {
         }		
 	}
 	
-	public void NewStore(final RetailStore store, String retailerId) throws Exception {
+	public void NewStore(RetailStore store, String retailerId) throws Exception {
 		store.setRetailerId(retailerId);
 		retailStoreDao.saveStore(store);
 		
+		final RetailStore storeF = store;
 		NotificationsController.getInstance().BroadCast(store, new Filter() {
 
 			@Override
             public boolean filter(String userId) {
 				User user = SessionController.getInstance().GetUserById(userId);
-				if (Util.distanceHaversine(store.getCoordinates()[0], store.getCoordinates()[1], 
+				if (Util.distanceHaversine(storeF.getCoordinates()[0], storeF.getCoordinates()[1], 
 					user.getCoordinates()[0], user.getCoordinates()[1]) <= Util.BROADCAST_RANGE) {
 					return false;
 				}

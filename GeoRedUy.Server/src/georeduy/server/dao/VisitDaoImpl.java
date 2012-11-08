@@ -45,7 +45,8 @@ public class VisitDaoImpl extends BasicDAO <Visit, ObjectId> implements IVisitDa
     	}
     }
 
-    private void resolveReferences (Visit visit) {
+    @Override
+    public void resolveReferences (Visit visit) {
 		visit.setRealUser (userDao.find (new ObjectId (visit.getUserId ())));
 		visit.setRealSite (siteDao.find (new ObjectId (visit.getSiteId ())));
 		

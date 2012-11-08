@@ -109,6 +109,11 @@ public class Site {
 
 
 	public void setTags(List<Tag> tags) {
+		this.tags = new ArrayList<String>();
+		for (Tag tag : tags) {
+			this.tags.add(tag.getId());
+		}
+		
 		this.realTags = tags;
 	}
 	

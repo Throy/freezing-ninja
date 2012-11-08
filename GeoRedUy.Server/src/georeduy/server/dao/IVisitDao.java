@@ -14,6 +14,8 @@ import org.bson.types.ObjectId;
 
 public interface IVisitDao {
 
+	public void resolveReferences (Visit visit);
+	
 	// guardar visita en la base de datos
 	public void saveVisit (Visit visit);
 

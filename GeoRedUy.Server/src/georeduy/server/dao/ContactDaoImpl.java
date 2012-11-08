@@ -76,7 +76,7 @@ public class ContactDaoImpl extends BasicDAO <Contact, ObjectId> implements ICon
 	
 	@Override
 	public boolean userHasContact (String userId, String contactId) {
-		List<Contact> contacts = createQuery().field ("userId").equal(userId).field("contactUserId").equal(userId).asList();
+		List<Contact> contacts = createQuery().field ("userId").equal(userId).field("contactUserId").equal(contactId).asList();
     	if (contacts.size() == 1)
     		return true;
     	else

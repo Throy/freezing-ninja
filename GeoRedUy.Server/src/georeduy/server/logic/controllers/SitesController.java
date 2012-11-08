@@ -56,7 +56,7 @@ public class SitesController {
 	
 	// adminsitrar sitios
 	
-	public void NewSite(final Site site) throws Exception {
+	public void NewSite(Site site) throws Exception {
         if (siteDao.findByName(site.getName()) == null) {
         	List<Tag> realTags = new ArrayList<Tag>();
         	for (Tag tag : site.getTags()) {
@@ -68,12 +68,13 @@ public class SitesController {
         	site.setTags(realTags);
             siteDao.saveSite(site);
             
+            final Site siteF = site;
             NotificationsController.getInstance().BroadCast(site, new Filter() {
 
 				@Override
                 public boolean filter(String userId) {
 					User user = SessionController.getInstance().GetUserById(userId);
-					if (Util.distanceHaversine(site.getCoordinates()[0], site.getCoordinates()[1], 
+					if (Util.distanceHaversine(siteF.getCoordinates()[0], siteF.getCoordinates()[1], 
 						user.getCoordinates()[0], user.getCoordinates()[1]) <= Util.BROADCAST_RANGE) {
 						return false;
 					}
@@ -127,7 +128,7 @@ public class SitesController {
 	// administrar visitas
 	
 	// crear visita
-	public void newVisit (final Visit visit) throws Exception {
+	public void newVisit (Visit visit) throws Exception {
 		// comprobar existencia del sitio
 		Site realSite = siteDao.find (new ObjectId (visit.getSiteId ()));
 		if (realSite == null) {
@@ -153,14 +154,17 @@ public class SitesController {
 		// crear visita
         visitDao.saveVisit (visit);
         
+        visitDao.resolveReferences(visit);
         // Notificar la visita a los contactos del usuario
+        
+        final Visit visitF = visit;
         NotificationsController.getInstance().BroadCast(visit, new Filter() {
 
 			@Override
             public boolean filter(String userId) {
 				User user = SessionController.getInstance().GetUserById(userId);
-				User visitUser = userDao.find(new ObjectId(visit.getUserId()));
-				if (contactsDao.userHasContact(userId, visit.getUserId()) &&
+				User visitUser = SessionController.getInstance().GetUserById(visitF.getUserId()); // userDao.find(new ObjectId(visit.getUserId()));
+				if (contactsDao.userHasContact(userId, visitF.getUserId()) &&
 						Util.distanceHaversine(visitUser.getCoordinates()[0], visitUser.getCoordinates()[1], 
 					user.getCoordinates()[0], user.getCoordinates()[1]) <= Util.BROADCAST_RANGE) {
 					return false;

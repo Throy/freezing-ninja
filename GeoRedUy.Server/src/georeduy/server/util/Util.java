@@ -1,7 +1,7 @@
 package georeduy.server.util;
 
 public class Util {
-	public static int BROADCAST_RANGE = 3000; // km
+	public static int BROADCAST_RANGE = 480; // km
 	
 	public static int distanceHaversine(double lon1, double lat1, double lon2, double lat2) {
 

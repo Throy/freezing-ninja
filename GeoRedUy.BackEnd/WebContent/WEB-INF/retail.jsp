@@ -104,7 +104,7 @@
 <div id="map_canvas" style="width: 500px; height:385px; margin-top:35px; margin-left:50px; margin-bottom:20px; border-style:outset; border-width:2px; border-color:Gray; box-shadow:0 1px 2px #aaa; -moz-box-shadow:0 2px 3px #AAAAAA; float:left"  ></div>
 <script type="text/javascript">googleMapsInitialize();</script>
 
-<form action="?AddStore&ListStores" method="post">    
+<form action="?AddStore&ListMyStores" method="post">    
 	<div class="reg-box big-red" style="margin:20px 40px 0px auto; float:right">
         <fieldset>
             <div class="editor-label">

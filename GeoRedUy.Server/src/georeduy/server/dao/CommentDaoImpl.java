@@ -1,6 +1,6 @@
-// VisitDaoImpl
+// CommentDaoImpl
 
-// Implementación de acceso a la colección de visitas de la base de datos.
+// Implementación de acceso a la colección de comentarios de la base de datos.
 
 package georeduy.server.dao;
 

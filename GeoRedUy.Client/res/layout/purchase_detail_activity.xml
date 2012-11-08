@@ -163,11 +163,22 @@
         android:textSize="18dip"/>
     
     <!-- reviews -->
+	
+	<TextView
+	    android:id="@+id/textview_review"
+		android:text="@string/textview_reviews"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+ 	    android:layout_below="@id/textview_products_prices"
+		android:layout_margin="5dip"
+		android:textSize="18dip"
+		android:textStyle="bold"/>
+		
     <TextView
 	    android:id="@+id/textview_reviews"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
- 	    android:layout_below="@id/textview_products_prices"
+ 	    android:layout_below="@id/textview_review"
     	android:layout_margin="5dip"
         android:textSize="18dip"/>
 </RelativeLayout>

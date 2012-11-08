@@ -7,6 +7,8 @@ package georeduy.client.activities;
 
 // imports
 
+import georeduy.client.controllers.ProductsController;
+import georeduy.client.util.OnCompletedCallback;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -40,28 +42,29 @@ public class PurchasePublishReviewActivity extends Activity {
     public void button_send_onClick (View view) {
 
     	// obtener el id de la visita y el comentario
-    	int purchaseId = Integer.parseInt (((TextView) findViewById (R.id.textview_purchase_id)).getText ().toString ());
+    	String purchaseId = ((TextView) findViewById (R.id.textview_purchase_id)).getText ().toString ();
     	String review = ((EditText) findViewById (R.id.edittext_review)).getText ().toString ();
     	
 		// intentar visitar el sitio
-		//ProductsController.getInstance().publishPurchseReview (purchaseId, review);
-    	
-		// mostrar confirmación
-		AlertDialog alertDialog = new AlertDialog.Builder (this).create ();
+		ProductsController.getInstance().publishPurchaseReview (purchaseId, review, new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted (String response, String error)
+			{
+				// mostrar confirmación
+				AlertDialog alertDialog = new AlertDialog.Builder (PurchasePublishReviewActivity.this).create ();
 
-		alertDialog.setTitle ("Confirmación");
-		alertDialog.setMessage ("Enviaste la evaluación \""
-				+ review
-				+ "\" a la compra de id "
-				+ purchaseId
-				+ ".");
-		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
-			public void onClick (DialogInterface dialog, int which) {
-				// cerrar la actividad.
-				finish ();
+				alertDialog.setTitle ("Confirmación");
+				alertDialog.setMessage ("Enviaste la evaluación.");
+				alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
+					public void onClick (DialogInterface dialog, int which) {
+						// cerrar la actividad.
+						finish ();
+					}
+				});
+				
+				alertDialog.show();
 			}
 		});
-		
-		alertDialog.show();
     }
 }

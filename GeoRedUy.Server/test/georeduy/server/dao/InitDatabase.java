@@ -2,7 +2,6 @@ package georeduy.server.dao;
 
 import georeduy.server.logic.controllers.ProductsController;
 import georeduy.server.logic.controllers.RetailController;
-import georeduy.server.logic.controllers.SessionController;
 import georeduy.server.logic.model.Product;
 import georeduy.server.logic.model.Retailer;
 import georeduy.server.logic.model.RetailStore;
@@ -16,7 +15,6 @@ import georeduy.server.logic.model.UserNotificationsTypes;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -144,7 +142,7 @@ public class InitDatabase {
         Site site = new Site();
         site.setName ("Puerto del Buceo");
         site.setDescription ("Paseo maritimo");
-    	Double[] coordinates1 = {-34.908, -56.133};
+    	Double[] coordinates1 = {-56.133, -34.908};
     	site.setCoordinates (coordinates1);
         site.setAddress ("Rambla del Buceo");
         site.setImageUrl ("site_buceo.jpg");
@@ -154,7 +152,7 @@ public class InitDatabase {
         site = new Site();
         site.setName ("Parador del Kibon");
         site.setDescription ("Local de fiestas");
-    	Double[] coordinates2 = {-34.911, -56.138};
+    	Double[] coordinates2 = {-56.138, -34.911};
     	site.setCoordinates (coordinates2);
         site.setAddress ("Rambla de Kibon");
         site.setImageUrl ("site_kibon.jpg");
@@ -164,7 +162,7 @@ public class InitDatabase {
         site = new Site();
         site.setName ("Punta de Trouville");
         site.setDescription ("Parque publico");
-    	Double[] coordinates3 = {-34.920, -56.148};
+    	Double[] coordinates3 = {-56.148, -34.920};
     	site.setCoordinates (coordinates3);
         site.setAddress ("Rambla de Trouville");
         site.setImageUrl ("site_kibon.jpg");
@@ -174,7 +172,7 @@ public class InitDatabase {
         site = new Site();
         site.setName ("Punta Carretas");
         site.setDescription ("Fin de Montevideo");
-    	Double[] coordinates4 = {-34.930, -56.160};
+    	Double[] coordinates4 = {-56.160, -34.930};
     	site.setCoordinates (coordinates4);
         site.setAddress ("Rambla de Punta Carretas");
         site.setImageUrl ("site_kibon.jpg");
@@ -235,7 +233,7 @@ public class InitDatabase {
     	store.setPhoneNumber ("2628 NIKE");
     	store.setImageUrl ("nike_mvd.jpg");
     	store.setAddress ("Herrera casi 26 de Marzo");
-    	Double[] coordinatesNike1 = {-34.903, -56.139};
+    	Double[] coordinatesNike1 = {-56.139, -34.903};
     	store.setCoordinates (coordinatesNike1);
     	RetailController.getInstance ().NewStore (store, retailer.getId ());
     	ProductsController.getInstance().addStoreProduct (store.getId (), productNikeChampiones);
@@ -246,7 +244,7 @@ public class InitDatabase {
     	store.setPhoneNumber ("2712 NIKE");
     	store.setImageUrl ("nike_carr.jpg");
     	store.setAddress ("Ellauri");
-    	Double[] coordinatesNike2 = {-34.923, -56.157};
+    	Double[] coordinatesNike2 = {-56.157, -34.923};
     	store.setCoordinates (coordinatesNike2);
     	RetailController.getInstance ().NewStore (store, retailer.getId ());
     	ProductsController.getInstance().addStoreProduct (store.getId (), productNikeChampiones);
@@ -300,7 +298,7 @@ public class InitDatabase {
     	store.setPhoneNumber ("2628 RMCD");
     	store.setImageUrl ("mcd_mvd.jpg");
     	store.setAddress ("Herrera casi 26 de Marzo");
-    	Double[] coordinatesMcd1 = {-34.904, -56.138};
+    	Double[] coordinatesMcd1 = {-56.138, -34.904};
     	store.setCoordinates (coordinatesMcd1);
     	RetailController.getInstance ().NewStore (store, retailer.getId ());
     	ProductsController.getInstance().addStoreProduct (store.getId (), productMcCombo);
@@ -311,7 +309,7 @@ public class InitDatabase {
     	store.setPhoneNumber ("2712 RMCD");
     	store.setImageUrl ("mcd_carr.jpg");
     	store.setAddress ("Ellauri");
-    	Double[] coordinatesMcd2 = {-34.924, -56.158};
+    	Double[] coordinatesMcd2 = {-56.158, -34.924};
     	store.setCoordinates (coordinatesMcd2);
     	RetailController.getInstance ().NewStore (store, retailer.getId ());
     	ProductsController.getInstance().addStoreProduct (store.getId (), productMcCombo);
@@ -365,7 +363,7 @@ public class InitDatabase {
     	store.setPhoneNumber ("2628 AHOR");
     	store.setImageUrl ("mcd_mvd.jpg");
     	store.setAddress ("Herrera casi 26 de Marzo");
-    	Double[] coordinatesMul1 = {-34.905, -56.137};
+    	Double[] coordinatesMul1 = {-56.137, -34.905};
     	store.setCoordinates (coordinatesMul1);
     	RetailController.getInstance ().NewStore (store, retailer.getId ());
     	ProductsController.getInstance().addStoreProduct (store.getId (), productMultiPanFlauta);
@@ -376,7 +374,7 @@ public class InitDatabase {
     	store.setPhoneNumber ("2712 AHOR");
     	store.setImageUrl ("mcd_carr.jpg");
     	store.setAddress ("Ellauri");
-    	Double[] coordinatesMul2 = {-34.925, -56.159};
+    	Double[] coordinatesMul2 = {-56.159, -34.925};
     	store.setCoordinates (coordinatesMul2);
     	RetailController.getInstance ().NewStore (store, retailer.getId ());
     	ProductsController.getInstance().addStoreProduct (store.getId (), productMultiPanFlauta);

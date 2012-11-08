@@ -75,4 +75,10 @@ public class GeoRedConstants {
 
 	public static final String USER_NOTITAG_INCONSISTENT_DATA =
 			"USER_NOTITAG_INCONSISTENT_DATA";
+
+	public static final String PURCHASE_DOES_NOT_EXIST =
+			"PURCHASE_DOES_NOT_EXIST";
+
+	public static final Object REVIEW_SUCCESSFULY_ADDED =
+			"REVIEW_SUCCESSFULY_ADDED";
 }

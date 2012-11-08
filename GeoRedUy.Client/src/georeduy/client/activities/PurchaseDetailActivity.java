@@ -7,8 +7,10 @@ package georeduy.client.activities;
 
 // imports
 
+import georeduy.client.model.Comment;
 import georeduy.client.model.Purchase;
 import georeduy.client.model.PurchaseItem;
+import georeduy.client.model.Review;
 import georeduy.client.util.CommonUtilities;
 import android.app.Activity;
 import android.content.Intent;
@@ -58,15 +60,19 @@ public class PurchaseDetailActivity extends Activity {
         for (PurchaseItem item : purchase.getItems ()) {
         	productsNamesText +=        	
         			item.getRealProduct ().getName () + "\n\n";
-    			productsPricesText +=        	
-    			"\n" + item.getUnits () + " x "
-    			+ CommonUtilities.stringToPrice (item.getRealProduct ().getPrice ()) + "\n";
+        	productsPricesText +=        	
+	    			"\n" + item.getUnits () + " x "
+	    			+ CommonUtilities.stringToPrice (item.getRealProduct ().getPrice ()) + "\n";
         }
         
         viewProductsNames.setText (productsNamesText);
         viewProductsPrices.setText (productsPricesText);
 
-        viewReviews.setText ("");
+        String reviewsText = "";
+        for (Review review : purchase.getReviews ()) {
+        	reviewsText += review.getText () + "\n\n";
+        }
+        viewReviews.setText (reviewsText);
     }
     
     // funciones del programador

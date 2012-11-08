@@ -1105,8 +1105,8 @@ containing a value of this type.
         public static final int textview_products_names=0x7f050069;
         public static final int textview_products_prices=0x7f05006a;
         public static final int textview_purchase_id=0x7f050064;
-        public static final int textview_review=0x7f05006c;
-        public static final int textview_reviews=0x7f05006b;
+        public static final int textview_review=0x7f05006b;
+        public static final int textview_reviews=0x7f05006c;
         public static final int textview_site_id=0x7f050083;
         public static final int textview_store=0x7f050065;
         public static final int textview_store_id=0x7f050088;
@@ -1277,7 +1277,7 @@ containing a value of this type.
         public static final int button_users_list=0x7f0a004e;
         public static final int button_visit=0x7f0a0043;
         public static final int button_visits_list=0x7f0a004f;
-        public static final int contact_search_hint=0x7f0a0076;
+        public static final int contact_search_hint=0x7f0a0077;
         /**  edittexts 
          */
         public static final int edit_text_message=0x7f0a0054;
@@ -1300,25 +1300,25 @@ containing a value of this type.
         public static final int gcm_unregistered=0x7f0a0014;
         /**  others 
          */
-        public static final int menu_settings=0x7f0a0074;
-        public static final int options_add_contact=0x7f0a0077;
+        public static final int menu_settings=0x7f0a0075;
+        public static final int options_add_contact=0x7f0a0078;
         public static final int options_clear=0x7f0a0020;
         public static final int options_exit=0x7f0a0021;
         public static final int options_register=0x7f0a001e;
         public static final int options_unregister=0x7f0a001f;
-        public static final int register_passwords_do_not_match=0x7f0a0075;
+        public static final int register_passwords_do_not_match=0x7f0a0076;
         public static final int server_register_error=0x7f0a001c;
         public static final int server_registered=0x7f0a001a;
         public static final int server_registering=0x7f0a0019;
         public static final int server_unregister_error=0x7f0a001d;
         public static final int server_unregistered=0x7f0a001b;
-        public static final int submit=0x7f0a0078;
+        public static final int submit=0x7f0a0079;
         public static final int textview_address=0x7f0a0067;
         public static final int textview_comment=0x7f0a006c;
         public static final int textview_date=0x7f0a0068;
         public static final int textview_description=0x7f0a0066;
         public static final int textview_email=0x7f0a0069;
-        public static final int textview_filler=0x7f0a0073;
+        public static final int textview_filler=0x7f0a0074;
         public static final int textview_firstname=0x7f0a0061;
         public static final int textview_fullname=0x7f0a0060;
         public static final int textview_lastname=0x7f0a0062;
@@ -1329,10 +1329,11 @@ containing a value of this type.
         public static final int textview_priceunit=0x7f0a006e;
         public static final int textview_products=0x7f0a006b;
         public static final int textview_review=0x7f0a0070;
-        public static final int textview_store=0x7f0a0072;
+        public static final int textview_reviews=0x7f0a0071;
+        public static final int textview_store=0x7f0a0073;
         public static final int textview_telephone=0x7f0a006a;
         public static final int textview_title=0x7f0a0065;
-        public static final int textview_units=0x7f0a0071;
+        public static final int textview_units=0x7f0a0072;
         /**  textviews 
          */
         public static final int textview_username=0x7f0a005f;

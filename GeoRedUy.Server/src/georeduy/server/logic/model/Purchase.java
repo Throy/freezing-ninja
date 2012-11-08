@@ -35,8 +35,13 @@ public class Purchase {
     @Property
     public String pricetotal;
 
+    // items de la compra (productos y unidades)
     @Embedded
     private List <PurchaseItem> items = new ArrayList <PurchaseItem>();
+
+    // evaluaciones de la compra
+    @Embedded
+    private List <Review> reviews = new ArrayList <Review>();
     
     // No pude hacer andar @Reference asi que lo hago asi
     @Transient
@@ -156,6 +161,22 @@ public class Purchase {
 	public void setItems (List <PurchaseItem> items)
 	{
 		this.items = items;
+	}
+
+	/**
+	 * @return the reviews
+	 */
+	public List <Review> getReviews ()
+	{
+		return reviews;
+	}
+
+	/**
+	 * @param reviews the reviews to set
+	 */
+	public void setReviews (List <Review> reviews)
+	{
+		this.reviews = reviews;
 	}
 
 	/**

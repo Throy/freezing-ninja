@@ -4,20 +4,25 @@ import georeduy.server.dao.IProductDao;
 import georeduy.server.dao.IPurchaseDao;
 import georeduy.server.dao.IRetailStoreDao;
 import georeduy.server.dao.IRetailerDao;
+import georeduy.server.dao.IReviewDao;
 import georeduy.server.dao.IStoreProductDao;
 import georeduy.server.dao.ProductDaoImpl;
 import georeduy.server.dao.PurchaseDaoImpl;
 import georeduy.server.dao.RetailStoreDaoImpl;
 import georeduy.server.dao.RetailerDaoImpl;
+import georeduy.server.dao.ReviewDaoImpl;
 import georeduy.server.dao.StoreProductDaoImpl;
+import georeduy.server.logic.model.Comment;
 import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.Product;
 import georeduy.server.logic.model.Purchase;
 import georeduy.server.logic.model.PurchaseItem;
 import georeduy.server.logic.model.RetailStore;
 import georeduy.server.logic.model.Retailer;
+import georeduy.server.logic.model.Review;
 import georeduy.server.logic.model.StoreProduct;
 import georeduy.server.logic.model.User;
+import georeduy.server.logic.model.Visit;
 
 import java.util.Date;
 import java.util.List;
@@ -34,6 +39,7 @@ public class ProductsController {
 	private static IStoreProductDao storeProductsDao = new StoreProductDaoImpl();
 	private static IRetailerDao retailerDao = new RetailerDaoImpl ();
 	private static IRetailStoreDao storeDao = new RetailStoreDaoImpl();
+	private static IReviewDao reviewDao = new ReviewDaoImpl();
 	private static IStoreProductDao storeProductDao = new StoreProductDaoImpl();
 	
 	// constructores
@@ -116,5 +122,42 @@ public class ProductsController {
 	// realizar compra de productos
 	public List <Purchase> getPurchasesByUser (String userId) {
 		return purchaseDao.findByUser (userId);
+	}
+	
+	// administrar evaluaciones
+	
+	// crear evauación
+	public void newReview (Review review) throws Exception {
+		// comprobar existencia de la compra
+		Purchase realPurchase = purchaseDao.find (new ObjectId (review.getPurchaseId ()));
+		if (realPurchase == null) {
+			throw new Exception (GeoRedConstants.PURCHASE_DOES_NOT_EXIST); //+ ":" + visit.getUserId ().trim());
+		}
+		
+		// agregar fecha actual
+		Date currentDate = new Date();
+		currentDate.setSeconds (0);
+		review.setDate (currentDate);
+    	
+		// crear evaluación
+        reviewDao.saveReview (review);
+        
+        // agregar evaluación a la compra
+        purchaseDao.addPurchaseReview (new ObjectId (review.getPurchaseId ()), review);
+	}
+	
+	// obtener datos de una evaluación.
+	public Review getReviewById (String reviewId) {
+		return reviewDao.find (new ObjectId (reviewId));		
+	}
+
+	// obtener evaluaciones del usuario
+	public List <Review> getReviewsByUser () {
+    	return reviewDao.findByUser (User.Current ().getId ());
+	}
+
+	// obtener evaluaciones del usuario, sistema paginado
+	public List <Review> getReviewsByUser (int from) {
+    	return reviewDao.findByUser (User.Current ().getId (), from, 10);
 	}
 }

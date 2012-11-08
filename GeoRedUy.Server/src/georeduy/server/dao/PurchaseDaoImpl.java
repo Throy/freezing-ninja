@@ -4,12 +4,15 @@
 
 package georeduy.server.dao;
 
+import georeduy.server.logic.model.Comment;
 import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.Purchase;
 import georeduy.server.logic.model.PurchaseItem;
 import georeduy.server.logic.model.Product;
 import georeduy.server.logic.model.RetailStore;
 import georeduy.server.logic.model.Retailer;
+import georeduy.server.logic.model.Review;
+import georeduy.server.logic.model.Visit;
 import georeduy.server.persistence.MongoConnectionManager;
 
 import java.util.ArrayList;
@@ -27,6 +30,8 @@ public class PurchaseDaoImpl extends BasicDAO <Purchase, ObjectId> implements IP
 	// nombres de los campos de Visit
 	
 	private static String userIdString = "userId";
+	private static String idString = "id";
+	private static String reviewsString = "reviews";
 	
 	// daos externos
 
@@ -62,7 +67,14 @@ public class PurchaseDaoImpl extends BasicDAO <Purchase, ObjectId> implements IP
 	// guardar compra en la base de datos
 	public void savePurchase (Purchase purchase)  {
 	    this.save (purchase);
-		
+	}
+
+	// guardar evaluación en la base de datos
+	@Override
+	public void addPurchaseReview (ObjectId purchaseId, Review review) {
+		Query <Purchase> query = ds.createQuery (Purchase.class).field (idString).equal (purchaseId);
+		UpdateOperations <Purchase> ops = ds.createUpdateOperations (Purchase.class).add (reviewsString, review);
+		ds.update (query, ops);
 	}
 
 	// obtener compra a partir del id
@@ -70,7 +82,6 @@ public class PurchaseDaoImpl extends BasicDAO <Purchase, ObjectId> implements IP
 		Purchase purchase = get (purchaseId);
         resolveReferences (purchase);
         return purchase;
-		
 	}
 
 	// obtener compras del usuario

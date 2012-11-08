@@ -7,10 +7,12 @@ package georeduy.client.controllers;
 
 // imports
 
+import georeduy.client.model.Comment;
 import georeduy.client.model.Product;
 import georeduy.client.model.Purchase;
 import georeduy.client.model.PurchaseItem;
 import georeduy.client.model.RetailStore;
+import georeduy.client.model.Review;
 import georeduy.client.model.User;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.OnCompletedCallback;
@@ -219,6 +221,37 @@ public class ProductsController
 	}
 
 	// publicar evaluación de un producto.
-	public void publishProductReview (String productId, String review) {
+	public void publishPurchaseReview (String purchaseId, String text, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+        Gson gson = new Gson();
+		
+		// agregar parámetros
+		Review review = new Review ();
+		review.setText (text);
+		review.setPurchaseId (purchaseId);
+		params.put ("reviewInfo", gson.toJson(review));
+		
+    	GeoRedClient.PostAsync("/Products/Reviews/New", params, callback);
+	}
+	
+	// evaluaciones
+	
+	// obtener datos de las evaluaciones del usuario.
+	
+	public void getComments (OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+		
+    	GeoRedClient.GetAsync("/Products/Reviews/GetByUser", params, callback);
+	}
+	
+	// obtener datos de una evaluación del usuario.
+	
+	public void getComment (String reviewId, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+		
+		// agregar parámetros
+		params.put ("reviewId", reviewId);
+		
+    	GeoRedClient.GetAsync("/Products/Reviews/GetById", params, callback);	
 	}
 }

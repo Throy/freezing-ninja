@@ -23,6 +23,8 @@ public class Purchase {
     private String pricetotal;
 
     private List <PurchaseItem> items = new ArrayList <PurchaseItem>();
+
+    private List <Review> reviews = new ArrayList <Review>();
     
     // No pude hacer andar @Reference asi que lo hago asi
     private Retailer realRetailer;
@@ -140,6 +142,22 @@ public class Purchase {
 	public void setItems (List <PurchaseItem> items)
 	{
 		this.items = items;
+	}
+
+	/**
+	 * @return the reviews
+	 */
+	public List <Review> getReviews ()
+	{
+		return reviews;
+	}
+
+	/**
+	 * @param reviews the reviews to set
+	 */
+	public void setReviews (List <Review> reviews)
+	{
+		this.reviews = reviews;
 	}
 
 	/**

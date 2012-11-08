@@ -1,9 +1,12 @@
 package georeduy.server.webservices;
 
 import georeduy.server.logic.controllers.ProductsController;
+import georeduy.server.logic.controllers.SitesController;
+import georeduy.server.logic.model.Comment;
 import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.Product;
 import georeduy.server.logic.model.Purchase;
+import georeduy.server.logic.model.Review;
 import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.User;
 
@@ -173,6 +176,104 @@ public class ProductsService {
 	    catch (Exception e)
 	    {
 	    	return Response.status(500).entity(e.getMessage()).build();
+	    }
+	}
+	
+	// administrar evaluaciones
+
+	// crear comentario. recibe un Comment.
+	@POST()
+	@Path("Reviews/New")
+	public Response ReviewsNew (String reviewInfo,
+			@Context SecurityContext context) {
+		// si no es un usuario registrado, devolver error 500 de acceso denegado
+		if (! context.isUserInRole (Roles.REG_USER)) {
+			return Response.status(500).entity (GeoRedConstants.ACCESS_DENIED).build();
+		}
+		
+		// crear evaluación
+		try {
+			Gson gson = new Gson();
+			reviewInfo = reviewInfo.split("=")[1];
+			Review review = gson.fromJson (reviewInfo, Review.class);
+			ProductsController.getInstance().newReview (review);
+			
+			return Response.status(200).entity (GeoRedConstants.REVIEW_SUCCESSFULY_ADDED).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
+	}
+	
+	@GET()
+	@Produces("text/plain")
+	@Path("Reviews/GetById")
+	public Response ReviewsGetById (@QueryParam("reviewId") String reviewId, 
+			@Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+		
+		// obtener comentario
+		try {
+			Gson gson = new Gson();
+			Review review = ProductsController.getInstance().getReviewById (reviewId);
+			return Response.status(200).entity(gson.toJson(review)).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
+	}
+
+	// obtener evaluaciones del usuario
+	@GET()
+	@Produces("text/plain")
+	@Path("Reviews/GetByUser")
+	public Response ReviewsGetByUser (@Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+
+		// obtener evaluaciones del usuario
+		try {
+			Gson gson = new Gson();
+			List <Review> reviews = ProductsController.getInstance().getReviewsByUser ();
+			return Response.status(200).entity (gson.toJson(reviews)).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
+	    }
+	}
+
+	// obtener evaluaciones del usuario, sistema paginado
+	@GET()
+	@Produces("text/plain")
+	@Path("Reviews/GetByUserPage")
+	public Response ReviewsGetByUserPage (@QueryParam("pageNumber") Integer pageNumber, @Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
+		}
+
+		// obtener evaluaciones del usuario
+		try {
+			Gson gson = new Gson();
+			List <Review> reviews = ProductsController.getInstance().getReviewsByUser (pageNumber);
+			return Response.status(200).entity (gson.toJson(reviews)).build();
+	    }
+		
+		// si salta una excepción, devolver error
+	    catch (Exception ex)
+	    {
+	    	return Response.status(500).entity (ex.getMessage()).build();
 	    }
 	}
 }

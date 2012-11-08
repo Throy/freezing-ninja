@@ -5,6 +5,7 @@
 package georeduy.server.dao;
 
 import georeduy.server.logic.model.Purchase;
+import georeduy.server.logic.model.Review;
 
 import java.util.List;
 
@@ -14,6 +15,9 @@ public interface IPurchaseDao {
 
 	// guardar compra en la base de datos
 	public void savePurchase (Purchase purchase) throws Exception;
+
+	// guardar evaluación en la base de datos
+	public void addPurchaseReview (ObjectId purchaseId, Review review);
 
 	// obtener compra a partir del id
 	public Purchase find (ObjectId purchaseId);

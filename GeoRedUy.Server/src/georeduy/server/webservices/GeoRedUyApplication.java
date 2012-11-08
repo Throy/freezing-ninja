@@ -12,6 +12,7 @@ public class GeoRedUyApplication extends Application {
 	     singletons.add(new SessionService());
 	     singletons.add(new NotificationsService());
 	     singletons.add(new SitesService());
+	     singletons.add(new EventsService());
 	     singletons.add(new TagsService());
 	     singletons.add(new ProductsService());
 	     singletons.add(new RetailService());

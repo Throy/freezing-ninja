@@ -132,12 +132,42 @@
         android:focusable="false"
         android:onClick="button_purchase_item_onClick"/>
     
+    <!-- products -->
+	
+	<TextView
+	    android:id="@+id/textview_products"
+		android:text="@string/textview_products"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/button_review"
+		android:layout_margin="5dip"
+		android:textSize="18dip"
+		android:textStyle="bold"/>
+	    
+    <TextView
+	    android:id="@+id/textview_products_names"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+ 	    android:layout_below="@id/textview_products"
+    	android:layout_margin="5dip"
+    	android:gravity="left"
+        android:textSize="18dip"/>
+    
+    <TextView
+	    android:id="@+id/textview_products_prices"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+ 	    android:layout_below="@id/textview_products"
+    	android:layout_margin="5dip"
+    	android:gravity="right"
+        android:textSize="18dip"/>
+    
     <!-- reviews -->
     <TextView
 	    android:id="@+id/textview_reviews"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
- 	    android:layout_below="@id/button_review"
+ 	    android:layout_below="@id/textview_products_prices"
     	android:layout_margin="5dip"
         android:textSize="18dip"/>
 </RelativeLayout>

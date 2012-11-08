@@ -43,6 +43,8 @@ public class PurchaseDetailActivity extends Activity {
         TextView viewStore = (TextView) findViewById (R.id.textview_store);
         TextView viewPrice = (TextView) findViewById (R.id.textview_price);
         TextView viewDate = (TextView) findViewById (R.id.textview_date);
+        TextView viewProductsNames = (TextView) findViewById (R.id.textview_products_names);
+        TextView viewProductsPrices = (TextView) findViewById (R.id.textview_products_prices);
         TextView viewReviews = (TextView) findViewById (R.id.textview_reviews);
         
         viewPurchaseId.setText (purchase.getId ());
@@ -50,16 +52,21 @@ public class PurchaseDetailActivity extends Activity {
         viewPrice.setText (CommonUtilities.stringToPrice (purchase.getPricetotal ()));
         viewDate.setText (CommonUtilities.dateToString (purchase.getDate ()));
         
-        String reviewsText = "";
+        String productsNamesText = "";
+        String productsPricesText = "";
         
         for (PurchaseItem item : purchase.getItems ()) {
-        	reviewsText +=        	
-        			item.getRealProduct ().getName () + ": "
-        			+ item.getUnits () + " x "
-        			+ CommonUtilities.stringToPrice (item.getRealProduct ().getPrice ());
+        	productsNamesText +=        	
+        			item.getRealProduct ().getName () + "\n\n";
+    			productsPricesText +=        	
+    			"\n" + item.getUnits () + " x "
+    			+ CommonUtilities.stringToPrice (item.getRealProduct ().getPrice ()) + "\n";
         }
         
-        viewReviews.setText(reviewsText);
+        viewProductsNames.setText (productsNamesText);
+        viewProductsPrices.setText (productsPricesText);
+
+        viewReviews.setText ("");
     }
     
     // funciones del programador

@@ -1,6 +1,7 @@
 package georeduy.server.dao;
 
 import georeduy.server.logic.model.RetailStore;
+
 import georeduy.server.persistence.MongoConnectionManager;
 
 import java.util.List;

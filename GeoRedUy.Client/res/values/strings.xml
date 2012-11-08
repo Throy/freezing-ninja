@@ -120,6 +120,7 @@
     <string name="textview_email">Correo</string>
     <string name="textview_telephone">Teléfono</string>
     
+    <string name="textview_products">Productos</string>
     <string name="textview_comment">Comentario</string>
     <string name="textview_price">Precio</string>
     <string name="textview_priceunit">Precio unitario</string>
@@ -142,4 +143,7 @@
     <color name="greyish">#cbc5b5</color>
     <color name="whiteish">#f1efe8</color>
     <color name="dark_gray">#4a4d4a</color>
+    <color name="darkblack">#33324b</color>
+    <color name="white">#ffffff</color>
+    <color name="dividerblack">#32243a</color>
 </resources>

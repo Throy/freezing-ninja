@@ -55,8 +55,10 @@ public class UsersListAdapter extends BaseAdapter {
     
     public UsersListAdapter (Activity activity, List<Contact> contacts, UserListMode mode) {
         _activity = activity;
-        for (Contact contact : contacts) {
-        	_users.add(contact.getContactUser());
+        if (contacts != null) {
+	        for (Contact contact : contacts) {
+	        	_users.add(contact.getContactUser());
+	        }
         }
         _mode = mode;
         _inflater = (LayoutInflater) _activity.getSystemService (Context.LAYOUT_INFLATER_SERVICE);

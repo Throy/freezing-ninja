@@ -74,5 +74,12 @@ public class ContactDaoImpl extends BasicDAO <Contact, ObjectId> implements ICon
 	    this.deleteByQuery(createQuery().field("contactUserId").equal(contact.getContactUserId()));
     }
 	
-	
+	@Override
+	public boolean userHasContact (String userId, String contactId) {
+		List<Contact> contacts = createQuery().field ("userId").equal(userId).field("contactUserId").equal(userId).asList();
+    	if (contacts.size() == 1)
+    		return true;
+    	else
+    		return false;
+	}
 }

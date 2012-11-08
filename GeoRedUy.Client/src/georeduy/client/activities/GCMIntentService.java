@@ -101,9 +101,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 	        e.printStackTrace();
         }
         
-        displayMessage(context, message);
+        /*displayMessage(context, message);
         // notifies user
-        generateNotification(context, message);
+        generateNotification(context, message);*/
         
         
     }
@@ -114,7 +114,7 @@ public class GCMIntentService extends GCMBaseIntentService {
         String message = getString(R.string.gcm_deleted, total);
         displayMessage(context, message);
         // notifies user
-        generateNotification(context, message);
+        //generateNotification(context, message);
     }
 
     @Override

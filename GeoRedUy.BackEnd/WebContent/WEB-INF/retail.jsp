@@ -312,8 +312,8 @@
 		                    </div>
 		                    <div class="footer">
 		                        Contact number: <%=retailStore.getPhoneNumber()%>
-		                        Latitude: <%=retailStore.getCoordinates()[0]%>
-		                    	Longitude: <%=retailStore.getCoordinates()[1]%> 
+		                        Latitude: <%=retailStore.getCoordinates()[1]%>
+		                    	Longitude: <%=retailStore.getCoordinates()[0]%> 
 		                        
 		                        <div class="likes">		                        	
 		                        	<input class="btn1" type="submit" name="editSite" value="Edit" />

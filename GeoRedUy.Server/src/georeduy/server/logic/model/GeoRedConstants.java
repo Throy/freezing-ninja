@@ -72,4 +72,7 @@ public class GeoRedConstants {
 
 	public static final Object MESSAGE_SENT = 
 			"MESSAGE_SENT";
+
+	public static final String USER_NOTITAG_INCONSISTENT_DATA =
+			"USER_NOTITAG_INCONSISTENT_DATA";
 }

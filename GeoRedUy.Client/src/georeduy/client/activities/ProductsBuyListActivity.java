@@ -103,7 +103,7 @@ public class ProductsBuyListActivity extends Activity {
     
     public void updatePriceTotal () {
         TextView viewPricetotal = (TextView) findViewById (R.id.pricetotal);
-        viewPricetotal.setText ("$ " + ProductsController.getInstance().purchaseGetPricetotal ());
+        viewPricetotal.setText (CommonUtilities.doubleToPrice (ProductsController.getInstance().purchaseGetPricetotal ()));
     }
     
     // cliquear Comprar -> iniciar actividad de Comprar productos. 
@@ -129,7 +129,7 @@ public class ProductsBuyListActivity extends Activity {
 					    	final AlertDialog alertDialog = new AlertDialog.Builder (ProductsBuyListActivity.this).create ();
 	
 							alertDialog.setTitle ("Confirmación");
-							alertDialog.setMessage ("Has comprado productos por un total de $ " + ProductsController.getInstance().purchaseGetPricetotal ());
+							alertDialog.setMessage ("Has comprado productos por un total de " + CommonUtilities.doubleToPrice (ProductsController.getInstance().purchaseGetPricetotal ()));
 							
 							alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
 								public void onClick (DialogInterface dialog, int which) {

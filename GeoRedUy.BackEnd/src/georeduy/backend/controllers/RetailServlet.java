@@ -140,7 +140,7 @@ public class RetailServlet extends HttpServlet {
     	store.setImageUrl(imageUrl);
     	store.setAddress(address);
 
-    	Double[] coordinates = {latitude, longitude};
+    	Double[] coordinates = {longitude, latitude};
     	store.setCoordinates(coordinates);
     	
     	Gson gson = new Gson();

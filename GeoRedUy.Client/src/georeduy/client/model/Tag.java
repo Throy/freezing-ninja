@@ -8,6 +8,8 @@ public class Tag {
     
     private String description;
     
+    private boolean isChecked;
+    
 	public String getId() {
 		return id;
 	}
@@ -32,6 +34,22 @@ public class Tag {
 		this.description = description;
 	}
 	
+	/**
+	 * @return the isChecked
+	 */
+	public boolean isChecked ()
+	{
+		return isChecked;
+	}
+
+	/**
+	 * @param isChecked the isChecked to set
+	 */
+	public void setChecked (boolean isChecked)
+	{
+		this.isChecked = isChecked;
+	}
+
 	@Override
     public int hashCode() {
 	    final int prime = 31;

@@ -7,15 +7,25 @@ package georeduy.client.controllers;
 
 // imports
 
+import georeduy.client.activities.ContactListActivity;
+import georeduy.client.activities.R;
+import georeduy.client.lists.UsersListAdapter;
+import georeduy.client.lists.UsersListAdapter.UserListMode;
 import georeduy.client.model.Contact;
 import georeduy.client.model.User;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.OnCompletedCallback;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import android.widget.ListView;
+
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class ClientsController
 {
@@ -24,6 +34,8 @@ public class ClientsController
 	// *******************
 	
 	private static ClientsController _instance = null;
+	
+	private List<Contact> _contacts = null;
 	
 	// *************
 	// constructores
@@ -52,6 +64,28 @@ public class ClientsController
 		params.put ("count", "10");
 		
     	GeoRedClient.GetAsync("/Contacts/Get", params, callback);
+	}
+	
+	// Obtener los contactos desde cache, si nunca se pideron se piden al servidor.
+	public List<Contact> GetContacts() {
+		if (_contacts == null) {
+			GetContacts(new OnCompletedCallback() {
+				
+				@Override
+				public void onCompleted(String response, String error) {
+					if (error == null) {
+						Gson gson = new Gson();
+			        	Type listType = new TypeToken<ArrayList<Contact>>() {}.getType();				    		
+			    		List<Contact> contacts = gson.fromJson(response, listType);
+			    		if (contacts != null) {
+			    			_contacts = contacts;
+			    		}
+					}
+				}
+			});
+		}
+		
+		return _contacts;
 	}
 	
 	public void SearchUsers(String query, OnCompletedCallback callback) {

@@ -7,18 +7,31 @@ package georeduy.client.controllers;
 
 // imports
 
+import georeduy.client.activities.ChatActivity;
+import georeduy.client.activities.GCMActivity;
+import georeduy.client.activities.R;
+import georeduy.client.activities.VisitsListActivity;
 import georeduy.client.model.ChatMessage;
 import georeduy.client.model.ChatRoom;
+import georeduy.client.model.RetailStore;
 import georeduy.client.model.Site;
+import georeduy.client.model.Tag;
+import georeduy.client.model.UserNotificationTag;
 import georeduy.client.model.UserNotificationsTypes;
+import georeduy.client.model.Visit;
 import georeduy.client.util.CommonUtilities;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.OnCompletedCallback;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
@@ -33,6 +46,9 @@ public class NotificationsController
 	private static NotificationsController _instance = null;
 	
 	private Map<String, ChatRoom> _chatRooms = new HashMap<String, ChatRoom>();
+	
+	private List<Site> _newSites = new ArrayList<Site>();
+	private List<RetailStore> _newStores = new ArrayList<RetailStore>();
 	
 	// *************
 	// constructores
@@ -60,7 +76,24 @@ public class NotificationsController
 	}
 	
 	public void handleNotification(Context context, Site site) {
-		String siteName = site.getName();
+		_newSites.add(site);
+		
+		Intent intent = new Intent(CommonUtilities.NEW_SITE_ACTION);
+        context.sendBroadcast(intent);
+	}
+	
+	public void handleNotification(Context context, RetailStore store) {
+		_newStores.add(store);
+		
+		Intent intent = new Intent(CommonUtilities.NEW_STORE_ACTION);
+        context.sendBroadcast(intent);
+	}
+	
+	public void handleNotification(Context context, Visit visit) {
+		Intent chatIntent = new Intent (context, VisitsListActivity.class);
+        chatIntent.putExtra (VisitsListActivity.EXTRA_VISIT_ID, visit.getId());	 
+    	
+        generateNotification(context, visit.getRealUser().getUserName() + " visited a site near you: ", visit.getRealSite().getName(), chatIntent);
 	}
 	
 	public void handleNotification(Context context, ChatMessage message) {
@@ -80,6 +113,12 @@ public class NotificationsController
         context.sendBroadcast(intent);
         
 		//TODO: Notificar al usuario de que llego un nuevo mensaje
+        
+        Intent chatIntent = new Intent (context, ChatActivity.class);
+        chatIntent.putExtra (CommonUtilities.EXTRA_USER_ID, message.getFromUserId());	 
+        chatIntent.putExtra (CommonUtilities.EXTRA_USER_NAME, message.getFromUserName());
+    	
+        generateNotification(context, message.getFromUserName() + " says:", message.getMessage(), chatIntent);
 	}
 	
 	public void sendMessage(ChatMessage message, OnCompletedCallback callback) {
@@ -127,7 +166,7 @@ public class NotificationsController
     	GeoRedClient.GetAsync("/Notifications/UserConfig/GetTags", params, callback);	
 	}
 	
-	// obtiene la configuración de etiquetas de notificaciones del usuario.
+	// obtiene la configuración de tipos de notificaciones del usuario.
 	
 	public void setNotificationsTypesConfiguration (UserNotificationsTypes notitypes, OnCompletedCallback callback) {
 		Map <String, String> params = new HashMap <String, String>();
@@ -137,5 +176,56 @@ public class NotificationsController
 		params.put ("notitypesInfo", gson.toJson (notitypes));
 		
     	GeoRedClient.PostAsync("/Notifications/UserConfig/SetTypes", params, callback);	
+	}
+	
+	// obtiene la configuración de etiquetas de notificaciones del usuario.
+	
+	public void setNotificationsTagsConfiguration (List <Tag> tags, OnCompletedCallback callback) {
+		Map <String, String> params = new HashMap <String, String>();
+		
+		// agregar parámetros
+        Gson gson = new Gson();
+		params.put ("tagsInfo", gson.toJson (tags));
+		
+    	GeoRedClient.PostAsync("/Notifications/UserConfig/SetTags", params, callback);	
+	}
+	
+	@TargetApi(16)
+    private static void generateNotification(Context context, String title, String message, Intent notificationIntent) {
+        int icon = R.drawable.ic_stat_gcm;
+        long when = System.currentTimeMillis();
+
+        // set intent so it does not start a new activity
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent intent =
+                PendingIntent.getActivity(context, 0, notificationIntent, 0);
+        
+        Notification notification = new Notification.Builder(context)
+        .setContentTitle(title)
+        .setContentText(message).setSmallIcon(icon)
+        .setContentIntent(intent)
+        .setWhen(when)
+        .build();
+        
+        NotificationManager notificationManager = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
+        
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notificationManager.notify(0, notification);
+    }
+	
+	public List<Site> getNewSites() {
+		List<Site> sites = _newSites;  
+		_newSites = new ArrayList<Site>();
+		
+		return sites;
+	}
+	
+	public List<RetailStore> getNewStores() {
+		List<RetailStore> stores = _newStores;  
+		_newStores = new ArrayList<RetailStore>();
+		
+		return stores;
 	}
 }

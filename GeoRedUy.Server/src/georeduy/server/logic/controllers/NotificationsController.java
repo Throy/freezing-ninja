@@ -1,19 +1,23 @@
 package georeduy.server.logic.controllers;
 
 import georeduy.server.dao.IUserDao;
+import georeduy.server.dao.IUserNotificationsTagDao;
 import georeduy.server.dao.UserDaoImpl;
+import georeduy.server.dao.UserNotificationsTagDaoImpl;
+import georeduy.server.logic.model.Tag;
 import georeduy.server.logic.model.User;
+import georeduy.server.logic.model.UserNotificationTag;
 import georeduy.server.logic.model.UserNotificationsTypes;
+import georeduy.server.util.Filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-
-import org.bson.types.ObjectId;
 
 import com.google.android.gcm.server.Constants;
 import com.google.android.gcm.server.Message;
@@ -37,6 +41,7 @@ public class NotificationsController {
 	// daos
 	
 	private IUserDao userDao = new UserDaoImpl();
+	private IUserNotificationsTagDao userNotitagDao = new UserNotificationsTagDaoImpl();
 	
 	// constructores
 
@@ -119,6 +124,29 @@ public class NotificationsController {
             }
         }
 	}
+	
+	public void BroadCast(Object payload, Filter filter) {
+		int total = m_onlineDevices.size();
+        
+        List<String> partialDevices = new ArrayList<String>(total);
+        int counter = 0;
+        
+        Gson gson = new Gson();
+        String json = gson.toJson(payload);
+        Message message = new Message.Builder().addData("className", payload.getClass().getSimpleName()).addData("jsonPayload", json).build();
+        
+        for (Entry<String, String> entry : m_onlineDevices.entrySet()) {
+            counter++;
+            if (!filter.filter(entry.getKey()))
+            	partialDevices.add(entry.getValue());
+            
+            int partialSize = partialDevices.size();
+            if (partialSize > 0 && (partialSize == MULTICAST_SIZE || counter == total)) {
+                asyncSend(partialDevices, message);
+                partialDevices.clear();
+            }
+        }
+	}
 
 	private void asyncSend(List<String> partialDevices, final Message message) {
 		// make a copy
@@ -171,5 +199,26 @@ public class NotificationsController {
     // modifica la configuración de tipos de notificaciones del usuario.
     public void setUserNotificationsTypes (String userId, UserNotificationsTypes notitypes) {
     	userDao.setNotificationsTypes (userId, notitypes);
+    }
+
+    // devuelve la configuración de etiquetas de notificaciones del usuario.
+    public List <Tag> getUserNotificationsTags (String userId) {
+    	return userNotitagDao.findByUser (userId);
+    }
+
+    // modifica la configuración de etiquetas de notificaciones del usuario.
+    public void setUserNotificationsTags (String userId, List <Tag> tags) {
+
+    	// generar notitags
+    	List <UserNotificationTag> userNotitags = new ArrayList <UserNotificationTag> ();
+    	for (Tag tag : tags) {
+    		UserNotificationTag userNotitag = new UserNotificationTag ();
+    		userNotitag.setTagId (tag.getId ());
+    		userNotitag.setUserId (userId);
+    		userNotitags.add (userNotitag);
+    	}
+    	
+    	// llamar al dao
+    	userNotitagDao.saveUserNotificationsTags (userId, userNotitags);
     }
 }

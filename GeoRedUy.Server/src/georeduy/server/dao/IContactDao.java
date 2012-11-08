@@ -24,4 +24,6 @@ public interface IContactDao {
 	public List <Contact> findByUser (String userId, int from, int count);
 	
 	public void deleteContact(Contact contact);
+
+	boolean userHasContact(String userId, String contactId);
 }

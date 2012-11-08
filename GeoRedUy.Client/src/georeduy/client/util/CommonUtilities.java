@@ -15,6 +15,7 @@
  */
 package georeduy.client.util;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -23,10 +24,16 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.os.Looper;
 import android.text.format.Formatter;
+import android.util.TypedValue;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 /**
@@ -68,6 +75,12 @@ public final class CommonUtilities {
     public static final String EXTRA_CHAT_MESSAGE = "chat_message";
     public static final String EXTRA_CHAT_USER_ID = "chat_user_id";
     
+	public static final String EXTRA_USER_ID = "georeduy.client.user_id";
+    public static final String EXTRA_USER_NAME = "georeduy.client.user_name";
+
+	public static final String NEW_SITE_ACTION = "georeduy.client.NEW_SITE_ACTION";
+
+	public static final String NEW_STORE_ACTION = "georeduy.client.NEW_STORE_ACTION";
     /**
      * Notifies UI to display a message.
      * <p>
@@ -84,6 +97,7 @@ public final class CommonUtilities {
     }
     
     public static void showAlertMessage (Context context, String title, String message) {
+    
     	final AlertDialog alertDialog = new AlertDialog.Builder (context).create ();
 
     	/*
@@ -117,4 +131,45 @@ public final class CommonUtilities {
     	return id.substring (id.length() - 3, id.length());
     }
     */
+
+    // dar formato a fecha
+    public static String stringToPrice (String priceString) {
+    	Double priceDouble = Double.parseDouble (priceString);
+    	DecimalFormat format = new DecimalFormat ("###,###.00");
+    	return "$ " + format.format (priceDouble);
+    }
+
+    // dar formato a fecha
+    public static String doubleToPrice (Double priceDouble) {
+    	DecimalFormat format = new DecimalFormat ("###,###.00");
+    	return "$ " + format.format (priceDouble);
+    }
+    
+	public static int dpToPx(int dp, Context ctx) {
+		Resources r = ctx.getResources();
+		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+	}
+	
+	//originally: http://stackoverflow.com/questions/5418510/disable-the-touch-events-for-all-the-views
+	//modified for the needs here
+	public static void enableDisableViewGroup(ViewGroup viewGroup, boolean enabled) {
+		int childCount = viewGroup.getChildCount();
+		for (int i = 0; i < childCount; i++) {
+			View view = viewGroup.getChildAt(i);
+			if(view.isFocusable())
+				view.setEnabled(enabled);
+			if (view instanceof ViewGroup) {
+				enableDisableViewGroup((ViewGroup) view, enabled);
+			} else if (view instanceof ListView) {
+				if(view.isFocusable())
+					view.setEnabled(enabled);
+				ListView listView = (ListView) view;
+				int listChildCount = listView.getChildCount();
+				for (int j = 0; j < listChildCount; j++) {
+					if(view.isFocusable())
+						listView.getChildAt(j).setEnabled(false);
+				}
+			}
+		}
+	}
 }

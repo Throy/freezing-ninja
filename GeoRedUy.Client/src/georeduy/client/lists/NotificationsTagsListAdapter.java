@@ -84,6 +84,7 @@ public class NotificationsTagsListAdapter extends BaseAdapter {
         HashMap <String, String> itemString = _itemsString.get (position);
  
         // set values of the views
+        viewNotitagId.setText (itemString.get (ConfigureNotificationsTagsActivity.NOTITAG_ITEM_ID));
         viewName.setText (itemString.get (ConfigureNotificationsTagsActivity.NOTITAG_ITEM_NAME));
         viewDescription.setText (itemString.get (ConfigureNotificationsTagsActivity.NOTITAG_ITEM_DESCRIPTION));
         
@@ -92,7 +93,6 @@ public class NotificationsTagsListAdapter extends BaseAdapter {
  
         // set values of the views
         // *** setTag para guardar cualquier objeto ***
-        viewNotitagId.setText (itemInt.get (ConfigureNotificationsTagsActivity.NOTITAG_ITEM_ID).toString ());
  
         // set value of the checkbox
         checkbox.setChecked (_itemsIsChecked.get (position));
@@ -111,5 +111,20 @@ public class NotificationsTagsListAdapter extends BaseAdapter {
     
     public boolean isChecked (int position) {
         return _itemsIsChecked.get (position);
+    }
+    
+    // devuelve el id del ítem.
+    
+    public String getId (int position) {
+        HashMap <String, String> itemString = _itemsString.get (position);
+ 
+        // set values of the views
+        return itemString.get (ConfigureNotificationsTagsActivity.NOTITAG_ITEM_ID);
+    }
+    
+    // devuelve la cantidad de ítems.
+    
+    public int getSize () {
+        return _itemsIsChecked.size ();
     }
 }

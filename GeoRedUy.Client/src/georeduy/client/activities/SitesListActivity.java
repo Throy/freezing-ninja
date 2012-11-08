@@ -238,7 +238,7 @@ public class SitesListActivity extends Activity {
 		});
 		
 		// mostrar confirmación
-        CommonUtilities.showAlertMessage (this, "Confirmación", "Visitaste el sitio de id " + siteId);
+        CommonUtilities.showAlertMessage (this, "Confirmación", "Visitaste el sitio.");
     }
 
     @Override

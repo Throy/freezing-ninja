@@ -12,6 +12,7 @@ import georeduy.client.controllers.SessionController;
 import georeduy.client.util.CommonUtilities;
 import georeduy.client.util.Config;
 import georeduy.client.util.GCMServer;
+import georeduy.client.util.OnCompletedCallback;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +30,6 @@ import com.facebook.android.FacebookError;
 import com.google.android.gcm.GCMRegistrar;
 
 public class SessionLoginActivity extends Activity {
-	AsyncTask<Void, Void, Void> mRegisterTask;
     // facebook api.
     Facebook facebook = new Facebook("341284062604349");
     // permissions array
@@ -52,22 +52,18 @@ public class SessionLoginActivity extends Activity {
 		final String username = ((TextView) findViewById (R.id.edittext_username)).getText ().toString ();
 		final String password = ((TextView) findViewById (R.id.edittext_password)).getText ().toString ();
 
-		(new AsyncTask<Activity, String, String>() {
-
+		
+		SessionController.getInstance().login (username, password, new OnCompletedCallback() {
+			
 			@Override
-			protected String doInBackground(Activity... params) {
-				try {
-					// intentar iniciar sesión
-					SessionController.getInstance().login (username, password);
-			        
+			public void onCompleted(String response, String error) {
+				if (error != null) {
+					CommonUtilities.showAlertMessage (SessionLoginActivity.this, "Error SLA bloc", error);
+				} else {
 					onLoginSuccess();
-		        }
-				catch (Exception e) {
-			        CommonUtilities.showAlertMessage (SessionLoginActivity.this, "Error SLA bloc", e.getMessage());
-		        }
-				return "";
+				}
 			}
-		}).execute(this);
+		});
 
     }
     
@@ -87,22 +83,18 @@ public class SessionLoginActivity extends Activity {
             public void onComplete(Bundle values) {
             	final String token = facebook.getAccessToken();
             	
-            	(new AsyncTask<Activity, String, String>() {
-
-        			@Override
-        			protected String doInBackground(Activity... params) {
-        				try {
-        					// intentar iniciar sesión
-        					SessionController.getInstance().loginExternal("facebook", token);
-        			        
-        					onLoginSuccess();
-        		        }
-        				catch (Exception e) {
-        			        CommonUtilities.showAlertMessage (params[0], "Error SLA bloc", e.getMessage());
-        		        }
-        				return "";
-        			}
-        		}).execute(thisActivity);
+				// intentar iniciar sesión
+				SessionController.getInstance().loginExternal("facebook", token, new OnCompletedCallback() {
+					
+					@Override
+					public void onCompleted(String response, String error) {
+						if (error != null) {
+							CommonUtilities.showAlertMessage (SessionLoginActivity.this, "Error SLA bloc", error);
+						} else {
+							onLoginSuccess();
+						}
+					}
+				});
             }
 
             @Override
@@ -126,56 +118,9 @@ public class SessionLoginActivity extends Activity {
     
     public void onLoginSuccess() {
     	// Inicializar GCM
-    	InitGCM();
+    	GCMServer.InitGCM(this);
     	// Ir al mapa
         Intent intent = new Intent(this, MapaActivity.class);
 		startActivity(intent);
-    }
-    
-    public void InitGCM() {
-        GCMRegistrar.checkDevice(this);
-        GCMRegistrar.checkManifest(this);
-        
-        final String regId = GCMRegistrar.getRegistrationId(this);
-        if (regId.equals("")) {
-            // Automatically registers application on startup.
-            GCMRegistrar.register(this, SENDER_ID);
-        } else {
-            // Device is already registered on GCM, check server.
-            //if (GCMRegistrar.isRegisteredOnServer(this)) {
-                // Skips registration.
-                // mDisplay.append(getString(R.string.already_registered) + "\n");
-            //} else {
-                // Try to register again, but not in the UI thread.
-                // It's also necessary to cancel the thread onDestroy(),
-                // hence the use of AsyncTask instead of a raw thread.
-                final Context context = this;
-                mRegisterTask = new AsyncTask<Void, Void, Void>() {
-
-                    @Override
-                    protected Void doInBackground(Void... params) {
-                        boolean registered =
-                                GCMServer.register(context, regId);
-                        // At this point all attempts to register with the app
-                        // server failed, so we need to unregister the device
-                        // from GCM - the app will try to register again when
-                        // it is restarted. Note that GCM will send an
-                        // unregistered callback upon completion, but
-                        // GCMIntentService.onUnregistered() will ignore it.
-                        if (!registered) {
-                            GCMRegistrar.unregister(context);
-                        }
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void result) {
-                        mRegisterTask = null;
-                    }
-
-                };
-                mRegisterTask.execute(null, null, null);
-            //}
-        }
     }
 }

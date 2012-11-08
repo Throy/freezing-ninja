@@ -59,9 +59,9 @@ public class ProductBuyAddItemActivity extends Activity {
 
 		viewProductId.setText (productId);
 		viewName.setText (productName);
-		viewPriceUnit.setText ("$ " + priceUnit);
+		viewPriceUnit.setText (CommonUtilities.doubleToPrice (priceUnit));
 		viewUnits.setText ("" + units);
-		viewPriceTotal.setText ("$ " + priceUnit * units);
+		viewPriceTotal.setText (CommonUtilities.doubleToPrice (priceUnit * units));
 
 		// agregar listener al campo viewUnits para actualizar el precio.
 		viewUnits.addTextChangedListener (new TextWatcher() {
@@ -80,7 +80,7 @@ public class ProductBuyAddItemActivity extends Activity {
 				}
 				
 				TextView viewPriceTotal = (TextView) findViewById (R.id.textview_pricetotal);
-				viewPriceTotal.setText ("$ " + priceUnit * units);
+				viewPriceTotal.setText (CommonUtilities.doubleToPrice (priceUnit * units));
 			}
 			
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {

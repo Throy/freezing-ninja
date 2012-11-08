@@ -8,11 +8,15 @@ import java.util.Map;
 
 import georeduy.client.model.RetailStore;
 import georeduy.client.model.Site;
+import georeduy.client.util.CommonUtilities;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.IGPSActivity;
 import georeduy.client.util.MagicPositionOverlay;
+import georeduy.client.util.MenuHandler;
 import georeduy.client.util.OnCompletedCallback;
 import georeduy.client.activities.R;
+import georeduy.client.controllers.ClientsController;
+import georeduy.client.controllers.NotificationsController;
 import georeduy.client.controllers.ProductsController;
 import georeduy.client.controllers.SitesController;
 import georeduy.client.util.GPS;
@@ -37,8 +41,10 @@ import com.google.gson.Gson;
 
 import android.R.integer;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
@@ -46,11 +52,15 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
-public class MapaActivity extends MapActivity /*implements IGPSActivity */{
+import com.actionbarsherlock.app.SherlockMapActivity;
+import com.actionbarsherlock.app.SherlockMapActivity2;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
+public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity */{
 	// mapa
 	private MapView mapView;
 
@@ -68,11 +78,14 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     
     // overlay de sitios
     private SiteMapOverlay siteMapOverlay;
+    private List<Site> currentSites = new ArrayList<Site>();
     
     // overlay de locales
     private StoreMapOverlay storeMapOverlay;
-	
+    private List<RetailStore> currentStores = new ArrayList<RetailStore>();
+    
     private RadiusOverlay radiusOverlay;
+    private MenuHandler menuHandler;
 
 
 	@Override
@@ -81,7 +94,7 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 		//gps = new GPS(this);
 		
 		setContentView (georeduy.client.activities.R.layout.activity_main);
-		mlocManager = (LocationManager) ((Activity) this).getSystemService(Context.LOCATION_SERVICE);
+		mlocManager = (LocationManager)((Activity)this).getSystemService(Context.LOCATION_SERVICE);
         mlocListener = new MyLocationListener();
         mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
 
@@ -158,6 +171,13 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
 			        }
 		        });
         
+        menuHandler = new MenuHandler(this);
+        
+        registerReceiver(m_newSiteReceiver,
+                new IntentFilter(CommonUtilities.NEW_SITE_ACTION));
+        
+        registerReceiver(m_newStoreReceiver,
+                new IntentFilter(CommonUtilities.NEW_STORE_ACTION));
 	}
 		
 	@Override
@@ -174,8 +194,8 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
         	int longitude = (int)(loc.getLongitude()*1E6);
         	androidOverlay.removeOverlay(itemRobotito);
         	radiusOverlay.point = new GeoPoint(latitude, longitude);
-        	storeMapOverlay.clear();
-			siteMapOverlay.clear();
+        	//storeMapOverlay.clear();
+			//siteMapOverlay.clear();
         	
         	GeoPoint nuevaUbicacion = new GeoPoint(latitude, longitude);
         	itemRobotito = new OverlayItem(nuevaUbicacion, "Me", "This is where you are :)");
@@ -233,12 +253,13 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     
     // actualiza los sitios del mapa
     private void updateSites (List <Site> sites) {
+		currentSites = sites;
 		siteMapOverlay.clear ();
 		if (sites != null) {
     		for (Site sitio : sites)
     		{
-    			double lat =  sitio.getCoordinates() [0]*1e6;
-    			double longitud = sitio.getCoordinates() [1]*1e6;
+    			double lat =  sitio.getCoordinates() [1]*1e6;
+    			double longitud = sitio.getCoordinates() [0]*1e6;
     			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
     			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress(), sitio.getId ());
     			siteMapOverlay.addOverlay (overlayitem);
@@ -256,8 +277,8 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     		
     		for (RetailStore store : stores)
     		{
-    			double lat =  store.getCoordinates() [0]*1e6;
-    			double longitud = store.getCoordinates() [1]*1e6;
+    			double lat =  store.getCoordinates() [1]*1e6;
+    			double longitud = store.getCoordinates() [0]*1e6;
     			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
     			MapOverlayItem overlayitem = new MapOverlayItem(point2, store.getName(), store.getName(), store.getAddress(), store.getId ());
     			storeMapOverlay.addOverlay (overlayitem);    							    			
@@ -268,14 +289,17 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	// mostrar menú con opciones
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.map_menu, menu);
+        
+        menuHandler.onCreateOptionsMenu(menu);
+        
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+    	
+    	menuHandler.onOptionsItemSelected(item);
+    	
         switch(item.getItemId()) {
             case R.id.contacts_menu:
             	Intent myIntent = new Intent(this, ContactListActivity.class);
@@ -292,4 +316,43 @@ public class MapaActivity extends MapActivity /*implements IGPSActivity */{
         }
     }
 
+	@Override
+    public void onBackPressed() {
+	    if (!menuHandler.hideAll())
+	    	super.onBackPressed();
+    }
+    
+	public void button_user_item_rem_onClick (View view) {
+		// obtener el id del usuario
+    	String userId = ((TextView) ((View) view.getParent ()).findViewById (R.id.user_id)).getText ().toString ();
+
+		menuHandler.onRemoveContact(userId);
+    }
+
+	@Override
+    protected void onResume() {
+		menuHandler.refreshContactList();
+		
+	    super.onResume();
+    }    
+	
+	private final BroadcastReceiver m_newSiteReceiver =
+            new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+        	List<Site> newSites = NotificationsController.getInstance().getNewSites();
+        	currentSites.addAll(newSites);
+        	updateSites (currentSites); 
+        }
+    };
+    
+    private final BroadcastReceiver m_newStoreReceiver =
+            new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+        	List<RetailStore> newStores = NotificationsController.getInstance().getNewStores();
+        	currentStores.addAll(newStores);
+        	updateStores (currentStores); 
+        }
+    };
 }

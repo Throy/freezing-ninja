@@ -40,7 +40,8 @@
 	<uses-library android:name="com.google.android.maps" />
         <activity
             android:name=".SessionLoginActivity"
-            android:label="@string/title_activity_session_login" >
+            android:label="@string/title_activity_session_login" 
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

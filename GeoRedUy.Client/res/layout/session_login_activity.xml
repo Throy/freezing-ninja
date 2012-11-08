@@ -3,8 +3,10 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/backrepeat"
     android:orientation="vertical"
-    android:scrollbars="vertical" >
+    android:scrollbars="vertical"
+    android:tileMode="repeat" >
 
     <!-- session_login_activity -->
 
@@ -16,13 +18,20 @@
 
 
     <!-- user name -->
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/main_logo" />
 
     <LinearLayout
         android:id="@+id/LinearLayout01"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -30,7 +39,9 @@
             android:layout_weight="1"
             android:text="@string/textview_username"
             android:textSize="18dip"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -38,15 +49,18 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-
+
         <EditText
             android:id="@+id/edittext_username"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="5dip"
+            android:layout_margin="15dip"
             android:layout_weight="2"
+            android:background="@drawable/edit_type_2"
             android:hint="@string/edittext_session_login_username_hint"
+            android:padding="8dip"
             android:textSize="18dip" />
+
     </LinearLayout>
 
     <!-- password -->
@@ -56,7 +70,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -64,7 +78,9 @@
             android:layout_weight="1"
             android:text="@string/textview_password"
             android:textSize="18dip"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -72,54 +88,66 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-
+
         <EditText
             android:id="@+id/edittext_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="5dip"
+            android:layout_margin="15dip"
             android:layout_weight="2"
+            android:background="@drawable/edit_type_2"
             android:hint="@string/edittext_session_login_password_hint"
             android:inputType="textPassword"
+            android:padding="8dip"
             android:textSize="18dip" />
+
     </LinearLayout>
 
     <!-- login button -->
-
+
     <LinearLayout
         android:id="@+id/LinearLayout03"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:orientation="vertical" >
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dip"
+            android:layout_weight="0.00"
+            android:background="@drawable/button_type_2"
+            android:onClick="button_login_onClick"
+            android:text="@string/button_session_login"
+            android:textSize="18dip" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dip"
+            android:layout_marginRight="15dip"
+            android:background="@drawable/button_type_2"
+            android:onClick="button_register_onClick"
+            android:text="@string/button_session_register"
+            android:textSize="18dip" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dip"
+            android:background="@drawable/button_type_2"
+            android:onClick="button_session_register_fbk_onClick"
+            android:text="@string/button_session_register_fbk"
+            android:textSize="18dip" />
 
         <Button
-            android:text="@string/button_session_login"
-	        android:layout_width="fill_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:onClick="button_login_onClick"
-            android:textSize="18dip" />
-        <Button
-            android:text="@string/button_session_register"
-	        android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="button_register_onClick"
-            android:textSize="18dip" />
-	 	
-	 	<Button
-	        android:text="@string/button_session_register_fbk"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	    	android:onClick="button_session_register_fbk_onClick"
-            android:textSize="18dip" />
-	 	
-	 	<Button
-	        android:text="@string/button_main_menu"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	    	android:onClick="button_main_menu_onClick"
-            android:textSize="18dip" />
-	 	
+            android:onClick="button_main_menu_onClick"
+            android:text="@string/button_main_menu"
+            android:textSize="18dip"
+            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>

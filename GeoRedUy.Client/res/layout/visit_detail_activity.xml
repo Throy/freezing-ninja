@@ -140,5 +140,5 @@
         android:layout_height="wrap_content"
  	    android:layout_below="@id/button_visit_item"
     	android:layout_margin="5dip"
-        android:textSize="15dip"/>
+        android:textSize="18dip"/>
 </RelativeLayout>

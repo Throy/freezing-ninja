@@ -2,6 +2,7 @@ package georeduy.server.persistence;
 
 
 import georeduy.server.logic.model.Comment;
+import georeduy.server.logic.model.Event;
 import georeduy.server.logic.model.Product;
 import georeduy.server.logic.model.RetailStore;
 import georeduy.server.logic.model.Retailer;
@@ -30,6 +31,7 @@ public final class MongoConnectionManager {
 
 			morphia.map(User.class).map(UserData.class);
 			morphia.map(Comment.class);
+			morphia.map(Event.class);
 			morphia.map(Site.class);
 			morphia.map(Visit.class);
 			morphia.map(Tag.class);

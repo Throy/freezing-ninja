@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%@ page import="georeduy.backend.model.*, java.util.List" %>
+<%@ page import="georeduy.backend.model.*, java.util.List, georeduy.backend.util.Base64" %>
 
 <%
     String newSite = (String)request.getAttribute("NewSite");
@@ -54,65 +54,73 @@
 <div id="map_canvas" style="width: 500px; height:385px; margin-top:35px; margin-left:50px; margin-bottom:20px; border-style:outset; border-width:2px; border-color:Gray; box-shadow:0 1px 2px #aaa; -moz-box-shadow:0 2px 3px #AAAAAA; float:left"  ></div>
 <script type="text/javascript">googleMapsInitialize();</script>
 
-<form action="?AddSite" method="post">    
+<form action="/GeoRedUy.Server/Sites/add" method="post" enctype="multipart/form-data">    
 	<div class="reg-box big-red" style="margin:20px 40px 0px auto; float:right">
         <fieldset>
             <div class="editor-label">
-                <label for="Name">Name</label>
+                <label for="Name">Nombre</label>
             </div>
             <div class="editor-field">
-                <input data-val="true" data-val-required="The Name field is required." id="Name" name="Name" type="text" value="" />
+                <input data-val="true" data-val-required="The Name field is required." id="name" name="name" type="text" value="" />
                 <span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
             </div>
 
             <div class="editor-label">
-                <label for="Description">Description</label>
+                <label for="Description">Descripción</label>
             </div>
             <div class="editor-field">
-                <input data-val="true" data-val-required="The Description field is required." id="Description" name="Description" type="text" value="" />
+                <input data-val="true" data-val-required="The Description field is required." id="description" name="description" type="text" value="" />
                 <span class="field-validation-valid" data-valmsg-for="Description" data-valmsg-replace="true"></span>
             </div>
             
             <div class="editor-label">
-                <label for="Address">Address</label>
+                <label for="Address">Dirección</label>
             </div>
             <div class="editor-field">
-                <input data-val="true" data-val-required="The Address field is required." id="Address" name="Address" type="text" value="" />
+                <input data-val="true" data-val-required="The Address field is required." id="address" name="address" type="text" value="" />
                 <span class="field-validation-valid" data-valmsg-for="Address" data-valmsg-replace="true"></span>
             </div>
             
             <div class="editor-label">
-                <label for="Latitude">Latitude</label>
+                <label for="Latitude">Latitud</label>
             </div>
             <div class="editor-field">
-                <input data-val="true" data-val-required="The Latitude field is required." id="Latitude" name="Latitude" type="text" value="" />
+                <input data-val="true" data-val-required="The Latitude field is required." id="latitude" name="latitude" type="text" value="" />
                 <span class="field-validation-valid" data-valmsg-for="Latitude" data-valmsg-replace="true"></span>
             </div>
             
             <div class="editor-label">
-                <label for="Longitude">Longitude</label>
+                <label for="Longitude">Longitud</label>
             </div>
             <div class="editor-field">
-                <input data-val="true" data-val-required="The Longitude field is required." id="Longitude" name="Longitude" type="text" value="" />
+                <input data-val="true" data-val-required="The Longitude field is required." id="longitude" name="longitude" type="text" value="" />
                 <span class="field-validation-valid" data-valmsg-for="Longitude" data-valmsg-replace="true"></span>
             </div>
             
             <div class="editor-label">
-                <label for="ImageUrl">Image url</label>
+                <label for="Radius">Radio (metros)</label>
             </div>
             <div class="editor-field">
-                <input id="ImageUrl" name="ImageUrl" type="text" value="" />
+                <input data-val="true" data-val-required="Por favor ingrese el radio." id="radius" name="radius" type="text" value="" />
+                <span class="field-validation-valid" data-valmsg-for="Radius" data-valmsg-replace="true"></span>
             </div>
             
             <div class="editor-label">
-                <label for="Tags">Tags</label>
+                <label for="ImageUrl">Imagen a subir</label>
             </div>
             <div class="editor-field">
-                <input id="Tags" name="Tags" type="text" value="" />
+                <input type="file" name="imageData" size="50" />
+            </div>
+            
+            <div class="editor-label">
+                <label for="Tags">Etiquetas</label>
+            </div>
+            <div class="editor-field">
+                <input id="Tags" name="tags" type="text" value="" />
             </div>
 
             <p>
-                <input type="submit" value="Add site" style="display:none;" id="WorkaroundForOperaInputFocusBorderBug" />
+                <input type="submit" value="Agregar sitio" style="display:none;" id="WorkaroundForOperaInputFocusBorderBug" />
                 <input type="submit"  class="boton-big-red" value="Add site" />
             </p>
         </fieldset>
@@ -129,7 +137,7 @@
 		        <div class="shadowr">
 		            <div class="int">
 		           		<div class="img" style="float:left;">
-	                    	<img class="image" style="margin:0;" width="48px" src="/GeoRedUy.BackEnd/media/images/Thumb/Site.png" alt="Image" />
+	                    	<img class="image" style="margin:0;" width="48px" src='data:image/gif;base64,<%=Base64.encodeBytes(site.getImage())%>' alt="Image" />
 	                    </div>
 		                <div class="body">
 		                    <div class="title" style="float:left;margin-right:10px;">
@@ -142,9 +150,8 @@
 		                    </div>
 		                    <div class="footer">
 		                        Address: <%=site.getAddress()%> 
-		                    	Latitude: <%=site.getCoordinates()[1]%>
-		                    	Longitude: <%=site.getCoordinates()[0]%>
-		                        
+		                    	Latitude: <%=site.getCoordinates()[0]%>
+		                    	Longitude: <%=site.getCoordinates()[1]%>
 		                        <div class="likes">
 		                        	<% for (Tag tag: site.getTags()) { %>
 		                        		<%=tag.getName()%>

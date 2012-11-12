@@ -142,41 +142,41 @@ public class InitDatabase {
         Site site = new Site();
         site.setName ("Puerto del Buceo");
         site.setDescription ("Paseo maritimo");
+        site.setAddress ("Rambla del Buceo");
     	Double[] coordinates1 = {-56.133, -34.908};
     	site.setCoordinates (coordinates1);
-        site.setAddress ("Rambla del Buceo");
-        site.setImageUrl ("site_buceo.jpg");
-        site.setTags (null);
+    	site.setRadius (300);
+        site.setImage ("site_buceo.jpg".getBytes());
         siteDao.saveSite(site);
 
         site = new Site();
         site.setName ("Parador del Kibon");
         site.setDescription ("Local de fiestas");
+        site.setAddress ("Rambla de Kibon");
     	Double[] coordinates2 = {-56.138, -34.911};
     	site.setCoordinates (coordinates2);
-        site.setAddress ("Rambla de Kibon");
-        site.setImageUrl ("site_kibon.jpg");
-        site.setTags (null);
+    	site.setRadius (300);
+        site.setImage ("site_kibon.jpg".getBytes());
         siteDao.saveSite(site);
 
         site = new Site();
         site.setName ("Punta de Trouville");
         site.setDescription ("Parque publico");
+        site.setAddress ("Rambla de Trouville");
     	Double[] coordinates3 = {-56.148, -34.920};
     	site.setCoordinates (coordinates3);
-        site.setAddress ("Rambla de Trouville");
-        site.setImageUrl ("site_kibon.jpg");
-        site.setTags (null);
+    	site.setRadius (300);
+        site.setImage("site_trouv.jpg".getBytes());
         siteDao.saveSite(site);
 
         site = new Site();
         site.setName ("Punta Carretas");
         site.setDescription ("Fin de Montevideo");
+        site.setAddress ("Rambla de Punta Carretas");
     	Double[] coordinates4 = {-56.160, -34.930};
     	site.setCoordinates (coordinates4);
-        site.setAddress ("Rambla de Punta Carretas");
-        site.setImageUrl ("site_kibon.jpg");
-        site.setTags (null);
+    	site.setRadius (300);
+        site.setImage ("site_pcarr.jpg".getBytes());
         siteDao.saveSite(site);
     }
 
@@ -208,7 +208,7 @@ public class InitDatabase {
     	product.setDescription ("Calzado para correr más");
     	product.setImageUrl ("nike_shox.jpg");
     	product.setPrice ("4900");
-    	product.setReleaseDate (new Date (2012, 10, 6, 4, 9));
+    	product.setReleaseDate (new Date (2012, 10, 22, 4, 9));
     	ProductsController.getInstance ().newProduct (product, retailer.getId ());
 
     	product = new Product();
@@ -216,7 +216,7 @@ public class InitDatabase {
     	product.setDescription ("Remera para sudar mas");
     	product.setImageUrl ("nike_barca.jpg");
     	product.setPrice ("3800");
-    	product.setReleaseDate (new Date (2012, 10, 6, 3, 8));
+    	product.setReleaseDate (new Date (2012, 10, 22, 3, 8));
     	ProductsController.getInstance ().newProduct (product, retailer.getId ());
 
     	product = new Product();
@@ -224,7 +224,7 @@ public class InitDatabase {
     	product.setDescription ("Balón para meter más goles");
     	product.setImageUrl ("nike_total90.jpg");
     	product.setPrice ("1200");
-    	product.setReleaseDate (new Date (2012, 10, 6, 12, 0));
+    	product.setReleaseDate (new Date (2012, 10, 22, 12, 0));
     	ProductsController.getInstance ().newProduct (product, retailer.getId ());
     	
     	// locales nike
@@ -273,7 +273,7 @@ public class InitDatabase {
     	product.setDescription ("Big Mac, refresco y papas fritas");
     	product.setImageUrl ("mcd_mccombo1.jpg");
     	product.setPrice ("220");
-    	product.setReleaseDate (new Date (2012, 10, 6, 22, 0));
+    	product.setReleaseDate (new Date (2012, 10, 22, 22, 0));
     	ProductsController.getInstance ().newProduct (product, retailer.getId ());
 
     	product = new Product();
@@ -281,7 +281,7 @@ public class InitDatabase {
     	product.setDescription ("Hamburguesita, papitas y sorpsita");
     	product.setImageUrl ("mcd_cajita_feliz.jpg");
     	product.setPrice ("160");
-    	product.setReleaseDate (new Date (2012, 10, 6, 16, 0));
+    	product.setReleaseDate (new Date (2012, 10, 22, 16, 0));
     	ProductsController.getInstance ().newProduct (product, retailer.getId ());
 
     	product = new Product();
@@ -289,7 +289,7 @@ public class InitDatabase {
     	product.setDescription ("Helado de crema con dulce de leche");
     	product.setImageUrl ("mcd_mctwist_lapataia.jpg");
     	product.setPrice ("80");
-    	product.setReleaseDate (new Date (2012, 10, 6, 8, 8));
+    	product.setReleaseDate (new Date (2012, 10, 22, 8, 8));
     	ProductsController.getInstance ().newProduct (product, retailer.getId ());
     	
     	// locales mcdonald's
@@ -338,7 +338,7 @@ public class InitDatabase {
     	product.setDescription("Las manzanas mas ricas");
     	product.setImageUrl("multi_manzanas.jpg");
     	product.setPrice("20");
-    	product.setReleaseDate (new Date (2012, 10, 6, 20, 2));
+    	product.setReleaseDate (new Date (2012, 10, 22, 20, 2));
     	ProductsController.getInstance ().newProduct (product, retailer.getId ());
     	
     	product = new Product();
@@ -346,7 +346,7 @@ public class InitDatabase {
     	product.setDescription("El pan mas crocante");
     	product.setImageUrl("multi_panflauta.jpg");
     	product.setPrice("15");
-    	product.setReleaseDate (new Date (2012, 10, 6, 15, 0));
+    	product.setReleaseDate (new Date (2012, 10, 22, 15, 0));
     	ProductsController.getInstance ().newProduct (product, retailer.getId ());
     	
     	product = new Product();
@@ -354,7 +354,7 @@ public class InitDatabase {
     	product.setDescription("El jugo mas acido");
     	product.setImageUrl("multi_exprimido.jpg");
     	product.setPrice("35");
-    	product.setReleaseDate (new Date (2012, 10, 6, 3, 5));
+    	product.setReleaseDate (new Date (2012, 10, 22, 3, 5));
     	ProductsController.getInstance ().newProduct (product, retailer.getId ());
     	
     	// locales multiahorro

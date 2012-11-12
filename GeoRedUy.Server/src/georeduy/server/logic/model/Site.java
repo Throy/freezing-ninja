@@ -8,7 +8,6 @@ import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Property;
-import com.google.code.morphia.annotations.Reference;
 import com.google.code.morphia.annotations.Transient;
 import com.google.code.morphia.utils.IndexDirection;
 
@@ -30,8 +29,12 @@ public class Site {
     @Indexed(IndexDirection.GEO2D)
     public Double[] coordinates = new Double[2];
     
+    // radio para visitas, en metros
     @Property
-    private String imageUrl;
+    private int radius;
+    
+    @Property
+    private byte[] image;
     
     @Property
     private List<String> tags = new ArrayList<String>();
@@ -89,14 +92,29 @@ public class Site {
 		this.coordinates = coordinates;
 	}
 
+	/**
+	 * @return the radius
+	 */
+	public int getRadius ()
+	{
+		return radius;
+	}
 
-	public String getImageUrl() {
-		return imageUrl;
+	/**
+	 * @param radius the radius to set
+	 */
+	public void setRadius (int radius)
+	{
+		this.radius = radius;
+	}
+
+	public byte[] getImage() {
+		return image;
 	}
 
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 	public List<String> getTagsIds() {

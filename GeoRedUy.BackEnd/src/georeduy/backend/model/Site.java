@@ -11,7 +11,11 @@ public class Site {
     private String description;
     private String address;
     private Double[] coordinates = new Double[2];
-    private String imageUrl;
+    
+    // radio para visitas, en metros
+    private int radius;
+    
+    private byte[] image;
     private List<Tag> realTags = new ArrayList<Tag>();
 
 	public String getId() {
@@ -64,13 +68,31 @@ public class Site {
 	}
 
 
-	public String getImageUrl() {
-		return imageUrl;
+	/**
+	 * @return the radius
+	 */
+	public int getRadius ()
+	{
+		return radius;
 	}
 
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	/**
+	 * @param radius the radius to set
+	 */
+	public void setRadius (int radius)
+	{
+		this.radius = radius;
+	}
+
+
+	public byte[] getImage() {
+		return image;
+	}
+
+
+	public void setImageUrl(byte[] image) {
+		this.image = image;
 	}
 
 

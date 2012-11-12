@@ -85,8 +85,8 @@
     <string name="button_user_item_add">Agregar</string>
     <string name="button_user_item_rem">Quitar</string>
     
-    <string name="button_configure_notitags">Notiquetas</string>
-    <string name="button_configure_notitypes">Notitipos</string>
+    <string name="button_configure_notitags">Etiquetas de notif.</string>
+    <string name="button_configure_notitypes">Tipos de notif.</string>
     
     <!-- edittexts -->
     

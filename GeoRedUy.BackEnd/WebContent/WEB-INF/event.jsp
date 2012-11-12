@@ -1,3 +1,5 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@ page import="georeduy.backend.model.*, java.util.List" %>
@@ -7,14 +9,14 @@
 	String errorMsg = (String)request.getAttribute("ErrorMsg");
 	List<Event> events = (List<Event>)request.getAttribute("Events");
  %>
-<script type="text/javascript" src="/WebContent/scripts/jquery.validate.min.js"></script>
-<script type="text/javascript" src="/WebContent/scripts/jquery.validate.unobtrusive.min.js"></script>
-<script type="text/javascript" src="/WebContent/scripts/jquery-ui-1.8.11.js"></script>
-<link href="/WebContent/scripts/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="/GeoRedUy.BackEnd/scripts/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/GeoRedUy.BackEnd/scripts/jquery.validate.unobtrusive.min.js"></script>
+<script type="text/javascript" src="/GeoRedUy.BackEnd/scripts/jquery-ui-1.8.11.js"></script>
+<link href="/GeoRedUy.BackEnd/scripts/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css"/>
 
 
 <script type="text/javascript">
-    $(document).ready(function () {alert("!"); $('.date').datepicker({ dateFormat: "dd/mm/yy" }); });   
+    $(document).ready(function () { $('.date').datepicker({ dateFormat: "dd/mm/yy" }); });   
 </script>
 
 <%=(errorMsg!=null)?errorMsg:""%>
@@ -151,6 +153,8 @@
 		                    </div>
 		                    <div style="float:left;">
 		                        <%=event.getDescription()%>
+		                        <%DateFormat df = new SimpleDateFormat("dd/MM/yyyy"); %>
+		                        <%=df.format(event.getDate())%> 
 		                        <br />
 		                        
 		                    </div>

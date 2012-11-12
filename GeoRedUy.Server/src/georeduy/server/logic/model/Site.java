@@ -99,7 +99,7 @@ public class Site {
 	{
 		return radius;
 	}
-
+	
 	/**
 	 * @param radius the radius to set
 	 */
@@ -111,7 +111,6 @@ public class Site {
 	public byte[] getImage() {
 		return image;
 	}
-
 
 	public void setImage(byte[] image) {
 		this.image = image;

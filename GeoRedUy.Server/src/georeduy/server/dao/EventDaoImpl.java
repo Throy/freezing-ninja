@@ -59,7 +59,7 @@ public class EventDaoImpl extends BasicDAO<Event, ObjectId> implements IEventDao
 	@Override
     public List<Event> getNearEvents(double latitude, double longitude, double radius) {
 		double miles = 0.0034997840172;
-		List<Event> events = createQuery().field("coordinates").within(latitude, longitude, miles).asList();
+		List<Event> events = createQuery().field("coordinates").within(longitude, latitude, miles).asList();
 		events = ResolveReferences(events);
 	    if (events.size() > 0)
 	    	return events;

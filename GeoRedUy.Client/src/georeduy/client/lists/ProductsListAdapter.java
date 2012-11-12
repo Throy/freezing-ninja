@@ -9,6 +9,7 @@ package georeduy.client.lists;
 
 import georeduy.client.activities.ProductsListActivity;
 import georeduy.client.activities.R;
+import georeduy.client.util.CommonUtilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,7 +82,7 @@ public class ProductsListAdapter extends BaseAdapter {
         viewProductId.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_ID).toString ());
         viewName.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_NAME));
         viewDescription.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_DESCRIPTION));
-        viewPrice.setText ("$ " + itemString.get (ProductsListActivity.PRODUCT_ITEM_PRICE));
+        viewPrice.setText (CommonUtilities.stringToPrice (itemString.get (ProductsListActivity.PRODUCT_ITEM_PRICE)));
         viewDate.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_DATE));
         //imageLoader.DisplayImage(item.get (ProductsListActivity.ITEM_THUMB), thumb_image);
 

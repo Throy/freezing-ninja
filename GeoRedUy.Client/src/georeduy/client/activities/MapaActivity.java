@@ -1,6 +1,8 @@
 package georeduy.client.activities;
 
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.Map;
 
 import georeduy.client.model.RetailStore;
 import georeduy.client.model.Site;
+import georeduy.client.model.Event;
 import georeduy.client.util.CommonUtilities;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.IGPSActivity;
@@ -16,6 +19,7 @@ import georeduy.client.util.MenuHandler;
 import georeduy.client.util.OnCompletedCallback;
 import georeduy.client.activities.R;
 import georeduy.client.controllers.ClientsController;
+import georeduy.client.controllers.EventsController;
 import georeduy.client.controllers.NotificationsController;
 import georeduy.client.controllers.ProductsController;
 import georeduy.client.controllers.SitesController;
@@ -23,6 +27,7 @@ import georeduy.client.util.GPS;
 import georeduy.client.util.GPS.MyLocationListener;
 
 import georeduy.client.maps.CustomItemizedOverlay;
+import georeduy.client.maps.EventOverlay;
 import georeduy.client.maps.RadiusOverlay;
 import georeduy.client.maps.SiteMapOverlay;
 import georeduy.client.maps.MapOverlayItem;
@@ -64,25 +69,35 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
 	// mapa
 	private MapView mapView;
 
-	// cordenadas de Atenas
-	private static final int latitudeE6 = 37985339;
-	private static final int longitudeE6 = 23716735;
-	private static final int latitudeE5 = -34892830;
-	private static final int longitudeE5 = -56130030;
+	// cordenadas de Montevideo
+	private static final int latitudeE5 = -34892000;
+	private static final int longitudeE5 = -56130000;
+
+	public static final String START_NOTI_CONFIG = "georedut.MapaActivity.START_NOTI_CONFIG";
+	public static final String START_NOTI_CONFIG_TRUE = "georedut.MapaActivity.START_NOTI_CONFIG.TRUE";
+	
 	private LocationListener mlocListener;
     private LocationManager mlocManager;
     private CustomItemizedOverlay androidOverlay;
-    OverlayItem itemRobotito;
+    
+    private OverlayItem itemRobotito;
+
+    public static int latitudCurrent;
+    public static int longitudCurrent;
+    
 	//MagicPositionOverlay androidOverlay;	 
 	//private GPS gps;
     
     // overlay de sitios
     private SiteMapOverlay siteMapOverlay;
-    private List<Site> currentSites = new ArrayList<Site>();
+    public static List<Site> currentSites = new ArrayList<Site>();
     
     // overlay de locales
     private StoreMapOverlay storeMapOverlay;
     private List<RetailStore> currentStores = new ArrayList<RetailStore>();
+    
+    private EventOverlay eventMapOverlay;
+    private List<Event> currentEvents = new ArrayList<Event>();
     
     private RadiusOverlay radiusOverlay;
     private MenuHandler menuHandler;
@@ -94,6 +109,25 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
 		//gps = new GPS(this);
 		
 		setContentView (georeduy.client.activities.R.layout.activity_main);
+		
+		// si es usuario nuevo, mostrar configuración de notificaciones
+        String startNotiConfig = getIntent().getStringExtra (MapaActivity.START_NOTI_CONFIG);
+        
+        try {
+	        if (startNotiConfig.equals (START_NOTI_CONFIG_TRUE)) {
+	        	Intent intent_notitags = new Intent (this, ConfigureNotificationsTagsActivity.class);
+	        	startActivity (intent_notitags);
+	        	
+	        	Intent intent_notitypes = new Intent (this, ConfigureNotificationsTypesActivity.class);
+	        	startActivity (intent_notitypes);
+	        }
+        }
+        catch (Exception ex) {
+        	// no hacer nada.
+        }
+		
+		// inicializar mapa
+		
 		mlocManager = (LocationManager)((Activity)this).getSystemService(Context.LOCATION_SERVICE);
         mlocListener = new MyLocationListener();
         mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
@@ -109,6 +143,8 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
 		Drawable drawableCasita = this.getResources().getDrawable (R.drawable.place);
 		siteMapOverlay = new SiteMapOverlay (drawableCasita, this);
 		
+		Drawable drawableCalendario = this.getResources().getDrawable (R.drawable.calendar);
+		eventMapOverlay = new EventOverlay(drawableCalendario, this);
 		
 		Drawable drawableAndroid = this.getResources().getDrawable (R.drawable.android);
 		androidOverlay = new CustomItemizedOverlay(drawableAndroid, this);
@@ -128,6 +164,7 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
 		mapOverlays.add (siteMapOverlay);
 		mapOverlays.add (storeMapOverlay);
 		mapOverlays.add(androidOverlay);
+		mapOverlays.add(eventMapOverlay);
 		
 
 		// encuadrar mapa en Atenas
@@ -171,6 +208,20 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
 			        }
 		        });
         
+        EventsController.getInstance().getEventsByPosition (latitudeE5, longitudeE5, 
+		        new OnCompletedCallback() {
+
+			        @Override
+			        public void onCompleted(String response, String error) {
+			        	if (error == null)  {
+				        	Gson gson = new Gson();
+				        	Type listType = new TypeToken<ArrayList<Event>>() {}.getType();				    		
+				    		List<Event> events = gson.fromJson(response, listType);
+				    		updateEvents(events);
+			    		}
+			        }
+		        });
+        
         menuHandler = new MenuHandler(this);
         
         registerReceiver(m_newSiteReceiver,
@@ -190,23 +241,23 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
 
         @Override
         public void onLocationChanged(Location loc) {
-        	int latitude = (int)(loc.getLatitude()*1E6);
-        	int longitude = (int)(loc.getLongitude()*1E6);
+        	latitudCurrent = (int)(loc.getLatitude()*1E6);
+        	longitudCurrent = (int)(loc.getLongitude()*1E6);
         	androidOverlay.removeOverlay(itemRobotito);
-        	radiusOverlay.point = new GeoPoint(latitude, longitude);
+        	radiusOverlay.point = new GeoPoint(latitudCurrent, longitudCurrent);
         	//storeMapOverlay.clear();
 			//siteMapOverlay.clear();
         	
-        	GeoPoint nuevaUbicacion = new GeoPoint(latitude, longitude);
-        	itemRobotito = new OverlayItem(nuevaUbicacion, "Me", "This is where you are :)");
+        	GeoPoint nuevaUbicacion = new GeoPoint(latitudCurrent, longitudCurrent);
+        	itemRobotito = new OverlayItem (nuevaUbicacion, "Vos", "Ésta es tu ubicación.");
         	
 			androidOverlay.addOverlay(itemRobotito);
 			
-            mapView.getController().animateTo(new GeoPoint(latitude, longitude));
+            mapView.getController().animateTo(new GeoPoint(latitudCurrent, longitudCurrent));
             
             mapView.invalidate();
             
-            SitesController.getInstance().getSitesByPosition(latitude, longitude, 
+            SitesController.getInstance().getSitesByPosition(latitudCurrent, longitudCurrent, 
     		        new OnCompletedCallback() {
 
     			        @Override
@@ -220,7 +271,7 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
     			        }
     		        });
             
-            ProductsController.getInstance().getStoresByPosition(latitude, longitude, 
+            ProductsController.getInstance().getStoresByPosition(latitudCurrent, longitudCurrent, 
     		        new OnCompletedCallback() {
 
     			        @Override
@@ -230,6 +281,19 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
     				        	Type listType = new TypeToken<ArrayList<RetailStore>>() {}.getType();				    		
     				    		List<RetailStore> stores = gson.fromJson(response, listType);
     				    		updateStores (stores);			    		
+    			    		}
+    			        }
+    		        });
+            EventsController.getInstance().getEventsByPosition (latitudCurrent, longitudCurrent, 
+    		        new OnCompletedCallback() {
+
+    			        @Override
+    			        public void onCompleted(String response, String error) {
+    			        	if (error == null)  {
+    				        	Gson gson = new Gson();
+    				        	Type listType = new TypeToken<ArrayList<Event>>() {}.getType();				    		
+    				    		List<Event> events = gson.fromJson(response, listType);
+    				    		updateEvents(events);
     			    		}
     			        }
     		        });
@@ -285,6 +349,25 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
     		}
 		}
 		mapView.invalidate();	
+    }
+    
+ // actualiza los evento del mapa
+    private void updateEvents (List <Event> events) {
+		currentEvents = events;
+		eventMapOverlay.clear();
+		if (events != null) {
+    		for (Event event : events)
+    		{
+    			double lat =  event.getCoordinates() [1]*1e6;
+    			double longitud = event.getCoordinates() [0]*1e6;
+    			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
+                
+                MapOverlayItem overlayitem = new MapOverlayItem(point2, event.getName(), CommonUtilities.dateToString (event.getDate()), event.getAddress(), event.getId ());
+    			eventMapOverlay.addOverlay (overlayitem);
+    					
+    		}
+		}
+		mapView.invalidate(); 
     }
     
     @Override
@@ -353,6 +436,16 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
         	List<RetailStore> newStores = NotificationsController.getInstance().getNewStores();
         	currentStores.addAll(newStores);
         	updateStores (currentStores); 
+        }
+    };
+    
+    private final BroadcastReceiver m_newEventReceiver =
+            new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+        	List<Event> newEvents = NotificationsController.getInstance().getNewEvents();
+        	currentEvents.addAll(newEvents);
+        	updateEvents (currentEvents); 
         }
     };
 }

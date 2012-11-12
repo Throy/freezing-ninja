@@ -1,8 +1,8 @@
 package georeduy.client.model;
 
-
 import java.util.ArrayList;
 import java.util.List;
+
 public class Site {
 
     private String id;
@@ -14,6 +14,9 @@ public class Site {
     private String address;
     
     public Double[] coordinates = new Double[2];
+    
+    // radio para visitas, en metros
+    private int radius;
     
     private String imageUrl;
     
@@ -74,6 +77,24 @@ public class Site {
 
 	public String getImageUrl() {
 		return imageUrl;
+	}
+
+
+	/**
+	 * @return the radius
+	 */
+	public int getRadius ()
+	{
+		return radius;
+	}
+
+
+	/**
+	 * @param radius the radius to set
+	 */
+	public void setRadius (int radius)
+	{
+		this.radius = radius;
 	}
 
 

@@ -47,6 +47,9 @@ public class SitesListActivity extends Activity {
 
     public static final String EXTRA_SITE_ID = "georeduy.client.activities.site_id";
     
+    // sitios
+    public List <Site> sites;
+    
     // constructor
 
     @Override
@@ -66,7 +69,7 @@ public class SitesListActivity extends Activity {
 					// obtener sitios
 			        Gson gson = new Gson();
 		        	Type listType = new TypeToken <ArrayList <Site>>() {}.getType();
-		    		List <Site> sites = gson.fromJson (response, listType);
+		    		sites = gson.fromJson (response, listType);
 		            
 		            ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
 		            ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
@@ -211,20 +214,17 @@ public class SitesListActivity extends Activity {
     // cliquear botón -> realizar visita
     
     public void button_site_item_onClick (View view) {
-    	/*
-		// nada
-		AlertDialog alertDialog = new AlertDialog.Builder (SitesListActivity.this).create ();
-		
-		alertDialog.setTitle ("Visitaste el sitio de id " + ((TextView) ((View) view.getParent ()).findViewById (R.id.site_id)).getText ().toString ());
-		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
-			public void onClick (DialogInterface dialog, int which) {
-			}
-		});
-		alertDialog.show();
-		*/
     	
     	// obtener el id del sitio
     	String siteId = ((TextView) ((View) view.getParent ()).findViewById (R.id.site_id)).getText ().toString ();
+
+    	// obtener el sitio
+    	Site site = null;
+    	for (Site site_idx : MapaActivity.currentSites) {
+    		if (site_idx.getId ().equals (siteId)) {
+    			site = site_idx;
+    		}
+    	}
     	
 		// intentar visitar el sitio
 		SitesController.getInstance().visitSite (siteId, new OnCompletedCallback() {
@@ -232,13 +232,16 @@ public class SitesListActivity extends Activity {
 			@Override
 			public void onCompleted (String response, String error)
 			{
-				// TODO Auto-generated method stub
+				if (error == null) {
+					// mostrar confirmación
+			        CommonUtilities.showAlertMessage (SitesListActivity.this, "Confirmación", "Visitaste el sitio.");
+				}
 				
+				else {
+					CommonUtilities.showAlertMessage (SitesListActivity.this, "Error SDA bvi", "Hubo un error:\n" + error);
+				}
 			}
 		});
-		
-		// mostrar confirmación
-        CommonUtilities.showAlertMessage (this, "Confirmación", "Visitaste el sitio.");
     }
 
     @Override

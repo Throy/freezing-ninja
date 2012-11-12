@@ -161,20 +161,9 @@ public class ConfigureNotificationsTagsActivity extends Activity {
 					@Override
 					public void onCompleted (String response, String error)
 					{
+						// todo bien, cerrar menú
 						if (error == null) {
-							// mostrar confirmación
-							AlertDialog alertDialog = new AlertDialog.Builder (ConfigureNotificationsTagsActivity.this).create ();
-							alertDialog.setTitle ("Confirmación");
-							alertDialog.setMessage ("Actualizaste la configuración de etiquetas de notificaciones.");
-							
-							alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
-								public void onClick (DialogInterface dialog, int which) {
-									// cerrar la actividad.
-									finish ();
-								}
-							});
-							
-							alertDialog.show();
+							finish ();
 						}
 						
 						else {

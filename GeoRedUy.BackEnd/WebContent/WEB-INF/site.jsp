@@ -99,6 +99,17 @@
             
             <div class="editor-label">
                 <label for="Radius">Radio (metros)</label>
+<<<<<<< HEAD
+            </div>
+            <div class="editor-field">
+                <input data-val="true" data-val-required="Por favor ingrese el radio." id="Radius" name="Radius" type="text" value="" />
+                <span class="field-validation-valid" data-valmsg-for="Radius" data-valmsg-replace="true"></span>
+            </div>
+            
+            <div class="editor-label">
+                <label for="ImageUrl">URL de imagen</label>
+=======
+>>>>>>> branch 'master' of https://github.com/Throy/freezing-ninja.git
             </div>
             <div class="editor-field">
                 <input data-val="true" data-val-required="Por favor ingrese el radio." id="radius" name="radius" type="text" value="" />
@@ -106,7 +117,11 @@
             </div>
             
             <div class="editor-label">
+<<<<<<< HEAD
+                <label for="Tags">Etiquetas</label>
+=======
                 <label for="ImageUrl">Imagen a subir</label>
+>>>>>>> branch 'master' of https://github.com/Throy/freezing-ninja.git
             </div>
             <div class="editor-field">
                 <input type="file" name="imageData" size="50" />

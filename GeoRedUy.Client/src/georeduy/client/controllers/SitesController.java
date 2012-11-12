@@ -7,10 +7,12 @@ package georeduy.client.controllers;
 
 // imports
 
+import georeduy.client.activities.MapaActivity;
 import georeduy.client.model.Comment;
 import georeduy.client.model.Site;
 import georeduy.client.model.User;
 import georeduy.client.model.Visit;
+import georeduy.client.util.CommonUtilities;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.OnCompletedCallback;
 
@@ -164,5 +166,17 @@ public class SitesController
 		params.put ("commentId", commentId);
 		
     	GeoRedClient.GetAsync("/Sites/Comments/GetById", params, callback);	
+	}
+
+	// devuelve true si se puede visitar el sitio.
+	public boolean visitIsAllowed (Site site)
+	{
+		int distance = CommonUtilities.distance
+				(site.getCoordinates()[0],
+				site.getCoordinates()[1], 
+				MapaActivity.longitudCurrent / 1E6,
+				MapaActivity.latitudCurrent / 1E6);
+		
+		return (distance <= site.getRadius ());
 	}
 }

@@ -34,6 +34,8 @@ public class SessionLoginActivity extends Activity {
     Facebook facebook = new Facebook("341284062604349");
     // permissions array
     private static final String[] PERMS = new String[]{"user_events"};
+	public static final int ACTIVITY_RESULT_NORMAL = 1;
+	public static final int ACTIVITY_RESULT_MAP = 9;
     
 	// inicializadores
 	
@@ -60,7 +62,7 @@ public class SessionLoginActivity extends Activity {
 				if (error != null) {
 					CommonUtilities.showAlertMessage (SessionLoginActivity.this, "Error SLA bloc", error);
 				} else {
-					onLoginSuccess();
+					onLoginSuccess (false);
 				}
 			}
 		});
@@ -71,7 +73,7 @@ public class SessionLoginActivity extends Activity {
     
     public void button_register_onClick (View view) {
     	Intent intent = new Intent (this, SessionRegisterActivity.class);
-		startActivity(intent);
+        startActivityForResult (intent, SessionLoginActivity.ACTIVITY_RESULT_NORMAL);
     }
     
     // cliquear Registrarse -> mostrar formulario de Registrarse por Facebook, paso 1
@@ -91,7 +93,7 @@ public class SessionLoginActivity extends Activity {
 						if (error != null) {
 							CommonUtilities.showAlertMessage (SessionLoginActivity.this, "Error SLA bloc", error);
 						} else {
-							onLoginSuccess();
+							onLoginSuccess (true);
 						}
 					}
 				});
@@ -116,11 +118,26 @@ public class SessionLoginActivity extends Activity {
     	startActivity (intent_main_menu);
     }
     
-    public void onLoginSuccess() {
+    // luego de iniciar sesión, abre el mapa e inicializa el GCM.
+    
+    public void onLoginSuccess (boolean startNotiConfig) {
     	// Inicializar GCM
     	GCMServer.InitGCM(this);
+    	
     	// Ir al mapa
         Intent intent = new Intent(this, MapaActivity.class);
+        
+        if (startNotiConfig) {
+        	intent.putExtra (MapaActivity.START_NOTI_CONFIG, MapaActivity.START_NOTI_CONFIG_TRUE);
+        }
 		startActivity(intent);
+    }
+
+    // luego de ejecutar el registro, abre el mapa.
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        if (resultCode == SessionLoginActivity.ACTIVITY_RESULT_MAP) {
+        	onLoginSuccess (true);
+        }
     }
 }

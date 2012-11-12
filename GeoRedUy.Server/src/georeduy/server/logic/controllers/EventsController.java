@@ -27,6 +27,8 @@ import georeduy.server.logic.model.Site;
 import georeduy.server.logic.model.Tag;
 import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.Visit;
+import georeduy.server.util.Filter;
+import georeduy.server.util.Util;
 
 public class EventsController {
 	private static EventsController s_instance = null;
@@ -62,6 +64,20 @@ public class EventsController {
         	}
         	event.setTags(realTags);
             eventDao.saveEvent(event);
+            
+            final Event eventF = event;
+            NotificationsController.getInstance().BroadCast(event, new Filter() {
+
+				@Override
+                public boolean filter(String userId) {
+					User user = SessionController.getInstance().GetUserById(userId);
+					if (Util.distanceHaversine(eventF.getCoordinates()[0], eventF.getCoordinates()[1], 
+						user.getCoordinates()[0], user.getCoordinates()[1]) <= Util.BROADCAST_RANGE) {
+						return false;
+					}
+	                return true;
+                }});
+            
         } else {
         	throw new Exception(GeoRedConstants.SITE_NAME_EXISTS);
         }

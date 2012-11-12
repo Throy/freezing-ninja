@@ -24,7 +24,7 @@ public class SiteDetailActivity extends Activity {
 	
 	// atributos
 	
-	private static String siteId;
+	private static Site site;
 	
 	// inicializadores
 	
@@ -34,7 +34,7 @@ public class SiteDetailActivity extends Activity {
         setContentView (R.layout.site_detail_activity);
         
         // obtener datos del sitio a partir del id.
-        siteId = getIntent().getStringExtra (SitesListActivity.EXTRA_SITE_ID);
+        String siteId = getIntent().getStringExtra (SitesListActivity.EXTRA_SITE_ID);
         
 		SitesController.getInstance().getSite (siteId, new OnCompletedCallback() {
 
@@ -46,13 +46,7 @@ public class SiteDetailActivity extends Activity {
 
 					// obtener sitio
 			        Gson gson = new Gson();
-			        Site site = gson.fromJson (response, Site.class);
-
-			        // *** en realidad este párrafo no va ***
-			        /*
-			        String name = getIntent().getStringExtra (SitesListActivity.SITE_ITEM_NAME);
-			        String address = getIntent().getStringExtra (SitesListActivity.SITE_ITEM_ADDRESS);
-			        */
+			        site = gson.fromJson (response, Site.class);
 
 			        // msotrar datos en el menú
 			        TextView viewVisitId = (TextView) findViewById (R.id.textview_site_id);
@@ -60,13 +54,12 @@ public class SiteDetailActivity extends Activity {
 			        TextView viewDescription = (TextView) findViewById (R.id.textview_description);
 			        TextView viewAddress = (TextView) findViewById (R.id.textview_address);
 			        
-			        /// *** en realidad debería tomar los datos del objeto site. ***
 			        viewVisitId.setText (site.getId ());
 			        viewDescription.setText (site.getDescription ());
 			        viewName.setText (site.getName ());
 			        viewAddress.setText (site.getAddress ());
 			        
-			        // *** falta: tags, comentarios, foto ***
+			        // *** falta: tags, foto ***
 				}
 				
 				else {
@@ -83,32 +76,29 @@ public class SiteDetailActivity extends Activity {
     // cliquear botón -> visitar sitio
     
     public void button_visit_item_onClick (View view) {
-    	// obtener el id del sitio
-    	String siteId = ((TextView) findViewById (R.id.textview_site_id)).getText ().toString ();
     	
-		// intentar visitar el sitio
-		SitesController.getInstance().visitSite (siteId, new OnCompletedCallback() {
+    	// si se está demasiado lejos, mostrar aviso.
+    	if (! SitesController.getInstance().visitIsAllowed (site)) {
+			CommonUtilities.showAlertMessage (this, "Aviso", "Estás demasiado lejos del sitio para visitarlo.");
+    	}
 
-			@Override
-			public void onCompleted (String response, String error)
-			{
-				// TODO Auto-generated method stub
-				if (error == null) {
-					// mostrar confirmación
-			        CommonUtilities.showAlertMessage (SiteDetailActivity.this, "Confirmación", "Visitaste el sitio.");
-				}
-				
-				else {
-					CommonUtilities.showAlertMessage (SiteDetailActivity.this, "Error SDA bvi", "Hubo un error:\n" + error);
-				}
-				
-				
-				// *** si devolviera algo ***
-				/*
-		        Gson gson = new Gson();
-		        gson.fromJson (response, ClaseRetorno.class)
-		        */
-			}});
+		// intentar visitar el sitio
+    	else {
+			SitesController.getInstance().visitSite (site.getId (), new OnCompletedCallback() {
+	
+				@Override
+				public void onCompleted (String response, String error)
+				{
+					if (error == null) {
+						// mostrar confirmación
+				        CommonUtilities.showAlertMessage (SiteDetailActivity.this, "Confirmación", "Visitaste el sitio.");
+					}
+					
+					else {
+						CommonUtilities.showAlertMessage (SiteDetailActivity.this, "Error SDA bvi", "Hubo un error:\n" + error);
+					}
+				}});
+    	}
 		
     }
 }

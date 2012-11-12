@@ -14,19 +14,19 @@ import android.widget.TextView;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
-public class CustomItemizedOverlay extends ItemizedOverlay<OverlayItem> {
+public class EventOverlay extends ItemizedOverlay<OverlayItem> {
 
 	private ArrayList<OverlayItem> mapOverlays = new ArrayList<OverlayItem>();
 
 	private Context context;
 
-	public CustomItemizedOverlay (Drawable defaultMarker) {
+	public EventOverlay (Drawable defaultMarker) {
 		super(boundCenterBottom (defaultMarker));
 		
 		populate();
 	}
 
-	public CustomItemizedOverlay (Drawable defaultMarker, Context context) {
+	public EventOverlay (Drawable defaultMarker, Context context) {
 		this(defaultMarker);
 		this.context = context;
 	}
@@ -51,7 +51,7 @@ public class CustomItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 		
 		// mostrar título y descripción del sitio.
 		dialog.setTitle (item.getTitle());
-		dialog.setMessage (item.getSnippet());
+		dialog.setMessage ("Fecha de inicio: " +item.getSnippet() + "\nDirección: "+ ((MapOverlayItem)item).getAddress());
 		
 		// mostrar botones
 		dialog.setButton (DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {

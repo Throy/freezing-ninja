@@ -106,55 +106,62 @@ public class ProductsBuyListActivity extends Activity {
         viewPricetotal.setText (CommonUtilities.doubleToPrice (ProductsController.getInstance().purchaseGetPricetotal ()));
     }
     
-    // cliquear Comprar -> iniciar actividad de Comprar productos. 
+    // cliquear Comprar -> realizar compra.
     
     public void button_product_buy_onClick (View view) {
-    	// confirmar realización de compra
-    	final AlertDialog alertDialog = new AlertDialog.Builder (this).create ();
-
-		alertDialog.setTitle ("Realizar compra");
-		alertDialog.setMessage ("¿Confirmás la compra?");
-		
-		// realizar la compra
-		alertDialog.setButton (DialogInterface.BUTTON_POSITIVE, "Sí", new DialogInterface.OnClickListener() {
-			public void onClick (DialogInterface dialog, int which) {
-				// realizar compra.
-				ProductsController.getInstance ().purchaseConfirm (new OnCompletedCallback() {
-					
-					@Override
-					public void onCompleted (String response, String error)
-					{
-						if (error == null) { 
-							// mostrar confirmación
-					    	final AlertDialog alertDialog = new AlertDialog.Builder (ProductsBuyListActivity.this).create ();
+    	// si no hay items en la compra, mostrar alerta.
+    	if (! ProductsController.getInstance ().purchaseIsValid ()) {
+    		CommonUtilities.showAlertMessage (this, "Aviso", "Para realizar la compra, primero agregale productos.");
+    	}
+    	
+    	else {
+	    	// confirmar realización de compra
+	    	final AlertDialog alertDialog = new AlertDialog.Builder (this).create ();
 	
-							alertDialog.setTitle ("Confirmación");
-							alertDialog.setMessage ("Has comprado productos por un total de " + CommonUtilities.doubleToPrice (ProductsController.getInstance().purchaseGetPricetotal ()));
-							
-							alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
-								public void onClick (DialogInterface dialog, int which) {
-									// cerrar actividades.
-									returnMenu ();
-								}
-							});
-							alertDialog.show();
-						}
+			alertDialog.setTitle ("Realizar compra");
+			alertDialog.setMessage ("¿Confirmás la compra?");
+			
+			// realizar la compra
+			alertDialog.setButton (DialogInterface.BUTTON_POSITIVE, "Sí", new DialogInterface.OnClickListener() {
+				public void onClick (DialogInterface dialog, int which) {
+					// realizar compra.
+					ProductsController.getInstance ().purchaseConfirm (new OnCompletedCallback() {
 						
-						else {
-							CommonUtilities.showAlertMessage (ProductsBuyListActivity.this, "Error PBLA bpbo", "Hubo un error:\n" + error);
-						}
-					}
-				});
-			}
-		});
+						@Override
+						public void onCompleted (String response, String error)
+						{
+							if (error == null) { 
+								// mostrar confirmación
+						    	final AlertDialog alertDialog = new AlertDialog.Builder (ProductsBuyListActivity.this).create ();
 		
-		// seguir comprando
-		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
-			public void onClick (DialogInterface dialog, int which) {
-				alertDialog.cancel();
-			}
-		});
-		alertDialog.show();
+								alertDialog.setTitle ("Confirmación");
+								alertDialog.setMessage ("Has comprado productos por un total de " + CommonUtilities.doubleToPrice (ProductsController.getInstance().purchaseGetPricetotal ()));
+								
+								alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
+									public void onClick (DialogInterface dialog, int which) {
+										// cerrar actividades.
+										returnMenu ();
+									}
+								});
+								alertDialog.show();
+							}
+							
+							else {
+								CommonUtilities.showAlertMessage (ProductsBuyListActivity.this, "Error PBLA bpbo", "Hubo un error:\n" + error);
+							}
+						}
+					});
+				}
+			});
+			
+			// seguir comprando
+			alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+				public void onClick (DialogInterface dialog, int which) {
+					alertDialog.cancel();
+				}
+			});
+			alertDialog.show();
+    	}
     }
     
     // finalizar el caso de uso Comprar productos.

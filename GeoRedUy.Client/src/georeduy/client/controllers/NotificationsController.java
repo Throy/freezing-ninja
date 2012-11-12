@@ -14,6 +14,7 @@ import georeduy.client.activities.VisitDetailActivity;
 import georeduy.client.activities.VisitsListActivity;
 import georeduy.client.model.ChatMessage;
 import georeduy.client.model.ChatRoom;
+import georeduy.client.model.Event;
 import georeduy.client.model.RetailStore;
 import georeduy.client.model.Site;
 import georeduy.client.model.Tag;
@@ -50,6 +51,7 @@ public class NotificationsController
 	
 	private List<Site> _newSites = new ArrayList<Site>();
 	private List<RetailStore> _newStores = new ArrayList<RetailStore>();
+	private List<Event> _newEvents = new ArrayList<Event>();
 	
 	// *************
 	// constructores
@@ -87,6 +89,13 @@ public class NotificationsController
 		_newStores.add(store);
 		
 		Intent intent = new Intent(CommonUtilities.NEW_STORE_ACTION);
+        context.sendBroadcast(intent);
+	}
+	
+	public void handleNotification(Context context, Event event) {
+		_newEvents.add(event);
+		
+		Intent intent = new Intent(CommonUtilities.NEW_EVENT_ACTION);
         context.sendBroadcast(intent);
 	}
 	
@@ -228,5 +237,12 @@ public class NotificationsController
 		_newStores = new ArrayList<RetailStore>();
 		
 		return stores;
+	}
+
+	public List<Event> getNewEvents() {
+		List<Event> events = _newEvents;  
+		_newEvents = new ArrayList<Event>();
+		
+		return events;
 	}
 }

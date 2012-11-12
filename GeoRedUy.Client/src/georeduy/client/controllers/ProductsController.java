@@ -140,6 +140,24 @@ public class ProductsController
 		return _productPrices;
 	}
 	
+	// devuelve true si la compra es válida.
+	public boolean purchaseIsValid () {
+		
+		// iterar en los items de la compra
+		Iterator <Entry <String, Integer>> iter = _productUnits.entrySet().iterator();
+		while (iter.hasNext()) {
+			// obtener item
+			Entry <String, Integer> hashItem = iter.next();
+			
+			// si tiene al menos 1 unidad, devolver true.
+			if (hashItem.getValue() >= 1) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
 	// realizar compra de productos.
 	public void purchaseConfirm (OnCompletedCallback callback) {
 		Map <String, String> params = new HashMap <String, String>();

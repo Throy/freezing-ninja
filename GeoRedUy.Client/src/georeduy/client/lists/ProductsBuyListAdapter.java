@@ -12,6 +12,7 @@ import georeduy.client.activities.ProductsListActivity;
 import georeduy.client.activities.R;
 import georeduy.client.controllers.ProductsController;
 import georeduy.client.edittexts.ProductBuyList_TextUnitsWatcher;
+import georeduy.client.util.CommonUtilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,7 +88,7 @@ public class ProductsBuyListAdapter extends BaseAdapter {
         // set values of the views
         String productId = itemString.get (ProductsListActivity.PRODUCT_ITEM_ID);
         viewName.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_NAME));
-        viewPrice.setText ("$ " + itemString.get (ProductsListActivity.PRODUCT_ITEM_PRICE));
+        viewPrice.setText (CommonUtilities.stringToPrice (itemString.get (ProductsListActivity.PRODUCT_ITEM_PRICE)));
         viewPriceUnit.setText (itemString.get (ProductsListActivity.PRODUCT_ITEM_PRICE).toString ());
         //imageLoader.DisplayImage(item.get (ProductsListActivity.ITEM_THUMB), thumb_image);
 

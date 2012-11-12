@@ -241,8 +241,15 @@ public class ProductsListActivity extends Activity {
     // cliquear Comprar -> iniciar actividad de Comprar productos. 
     
     public void button_product_buy_onClick (View view) {
-    	Intent intent_product_buy_list = new Intent (this, ProductsBuyListActivity.class);
-        startActivityForResult (intent_product_buy_list, ProductsListActivity.ACTIVITY_RESULT_NORMAL);
+    	// si no hay items en la compra, mostrar aviso.
+    	if (! ProductsController.getInstance ().purchaseIsValid ()) {
+    		CommonUtilities.showAlertMessage (this, "Aviso", "Para realizar la compra, primero agregale productos.");
+    	}
+    	
+    	else {
+	    	Intent intent_product_buy_list = new Intent (this, ProductsBuyListActivity.class);
+	        startActivityForResult (intent_product_buy_list, ProductsListActivity.ACTIVITY_RESULT_NORMAL);
+    	}
     }
     
     // cliquear Cancelar -> salir del menú.

@@ -44,7 +44,7 @@ public class EventServlet extends HttpServlet {
 	        	double latitude = Double.parseDouble(request.getParameter("Latitude"));
 	        	double longitude = Double.parseDouble(request.getParameter("Longitude"));
 	        	String imageUrl = request.getParameter("ImageUrl");
-	        	Date date = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(request.getParameter("ImageUrl"));
+	        	Date date = new SimpleDateFormat("dd/MM/yy", Locale.ENGLISH).parse(request.getParameter("dateBegin"));
 	        	
 	        	Event event = new Event();
 	        	event.setName(name);
@@ -53,7 +53,7 @@ public class EventServlet extends HttpServlet {
 	        	event.setImageUrl(imageUrl);
 	        	event.setDate(date);
 	        	
-	        	Double[] coordinates = {latitude, longitude};
+	        	Double[] coordinates = {longitude, latitude};
 	        	event.setCoordinates(coordinates);
 	        	
 	        	String tags = request.getParameter("Tags");

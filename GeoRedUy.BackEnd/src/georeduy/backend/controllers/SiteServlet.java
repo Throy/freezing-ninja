@@ -21,25 +21,58 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class SiteServlet extends HttpServlet {
-
-	protected void processRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		Gson gson = new Gson();
-
-		try {
-			if (request.getParameter("NewSite") != null) {
-				request.setAttribute("NewSite", "true");
-			}
-
-			Map<String, String> params = new HashMap<String, String>();
-			params.put("from", "0");
-			params.put("count", "10");
-
-			String result = GeoRedClient.Get("/Sites/Get", params,
-					(String) session.getAttribute("Token"));
-			Type listType = new TypeToken<ArrayList<Site>>() {
-			}.getType();
+   
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+    	HttpSession session = request.getSession();
+    	Gson gson = new Gson();
+		
+		try {    	
+	    	if (request.getParameter("NewSite") != null) {
+	    		request.setAttribute("NewSite", "true");
+	    		
+	    	} else if (request.getParameter("AddSite") != null) {  
+	    		
+	        	String name = request.getParameter("Name");
+	        	String description = request.getParameter("Description");
+	        	String address = request.getParameter("Address");
+	        	double latitude = Double.parseDouble(request.getParameter("Latitude"));
+	        	double longitude = Double.parseDouble(request.getParameter("Longitude"));
+	        	int radius = Integer.parseInt (request.getParameter("Radius"));
+	        	String imageUrl = request.getParameter("ImageUrl");
+	        	
+	        	Site site = new Site();
+	        	site.setName(name);
+	        	site.setDescription(description);
+	        	site.setAddress(address);
+	        	site.setRadius (radius);
+	        	site.setImageUrl (imageUrl);
+	        	
+	        	Double[] coordinates = {longitude, latitude};
+	        	site.setCoordinates(coordinates);
+	        	
+	        	String tags = request.getParameter("Tags");
+	        	if (tags != null && !tags.trim().equals("")) {
+	        		String[] tagsStr = request.getParameter("Tags").split(",");
+	        		for (String tagStr : tagsStr) {
+	        			Tag tag = new Tag();
+	        			tag.setName(tagStr.trim());
+	        			site.addTag(tag);
+	        		}
+	        	}
+	        	
+	        	Map<String, String> params  = new HashMap <String, String>();
+	    		params.put ("siteInfo", gson.toJson(site));
+	
+				GeoRedClient.Post("/Sites/New", params, (String)session.getAttribute("Token"));
+	    	}
+	    	
+	    	Map<String, String> params = new HashMap <String, String>();
+			params.put ("from", "0");
+			params.put ("count", "10");
+	    	
+	    	String result = GeoRedClient.Get("/Sites/Get", params, (String)session.getAttribute("Token"));
+			Type listType = new TypeToken<ArrayList<Site>>() {}.getType();
 
 			List<Site> sites = gson.fromJson(result, listType);
 			request.setAttribute("Sites", sites);

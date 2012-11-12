@@ -16,13 +16,10 @@ import georeduy.client.util.GCMServer;
 import georeduy.client.util.OnCompletedCallback;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -88,18 +85,26 @@ public class SessionRegisterActivity extends Activity {
 							if (error != null) {
 								CommonUtilities.showAlertMessage (SessionRegisterActivity.this, "Error SRA broc", error);
 							} else {
+						    	setResult (SessionLoginActivity.ACTIVITY_RESULT_MAP);
+								finish();
+								
+								/*
 								// Inicializar GCM
 						    	GCMServer.InitGCM(SessionRegisterActivity.this);
+						    	
 						    	// Ir al mapa
-						        Intent intent = new Intent(SessionRegisterActivity.this, MapaActivity.class);
+						        Intent intent = new Intent(SessionRegisterActivity.this.getParent (), MapaActivity.class);
 								startActivity(intent);
+								*/
 							}
 						}
 					});
 		
+					/*
 					// abrir menú de GCM
 			        Intent intent = new Intent (params[0], GCMActivity.class);
-					startActivity(intent);	        
+					startActivity(intent);	 
+					*/       
 				}
 				catch (Exception e) {
 			        

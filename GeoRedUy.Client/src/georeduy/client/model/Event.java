@@ -1,26 +1,19 @@
-package georeduy.backend.model;
+package georeduy.client.model;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class Site {
+public class Event {
 
     private String id;
-    
     private String name;
     private String description;
     private String address;
-    
     private Double[] coordinates = new Double[2];
-    
-    // radio para visitas, en metros
-    private int radius;
-    
     private String imageUrl;
-    
-    private byte[] image;
-
+    private Date date;
     private List<Tag> realTags = new ArrayList<Tag>();
 
 	public String getId() {
@@ -73,24 +66,6 @@ public class Site {
 	}
 
 
-	/**
-	 * @return the radius
-	 */
-	public int getRadius ()
-	{
-		return radius;
-	}
-
-
-	/**
-	 * @param radius the radius to set
-	 */
-	public void setRadius (int radius)
-	{
-		this.radius = radius;
-	}
-
-
 	public String getImageUrl() {
 		return imageUrl;
 	}
@@ -101,16 +76,15 @@ public class Site {
 	}
 
 
-	public byte[] getImage() {
-		return image;
+	public Date getDate() {
+		return date;
 	}
 
 
-	public void setImageUrl(byte[] image) {
-		this.image = image;
+	public void setDate(Date date) {
+		this.date = date;
 	}
-
-
+	
 	public List<Tag> getTags() {
 		return realTags;
 	}
@@ -142,7 +116,7 @@ public class Site {
 		    return false;
 	    if (getClass() != obj.getClass())
 		    return false;
-	    Site other = (Site) obj;
+	    Event other = (Event) obj;
 	    if (id == null) {
 		    if (other.id != null)
 			    return false;

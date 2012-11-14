@@ -57,6 +57,10 @@ public class PurchasesListActivity extends Activity {
 
     public static final String EXTRA_PURCHASE_ID = "tsi2.GeoRedDemo.purchase_id";
     
+    // resultados
+	public static final int ACTIVITY_RESULT_NORMAL = 1;
+	public static final int ACTIVITY_RESULT_UPDATE = 9;
+    
     // atributos
     
     public static List <Purchase> purchases;
@@ -68,6 +72,11 @@ public class PurchasesListActivity extends Activity {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.list_activity);
         
+        updateList();
+    }
+    
+    // actualizar la lista
+    public void updateList() {
         ProductsController.getInstance ().getPurchases (new OnCompletedCallback() {
 			
 			@Override
@@ -121,7 +130,7 @@ public class PurchasesListActivity extends Activity {
 			            	intent_purchase_detail.putExtra (EXTRA_PURCHASE_ID, purchaseId);
 			            	
 			            	// ejecutar intent.
-			            	startActivity (intent_purchase_detail);
+			    	        startActivityForResult (intent_purchase_detail, PurchasesListActivity.ACTIVITY_RESULT_NORMAL);
 			        	}
 			        });
 				}
@@ -132,6 +141,14 @@ public class PurchasesListActivity extends Activity {
 				}
 			}
 		});
+    }
+    
+    // actualizar la lista
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        if (resultCode == PurchasesListActivity.ACTIVITY_RESULT_UPDATE) {
+        	updateList();
+        }
     }
     
     // cliquear Evaluar -> iniciar actividad de Evaluar compra. 

@@ -31,6 +31,12 @@ public class PurchaseDetailActivity extends Activity {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.purchase_detail_activity);
         
+        updateItem ();
+    }
+    
+    // actualizar el ítem
+    public void updateItem () {
+        
         // obtener datos de la visita a partir del id.
         String purchaseId = getIntent().getStringExtra (PurchasesListActivity.EXTRA_PURCHASE_ID);
         
@@ -75,6 +81,15 @@ public class PurchaseDetailActivity extends Activity {
         viewReviews.setText (reviewsText);
     }
     
+    // actualizar la lista
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        if (resultCode == PurchasesListActivity.ACTIVITY_RESULT_UPDATE) {
+        	setResult (PurchasesListActivity.ACTIVITY_RESULT_UPDATE);
+        	finish();
+        }
+    }
+    
     // funciones del programador
 
     // cliquear botón -> iniciar actividad de Agregar item a la compra.
@@ -89,6 +104,6 @@ public class PurchaseDetailActivity extends Activity {
     	intent_purchase_publish_review.putExtra (PurchasesListActivity.EXTRA_PURCHASE_ID, purchaseId);
     	
     	// ejecutar intent.
-    	startActivity (intent_purchase_publish_review);
+    	startActivityForResult (intent_purchase_publish_review, PurchasesListActivity.ACTIVITY_RESULT_NORMAL);
     }
 }

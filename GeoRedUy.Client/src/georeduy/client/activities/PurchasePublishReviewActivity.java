@@ -59,6 +59,7 @@ public class PurchasePublishReviewActivity extends Activity {
 				alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
 					public void onClick (DialogInterface dialog, int which) {
 						// cerrar la actividad.
+				    	setResult (PurchasesListActivity.ACTIVITY_RESULT_UPDATE);
 						finish ();
 					}
 				});

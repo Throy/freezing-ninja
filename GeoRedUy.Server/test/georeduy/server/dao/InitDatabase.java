@@ -44,6 +44,8 @@ public class InitDatabase {
             
             UserData userData = new UserData();
             userData.setEmail("admin@geored.uy");
+            userData.setName ("Sys");
+            userData.setLastName ("Admin");
             user.setUserData(userData);
 
         	UserNotificationsTypes notiTypes = new UserNotificationsTypes ();
@@ -70,6 +72,36 @@ public class InitDatabase {
             
             UserData userData = new UserData();
             userData.setEmail("agustin@geored.uy");
+            userData.setName ("Lava");
+            userData.setLastName ("Bit");
+            user.setUserData(userData);
+
+        	UserNotificationsTypes notiTypes = new UserNotificationsTypes ();
+        	notiTypes.setNotitype1_contactsVisits (false);
+        	notiTypes.setNotitype2_contactsComments (false);
+        	notiTypes.setNotitype3_contactsReviews (false);
+        	notiTypes.setNotitype4_sites (false);
+        	notiTypes.setNotitype5_products (false);
+        	notiTypes.setNotitype6_events (false);
+        	user.setNotificationsTypes (notiTypes);
+            
+            List<String> roles = new ArrayList<String>();
+            roles.add(Roles.REG_USER);
+            user.setRoles(roles);
+            userDao.saveUser(user);
+        }
+
+        
+        user = userDao.findByUserName("Betto");
+        if (user == null) {
+            user = new User();
+            user.setPassword("1234");
+            user.setUserName("Betto");
+            
+            UserData userData = new UserData();
+            userData.setEmail("betto@geored.uy");
+            userData.setName ("Ignacio");
+            userData.setLastName ("Bettosini");
             user.setUserData(userData);
 
         	UserNotificationsTypes notiTypes = new UserNotificationsTypes ();

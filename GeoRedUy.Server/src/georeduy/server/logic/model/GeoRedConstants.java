@@ -81,4 +81,8 @@ public class GeoRedConstants {
 
 	public static final Object REVIEW_SUCCESSFULY_ADDED =
 			"REVIEW_SUCCESSFULY_ADDED";
+
+	public static final Object USER_INVITATION_SENT =
+			"USER_INVITATION_SENT";
+
 }

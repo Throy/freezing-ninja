@@ -3,6 +3,7 @@ package georeduy.server.webservices;
 import georeduy.server.logic.controllers.ClientsController;
 import georeduy.server.logic.model.Contact;
 import georeduy.server.logic.model.GeoRedConstants;
+import georeduy.server.logic.model.Invitation;
 import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.User;
 
@@ -116,5 +117,27 @@ public class ContactsService {
 		Gson gson = new Gson();
 		List<User> users = ClientsController.getInstance().SearchUsersByName(query, from, count);
 		return Response.status(200).entity(gson.toJson(users)).build();
+	}
+
+	// envía una invitación a un usuario
+	@POST()
+	@Path("SendInvitation")
+	public Response SendInvitation(String invitationInfo,
+			@Context SecurityContext context) {
+		if (! context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity (GeoRedConstants.ACCESS_DENIED).build();
+		}
+
+		try {
+			Gson gson = new Gson();
+			Invitation invitation = gson.fromJson(invitationInfo.split("=")[1], Invitation.class);
+			ClientsController.getInstance().sendInvitation (invitation.getEmail (), invitation.getUsername (), invitation.getMessage ());
+
+			return Response.status(200).entity (GeoRedConstants.USER_INVITATION_SENT).build();
+		}
+		catch (Exception e)
+		{
+			return Response.status(500).entity (e.getMessage()).build();
+		}
 	}
 }

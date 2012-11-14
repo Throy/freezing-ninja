@@ -12,6 +12,7 @@ import georeduy.client.activities.R;
 import georeduy.client.lists.UsersListAdapter;
 import georeduy.client.lists.UsersListAdapter.UserListMode;
 import georeduy.client.model.Contact;
+import georeduy.client.model.Invitation;
 import georeduy.client.model.User;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.OnCompletedCallback;
@@ -122,5 +123,22 @@ public class ClientsController
 		params.put ("contactInfo", gson.toJson(contact));
 		
     	GeoRedClient.PostAsync("/Contacts/RemoveContact", params, callback);	
+	}
+
+	// envía una invitación a un usuario
+	public void sendInvitation (String userEmail, String userName, String message, OnCompletedCallback callback)
+	{
+		Map <String, String> params = new HashMap <String, String>();
+        Gson gson = new Gson();
+
+		// agregar parámetros
+		Invitation invitation = new Invitation();
+		invitation.setEmail (userEmail);
+		invitation.setUsername (userName);
+		invitation.setMessage (message);
+
+		params.put ("invitationInfo", gson.toJson (invitation));
+
+		GeoRedClient.PostAsync ("/Contacts/SendInvitation", params, callback);   
 	}
 }

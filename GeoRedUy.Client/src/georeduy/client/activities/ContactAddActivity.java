@@ -68,9 +68,31 @@ public class ContactAddActivity extends Activity {
         return super.onOptionsItemSelected (item);
     }
     
+    
+    // buscar usuarios con ese nombre
     public void button_submit_onClick(View view) {
     	String query = ((TextView) findViewById (R.id.contact_search_edit)).getText ().toString ();
     	doSearch(query);
+    }
+    
+    // invitar a un usuario
+    public void button_invite_onClick (View view) {
+    	ClientsController.getInstance ().sendInvitation ("naburu38@yahoo.com",
+    			"Nachito", "¿Cómo andamio? ¿Todo manso, muñaño?",
+    			new OnCompletedCallback() {
+					
+					@Override
+					public void onCompleted (String response, String error)
+					{
+						if (error == null) {
+							CommonUtilities.showAlertMessage (ContactAddActivity.this, "Confirmación", "¡¡¡Éééxito!!!");
+						}
+						
+						else {
+							CommonUtilities.showAlertMessage (ContactAddActivity.this, "Error CAA bio", "Hubo un error:\n" + error);
+						}
+					}
+				});
     }
     
     public void doSearch(String query) {

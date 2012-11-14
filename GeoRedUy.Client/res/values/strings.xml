@@ -66,6 +66,7 @@
     <string name="button_comment">Comentar</string>
     <string name="button_review">Evaluar</string>
     <string name="button_visit">Visitar</string>
+    <string name="button_invite">Invitar</string>
     <string name="button_main_menu">Menú principal</string>
     
     <string name="button_session_login">Iniciar sesión</string>

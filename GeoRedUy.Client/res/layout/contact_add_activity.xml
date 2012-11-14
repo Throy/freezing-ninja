@@ -4,21 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/darkblack"
     android:orientation="vertical"
-    android:scrollbars="vertical"
-    android:background="@color/darkblack" >
-    
+    android:scrollbars="vertical" >
+
     <!-- list_activity -->
-    
-    <!-- layout de las actividades de los casos de uso Listar.
-    	el layout se puede poblar con cualquier tipo de items.  -->
-
+
+
+    <!--
+         layout de las actividades de los casos de uso Listar.
+    	el layout se puede poblar con cualquier tipo de items.
+    -->
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" 
-        >
-
+        android:orientation="horizontal" >
+
         <EditText
             android:id="@+id/contact_search_edit"
             android:layout_width="0dip"
@@ -30,7 +32,7 @@
 
             <requestFocus />
         </EditText>
-
+
         <Button
             android:id="@+id/submit"
             style="?android:attr/buttonStyleSmall"
@@ -39,19 +41,20 @@
             android:onClick="button_submit_onClick"
             android:text="@string/submit"
             android:textColor="@color/white" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-        
-        <ListView
-        android:id="@+id/listView_list"
-        android:layout_width="fill_parent"
-        android:layout_height="423dp" />
     </LinearLayout>
     
+    <ListView
+        android:id="@+id/listView_list"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"  />
+
+    <Button
+        android:text="@string/button_invite"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="button_invite_onClick"
+        android:textColor="@color/white" />
 
 </LinearLayout>

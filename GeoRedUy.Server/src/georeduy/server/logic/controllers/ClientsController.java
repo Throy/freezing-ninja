@@ -89,7 +89,7 @@ public class ClientsController {
 		mimiMessage.setFrom (new InternetAddress (GEORED_MAIL_ADDRESS, GEORED_MAIL_NAME));
 		
 		mimiMessage.addRecipient (Message.RecipientType.TO, new InternetAddress (userEmail, userName));
-		mimiMessage.setSubject (User.Current ().getUserData ().getName () + User.Current ().getUserData ().getLastName () +" te invita a GeoRed.uy");
+		mimiMessage.setSubject (User.Current ().getUserData ().getName () + " " + User.Current ().getUserData ().getLastName () +" te invita a GeoRed.uy");
 		mimiMessage.setContent ("<font face=\"Verdana, Tahoma\" size=\"2\">¡Hola, " + userName + "! \n"
 				+ User.Current ().getUserData ().getName () + " " + User.Current ().getUserData ().getLastName ()
 				+ " te invita a unirte a <b>GeoRed.uy</b>, la red social móvil del Uruguay, con el siguente mensaje:<br/><br/>"

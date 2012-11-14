@@ -47,6 +47,7 @@
     <string name="title_activity_user_detail">Datos de usuario</string>
     <string name="title_activity_visit_detail">Datos de visita</string>
     
+    <string name="title_activity_contact_invite">Invitar a un contacto</string>
     <string name="title_activity_visit_publish_comment">Publicar comentario de visita</string>
     <string name="title_activity_purchase_publish_review">Publicar evaluación de compra</string>
     <string name="title_activity_configure_notitags">Configurar etiquetas de notif.</string>
@@ -104,6 +105,7 @@
     <string name="edittext_session_register_email_hint">Ingresá tu casilla de correo</string>
     <string name="edittext_visit_comment_hint">Escribí tu comentario sobre la visita</string>
     <string name="edittext_purchase_review_hint">Escribí tu evaluación de la compra</string>
+    <string name="edittext_invitation_message_hint">Escribí la invitación</string>
     
     <!-- textviews -->
     
@@ -130,6 +132,7 @@
     <string name="textview_reviews">Evaluaciones</string>
     <string name="textview_units">Unidades</string>
     <string name="textview_store">Local</string>
+    <string name="textview_message">Mensaje</string>
     
     <string name="textview_filler">abc</string>
     

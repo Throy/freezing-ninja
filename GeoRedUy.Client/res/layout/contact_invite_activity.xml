@@ -1,0 +1,101 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    
+    <!-- contact_invite_activity -->
+    
+    <!-- layout de la actividad Invitar a usuario.
+		lo utiliza la actividad ContactInviteActivity. -->
+
+    <!-- name -->
+ 	
+ 	<LinearLayout
+ 	    android:id="@+id/layout1"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+	    
+	    <TextView
+        	android:text="@string/textview_name"
+	        android:layout_weight="1"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"/>
+	    
+	    <EditText
+ 	    	android:id="@+id/edittext_username"
+	        android:layout_weight="2"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	    	android:inputType="textCapWords"
+	        android:textSize="18dip"/>
+	</LinearLayout>
+
+    <!-- visit -->
+ 	
+ 	<LinearLayout
+ 	    android:id="@+id/layout2"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/layout1"
+	    android:orientation="horizontal">
+	    
+	    <TextView
+        	android:text="@string/textview_email"
+	        android:layout_weight="1"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	        android:textSize="18dip"
+	        android:textStyle="bold"/>
+	    
+	    <EditText
+ 	    	android:id="@+id/edittext_email"
+	        android:layout_weight="2"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	    	android:layout_margin="5dip"
+	    	android:inputType="textEmailAddress"
+	        android:textSize="18dip"/>
+	</LinearLayout>
+    
+    <!-- message label -->
+ 	
+    <TextView
+ 	    android:id="@+id/textview_message"
+        android:text="@string/textview_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/layout2"
+    	android:layout_margin="5dip"
+        android:textSize="18dip"
+        android:textStyle="bold"/>
+    
+    <!-- comment box -->
+ 	
+ 	<EditText
+ 	    android:id="@+id/edittext_message"
+	    android:hint="@string/edittext_invitation_message_hint"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_message"
+	    android:inputType="textCapSentences"
+        android:textSize="18dip" />
+    
+    <!-- invitation send button -->
+ 	
+ 	<Button
+        android:text="@string/button_send"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edittext_message"
+        android:textSize="18dip"
+        android:onClick="button_send_onClick"/>
+</RelativeLayout>

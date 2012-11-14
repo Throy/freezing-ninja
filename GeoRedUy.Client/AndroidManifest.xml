@@ -224,6 +224,15 @@
         <!-- use case activities -->
         
         <activity
+            android:name=".ContactInviteActivity"
+            android:label="@string/title_activity_contact_invite"
+            android:theme="@android:style/Theme.Dialog">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        
+        <activity
             android:name=".PurchasePublishReviewActivity"
             android:label="@string/title_activity_purchase_publish_review"
             android:theme="@android:style/Theme.Dialog">

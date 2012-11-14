@@ -163,7 +163,7 @@ public class PurchasesListActivity extends Activity {
     	intent_purchase_review.putExtra (EXTRA_PURCHASE_ID, purchaseId);
     	
     	// ejecutar intent.
-        startActivity (intent_purchase_review);
+        startActivityForResult (intent_purchase_review, PurchasesListActivity.ACTIVITY_RESULT_NORMAL);
     }
 
     @Override

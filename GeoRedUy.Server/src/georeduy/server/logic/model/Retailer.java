@@ -17,7 +17,7 @@ public class Retailer {
     @Property
     private String description;
     @Property
-    private String imageUrl;
+    private byte[] image;
     @Property
     private String userId;
     @Property
@@ -49,12 +49,12 @@ public class Retailer {
 		this.description = description;
 	}
 	
-	public String getImageUrl() {
-		return imageUrl;
+	public byte[] getImage() {
+		return image;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setImage(byte image) {
+		this.image = image;
 	}
 
 	public User getUser() {

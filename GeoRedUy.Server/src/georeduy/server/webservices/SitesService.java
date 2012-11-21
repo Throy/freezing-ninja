@@ -377,8 +377,8 @@ public class SitesService {
 			site.setName(form.getName());
 			site.setAddress(form.getAddress());
 			Double[] coordinates = new Double[2];
-			coordinates[0] = Double.valueOf(form.getLatitude());
-			coordinates[1] = Double.valueOf(form.getLongitude());
+			coordinates[1] = Double.valueOf(form.getLatitude());
+			coordinates[0] = Double.valueOf(form.getLongitude());
 			site.setCoordinates(coordinates);
 			site.setDescription(form.getDescription());
 			site.setImage(form.getImageData());
@@ -488,6 +488,8 @@ public class SitesService {
 		}
 
 		public String getRadius() {
+			if (radius == null)
+				return "10";
 			return radius;
 		}
 

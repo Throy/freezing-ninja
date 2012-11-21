@@ -60,8 +60,12 @@ public class SiteDaoImpl extends BasicDAO<Site, ObjectId> implements ISiteDao {
 		double miles = 0.0034997840172;
 		List<Site> sites = createQuery().field("coordinates").within(longitude, latitude, miles).asList();
 		sites = ResolveReferences(sites);
-	    if (sites.size() > 0)
+	    if (sites.size() > 0) { 
+	    	//for (Site site : sites) {
+	    	//	site.setImage(null);
+	    	//}
 	    	return sites;
+	    }
 	    else
 	    	return null;
     }

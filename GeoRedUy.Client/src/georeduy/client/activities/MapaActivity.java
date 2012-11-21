@@ -179,48 +179,9 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
     	
 		androidOverlay.addOverlay(itemRobotito);
 		
-		
-        SitesController.getInstance().getSitesByPosition(latitudeE5, longitudeE5, 
-		        new OnCompletedCallback() {
+		NotificationsController.getInstance().setCurrentLocation(latitudeE5/1e6, longitudeE5/1e6);
+        requestItems(latitudeE5, longitudeE5);
 
-			        @Override
-			        public void onCompleted(String response, String error) {
-			        	if (error == null)  {
-				        	Gson gson = new Gson();
-				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();				    		
-				    		List <Site> sites = gson.fromJson(response, listType);
-				    		updateSites (sites);
-			    		}
-			        }
-		        });
-        
-        ProductsController.getInstance().getStoresByPosition (latitudeE5, longitudeE5, 
-		        new OnCompletedCallback() {
-
-			        @Override
-			        public void onCompleted(String response, String error) {
-			        	if (error == null)  {
-				        	Gson gson = new Gson();
-				        	Type listType = new TypeToken<ArrayList<RetailStore>>() {}.getType();				    		
-				    		List<RetailStore> stores = gson.fromJson(response, listType);
-				    		updateStores (stores);
-			    		}
-			        }
-		        });
-        
-        EventsController.getInstance().getEventsByPosition (latitudeE5, longitudeE5, 
-		        new OnCompletedCallback() {
-
-			        @Override
-			        public void onCompleted(String response, String error) {
-			        	if (error == null)  {
-				        	Gson gson = new Gson();
-				        	Type listType = new TypeToken<ArrayList<Event>>() {}.getType();				    		
-				    		List<Event> events = gson.fromJson(response, listType);
-				    		updateEvents(events);
-			    		}
-			        }
-		        });
         
         menuHandler = new MenuHandler(this);
         
@@ -235,12 +196,58 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
+	
+	private void requestItems(int latitude, int longitude) {
+		SitesController.getInstance().getSitesByPosition(latitude, longitude, 
+		        new OnCompletedCallback() {
+
+			        @Override
+			        public void onCompleted(String response, String error) {
+			        	if (error == null)  {
+				        	Gson gson = new Gson();
+				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();				    		
+				    		List<Site> sites = gson.fromJson(response, listType);    				    		
+				    		updateSites (sites); 				    		
+			    		}
+			        }
+		        });
+        
+        ProductsController.getInstance().getStoresByPosition(latitude, longitude, 
+		        new OnCompletedCallback() {
+
+			        @Override
+			        public void onCompleted(String response, String error) {
+			        	if (error == null)  {
+				        	Gson gson = new Gson();
+				        	Type listType = new TypeToken<ArrayList<RetailStore>>() {}.getType();				    		
+				    		List<RetailStore> stores = gson.fromJson(response, listType);
+				    		updateStores (stores);			    		
+			    		}
+			        }
+		        });
+        EventsController.getInstance().getEventsByPosition (latitude, longitude, 
+		        new OnCompletedCallback() {
+
+			        @Override
+			        public void onCompleted(String response, String error) {
+			        	if (error == null)  {
+				        	Gson gson = new Gson();
+				        	Type listType = new TypeToken<ArrayList<Event>>() {}.getType();				    		
+				    		List<Event> events = gson.fromJson(response, listType);
+				    		updateEvents(events);
+			    		}
+			        }
+		        });
+	}
+	
     public class MyLocationListener implements LocationListener {
 
         private final String TAG = MyLocationListener.class.getSimpleName();
 
         @Override
         public void onLocationChanged(Location loc) {
+        	NotificationsController.getInstance().setCurrentLocation(loc.getLatitude(), loc.getLongitude());
+        	
         	latitudCurrent = (int)(loc.getLatitude()*1E6);
         	longitudCurrent = (int)(loc.getLongitude()*1E6);
         	androidOverlay.removeOverlay(itemRobotito);
@@ -257,46 +264,7 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
             
             mapView.invalidate();
             
-            SitesController.getInstance().getSitesByPosition(latitudCurrent, longitudCurrent, 
-    		        new OnCompletedCallback() {
-
-    			        @Override
-    			        public void onCompleted(String response, String error) {
-    			        	if (error == null)  {
-    				        	Gson gson = new Gson();
-    				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();				    		
-    				    		List<Site> sites = gson.fromJson(response, listType);    				    		
-    				    		updateSites (sites); 				    		
-    			    		}
-    			        }
-    		        });
-            
-            ProductsController.getInstance().getStoresByPosition(latitudCurrent, longitudCurrent, 
-    		        new OnCompletedCallback() {
-
-    			        @Override
-    			        public void onCompleted(String response, String error) {
-    			        	if (error == null)  {
-    				        	Gson gson = new Gson();
-    				        	Type listType = new TypeToken<ArrayList<RetailStore>>() {}.getType();				    		
-    				    		List<RetailStore> stores = gson.fromJson(response, listType);
-    				    		updateStores (stores);			    		
-    			    		}
-    			        }
-    		        });
-            EventsController.getInstance().getEventsByPosition (latitudCurrent, longitudCurrent, 
-    		        new OnCompletedCallback() {
-
-    			        @Override
-    			        public void onCompleted(String response, String error) {
-    			        	if (error == null)  {
-    				        	Gson gson = new Gson();
-    				        	Type listType = new TypeToken<ArrayList<Event>>() {}.getType();				    		
-    				    		List<Event> events = gson.fromJson(response, listType);
-    				    		updateEvents(events);
-    			    		}
-    			        }
-    		        });
+            requestItems(latitudCurrent, longitudCurrent);
         }
 
         @Override
@@ -326,8 +294,8 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
     			double longitud = sitio.getCoordinates() [0]*1e6;
     			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
     			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress(), sitio.getId ());
-    			siteMapOverlay.addOverlay (overlayitem);
-    					
+    			siteMapOverlay.addOverlay (overlayitem);    
+    			NotificationsController.getInstance().notifyIfInterested(this, sitio);
     		}
 		}
 		mapView.invalidate(); 

@@ -220,10 +220,12 @@ public class ProductsController
     	GeoRedClient.GetAsync("/Retail/GetStore", params, callback);
 	}
 	
-	public void getStoresByPosition (int latitude, int longitude, OnCompletedCallback callback) {
+	public void getStoresByPosition (int bottomLeftLatitude, int bottomLeftLongitude, int topRightLatitude, int topRightLongitude, OnCompletedCallback callback) {
 		Map <String, String> params = new HashMap <String, String>();
-		params.put ("latitude", Integer.toString(latitude));
-		params.put ("longitude", Integer.toString(longitude));
+		params.put ("bottomLeftLatitude", Integer.toString(bottomLeftLatitude));
+		params.put ("bottomLeftLongitude", Integer.toString(bottomLeftLongitude));
+		params.put ("topRightLatitude", Integer.toString(topRightLatitude));
+		params.put ("topRightLongitude", Integer.toString(topRightLongitude));
 		
     	GeoRedClient.GetAsync("/Retail/GetByLocation", params, callback);
 	}

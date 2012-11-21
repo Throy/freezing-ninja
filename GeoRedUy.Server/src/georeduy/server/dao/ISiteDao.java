@@ -15,7 +15,7 @@ public interface ISiteDao {
 
     public Site findByName(String name);
 
-    public List<Site> getNearSites(double latitude, double longitude, double radius);
+    public List<Site> getNearSites(double bottomLeftLatitude, double bottomLeftLongitude, double topRightLatitude, double topRightLongitude);
     
     public List<Site> getSites();
     

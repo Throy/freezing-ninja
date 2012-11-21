@@ -15,7 +15,7 @@ public interface IEventDao {
 
     public Event findByName(String name);
 
-    public List<Event> getNearEvents(double latitude, double longitude, double radius);
+    public List<Event> getNearEvents(double bottomLeftLatitude, double bottomLeftLongitude, double topRightLatitude, double topRightLongitude);
     
     public List<Event> getEvents();
     

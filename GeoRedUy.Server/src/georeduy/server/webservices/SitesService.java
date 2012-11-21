@@ -116,17 +116,14 @@ public class SitesService {
 	@GET()
 	@Produces("text/plain")
 	@Path("GetByLocation")
-	public Response GetByLocation(@QueryParam("latitude") Integer latitude,
-			@QueryParam("longitude") Integer longitud,
-			@Context SecurityContext context) {
+	public Response GetByLocation(@QueryParam("bottomLeftLatitude") Integer bottomLeftLatitude, @QueryParam("bottomLeftLongitude") Integer bottomLeftLongitud, @QueryParam("topRightLatitude") Integer topRightLatitude,@QueryParam("topRightLongitude") Integer topRightLongitude,@Context SecurityContext context) {
 		if (!context.isUserInRole(Roles.REG_USER)) {
 			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED)
 					.build();
 		}
 
 		Gson gson = new Gson();
-		List<Site> sites = SitesController.getInstance().getSitesByPosition(
-				latitude, longitud);
+		List<Site> sites = SitesController.getInstance().getSitesByPosition(bottomLeftLatitude, bottomLeftLongitud, topRightLatitude, topRightLongitude);
 		return Response.status(200).entity(gson.toJson(sites)).build();
 	}
 

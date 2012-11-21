@@ -28,9 +28,11 @@ import georeduy.client.util.GPS.MyLocationListener;
 
 import georeduy.client.maps.CustomItemizedOverlay;
 import georeduy.client.maps.EventOverlay;
+import georeduy.client.maps.MyMapView;
 import georeduy.client.maps.RadiusOverlay;
 import georeduy.client.maps.SiteMapOverlay;
 import georeduy.client.maps.MapOverlayItem;
+import georeduy.client.maps.SiteRadiusOverlay;
 import georeduy.client.maps.StoreMapOverlay;
 
 import com.google.android.maps.GeoPoint;
@@ -50,6 +52,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
@@ -57,8 +60,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockMapActivity;
 import com.actionbarsherlock.app.SherlockMapActivity2;
@@ -67,7 +72,7 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity */{
 	// mapa
-	private MapView mapView;
+	private MyMapView mapView;
 
 	// cordenadas de Montevideo
 	private static final int latitudeE5 = -34892000;
@@ -84,6 +89,9 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
 
     public static int latitudCurrent;
     public static int longitudCurrent;
+    public static int lastUpdateBottomLeftLat;
+    public static int lastUpdateBottomLeftLong;
+    public static int lastUpdateZoom;
     
 	//MagicPositionOverlay androidOverlay;	 
 	//private GPS gps;
@@ -100,6 +108,7 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
     private List<Event> currentEvents = new ArrayList<Event>();
     
     private RadiusOverlay radiusOverlay;
+    private SiteRadiusOverlay siteRadiusOverlay;
     private MenuHandler menuHandler;
 
 
@@ -127,15 +136,15 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
         }
 		
 		// inicializar mapa
-		
+
 		mlocManager = (LocationManager)((Activity)this).getSystemService(Context.LOCATION_SERVICE);
         mlocListener = new MyLocationListener();
         mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
 
 		// obtener mapa
-		mapView = (MapView) findViewById (georeduy.client.activities.R.id.map_view);
+		mapView = (MyMapView) findViewById (georeduy.client.activities.R.id.map_view);
 		mapView.setBuiltInZoomControls (true);		
-		
+        mapView.setOnChangeListener(new MapViewChangeListener());
 		List <Overlay> mapOverlays = mapView.getOverlays();
 		
 		Drawable drawableCarrito = this.getResources().getDrawable (R.drawable.cart);
@@ -149,79 +158,32 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
 		Drawable drawableAndroid = this.getResources().getDrawable (R.drawable.android);
 		androidOverlay = new CustomItemizedOverlay(drawableAndroid, this);
         radiusOverlay = new RadiusOverlay(new GeoPoint(latitudeE5, longitudeE5), 480);
-		// Create an overlay to show current location
-        /*final MagicPositionOverlay androidOverlay = new MagicPositionOverlay(this, mapView);
-        androidOverlay.runOnFirstFix(new Runnable() { public void run() {
-            mapView.getController().animateTo(androidOverlay.getMyLocation());
-            }});
-        androidOverlay.enableMyLocation();
-        
-				
-		// agregar overlay al mapa
-		
-		*/
+        List<GeoPoint> lista = new ArrayList<GeoPoint>();
+        List<Float> radius = new ArrayList<Float>();
+        siteRadiusOverlay = new SiteRadiusOverlay(lista, radius);
+
+        mapOverlays.add (siteRadiusOverlay);
         mapOverlays.add (radiusOverlay);
 		mapOverlays.add (siteMapOverlay);
 		mapOverlays.add (storeMapOverlay);
 		mapOverlays.add(androidOverlay);
 		mapOverlays.add(eventMapOverlay);
+						
 		
-
-		// encuadrar mapa en Atenas
 		MapController mapController = mapView.getController();
 
 		GeoPoint point = new GeoPoint(latitudeE5, longitudeE5);
 		mapController.animateTo(point);
 		mapController.setZoom (16);
-		
+		lastUpdateZoom = 16;
+		lastUpdateBottomLeftLat = latitudeE5;
+		lastUpdateBottomLeftLong = longitudeE5;
+		latitudCurrent = latitudeE5;
+		longitudCurrent = longitudeE5;
 		GeoPoint nuevaUbicacion = new GeoPoint(latitudeE5, longitudeE5);
     	itemRobotito = new OverlayItem(nuevaUbicacion, "Me", "This is where you are :)");
     	
 		androidOverlay.addOverlay(itemRobotito);
-		
-		
-        SitesController.getInstance().getSitesByPosition(latitudeE5, longitudeE5, 
-		        new OnCompletedCallback() {
-
-			        @Override
-			        public void onCompleted(String response, String error) {
-			        	if (error == null)  {
-				        	Gson gson = new Gson();
-				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();				    		
-				    		List <Site> sites = gson.fromJson(response, listType);
-				    		updateSites (sites);
-			    		}
-			        }
-		        });
-        
-        ProductsController.getInstance().getStoresByPosition (latitudeE5, longitudeE5, 
-		        new OnCompletedCallback() {
-
-			        @Override
-			        public void onCompleted(String response, String error) {
-			        	if (error == null)  {
-				        	Gson gson = new Gson();
-				        	Type listType = new TypeToken<ArrayList<RetailStore>>() {}.getType();				    		
-				    		List<RetailStore> stores = gson.fromJson(response, listType);
-				    		updateStores (stores);
-			    		}
-			        }
-		        });
-        
-        EventsController.getInstance().getEventsByPosition (latitudeE5, longitudeE5, 
-		        new OnCompletedCallback() {
-
-			        @Override
-			        public void onCompleted(String response, String error) {
-			        	if (error == null)  {
-				        	Gson gson = new Gson();
-				        	Type listType = new TypeToken<ArrayList<Event>>() {}.getType();				    		
-				    		List<Event> events = gson.fromJson(response, listType);
-				    		updateEvents(events);
-			    		}
-			        }
-		        });
-        
         menuHandler = new MenuHandler(this);
         
         registerReceiver(m_newSiteReceiver,
@@ -241,6 +203,7 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
 
         @Override
         public void onLocationChanged(Location loc) {
+        	
         	latitudCurrent = (int)(loc.getLatitude()*1E6);
         	longitudCurrent = (int)(loc.getLongitude()*1E6);
         	androidOverlay.removeOverlay(itemRobotito);
@@ -256,47 +219,61 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
             mapView.getController().animateTo(new GeoPoint(latitudCurrent, longitudCurrent));
             
             mapView.invalidate();
-            
-            SitesController.getInstance().getSitesByPosition(latitudCurrent, longitudCurrent, 
-    		        new OnCompletedCallback() {
-
-    			        @Override
-    			        public void onCompleted(String response, String error) {
-    			        	if (error == null)  {
-    				        	Gson gson = new Gson();
-    				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();				    		
-    				    		List<Site> sites = gson.fromJson(response, listType);    				    		
-    				    		updateSites (sites); 				    		
-    			    		}
-    			        }
-    		        });
-            
-            ProductsController.getInstance().getStoresByPosition(latitudCurrent, longitudCurrent, 
-    		        new OnCompletedCallback() {
-
-    			        @Override
-    			        public void onCompleted(String response, String error) {
-    			        	if (error == null)  {
-    				        	Gson gson = new Gson();
-    				        	Type listType = new TypeToken<ArrayList<RetailStore>>() {}.getType();				    		
-    				    		List<RetailStore> stores = gson.fromJson(response, listType);
-    				    		updateStores (stores);			    		
-    			    		}
-    			        }
-    		        });
-            EventsController.getInstance().getEventsByPosition (latitudCurrent, longitudCurrent, 
-    		        new OnCompletedCallback() {
-
-    			        @Override
-    			        public void onCompleted(String response, String error) {
-    			        	if (error == null)  {
-    				        	Gson gson = new Gson();
-    				        	Type listType = new TypeToken<ArrayList<Event>>() {}.getType();				    		
-    				    		List<Event> events = gson.fromJson(response, listType);
-    				    		updateEvents(events);
-    			    		}
-    			        }
-    		        });
+            if (mapView.getZoomLevel() >11)
+			{
+	            
+	
+	            GeoPoint trGpt; // Top right (NE) Geopoint
+	            GeoPoint blGpt; // Bottom left (SW) GeoPoint
+	
+	            trGpt = mapView.getProjection().fromPixels(mapView.getWidth(), 0);
+	            blGpt = mapView.getProjection().fromPixels(0, mapView.getHeight());
+	            int bottomLeftLat = (int)(blGpt.getLatitudeE6());
+	            int bottomLeftLong = (int)(blGpt.getLongitudeE6());
+	            int topRightLat = (int)(trGpt.getLatitudeE6());
+	            int topRightLong = (int)(trGpt.getLongitudeE6());
+	            
+	            SitesController.getInstance().getSitesByPosition(bottomLeftLat, bottomLeftLong, topRightLat, topRightLong, 
+	    		        new OnCompletedCallback() {
+	
+	    			        @Override
+	    			        public void onCompleted(String response, String error) {
+	    			        	if (error == null)  {
+	    				        	Gson gson = new Gson();
+	    				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();				    		
+	    				    		List<Site> sites = gson.fromJson(response, listType);    				    		
+	    				    		updateSites (sites); 				    		
+	    			    		}
+	    			        }
+	    		        });
+	            
+	            ProductsController.getInstance().getStoresByPosition(bottomLeftLat, bottomLeftLong, topRightLat, topRightLong, 
+	    		        new OnCompletedCallback() {
+	
+	    			        @Override
+	    			        public void onCompleted(String response, String error) {
+	    			        	if (error == null)  {
+	    				        	Gson gson = new Gson();
+	    				        	Type listType = new TypeToken<ArrayList<RetailStore>>() {}.getType();				    		
+	    				    		List<RetailStore> stores = gson.fromJson(response, listType);
+	    				    		updateStores (stores);			    		
+	    			    		}
+	    			        }
+	    		        });
+	            EventsController.getInstance().getEventsByPosition (bottomLeftLat, bottomLeftLong, topRightLat, topRightLong,
+	    		        new OnCompletedCallback() {
+	
+	    			        @Override
+	    			        public void onCompleted(String response, String error) {
+	    			        	if (error == null)  {
+	    				        	Gson gson = new Gson();
+	    				        	Type listType = new TypeToken<ArrayList<Event>>() {}.getType();				    		
+	    				    		List<Event> events = gson.fromJson(response, listType);
+	    				    		updateEvents(events);
+	    			    		}
+	    			        }
+	    		        });
+			}
         }
 
         @Override
@@ -317,7 +294,9 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
     
     // actualiza los sitios del mapa
     private void updateSites (List <Site> sites) {
-		currentSites = sites;
+    	siteRadiusOverlay.points.clear();
+		siteRadiusOverlay.radius.clear();
+        currentSites = sites;
 		siteMapOverlay.clear ();
 		if (sites != null) {
     		for (Site sitio : sites)
@@ -326,9 +305,17 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
     			double longitud = sitio.getCoordinates() [0]*1e6;
     			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
     			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress(), sitio.getId ());
-    			siteMapOverlay.addOverlay (overlayitem);
-    					
-    		}
+    			siteMapOverlay.addOverlay (overlayitem);    			
+    			siteRadiusOverlay.points.add(point2);
+    			if ((float)sitio.getRadius() >0)
+    			{
+    				siteRadiusOverlay.radius.add((float)sitio.getRadius());
+    			}
+    			else
+    			{
+    				siteRadiusOverlay.radius.add(new Float(100));
+    			}
+    		}    		
 		}
 		mapView.invalidate(); 
     }
@@ -448,4 +435,86 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
         	updateEvents (currentEvents); 
         }
     };
+    
+    private class MapViewChangeListener implements MyMapView.OnChangeListener
+	{
+
+		@Override
+		public void onChange(MapView view, GeoPoint newCenter, GeoPoint oldCenter, int newZoom, int oldZoom)
+		{
+			if (mapView.getZoomLevel() >11)
+			{
+				// Si se esta incrementando el zoom, entonces solo traer si hice zoom out
+				if (newZoom == oldZoom || (newZoom != oldZoom && newZoom < oldZoom))
+				{
+					// Check values
+					if ((!newCenter.equals(oldCenter)) || (newZoom != oldZoom))
+					{
+						GeoPoint tlGpt; // Top left (NW) Geopoint
+				        GeoPoint brGpt; // Bottom right (SE) GeoPoint
+		
+				        GeoPoint trGpt; // Top right (NE) Geopoint
+				        GeoPoint blGpt; // Bottom left (SW) GeoPoint
+		
+				        tlGpt = mapView.getProjection().fromPixels(0, 0);
+				        brGpt = mapView.getProjection().fromPixels(mapView.getWidth(),
+				                    mapView.getHeight());
+		
+				        trGpt = mapView.getProjection().fromPixels(mapView.getWidth(), 0);
+				        blGpt = mapView.getProjection().fromPixels(0, mapView.getHeight());
+				        int bottomLeftLat = (int)(blGpt.getLatitudeE6());
+				        int bottomLeftLong = (int)(blGpt.getLongitudeE6());
+				        int topRightLat = (int)(trGpt.getLatitudeE6());
+				        int topRightLong = (int)(trGpt.getLongitudeE6());
+				        if (lastUpdateZoom != mapView.getZoomLevel() || lastUpdateBottomLeftLat != bottomLeftLat  || lastUpdateBottomLeftLong != bottomLeftLong)
+				    	{
+				        	lastUpdateBottomLeftLat = bottomLeftLat;
+				        	lastUpdateBottomLeftLong = bottomLeftLong;
+				        	lastUpdateZoom = mapView.getZoomLevel();
+				        	EventsController.getInstance().getEventsByPosition (bottomLeftLat, bottomLeftLong, topRightLat, topRightLong,
+						        new OnCompletedCallback() {
+				        	
+							        @Override
+							        public void onCompleted(String response, String error) {
+							        	if (error == null)  {
+								        	Gson gson = new Gson();
+								        	Type listType = new TypeToken<ArrayList<Event>>() {}.getType();				    		
+								    		List<Event> events = gson.fromJson(response, listType);
+								    		updateEvents(events);
+							    		}
+							        }
+						        });
+				            ProductsController.getInstance().getStoresByPosition(bottomLeftLat, bottomLeftLong, topRightLat, topRightLong, 
+				    		        new OnCompletedCallback() {
+				
+				    			        @Override
+				    			        public void onCompleted(String response, String error) {
+				    			        	if (error == null)  {
+				    				        	Gson gson = new Gson();
+				    				        	Type listType = new TypeToken<ArrayList<RetailStore>>() {}.getType();				    		
+				    				    		List<RetailStore> stores = gson.fromJson(response, listType);
+				    				    		updateStores (stores);			    		
+				    			    		}
+				    			        }
+				    		        });
+				            SitesController.getInstance().getSitesByPosition(bottomLeftLat, bottomLeftLong, topRightLat, topRightLong, 
+				    		        new OnCompletedCallback() {
+				
+				    			        @Override
+				    			        public void onCompleted(String response, String error) {
+				    			        	if (error == null)  {
+				    				        	Gson gson = new Gson();
+				    				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();				    		
+				    				    		List<Site> sites = gson.fromJson(response, listType);    				    		
+				    				    		updateSites (sites); 				    		
+				    			    		}
+				    			        }
+				    		        });
+		
+				    	}				
+					}
+				}
+			}	
+		}
+	}
 }

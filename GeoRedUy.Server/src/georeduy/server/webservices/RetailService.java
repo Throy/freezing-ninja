@@ -163,13 +163,13 @@ public class RetailService {
 	@GET()
 	@Produces("text/plain")
 	@Path("GetByLocation")
-	public Response GetByLocation(@QueryParam("latitude") Integer latitude, @QueryParam("longitude") Integer longitud, @Context SecurityContext context) {
+	public Response GetByLocation(@QueryParam("bottomLeftLatitude") Integer bottomLeftLatitude, @QueryParam("bottomLeftLongitude") Integer bottomLeftLongitud, @QueryParam("topRightLatitude") Integer topRightLatitude,@QueryParam("topRightLongitude") Integer topRightLongitude,@Context SecurityContext context) {
 		if (!context.isUserInRole(Roles.REG_USER)) {
 			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED).build();
 		}
 		
 		Gson gson = new Gson();
-		List<RetailStore> stores = RetailController.getInstance().GetByPosition(latitude, longitud);
+		List<RetailStore> stores = RetailController.getInstance().GetByPosition(bottomLeftLatitude, bottomLeftLongitud, topRightLatitude, topRightLongitude);
 		String hola = gson.toJson(stores);
 		return Response.status(200).entity(gson.toJson(stores)).build();
 	}

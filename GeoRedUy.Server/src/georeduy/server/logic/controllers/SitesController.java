@@ -101,7 +101,7 @@ public class SitesController {
 	}
 
 	// obtener sitios cercanos
-	public List<Site> getSitesByPosition(int latitude, int longitud) {
+	public List<Site> getSitesByPosition(int bottomLeftLatitude, int bottomLeftLongitude, int topRightLatitude, int topRightLongitude) {
 		/*
 		 * List<Site> lista = new ArrayList<Site>(); Site sitio1 = new Site();
 		 * sitio1.coordinates[0] = latitude/1e6; sitio1.coordinates[1] =
@@ -114,12 +114,12 @@ public class SitesController {
 		// TODO: revisar si se mantiene que la posicion pasada es la ultima
 		// Actualizo la ultima posicion conocida del usuario
 		Double[] coordinates = new Double[2];
-		coordinates[1] = latitude / 1e6;
-		coordinates[0] = longitud / 1e6;
+		coordinates[1] = ((bottomLeftLatitude / 1e6) + (topRightLatitude / 1e6))/2;
+		coordinates[0] = ((bottomLeftLongitude / 1e6) + (topRightLongitude / 1e6))/2;
 		SessionController.getInstance().GetUserById(User.Current().getId())
 				.setCoordinates(coordinates);
 
-		return siteDao.getNearSites(latitude / 1e6, longitud / 1e6, 0.01);
+		return siteDao.getNearSites(bottomLeftLatitude/1e6, bottomLeftLongitude/1e6, topRightLatitude/1e6, topRightLongitude/1e6);
 	}
 
 	// obtener datos de un sitio.

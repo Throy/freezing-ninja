@@ -127,7 +127,7 @@ public class RetailController {
 		return retailStoreDao.find(new ObjectId(id));
 	}
 	
-	public List<RetailStore> GetByPosition(int latitude, int longitud) {
-		return retailStoreDao.getNearStores(latitude/1e6, longitud/1e6, 0.01);		
+	public List<RetailStore> GetByPosition(int bottomLeftLatitude, int bottomLeftLongitude, int topRightLatitude, int topRightLongitude) {
+		return retailStoreDao.getNearStores(bottomLeftLatitude/1e6, bottomLeftLongitude/1e6, topRightLatitude/1e6, topRightLongitude/1e6);		
 	}
 }

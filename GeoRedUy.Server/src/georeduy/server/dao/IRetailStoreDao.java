@@ -14,7 +14,7 @@ public interface IRetailStoreDao {
 
     public RetailStore findByName(String name);
 
-    public List<RetailStore> getNearStores(double latitude, double longitude, double radius);
+    public List<RetailStore> getNearStores(double bottomLeftLatitude, double bottomLeftLongitude, double topRightLatitude, double topRightLongitude);
     
     public List<RetailStore> getStores();
     

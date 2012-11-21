@@ -18,7 +18,7 @@ public class Site {
     // radio para visitas, en metros
     private int radius;
     
-    private String imageUrl;
+    private byte[] image;
     
     private List<String> tags = new ArrayList<String>();
     
@@ -75,8 +75,8 @@ public class Site {
 	}
 
 
-	public String getImageUrl() {
-		return imageUrl;
+	public byte[] getImage() {
+		return image;
 	}
 
 
@@ -98,8 +98,8 @@ public class Site {
 	}
 
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setImageUrl(byte[] image) {
+		this.image = image; 
 	}
 
 	public List<String> getTagsIds() {

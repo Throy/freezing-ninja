@@ -20,6 +20,8 @@ public class Product {
     private String price;
     @Property
     private String imageUrl;
+    @Property
+    private byte[] image;
     
     @Property
     private Date releaseDate;
@@ -89,6 +91,14 @@ public class Product {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 	@Override

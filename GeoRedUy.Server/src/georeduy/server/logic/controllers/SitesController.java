@@ -1,5 +1,6 @@
 package georeduy.server.logic.controllers;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -67,8 +68,17 @@ public class SitesController {
 				realTags.add(dbTag);
 			}
 			site.setTags(realTags);
+			
+			if (site.getImage() != null) {
+				BufferedImage image = Util.resize(Util.byteToBufferImage(site.getImage()), 80, 80);
+				site.setImage(Util.toByte(image));
+			}
+			
 			siteDao.saveSite(site);
-
+			
+			// Image is to long to broadcast
+			site.setImage(null);
+			
 			final Site siteF = site;
 			NotificationsController.getInstance().BroadCast(site, new Filter() {
 

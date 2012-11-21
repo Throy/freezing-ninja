@@ -7,24 +7,29 @@ import georeduy.backend.model.Retailer;
 import georeduy.backend.model.User;
 import georeduy.backend.model.UserNotificationsTypes;
 import georeduy.backend.util.GeoRedClient;
+import georeduy.backend.util.Util;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-
+@MultipartConfig
 public class RetailServlet extends HttpServlet {
    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -152,17 +157,16 @@ public class RetailServlet extends HttpServlet {
     }
     
     public void AddProduct(HttpServletRequest request) throws Exception {
-    	String name = request.getParameter("Name");
-    	String description = request.getParameter("Description");
-    	double price = Double.parseDouble (request.getParameter("Price"));
-    	String imageUrl = request.getParameter("ImageUrl");
+    	String name = Util.getValue(request.getPart("Name"));
+    	String description = Util.getValue(request.getPart("Description"));
+    	double price = Double.parseDouble (Util.getValue(request.getPart("Price")));
     	
     	Product product = new Product();
     	product.setName(name);
     	product.setDescription(description);
-    	product.setImageUrl(imageUrl);
     	product.setPrice(Double.toString(price));
     	product.setReleaseDate (new Date ());
+    	product.setImage(Util.getBytes(request.getPart("imageData").getInputStream()));
     	// *** en realidad, releaseDate debería ser un campo del formulario ***
     	
     	Gson gson = new Gson();

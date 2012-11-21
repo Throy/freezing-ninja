@@ -8,6 +8,8 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import com.google.code.morphia.dao.BasicDAO;
+import com.google.code.morphia.query.Query;
+import com.mongodb.WriteResult;
 
 public class SiteDaoImpl extends BasicDAO<Site, ObjectId> implements ISiteDao {
 
@@ -21,6 +23,10 @@ public class SiteDaoImpl extends BasicDAO<Site, ObjectId> implements ISiteDao {
 		for (String tagId : site.getTagsIds()) {
 			site.addTag(tagDao.find(new ObjectId(tagId)));
 		}
+		
+		// Esto es un fix espantoso porque no me quiere devolver los sitios en el android, 
+		// asi que para obtener la imagen hay que llamar a get
+    	site.setImage(null);
     	
     	return site;
     }
@@ -76,5 +82,12 @@ public class SiteDaoImpl extends BasicDAO<Site, ObjectId> implements ISiteDao {
 	@Override
     public List<Site> getSites(int from, int count) {
 		return ResolveReferences (createQuery().offset(from).limit(count).asList());
+    }
+
+	// Llamar este metodo cuando se quiere la imagen de un sitio!
+	@Override
+    public byte[] getSiteImage(String id) {
+	    Site site = get(new ObjectId(id));
+	    return site.getImage();
     }
 }

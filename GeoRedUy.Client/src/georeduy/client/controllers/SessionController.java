@@ -57,6 +57,10 @@ public class SessionController
 			@Override
 			public void onCompleted(String response, String error) {
 				TokenRepository.getInstance().setToken (response);
+
+				NotificationsController.getInstance().getNotificationsTypesConfiguration(null);
+				NotificationsController.getInstance().getNotificationsTagsConfiguration(null);
+				
 				if (callback != null)
 					callback.onCompleted(response, error);
 			}
@@ -74,6 +78,10 @@ public class SessionController
 			@Override
 			public void onCompleted(String response, String error) {
 				TokenRepository.getInstance().setToken (response);
+				
+				NotificationsController.getInstance().getNotificationsTypesConfiguration(null);
+				NotificationsController.getInstance().getNotificationsTagsConfiguration(null);
+				
 				if (callback != null)
 					callback.onCompleted(response, error);
 			}

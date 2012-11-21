@@ -126,6 +126,10 @@ public class SitesController {
 	public Site getById(String siteId) {
 		return siteDao.find(new ObjectId(siteId));
 	}
+	
+	public byte[] getSiteImage(String siteId) {
+		return siteDao.getSiteImage(siteId);
+	}
 
 	// administrar visitas
 

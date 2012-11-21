@@ -88,7 +88,8 @@ public class ConfigureNotificationsTypesActivity extends Activity {
         
         // poblar lista de items
         notitypes = null;
-        NotificationsController.getInstance ().getNotificationsTypesConfiguration (new OnCompletedCallback() {
+        
+        NotificationsController.getInstance().getNotificationsTypesConfiguration (new OnCompletedCallback() {
 			
 			@Override
 			public void onCompleted (String response, String error)
@@ -158,6 +159,30 @@ public class ConfigureNotificationsTypesActivity extends Activity {
     // cliquear Guardar -> confirmar cambios. 
     
     public void button_save_onClick (View view) {
+    	// enviar configuración al servidor de aplicación
+		notitypes.setNotitype1_contactsVisits (adapter.isChecked (0));
+		notitypes.setNotitype2_contactsComments (adapter.isChecked (1));
+		notitypes.setNotitype3_contactsReviews (adapter.isChecked (2));
+		notitypes.setNotitype4_sites (adapter.isChecked (3));
+		notitypes.setNotitype5_products (adapter.isChecked (4));
+		notitypes.setNotitype6_events (adapter.isChecked (5));
+
+		NotificationsController.getInstance ().setNotificationsTypesConfiguration (notitypes, new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted (String response, String error)
+			{
+				// todo bien, cerrar menú
+				if (error == null) {
+					finish ();
+				}
+				
+				else {
+					CommonUtilities.showAlertMessage (ConfigureNotificationsTypesActivity.this, "Error CNTypes bso", "Hubo un error:\n" + error);
+					//finish();
+				}
+			}});
+    	/*
     	// confirmar cambios en la configuración
     	final AlertDialog alertDialog = new AlertDialog.Builder (this).create ();
 
@@ -200,7 +225,7 @@ public class ConfigureNotificationsTypesActivity extends Activity {
 				alertDialog.cancel();
 			}
 		});
-		alertDialog.show();
+		alertDialog.show();*/
     }
     
     // cliquear Cancelar -> salir del menú.

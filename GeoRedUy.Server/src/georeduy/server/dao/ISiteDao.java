@@ -20,4 +20,6 @@ public interface ISiteDao {
     public List<Site> getSites();
     
     public List<Site> getSites(int from, int count);
+    
+    public byte[] getSiteImage(String id);
 }

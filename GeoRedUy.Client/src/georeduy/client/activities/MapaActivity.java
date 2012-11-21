@@ -184,6 +184,10 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
     	itemRobotito = new OverlayItem(nuevaUbicacion, "Me", "This is where you are :)");
     	
 		androidOverlay.addOverlay(itemRobotito);
+		
+		NotificationsController.getInstance().setCurrentLocation(latitudeE5/1e6, longitudeE5/1e6);
+        requestItems(true);
+        
         menuHandler = new MenuHandler(this);
         
         registerReceiver(m_newSiteReceiver,
@@ -197,41 +201,31 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
-    public class MyLocationListener implements LocationListener {
-
-        private final String TAG = MyLocationListener.class.getSimpleName();
-
-        @Override
-        public void onLocationChanged(Location loc) {
-        	
-        	latitudCurrent = (int)(loc.getLatitude()*1E6);
-        	longitudCurrent = (int)(loc.getLongitude()*1E6);
-        	androidOverlay.removeOverlay(itemRobotito);
-        	radiusOverlay.point = new GeoPoint(latitudCurrent, longitudCurrent);
-        	//storeMapOverlay.clear();
-			//siteMapOverlay.clear();
-        	
-        	GeoPoint nuevaUbicacion = new GeoPoint(latitudCurrent, longitudCurrent);
-        	itemRobotito = new OverlayItem (nuevaUbicacion, "Vos", "Ésta es tu ubicación.");
-        	
-			androidOverlay.addOverlay(itemRobotito);
-			
-            mapView.getController().animateTo(new GeoPoint(latitudCurrent, longitudCurrent));
-            
-            mapView.invalidate();
-            if (mapView.getZoomLevel() >11)
-			{
-	            
 	
+	private void requestItems(Boolean firstCall) {
+		
 	            GeoPoint trGpt; // Top right (NE) Geopoint
 	            GeoPoint blGpt; // Bottom left (SW) GeoPoint
-	
-	            trGpt = mapView.getProjection().fromPixels(mapView.getWidth(), 0);
-	            blGpt = mapView.getProjection().fromPixels(0, mapView.getHeight());
-	            int bottomLeftLat = (int)(blGpt.getLatitudeE6());
-	            int bottomLeftLong = (int)(blGpt.getLongitudeE6());
-	            int topRightLat = (int)(trGpt.getLatitudeE6());
-	            int topRightLong = (int)(trGpt.getLongitudeE6());
+	            int bottomLeftLat;
+	            int bottomLeftLong;
+	            int topRightLat;
+	            int topRightLong;
+	            if (!firstCall)
+	            {
+		            trGpt = mapView.getProjection().fromPixels(mapView.getWidth(), 0);
+		            blGpt = mapView.getProjection().fromPixels(0, mapView.getHeight());
+		            bottomLeftLat = (int)(blGpt.getLatitudeE6());
+		            bottomLeftLong = (int)(blGpt.getLongitudeE6());
+		            topRightLat = (int)(trGpt.getLatitudeE6());
+		            topRightLong = (int)(trGpt.getLongitudeE6());
+	            }
+	            else
+	            {
+	            	bottomLeftLat = -34898016;
+		            bottomLeftLong = -56135149;
+		            topRightLat = -34886012;
+		            topRightLong = -56124851;
+	            }
 	            
 	            SitesController.getInstance().getSitesByPosition(bottomLeftLat, bottomLeftLong, topRightLat, topRightLong, 
 	    		        new OnCompletedCallback() {
@@ -273,6 +267,37 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
 	    			    		}
 	    			        }
 	    		        });
+	
+	}
+	
+    public class MyLocationListener implements LocationListener {
+
+        private final String TAG = MyLocationListener.class.getSimpleName();
+
+        @Override
+        public void onLocationChanged(Location loc) {
+        	NotificationsController.getInstance().setCurrentLocation(loc.getLatitude(), loc.getLongitude());
+        	
+        	latitudCurrent = (int)(loc.getLatitude()*1E6);
+        	longitudCurrent = (int)(loc.getLongitude()*1E6);
+        	androidOverlay.removeOverlay(itemRobotito);
+        	radiusOverlay.point = new GeoPoint(latitudCurrent, longitudCurrent);
+        	//storeMapOverlay.clear();
+			//siteMapOverlay.clear();
+        	
+        	GeoPoint nuevaUbicacion = new GeoPoint(latitudCurrent, longitudCurrent);
+        	itemRobotito = new OverlayItem (nuevaUbicacion, "Vos", "Ésta es tu ubicación.");
+        	
+			androidOverlay.addOverlay(itemRobotito);
+			
+            mapView.getController().animateTo(new GeoPoint(latitudCurrent, longitudCurrent));
+            
+            mapView.invalidate();
+            
+            //requestItems(latitudCurrent, longitudCurrent);
+            if (mapView.getZoomLevel() >11)
+			{
+	            requestItems(false);	
 			}
         }
 
@@ -305,7 +330,10 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
     			double longitud = sitio.getCoordinates() [0]*1e6;
     			GeoPoint point2 = new GeoPoint ((int) Math.round(lat), (int) Math.round(longitud));
     			MapOverlayItem overlayitem = new MapOverlayItem(point2, sitio.getName(), sitio.getName(), sitio.getAddress(), sitio.getId ());
-    			siteMapOverlay.addOverlay (overlayitem);    			
+    			siteMapOverlay.addOverlay (overlayitem);    
+    			NotificationsController.getInstance().notifyIfInterested(this, sitio);
+    		
+    			//siteMapOverlay.addOverlay (overlayitem);    			
     			siteRadiusOverlay.points.add(point2);
     			if ((float)sitio.getRadius() >0)
     			{
@@ -450,68 +478,7 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
 					// Check values
 					if ((!newCenter.equals(oldCenter)) || (newZoom != oldZoom))
 					{
-						GeoPoint tlGpt; // Top left (NW) Geopoint
-				        GeoPoint brGpt; // Bottom right (SE) GeoPoint
-		
-				        GeoPoint trGpt; // Top right (NE) Geopoint
-				        GeoPoint blGpt; // Bottom left (SW) GeoPoint
-		
-				        tlGpt = mapView.getProjection().fromPixels(0, 0);
-				        brGpt = mapView.getProjection().fromPixels(mapView.getWidth(),
-				                    mapView.getHeight());
-		
-				        trGpt = mapView.getProjection().fromPixels(mapView.getWidth(), 0);
-				        blGpt = mapView.getProjection().fromPixels(0, mapView.getHeight());
-				        int bottomLeftLat = (int)(blGpt.getLatitudeE6());
-				        int bottomLeftLong = (int)(blGpt.getLongitudeE6());
-				        int topRightLat = (int)(trGpt.getLatitudeE6());
-				        int topRightLong = (int)(trGpt.getLongitudeE6());
-				        if (lastUpdateZoom != mapView.getZoomLevel() || lastUpdateBottomLeftLat != bottomLeftLat  || lastUpdateBottomLeftLong != bottomLeftLong)
-				    	{
-				        	lastUpdateBottomLeftLat = bottomLeftLat;
-				        	lastUpdateBottomLeftLong = bottomLeftLong;
-				        	lastUpdateZoom = mapView.getZoomLevel();
-				        	EventsController.getInstance().getEventsByPosition (bottomLeftLat, bottomLeftLong, topRightLat, topRightLong,
-						        new OnCompletedCallback() {
-				        	
-							        @Override
-							        public void onCompleted(String response, String error) {
-							        	if (error == null)  {
-								        	Gson gson = new Gson();
-								        	Type listType = new TypeToken<ArrayList<Event>>() {}.getType();				    		
-								    		List<Event> events = gson.fromJson(response, listType);
-								    		updateEvents(events);
-							    		}
-							        }
-						        });
-				            ProductsController.getInstance().getStoresByPosition(bottomLeftLat, bottomLeftLong, topRightLat, topRightLong, 
-				    		        new OnCompletedCallback() {
-				
-				    			        @Override
-				    			        public void onCompleted(String response, String error) {
-				    			        	if (error == null)  {
-				    				        	Gson gson = new Gson();
-				    				        	Type listType = new TypeToken<ArrayList<RetailStore>>() {}.getType();				    		
-				    				    		List<RetailStore> stores = gson.fromJson(response, listType);
-				    				    		updateStores (stores);			    		
-				    			    		}
-				    			        }
-				    		        });
-				            SitesController.getInstance().getSitesByPosition(bottomLeftLat, bottomLeftLong, topRightLat, topRightLong, 
-				    		        new OnCompletedCallback() {
-				
-				    			        @Override
-				    			        public void onCompleted(String response, String error) {
-				    			        	if (error == null)  {
-				    				        	Gson gson = new Gson();
-				    				        	Type listType = new TypeToken<ArrayList<Site>>() {}.getType();				    		
-				    				    		List<Site> sites = gson.fromJson(response, listType);    				    		
-				    				    		updateSites (sites); 				    		
-				    			    		}
-				    			        }
-				    		        });
-		
-				    	}				
+						requestItems(false);	
 					}
 				}
 			}	

@@ -33,6 +33,8 @@ import org.bson.types.ObjectId;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
+import sun.misc.BASE64Decoder;
+
 import com.google.gson.Gson;
 
 @Path("/Sites")
@@ -127,6 +129,7 @@ public class SitesService {
 		Gson gson = new Gson();
 		List<Site> sites = SitesController.getInstance().getSitesByPosition(
 				latitude, longitud);
+		
 		return Response.status(200).entity(gson.toJson(sites)).build();
 	}
 
@@ -150,6 +153,28 @@ public class SitesService {
 			Site site = SitesController.getInstance().getById(siteId);
 
 			return Response.status(200).entity(gson.toJson(site)).build();
+		}
+
+		// si salta una excepción, devolver error
+		catch (Exception ex) {
+			return Response.status(500).entity(ex.getMessage()).build();
+		}
+	}
+	
+	@GET()
+	@Produces("image/jpg")
+	@Path("GetImageById")
+	public Response GetImageById(@QueryParam("siteId") String siteId,
+			@Context HttpServletResponse servletResponse,
+			@Context SecurityContext context) {
+		/*if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED)
+					.build();
+		}*/
+		
+		try {
+			byte[] image = SitesController.getInstance().getSiteImage(siteId);
+			return Response.status(200).entity(image).build();
 		}
 
 		// si salta una excepción, devolver error

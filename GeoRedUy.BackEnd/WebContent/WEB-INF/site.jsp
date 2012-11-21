@@ -137,7 +137,7 @@
 		        <div class="shadowr">
 		            <div class="int">
 		           		<div class="img" style="float:left;">
-	                    	<img class="image" style="margin:0;" width="48px" src='data:image/gif;base64,<%=Base64.encodeBytes(site.getImage())%>' alt="Image" />
+	                    	<img class="image" style="margin:0;" width="48px" src='/GeoRedUy.Server/Sites/GetImageById?siteId=<%=site.getId()%>' alt="Image" />
 	                    </div>
 		                <div class="body">
 		                    <div class="title" style="float:left;margin-right:10px;">

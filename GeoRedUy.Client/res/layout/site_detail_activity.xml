@@ -145,7 +145,6 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/button1"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/action_bar" 
-        android:contentDescription=""/>
+        android:contentDescription="" />
 
 </RelativeLayout>

@@ -22,6 +22,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHttpResponse;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
 public class GeoRedClient {
@@ -49,7 +52,8 @@ public class GeoRedClient {
 			protected HttpResponse doInBackground(String... params) {
 				String errorMessage = "";
 				try {
-	                return GeoRedClient.GetRequest(Config.SERVER_URL + uri, requestParams);
+	                HttpResponse response = GeoRedClient.GetRequest(Config.SERVER_URL + uri, requestParams);
+	                return response;
                 } catch (ClientProtocolException e) {
                 	errorMessage = e.getMessage();
                 } catch (IOException e) {
@@ -75,8 +79,9 @@ public class GeoRedClient {
 				String res = null;
 				String error = null;
                 try {
-                	if (response.getEntity() != null)
+                	if (response.getEntity() != null) {
                 		res = EntityUtils.toString(response.getEntity());
+                	}
                 	else
                 		error = "Null entity.";
                 } catch (ParseException e) {
@@ -112,13 +117,16 @@ public class GeoRedClient {
 			}
 		}
 		
-		DefaultHttpClient httpClient = new DefaultHttpClient();
+		final HttpParams httpParams = new BasicHttpParams();
+	    HttpConnectionParams.setSoTimeout(httpParams, 30000);
+	    
+		DefaultHttpClient httpClient = new DefaultHttpClient(httpParams);
 		HttpGet getRequest = new HttpGet(endpoint + "?" + query.toString());
 		
 		String token = TokenRepository.getInstance().getToken();
 		if (token != null)
 			getRequest.addHeader("Token", token);
- 
+		
 		return httpClient.execute(getRequest);
 	}
 	

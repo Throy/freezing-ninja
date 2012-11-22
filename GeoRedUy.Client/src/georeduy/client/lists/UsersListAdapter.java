@@ -117,7 +117,7 @@ public class UsersListAdapter extends BaseAdapter {
         
         // set values of the views
         username.setText (user.getUserName());
-        fullname.setText (user.getUserData().getName() + user.getUserData().getLastName());
+        fullname.setText (user.getUserData().getName() + " "+ user.getUserData().getLastName());
         //imageLoader.DisplayImage(item.get (ListActivity.ITEM_THUMB), thumb_image);
  
         // set values of the views

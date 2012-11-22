@@ -129,27 +129,27 @@ public class InitDatabase {
 
     private void createTags() {
     	Tag tag = new Tag();
-    	tag.setName ("Arte y diseño");
+    	tag.setName ("Arte");
     	tag.setDescription ("Discos, libros, muebles");
     	tagDao.saveTag (tag);
 
     	tag = new Tag();
     	tag.setName ("Belleza");
-    	tag.setDescription ("Farmacias, ópticas, centros estéticos");
+    	tag.setDescription ("Farmacias, opticas, centros esteticos");
     	tagDao.saveTag (tag);
 
     	tag = new Tag();
     	tag.setName ("Finanzas");
-    	tag.setDescription ("Ahorros, préstamos, cambios, pagos");
+    	tag.setDescription ("Ahorros, prestamos, cambios, pagos");
     	tagDao.saveTag (tag);
 
     	tag = new Tag();
-    	tag.setName ("Electrónica");
-    	tag.setDescription ("Computadoras, telefonía, televisión, audio");
+    	tag.setName ("Electronica");
+    	tag.setDescription ("Computadoras, telefonia, television, audio");
     	tagDao.saveTag (tag);
 
     	tag = new Tag();
-    	tag.setName ("Espectáculos");
+    	tag.setName ("Espectaculos");
     	tag.setDescription ("Espacios de cine, teatro, danza y música");
     	tagDao.saveTag (tag);
 

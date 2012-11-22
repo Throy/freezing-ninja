@@ -66,10 +66,10 @@
 	    $.plot($("#placeholder"), [d1], options);
     });
     </script>       
- 
 
-    <div id="placeholder" style="width:600px;height:300px;"></div>
-	
+
+     <div id="placeholder" style="width:600px;height:300px;"></div>
+
 	<!--  -->
 	<form action="/GeoRedUy.BackEnd/report" method="post">    
 		<div class="reg-box big-red" style="margin:0 auto;">
@@ -140,7 +140,7 @@
     });
     </script>       
     <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-    <script type="text/javascript" src="/GeoRedUy.BackEnd/scripts/markerclusterer.js"></script>;
+    <script type="text/javascript" src="/GeoRedUy.BackEnd/scripts/markerclusterer.js"></script>
 
     <script type="text/javascript">
       function initialize() {
@@ -183,31 +183,28 @@
       }
       google.maps.event.addDomListener(window, 'load', initialize);
     </script>    
- 
-
-    <div id="placeholder" style="width:600px;height:300px;"></div>
-	
+    <div id="map-container" style="float:left;"><div id="map"></div></div>
 	<!--  -->
-	<form action="/GeoRedUy.BackEnd/report" method="post">    
+	<form action="/GeoRedUy.BackEnd/report" method="post" style="float:left; width:35%;">    
 		<div class="reg-box big-red" style="margin:0 auto;">
 	        <fieldset>
 	        	<input type="hidden" name="Report" value="Visits" />
-	                <input type="hidden" id="fechaDesde" name="fechaDesde" value="0"/>
-	                <input type="hidden" id="fechaHasta" name="fechaHasta" value="0" />
+	                <input type="hidden" id="fechaDesde" name="fechaDesde" value="0" style="width:80%"/>
+	                <input type="hidden" id="fechaHasta" name="fechaHasta" value="0" style="width:80%"/>
 	            <div class="editor-field">
-	                <p>Start Date:</p> <input type="text" id="fechaDesdeString" value="" />
+	                <p>Start Date:</p> <input type="text" id="fechaDesdeString" style="width:80%" value="" />
 	            </div>
 	
 	            <div class="editor-label">
-	                <p>End Date:</p> <input type="text" id="fechaHastaString" value="" />
+	                <p>End Date:</p> <input type="text" id="fechaHastaString" style="width:80%" value="" />
 	            </div>
 	            <p>
-	                <input type="submit" value="Generate Report" id="WorkaroundForOperaInputFocusBorderBug" class="boton-big-red" />
+	                <input type="submit" value="Generate Report" style="margin-right:75%" id="WorkaroundForOperaInputFocusBorderBug" class="boton-big-red" />
 	            </p>
 	        </fieldset>
 	    </div>
 	</form>	
 	
-	<div id="map-container"><div id="map"></div></div>
+
 
 <% } %>

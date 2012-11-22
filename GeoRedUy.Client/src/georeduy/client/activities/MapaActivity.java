@@ -443,9 +443,14 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
             new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+        	try
+        	{
         	List<Site> newSites = NotificationsController.getInstance().getNewSites();
         	currentSites.addAll(newSites);
-        	updateSites (currentSites); 
+        	updateSites (currentSites);
+        	}
+        	catch (Exception e)
+        	{}
         }
     };
     
@@ -453,9 +458,14 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
             new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+        	try
+        	{
         	List<RetailStore> newStores = NotificationsController.getInstance().getNewStores();
         	currentStores.addAll(newStores);
-        	updateStores (currentStores); 
+        	updateStores (currentStores);
+        	}
+        	catch (Exception e)
+        	{}
         }
     };
     
@@ -463,9 +473,16 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
             new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+        	try
+        	{
         	List<Event> newEvents = NotificationsController.getInstance().getNewEvents();
         	currentEvents.addAll(newEvents);
-        	updateEvents (currentEvents); 
+        	updateEvents (currentEvents);
+        	}
+        	catch (Exception e)
+        	{
+        		
+        	}
         }
     };
     

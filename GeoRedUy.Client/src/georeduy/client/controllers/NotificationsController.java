@@ -292,20 +292,31 @@ public class NotificationsController
 	}
 	
 	public void notifyIfInterested(final Context context, final Site site) {
+		try
+		{
 		if (!_oldSitesId.contains(site.getId()) && _userNotiTypes != null && _userNotiTypes.isNotitype4_sites()) {
-			for (Tag tag : site.getTags()) {
-				for (Tag userTag : _userTags) {
-					if (userTag.equals(tag) && userTag.isChecked()) {
-						if (CommonUtilities.distance(_longitudCurrent, _latitudCurrent, site.getCoordinates()[0], site.getCoordinates()[1]) <= CommonUtilities.BROADCAST_RANGE) {
-							_oldSitesId.add(site.getId());
-							Intent mapIntent = new Intent (context, MapaActivity.class);
-							generateNotification(context, notiId++, "New site " + site.getName(), site.getDescription(), mapIntent);	
+			if (site.getTags() != null)
+			{
+				for (Tag tag : site.getTags()) {
+					if (_userTags != null)
+					{
+						for (Tag userTag : _userTags) {
+							if (userTag.equals(tag) && userTag.isChecked()) {
+								if (CommonUtilities.distance(_longitudCurrent, _latitudCurrent, site.getCoordinates()[0], site.getCoordinates()[1]) <= CommonUtilities.BROADCAST_RANGE) {
+									_oldSitesId.add(site.getId());
+									Intent mapIntent = new Intent (context, MapaActivity.class);
+									generateNotification(context, notiId++, "New site " + site.getName(), site.getDescription(), mapIntent);	
+								}
+								return;
+							}
 						}
-						return;
 					}
 				}
 			}
 		}
+		}
+		catch (Exception e)
+		{}
 	}
 	
 	public void setCurrentLocation(double latitude, double longitude) {

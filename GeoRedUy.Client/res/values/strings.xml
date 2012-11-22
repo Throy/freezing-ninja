@@ -54,6 +54,7 @@
     <string name="title_activity_configure_notitypes">Configurar tipos de notif.</string>
     <string name="title_activity_product_buy_add_item">Agregar producto a compra</string>
     <string name="title_activity_product_buy_list">Comprar productos</string>
+    <string name="title_activity_contact_add">Agregar contacto</string>
     
     <!-- buttons -->
     

@@ -3,7 +3,6 @@ package georeduy.server.dao;
 import georeduy.server.logic.controllers.ProductsController;
 import georeduy.server.logic.controllers.RetailController;
 import georeduy.server.logic.model.Product;
-import georeduy.server.logic.model.Purchase;
 import georeduy.server.logic.model.Retailer;
 import georeduy.server.logic.model.RetailStore;
 import georeduy.server.logic.model.Roles;
@@ -416,42 +415,6 @@ public class InitDatabase {
     	ProductsController.getInstance().addStoreProduct (store.getId (), productMultiPanFlauta);
     	ProductsController.getInstance().addStoreProduct (store.getId (), productMultiExprimido);
     }
-    
-    
-    /**
-     * genera los sitios
-     */
-    @Test
-    public void test_createPurchases() {
-        
-        Purchase p = new Purchase();
-        p.setDate(new Date(112,2,2));
-        
-        Purchase p1 = new Purchase();
-        p1.setDate(new Date(112,2,2));
-        
-        Purchase p2 = new Purchase();
-        p2.setDate(new Date(112,2,3));
-        
-        Purchase p3 = new Purchase();
-        p3.setDate(new Date(112,2,3));
-        
-        Purchase p4 = new Purchase();
-        p4.setDate(new Date(112,2,3));
-        
-        Purchase p5 = new Purchase();
-        p5.setDate(new Date(112,2,4));
-        
-        PurchaseDaoImpl pdao = new PurchaseDaoImpl();
-        pdao.save(p1);
-        pdao.save(p1);
-        pdao.save(p2);
-        pdao.save(p3);
-        pdao.save(p4);
-        pdao.save(p5);
-    
-    }
-
 
     @Test
     public void Init() throws Exception {

@@ -106,5 +106,6 @@ public class MongoTest {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
         }
-    }
+    }    
+    
 }

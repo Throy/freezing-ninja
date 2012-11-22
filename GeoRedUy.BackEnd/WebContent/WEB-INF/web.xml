@@ -41,6 +41,10 @@
     <servlet-name>Retail</servlet-name>
     <servlet-class>georeduy.backend.controllers.RetailServlet</servlet-class>
   </servlet>
+    <servlet>
+    <servlet-name>Report</servlet-name>
+    <servlet-class>georeduy.backend.controllers.ReportServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>Home</servlet-name>
     <url-pattern>/home</url-pattern>
@@ -77,6 +81,10 @@
     <servlet-name>Retail</servlet-name>
     <url-pattern>/retail</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Report</servlet-name>
+    <url-pattern>/report</url-pattern>
+  </servlet-mapping>  
   
 	<filter>
 		<filter-name>LayoutFilter</filter-name>

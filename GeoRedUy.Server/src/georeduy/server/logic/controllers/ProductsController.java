@@ -166,6 +166,10 @@ public class ProductsController {
 	public List <Review> getReviewsByUser (int from) {
     	return reviewDao.findByUser (User.Current ().getId (), from, 10);
 	}
+	
+	public List <Purchase> getPurchasesByPeriod (Date start, Date end) {
+    	return purchaseDao.findByPeriod(start, end);
+	}
 
 	public byte[] getProductImage(String productId) {
 	    return productDao.getProductImage(productId);

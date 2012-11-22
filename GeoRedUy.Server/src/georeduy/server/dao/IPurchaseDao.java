@@ -7,6 +7,7 @@ package georeduy.server.dao;
 import georeduy.server.logic.model.Purchase;
 import georeduy.server.logic.model.Review;
 
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -27,4 +28,6 @@ public interface IPurchaseDao {
 
 	// obtener visitas del usuario, sistema paginado
 	public List <Purchase> findByUser (String userId, int from, int count);
+	
+	public List <Purchase> findByPeriod (Date start, Date end);
 }

@@ -17,6 +17,7 @@ public class GeoRedUyApplication extends Application {
 	     singletons.add(new ProductsService());
 	     singletons.add(new RetailService());
 	     singletons.add(new ContactsService());
+	     singletons.add(new ReportsService());
 	}
 	@Override
 	public Set<Class<?>> getClasses() {

@@ -301,7 +301,7 @@ public class NotificationsController
 							Intent mapIntent = new Intent (context, MapaActivity.class);
 							generateNotification(context, notiId++, "New site " + site.getName(), site.getDescription(), mapIntent);	
 						}
-						break;
+						return;
 					}
 				}
 			}

@@ -36,9 +36,9 @@ public class RetailStoreDaoImpl extends BasicDAO<RetailStore, ObjectId> implemen
     }
 
 	@Override
-    public List<RetailStore> getNearStores(double latitude, double longitude, double radius) {
-		double miles = 0.0034997840172; 
-		List<RetailStore> stores = createQuery().field("coordinates").within(longitude, latitude, miles).asList();
+    public List<RetailStore> getNearStores(double bottomLeftLatitude, double bottomLeftLongitude, double topRightLatitude, double topRightLongitude){
+		//double miles = 0.0034997840172; 
+		List<RetailStore> stores = createQuery().field("coordinates").within(bottomLeftLongitude,bottomLeftLatitude,topRightLongitude,topRightLatitude).asList();
 		if (stores.size() > 0)
 	    	return stores;
 	    else

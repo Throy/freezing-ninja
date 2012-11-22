@@ -1,19 +1,30 @@
 package georeduy.client.util;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import android.os.AsyncTask;
 
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.ParseException;
+import org.apache.http.ProtocolVersion;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHttpResponse;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
 public class GeoRedClient {
@@ -39,28 +50,45 @@ public class GeoRedClient {
 
 			@Override
 			protected HttpResponse doInBackground(String... params) {
+				String errorMessage = "";
 				try {
-	                return GeoRedClient.GetRequest(Config.SERVER_URL + uri, requestParams);
+	                HttpResponse response = GeoRedClient.GetRequest(Config.SERVER_URL + uri, requestParams);
+	                return response;
                 } catch (ClientProtocolException e) {
-	                e.printStackTrace();
+                	errorMessage = e.getMessage();
                 } catch (IOException e) {
+                	errorMessage = e.getMessage();
+                } catch (Exception e) {
+                	errorMessage = e.getMessage();
+				} catch (Throwable t) {
+					errorMessage = t.getMessage();
+				}
+				
+				BasicHttpResponse response = new BasicHttpResponse(new ProtocolVersion("HTTP", 1, 1),
+			            HttpStatus.SC_INTERNAL_SERVER_ERROR, errorMessage);
+				try {
+	                response.setEntity(new StringEntity(errorMessage));
+                } catch (UnsupportedEncodingException e) {
 	                e.printStackTrace();
                 }
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-				return null;
+				
+				return response;
 			}
 
 			protected void onPostExecute(HttpResponse response) {
 				String res = null;
 				String error = null;
                 try {
-	                res = EntityUtils.toString(response.getEntity());
+                	if (response.getEntity() != null) {
+                		res = EntityUtils.toString(response.getEntity());
+                	}
+                	else
+                		error = "Null entity.";
                 } catch (ParseException e) {
                 	error = e.getMessage();
                 } catch (IOException e) {
+                	error = e.getMessage();
+                } catch (Exception e) {
                 	error = e.getMessage();
                 }
 				
@@ -89,13 +117,16 @@ public class GeoRedClient {
 			}
 		}
 		
-		DefaultHttpClient httpClient = new DefaultHttpClient();
+		final HttpParams httpParams = new BasicHttpParams();
+	    HttpConnectionParams.setSoTimeout(httpParams, 30000);
+	    
+		DefaultHttpClient httpClient = new DefaultHttpClient(httpParams);
 		HttpGet getRequest = new HttpGet(endpoint + "?" + query.toString());
 		
 		String token = TokenRepository.getInstance().getToken();
 		if (token != null)
 			getRequest.addHeader("Token", token);
- 
+		
 		return httpClient.execute(getRequest);
 	}
 	
@@ -120,18 +151,21 @@ public class GeoRedClient {
 
 			@Override
 			protected HttpResponse doInBackground(String... params) {
+				String errorMessage = "";
 				try {
 	                return GeoRedClient.PostRequest(Config.SERVER_URL + uri, requestParams);
                 } catch (ClientProtocolException e) {
-	                e.printStackTrace();
+                	errorMessage = e.getMessage();
                 } catch (IOException e) {
-	                e.printStackTrace();
-                }
-				catch (Exception e)
-				{
-					e.printStackTrace();
+                	errorMessage = e.getMessage();
+                } catch (Exception e) {
+                	errorMessage = e.getMessage();
+				} catch (Throwable t) {
+					errorMessage = t.getMessage();
 				}
-				return null;
+				
+				return new BasicHttpResponse(new ProtocolVersion("HTTP", 1, 1),
+			            HttpStatus.SC_INTERNAL_SERVER_ERROR, errorMessage);
 			}
 
 			protected void onPostExecute(HttpResponse response) {

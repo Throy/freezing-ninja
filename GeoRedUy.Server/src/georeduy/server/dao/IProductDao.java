@@ -15,4 +15,6 @@ public interface IProductDao {
     public Product findByName(String name);
 
     public List<Product> getProducts(int from, int count, String retailerId);
+
+	byte[] getProductImage(String id);
 }

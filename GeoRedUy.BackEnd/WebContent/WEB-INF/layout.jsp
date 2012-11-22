@@ -61,6 +61,12 @@
                     <li class="menuitm"><a href="/GeoRedUy.BackEnd/retail?ListRetailers">Show retailers</a></li>
                 </ul>
             </li>
+            <li class="outer"><span class="menubtn"><a>Reports</a></span>
+                <ul>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/report?Report=Visits">Visits Report</a></li>
+                    <li class="menuitm"><a href="/GeoRedUy.BackEnd/report?Report=Purchase">Purchase Report</a></li>
+                </ul>
+            </li> 
             <% } %>
             
             <% if (user.hasRole(Roles.RETAIL_MANAGER)) { %>
@@ -76,6 +82,7 @@
                     <li class="menuitm"><a href="/GeoRedUy.BackEnd/retail?ListMyProducts">My products</a></li>
                 </ul>
             </li>
+           
             <% } %>
         </ul>                
         <span class="menulogon">

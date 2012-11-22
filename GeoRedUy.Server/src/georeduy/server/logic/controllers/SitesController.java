@@ -1,5 +1,6 @@
 package georeduy.server.logic.controllers;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -22,6 +23,7 @@ import georeduy.server.dao.UserDaoImpl;
 import georeduy.server.dao.VisitDaoImpl;
 import georeduy.server.logic.model.Comment;
 import georeduy.server.logic.model.GeoRedConstants;
+import georeduy.server.logic.model.MapRect;
 import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.Site;
 import georeduy.server.logic.model.Tag;
@@ -67,8 +69,17 @@ public class SitesController {
 				realTags.add(dbTag);
 			}
 			site.setTags(realTags);
+			
+			if (site.getImage() != null && site.getImage().length > 0) {
+				BufferedImage image = Util.resize(Util.byteToBufferImage(site.getImage()), 80, 80);
+				site.setImage(Util.toByte(image));
+			}
+			
 			siteDao.saveSite(site);
-
+			
+			// Image is to long to broadcast
+			site.setImage(null);
+			
 			final Site siteF = site;
 			NotificationsController.getInstance().BroadCast(site, new Filter() {
 
@@ -76,9 +87,10 @@ public class SitesController {
 				public boolean filter(String userId) {
 					User user = SessionController.getInstance().GetUserById(
 							userId);
-					if (Util.distanceHaversine(siteF.getCoordinates()[0],
+					if ((Util.distanceHaversine(siteF.getCoordinates()[0],
 							siteF.getCoordinates()[1],
-							user.getCoordinates()[0], user.getCoordinates()[1]) <= Util.BROADCAST_RANGE) {
+							user.getCoordinates()[0], user.getCoordinates()[1]) <= Util.BROADCAST_RANGE) ||
+							Util.within(siteF.getCoordinates()[0], siteF.getCoordinates()[1], user.getMapRect())) {
 						return false;
 					}
 					return true;
@@ -101,7 +113,7 @@ public class SitesController {
 	}
 
 	// obtener sitios cercanos
-	public List<Site> getSitesByPosition(int latitude, int longitud) {
+	public List<Site> getSitesByPosition(int bottomLeftLatitude, int bottomLeftLongitude, int topRightLatitude, int topRightLongitude) {
 		/*
 		 * List<Site> lista = new ArrayList<Site>(); Site sitio1 = new Site();
 		 * sitio1.coordinates[0] = latitude/1e6; sitio1.coordinates[1] =
@@ -113,18 +125,25 @@ public class SitesController {
 
 		// TODO: revisar si se mantiene que la posicion pasada es la ultima
 		// Actualizo la ultima posicion conocida del usuario
-		Double[] coordinates = new Double[2];
-		coordinates[1] = latitude / 1e6;
-		coordinates[0] = longitud / 1e6;
+		
+		MapRect mapRect = new MapRect();
+		mapRect.bottomLeftLatitude = bottomLeftLatitude/1e6;
+		mapRect.bottomLeftLongitude = bottomLeftLongitude/1e6;
+		mapRect.topRightLatitude = topRightLatitude/1e6;
+		mapRect.topRightLongitude = topRightLongitude/1e6;
 		SessionController.getInstance().GetUserById(User.Current().getId())
-				.setCoordinates(coordinates);
+				.setMapRect(mapRect);
 
-		return siteDao.getNearSites(latitude / 1e6, longitud / 1e6, 0.01);
+		return siteDao.getNearSites(bottomLeftLatitude/1e6, bottomLeftLongitude/1e6, topRightLatitude/1e6, topRightLongitude/1e6);
 	}
 
 	// obtener datos de un sitio.
 	public Site getById(String siteId) {
 		return siteDao.find(new ObjectId(siteId));
+	}
+	
+	public byte[] getSiteImage(String siteId) {
+		return siteDao.getSiteImage(siteId);
 	}
 
 	// administrar visitas

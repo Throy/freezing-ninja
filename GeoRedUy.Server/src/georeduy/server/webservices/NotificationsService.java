@@ -1,6 +1,8 @@
 package georeduy.server.webservices;
 
 import georeduy.server.logic.controllers.NotificationsController;
+import georeduy.server.logic.controllers.SessionController;
+import georeduy.server.logic.controllers.SitesController;
 import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.ChatMessage;
 import georeduy.server.logic.model.Roles;
@@ -227,5 +229,23 @@ public class NotificationsService {
 	    {
 	    	return Response.status(500).entity (ex.getMessage()).build();
 	    }
+	}
+	
+	@GET()
+	@Produces("text/plain")
+	@Path("LocationChange")
+	public Response LocationChange(@QueryParam("latitude") double latitude, @QueryParam("longitude") double longitude, @Context SecurityContext context) {
+		if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED)
+					.build();
+		}
+		
+		Double[] coordinates = new Double[2];
+		coordinates[1] = latitude;
+		coordinates[0] = longitude;
+		SessionController.getInstance().GetUserById(User.Current().getId())
+				.setCoordinates(coordinates);
+		
+		return Response.status(200).entity(GeoRedConstants.LOCATION_CHANGED).build();
 	}
 }

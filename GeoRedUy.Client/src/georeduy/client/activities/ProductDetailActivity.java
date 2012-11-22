@@ -10,10 +10,13 @@ package georeduy.client.activities;
 import georeduy.client.controllers.ProductsController;
 import georeduy.client.model.Product;
 import georeduy.client.util.CommonUtilities;
+import georeduy.client.util.Config;
+import georeduy.client.util.DownloadImageTask;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ProductDetailActivity extends Activity {
@@ -37,6 +40,9 @@ public class ProductDetailActivity extends Activity {
         TextView viewName = (TextView) findViewById (R.id.textview_name);
         TextView viewDescription = (TextView) findViewById (R.id.textview_description);
         TextView viewPrice = (TextView) findViewById (R.id.textview_price);
+        ImageView viewImage = (ImageView) findViewById(R.id.productImageView);
+        
+        new DownloadImageTask(viewImage).execute(Config.SERVER_URL + "/Products/GetImageById?productId=" + product.getId());
         
         viewProductId.setText (productId);
         viewName.setText (product.getName ());

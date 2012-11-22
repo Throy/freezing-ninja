@@ -9,6 +9,7 @@ package georeduy.client.controllers;
 
 import georeduy.client.activities.ChatActivity;
 import georeduy.client.activities.GCMActivity;
+import georeduy.client.activities.MapaActivity;
 import georeduy.client.activities.R;
 import georeduy.client.activities.VisitDetailActivity;
 import georeduy.client.activities.VisitsListActivity;
@@ -25,6 +26,7 @@ import georeduy.client.util.CommonUtilities;
 import georeduy.client.util.GeoRedClient;
 import georeduy.client.util.OnCompletedCallback;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +40,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class NotificationsController
 {
@@ -52,6 +55,16 @@ public class NotificationsController
 	private List<Site> _newSites = new ArrayList<Site>();
 	private List<RetailStore> _newStores = new ArrayList<RetailStore>();
 	private List<Event> _newEvents = new ArrayList<Event>();
+	
+	private UserNotificationsTypes _userNotiTypes;
+	private List<Tag> _userTags;
+	
+	private List<String> _oldSitesId = new ArrayList<String>();
+	
+	private double _latitudCurrent = 0;
+	private double _longitudCurrent = 0;
+	
+	private int notiId = 10;
 	
 	// *************
 	// constructores
@@ -81,6 +94,8 @@ public class NotificationsController
 	public void handleNotification(Context context, Site site) {
 		_newSites.add(site);
 		
+    	notifyIfInterested(context, site);
+		
 		Intent intent = new Intent(CommonUtilities.NEW_SITE_ACTION);
         context.sendBroadcast(intent);
 	}
@@ -103,7 +118,8 @@ public class NotificationsController
 		Intent chatIntent = new Intent (context, VisitDetailActivity.class);
         chatIntent.putExtra (VisitsListActivity.EXTRA_VISIT_ID, visit.getId());	 
     	
-        generateNotification(context, visit.getRealUser().getUserName() + " visited a site near you: ", visit.getRealSite().getName(), chatIntent);
+        if (_userNotiTypes != null && _userNotiTypes.isNotitype1_contactsVisits())
+        	generateNotification(context, notiId++, visit.getRealUser().getUserName() + " visited a site near you: ", visit.getRealSite().getName(), chatIntent);
 	}
 	
 	public void handleNotification(Context context, ChatMessage message) {
@@ -128,7 +144,7 @@ public class NotificationsController
         chatIntent.putExtra (CommonUtilities.EXTRA_USER_ID, message.getFromUserId());	 
         chatIntent.putExtra (CommonUtilities.EXTRA_USER_NAME, message.getFromUserName());
     	
-        generateNotification(context, message.getFromUserName() + " says:", message.getMessage(), chatIntent);
+        generateNotification(context, 0, message.getFromUserName() + " says:", message.getMessage(), chatIntent);
 	}
 	
 	public void sendMessage(ChatMessage message, OnCompletedCallback callback) {
@@ -164,22 +180,49 @@ public class NotificationsController
 	
 	// obtiene la configuración de tipos de notificaciones del usuario.
 	
-	public void getNotificationsTypesConfiguration (OnCompletedCallback callback) {
+	public void getNotificationsTypesConfiguration (final OnCompletedCallback callback) {
 		Map <String, String> params = new HashMap <String, String>();
-    	GeoRedClient.GetAsync("/Notifications/UserConfig/GetTypes", params, callback);	
+    	GeoRedClient.GetAsync("/Notifications/UserConfig/GetTypes", params, new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted(String response, String error) {
+				if (error == null) {
+					Gson gson = new Gson();
+					_userNotiTypes = gson.fromJson (response, UserNotificationsTypes.class);
+				}
+				
+				if (callback != null)
+					callback.onCompleted(response, error);
+			}
+		});	
 	}
 	
 	// obtiene la configuración de etiquetas de notificaciones del usuario.
 	
-	public void getNotificationsTagsConfiguration (OnCompletedCallback callback) {
+	public void getNotificationsTagsConfiguration (final OnCompletedCallback callback) {
 		Map <String, String> params = new HashMap <String, String>();
-    	GeoRedClient.GetAsync("/Notifications/UserConfig/GetTags", params, callback);	
+    	GeoRedClient.GetAsync("/Notifications/UserConfig/GetTags", params, new OnCompletedCallback() {
+			
+			@Override
+			public void onCompleted(String response, String error) {
+				if (error == null) {
+					Gson gson = new Gson();
+		        	Type listType = new TypeToken <ArrayList <Tag>>() {}.getType();
+					_userTags = gson.fromJson (response, listType);
+				}
+				
+				if (callback != null)
+					callback.onCompleted(response, error);
+			}
+		});	
 	}
 	
 	// obtiene la configuración de tipos de notificaciones del usuario.
 	
 	public void setNotificationsTypesConfiguration (UserNotificationsTypes notitypes, OnCompletedCallback callback) {
 		Map <String, String> params = new HashMap <String, String>();
+		
+		_userNotiTypes = notitypes;
 		
 		// agregar parámetros
         Gson gson = new Gson();
@@ -193,6 +236,8 @@ public class NotificationsController
 	public void setNotificationsTagsConfiguration (List <Tag> tags, OnCompletedCallback callback) {
 		Map <String, String> params = new HashMap <String, String>();
 		
+		_userTags = tags;
+		
 		// agregar parámetros
         Gson gson = new Gson();
 		params.put ("tagsInfo", gson.toJson (tags));
@@ -201,7 +246,7 @@ public class NotificationsController
 	}
 	
 	@TargetApi(16)
-    private static void generateNotification(Context context, String title, String message, Intent notificationIntent) {
+    private static void generateNotification(Context context, int id, String title, String message, Intent notificationIntent) {
         int icon = R.drawable.ic_stat_gcm;
         long when = System.currentTimeMillis();
 
@@ -222,7 +267,7 @@ public class NotificationsController
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
         
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify(0, notification);
+        notificationManager.notify(id, notification);
     }
 	
 	public List<Site> getNewSites() {
@@ -244,5 +289,31 @@ public class NotificationsController
 		_newEvents = new ArrayList<Event>();
 		
 		return events;
+	}
+	
+	public void notifyIfInterested(final Context context, final Site site) {
+		if (!_oldSitesId.contains(site.getId()) && _userNotiTypes != null && _userNotiTypes.isNotitype4_sites()) {
+			for (Tag tag : site.getTags()) {
+				if (_userTags != null && _userTags.contains(tag)) {
+					if (CommonUtilities.distance(_longitudCurrent, _latitudCurrent, site.getCoordinates()[0], site.getCoordinates()[1]) <= CommonUtilities.BROADCAST_RANGE) {
+						_oldSitesId.add(site.getId());
+						Intent mapIntent = new Intent (context, MapaActivity.class);
+						generateNotification(context, notiId++, "New site " + site.getName(), site.getDescription(), mapIntent);	
+					}
+					break;
+				}
+			}
+		}
+	}
+	
+	public void setCurrentLocation(double latitude, double longitude) {
+		_latitudCurrent = latitude;
+		_longitudCurrent = longitude;
+		
+		Map <String, String> params = new HashMap <String, String>();
+		params.put ("latitude", Double.toString(latitude));
+		params.put ("longitude", Double.toString(longitude));
+		
+    	GeoRedClient.GetAsync("/Notifications/LocationChange", params, null);	
 	}
 }

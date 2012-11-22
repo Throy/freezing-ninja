@@ -108,6 +108,7 @@ public class SiteMapOverlay extends ItemizedOverlay <OverlayItem> {
 	
 	public void clear() {
 		mapItems.clear();
+		setLastFocusedIndex(-1);
         this.populate();
     }
 

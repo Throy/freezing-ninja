@@ -23,7 +23,9 @@ import georeduy.server.logic.model.Review;
 import georeduy.server.logic.model.StoreProduct;
 import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.Visit;
+import georeduy.server.util.Util;
 
+import java.awt.image.BufferedImage;
 import java.util.Date;
 import java.util.List;
 
@@ -60,6 +62,10 @@ public class ProductsController {
 	// crear producto
 	public void newProduct(Product product, String retailerId) throws Exception {
 		product.setRetailerId(retailerId);
+		if (product.getImage() != null) {
+			BufferedImage image = Util.resize(Util.byteToBufferImage(product.getImage()), 80, 80);
+			product.setImage(Util.toByte(image));
+		}
 		productDao.saveProduct(product);		
 	}
 	
@@ -160,4 +166,12 @@ public class ProductsController {
 	public List <Review> getReviewsByUser (int from) {
     	return reviewDao.findByUser (User.Current ().getId (), from, 10);
 	}
+	
+	public List <Purchase> getPurchasesByPeriod (Date start, Date end) {
+    	return purchaseDao.findByPeriod(start, end);
+	}
+
+	public byte[] getProductImage(String productId) {
+	    return productDao.getProductImage(productId);
+    }
 }

@@ -32,6 +32,7 @@ public class PurchaseDaoImpl extends BasicDAO <Purchase, ObjectId> implements IP
 	private static String userIdString = "userId";
 	private static String idString = "id";
 	private static String reviewsString = "reviews";
+	private static String date = "date";
 	
 	// daos externos
 
@@ -94,7 +95,25 @@ public class PurchaseDaoImpl extends BasicDAO <Purchase, ObjectId> implements IP
 	// obtener visitas del usuario, sistema paginado
 	public List <Purchase> findByUser (String userId, int from, int count) {
     	List <Purchase> purchases = createQuery().field (userIdString).equal(userId).offset(from).limit(count).asList();
+    	System.out.println("-----> SERVER - Purchases:" + purchases);
     	resolveReferences (purchases);
     	return purchases;
+	}
+	
+	// obtener compras del usuario
+	public List <Purchase> findByPeriod (Date start, Date end) {
+				
+		Query <Purchase> query = ds.createQuery (Purchase.class).field (date).greaterThan(start).order(date);
+		List<Purchase> p = query.asList();
+		List<Purchase> retorno = new ArrayList<Purchase>();
+		
+		for (Purchase purchase : p) {
+			if(purchase.getDate().before(end)){
+				retorno.add(purchase);
+			}
+			
+		}
+		
+    	return retorno;
 	}
 }

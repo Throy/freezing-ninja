@@ -42,6 +42,8 @@ import android.widget.TextView;
  */
 public final class CommonUtilities {
 
+	public static int BROADCAST_RANGE = 480; // m
+	
     /**
      * Google API project id registered to use GCM.
      */

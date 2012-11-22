@@ -11,12 +11,15 @@ import georeduy.server.logic.model.Tag;
 import georeduy.server.logic.model.User;
 import georeduy.server.logic.model.UserData;
 import georeduy.server.logic.model.UserNotificationsTypes;
+import georeduy.server.persistence.MongoConnectionManager;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.mongodb.Mongo;
 
 public class InitDatabase {
 
@@ -414,7 +417,10 @@ public class InitDatabase {
     }
 
     @Test
-    public void LoadUsers() throws Exception {
+    public void Init() throws Exception {
+    	Mongo m = new Mongo();
+    	m.dropDatabase("geouy");
+    	
     	createUsers();
     	createTags ();
     	createSites ();

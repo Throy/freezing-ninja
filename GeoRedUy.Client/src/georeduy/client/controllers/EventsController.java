@@ -74,10 +74,12 @@ public class EventsController
 	// obtener datos de sitios cercanos.
 	// *** falta definir qué ubicaciones valen para la búsqueda. ***
 	
-	public void getEventsByPosition (int latitude, int longitude, OnCompletedCallback callback) {
+	public void getEventsByPosition (int bottomLeftLatitude, int bottomLeftLongitude, int topRightLatitude, int topRightLongitude, OnCompletedCallback callback) {
 		Map<String, String> params = new HashMap <String, String>();
-		params.put ("latitude", Integer.toString(latitude));
-		params.put ("longitude", Integer.toString(longitude));
+		params.put ("bottomLeftLatitude", Integer.toString(bottomLeftLatitude));
+		params.put ("bottomLeftLongitude", Integer.toString(bottomLeftLongitude));
+		params.put ("topRightLatitude", Integer.toString(topRightLatitude));
+		params.put ("topRightLongitude", Integer.toString(topRightLongitude));
 		
     	GeoRedClient.GetAsync("/Events/GetByLocation", params, callback);
 	}

@@ -71,8 +71,9 @@ public class EventsController {
 				@Override
                 public boolean filter(String userId) {
 					User user = SessionController.getInstance().GetUserById(userId);
-					if (Util.distanceHaversine(eventF.getCoordinates()[0], eventF.getCoordinates()[1], 
-						user.getCoordinates()[0], user.getCoordinates()[1]) <= Util.BROADCAST_RANGE) {
+					if ((Util.distanceHaversine(eventF.getCoordinates()[0], eventF.getCoordinates()[1], 
+						user.getCoordinates()[0], user.getCoordinates()[1]) <= Util.BROADCAST_RANGE) ||
+								Util.within(eventF.getCoordinates()[0], eventF.getCoordinates()[1], user.getMapRect())) {
 						return false;
 					}
 	                return true;
@@ -94,7 +95,7 @@ public class EventsController {
 	}
 
 	// obtener sitios cercanos
-	public List<Event> getEventsByPosition(int latitude, int longitud) {
+	public List<Event> getEventsByPosition(int bottomLeftLatitude, int bottomLeftLongitude, int topRightLatitude, int topRightLongitude) {
 		/*List<Site> lista = new ArrayList<Site>();
 		Site sitio1 = new Site();
 		sitio1.coordinates[0] = latitude/1e6;
@@ -106,7 +107,7 @@ public class EventsController {
 		sitio2.setName("prueba2");
 		lista.add(sitio1);
 		lista.add(sitio2);*/
-		return eventDao.getNearEvents(latitude/1e6, longitud/1e6, 0.01);		
+		return eventDao.getNearEvents(bottomLeftLatitude/1e6, bottomLeftLongitude/1e6, topRightLatitude/1e6, topRightLongitude/1e6);		
 	}
 	
 	// obtener datos de un sitio.

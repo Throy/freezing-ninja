@@ -33,6 +33,8 @@ import org.bson.types.ObjectId;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
+import sun.misc.BASE64Decoder;
+
 import com.google.gson.Gson;
 
 @Path("/Sites")
@@ -116,17 +118,15 @@ public class SitesService {
 	@GET()
 	@Produces("text/plain")
 	@Path("GetByLocation")
-	public Response GetByLocation(@QueryParam("latitude") Integer latitude,
-			@QueryParam("longitude") Integer longitud,
-			@Context SecurityContext context) {
+	public Response GetByLocation(@QueryParam("bottomLeftLatitude") Integer bottomLeftLatitude, @QueryParam("bottomLeftLongitude") Integer bottomLeftLongitud, @QueryParam("topRightLatitude") Integer topRightLatitude,@QueryParam("topRightLongitude") Integer topRightLongitude,@Context SecurityContext context) {
 		if (!context.isUserInRole(Roles.REG_USER)) {
 			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED)
 					.build();
 		}
 
 		Gson gson = new Gson();
-		List<Site> sites = SitesController.getInstance().getSitesByPosition(
-				latitude, longitud);
+		List<Site> sites = SitesController.getInstance().getSitesByPosition(bottomLeftLatitude, bottomLeftLongitud, topRightLatitude, topRightLongitude);
+		
 		return Response.status(200).entity(gson.toJson(sites)).build();
 	}
 
@@ -150,6 +150,28 @@ public class SitesService {
 			Site site = SitesController.getInstance().getById(siteId);
 
 			return Response.status(200).entity(gson.toJson(site)).build();
+		}
+
+		// si salta una excepción, devolver error
+		catch (Exception ex) {
+			return Response.status(500).entity(ex.getMessage()).build();
+		}
+	}
+	
+	@GET()
+	@Produces("image/jpg")
+	@Path("GetImageById")
+	public Response GetImageById(@QueryParam("siteId") String siteId,
+			@Context HttpServletResponse servletResponse,
+			@Context SecurityContext context) {
+		/*if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED)
+					.build();
+		}*/
+		
+		try {
+			byte[] image = SitesController.getInstance().getSiteImage(siteId);
+			return Response.status(200).entity(image).build();
 		}
 
 		// si salta una excepción, devolver error
@@ -377,8 +399,8 @@ public class SitesService {
 			site.setName(form.getName());
 			site.setAddress(form.getAddress());
 			Double[] coordinates = new Double[2];
-			coordinates[0] = Double.valueOf(form.getLatitude());
-			coordinates[1] = Double.valueOf(form.getLongitude());
+			coordinates[1] = Double.valueOf(form.getLatitude());
+			coordinates[0] = Double.valueOf(form.getLongitude());
 			site.setCoordinates(coordinates);
 			site.setDescription(form.getDescription());
 			site.setImage(form.getImageData());
@@ -488,6 +510,8 @@ public class SitesService {
 		}
 
 		public String getRadius() {
+			if (radius == null || radius.trim().equals(""))
+				return "10";
 			return radius;
 		}
 

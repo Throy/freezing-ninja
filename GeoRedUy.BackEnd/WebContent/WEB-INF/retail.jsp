@@ -162,7 +162,7 @@
     </div>
 </form>
 <% } else if (newForm.equals("Product")) {%>
-<form action="?AddProduct&ListMyProducts" method="post">    
+<form action="?AddProduct&ListMyProducts" method="post" enctype="multipart/form-data">    
 	<div class="reg-box big-red" style="margin:0 auto; float:right">
         <fieldset>
             <div class="editor-label">
@@ -182,10 +182,10 @@
             </div>
             
             <div class="editor-label">
-                <label for="ImageUrl">Image url</label>
+                <label for="imageData">Imagen</label>
             </div>
             <div class="editor-field">
-                <input id="ImageUrl" name="ImageUrl" type="text" value="" />
+                <input type="file" name="imageData" size="50" />
             </div>
             
             <div class="editor-label">
@@ -338,7 +338,7 @@
 		        <div class="shadowr">
 		            <div class="int" style="height:75px">
 		           		<div class="img" style="float:left;">
-	                    	<img class="image" style="margin:0;" width="48px" src="/GeoRedUy.BackEnd/media/images/Thumb/Site.png" alt="Image" />
+	                    	<img class="image" style="margin:0;" width="48px" src="/GeoRedUy.Server/Products/GetImageById?productId=<%=product.getId()%>" alt="Image" />
 	                    </div>
 		                <div class="body">
 		                    <div class="title" style="float:left;margin-right:10px;">

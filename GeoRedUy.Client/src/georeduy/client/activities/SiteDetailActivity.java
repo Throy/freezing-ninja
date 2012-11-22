@@ -13,11 +13,17 @@ import georeduy.client.controllers.SessionController;
 import georeduy.client.controllers.SitesController;
 import georeduy.client.model.Site;
 import georeduy.client.util.CommonUtilities;
+import georeduy.client.util.Config;
+import georeduy.client.util.DownloadImageTask;
 import georeduy.client.util.OnCompletedCallback;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SiteDetailActivity extends Activity {
@@ -53,6 +59,13 @@ public class SiteDetailActivity extends Activity {
 			        TextView viewName = (TextView) findViewById (R.id.textview_name);
 			        TextView viewDescription = (TextView) findViewById (R.id.textview_description);
 			        TextView viewAddress = (TextView) findViewById (R.id.textview_address);
+			        ImageView viewImage = (ImageView) findViewById(R.id.siteImageView);
+			        
+			        /*byte[] decodedImage = Base64.decode(site.getImage(), Base64.DEFAULT);
+			        Bitmap siteBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
+			        viewImage.setImageBitmap(siteBitmap);*/
+			        
+			        new DownloadImageTask(viewImage).execute(Config.SERVER_URL + "/Sites/GetImageById?siteId=" + site.getId());
 			        
 			        viewVisitId.setText (site.getId ());
 			        viewDescription.setText (site.getDescription ());

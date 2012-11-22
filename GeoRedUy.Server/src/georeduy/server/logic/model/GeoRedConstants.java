@@ -52,7 +52,7 @@ public class GeoRedConstants {
 	public static final String CONTACT_SUCCESSFULY_ADDED =
             "CONTACT_SUCCESSFULY_ADDED";
 
-	public static final Object CONTACT_SUCCESSFULY_REMOVED = 
+	public static final String CONTACT_SUCCESSFULY_REMOVED = 
 			"CONTACT_SUCCESSFULY_REMOVED";
 
 	public static final String CONTACT_ALREADY_EXISTS = 
@@ -61,16 +61,16 @@ public class GeoRedConstants {
 	public static final String VISIT_DOES_NOT_EXIST =
 			"VISIT_DOES_NOT_EXIST";
 
-	public static final Object COMMENT_SUCCESSFULY_ADDED =
+	public static final String COMMENT_SUCCESSFULY_ADDED =
 			"COMMENT_SUCCESSFULY_ADDED";
 	
-	public static final Object PURCHASE_SUCCESSFULY_ADDED =
+	public static final String PURCHASE_SUCCESSFULY_ADDED =
 			"PURCHASE_SUCCESSFULY_ADDED";
 
 	public static final String PURCHASE_SAVE_INCONSISTENT_DATA =
 			"PURCHASE_SAVE_INCONSISTENT_DATA";
 
-	public static final Object MESSAGE_SENT = 
+	public static final String MESSAGE_SENT = 
 			"MESSAGE_SENT";
 
 	public static final String USER_NOTITAG_INCONSISTENT_DATA =
@@ -79,10 +79,12 @@ public class GeoRedConstants {
 	public static final String PURCHASE_DOES_NOT_EXIST =
 			"PURCHASE_DOES_NOT_EXIST";
 
-	public static final Object REVIEW_SUCCESSFULY_ADDED =
+	public static final String REVIEW_SUCCESSFULY_ADDED =
 			"REVIEW_SUCCESSFULY_ADDED";
 
-	public static final Object USER_INVITATION_SENT =
+	public static final String USER_INVITATION_SENT =
 			"USER_INVITATION_SENT";
+
+	public static final String LOCATION_CHANGED = "LOCATION_CHANGED";
 
 }

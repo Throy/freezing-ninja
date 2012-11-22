@@ -9,6 +9,7 @@ public class Product {
     private String description;
     private String price;
     private String imageUrl;
+    private byte[] image;
     
     private Date releaseDate;
     
@@ -76,6 +77,14 @@ public class Product {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 	@Override

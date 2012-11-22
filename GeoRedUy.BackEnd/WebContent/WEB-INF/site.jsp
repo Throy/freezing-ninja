@@ -46,8 +46,8 @@
             map: map
         });
         markersArray.push(marker);
-        document.getElementById("Longitude").value = marker.getPosition().lng().toString();
-        document.getElementById("Latitude").value = marker.getPosition().lat().toString();
+        document.getElementById("longitude").value = marker.getPosition().lng().toString();
+        document.getElementById("latitude").value = marker.getPosition().lat().toString();
     }
 
  </script>
@@ -66,7 +66,7 @@
             </div>
 
             <div class="editor-label">
-                <label for="Description">Descripción</label>
+                <label for="description">Descripción</label>
             </div>
             <div class="editor-field">
                 <input data-val="true" data-val-required="The Description field is required." id="description" name="description" type="text" value="" />
@@ -74,7 +74,7 @@
             </div>
             
             <div class="editor-label">
-                <label for="Address">Dirección</label>
+                <label for="address">Dirección</label>
             </div>
             <div class="editor-field">
                 <input data-val="true" data-val-required="The Address field is required." id="address" name="address" type="text" value="" />
@@ -82,7 +82,7 @@
             </div>
             
             <div class="editor-label">
-                <label for="Latitude">Latitud</label>
+                <label for="latitude">Latitud</label>
             </div>
             <div class="editor-field">
                 <input data-val="true" data-val-required="The Latitude field is required." id="latitude" name="latitude" type="text" value="" />
@@ -90,7 +90,7 @@
             </div>
             
             <div class="editor-label">
-                <label for="Longitude">Longitud</label>
+                <label for="longitude">Longitud</label>
             </div>
             <div class="editor-field">
                 <input data-val="true" data-val-required="The Longitude field is required." id="longitude" name="longitude" type="text" value="" />
@@ -98,22 +98,22 @@
             </div>
             
             <div class="editor-label">
-                <label for="Radius">Radio (metros)</label>
+                <label for="radius">Radio (metros)</label>
             </div>
             <div class="editor-field">
-                <input data-val="true" data-val-required="Por favor ingrese el radio." id="Radius" name="Radius" type="text" value="" />
+                <input data-val="true" data-val-required="Por favor ingrese el radio." id="radius" name="radius" type="text" value="" />
                 <span class="field-validation-valid" data-valmsg-for="Radius" data-valmsg-replace="true"></span>
             </div>
             
             <div class="editor-label">
-                <label for="ImageUrl">URL de imagen</label>
+                <label for="imageData">Imagen</label>
             </div>
             <div class="editor-field">
                 <input type="file" name="imageData" size="50" />
             </div>
             
             <div class="editor-label">
-                <label for="Tags">Etiquetas</label>
+                <label for="tags">Etiquetas</label>
             </div>
             <div class="editor-field">
                 <input id="Tags" name="tags" type="text" value="" />
@@ -137,7 +137,7 @@
 		        <div class="shadowr">
 		            <div class="int">
 		           		<div class="img" style="float:left;">
-	                    	<img class="image" style="margin:0;" width="48px" src='data:image/gif;base64,<%=Base64.encodeBytes(site.getImage())%>' alt="Image" />
+	                    	<img class="image" style="margin:0;" width="48px" src='/GeoRedUy.Server/Sites/GetImageById?siteId=<%=site.getId()%>' alt="Image" />
 	                    </div>
 		                <div class="body">
 		                    <div class="title" style="float:left;margin-right:10px;">

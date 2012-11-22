@@ -8,11 +8,17 @@ import georeduy.server.logic.model.Product;
 import georeduy.server.logic.model.Purchase;
 import georeduy.server.logic.model.Review;
 import georeduy.server.logic.model.Roles;
+import georeduy.server.logic.model.Site;
+import georeduy.server.logic.model.Tag;
 import georeduy.server.logic.model.User;
+import georeduy.server.webservices.SitesService.AddSiteForm;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -21,6 +27,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
 import com.google.gson.Gson;
 
@@ -276,4 +285,26 @@ public class ProductsService {
 	    	return Response.status(500).entity (ex.getMessage()).build();
 	    }
 	}
+	
+	@GET()
+	@Produces("image/jpg")
+	@Path("GetImageById")
+	public Response GetImageById(@QueryParam("productId") String productId,
+			@Context HttpServletResponse servletResponse,
+			@Context SecurityContext context) {
+		/*if (!context.isUserInRole(Roles.REG_USER)) {
+			return Response.status(500).entity(GeoRedConstants.ACCESS_DENIED)
+					.build();
+		}*/
+		
+		try {
+			byte[] image = ProductsController.getInstance().getProductImage(productId);
+			return Response.status(200).entity(image).build();
+		}
+
+		// si salta una excepción, devolver error
+		catch (Exception ex) {
+			return Response.status(500).entity(ex.getMessage()).build();
+		}
+	}	
 }

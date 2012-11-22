@@ -294,13 +294,15 @@ public class NotificationsController
 	public void notifyIfInterested(final Context context, final Site site) {
 		if (!_oldSitesId.contains(site.getId()) && _userNotiTypes != null && _userNotiTypes.isNotitype4_sites()) {
 			for (Tag tag : site.getTags()) {
-				if (_userTags != null && _userTags.contains(tag)) {
-					if (CommonUtilities.distance(_longitudCurrent, _latitudCurrent, site.getCoordinates()[0], site.getCoordinates()[1]) <= CommonUtilities.BROADCAST_RANGE) {
-						_oldSitesId.add(site.getId());
-						Intent mapIntent = new Intent (context, MapaActivity.class);
-						generateNotification(context, notiId++, "New site " + site.getName(), site.getDescription(), mapIntent);	
+				for (Tag userTag : _userTags) {
+					if (userTag.equals(tag) && userTag.isChecked()) {
+						if (CommonUtilities.distance(_longitudCurrent, _latitudCurrent, site.getCoordinates()[0], site.getCoordinates()[1]) <= CommonUtilities.BROADCAST_RANGE) {
+							_oldSitesId.add(site.getId());
+							Intent mapIntent = new Intent (context, MapaActivity.class);
+							generateNotification(context, notiId++, "New site " + site.getName(), site.getDescription(), mapIntent);	
+						}
+						break;
 					}
-					break;
 				}
 			}
 		}

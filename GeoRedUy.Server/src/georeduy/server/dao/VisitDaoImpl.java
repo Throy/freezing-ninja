@@ -5,10 +5,12 @@
 package georeduy.server.dao;
 
 import georeduy.server.logic.model.Comment;
+import georeduy.server.logic.model.Purchase;
 import georeduy.server.logic.model.Visit;
 import georeduy.server.persistence.MongoConnectionManager;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -25,6 +27,7 @@ public class VisitDaoImpl extends BasicDAO <Visit, ObjectId> implements IVisitDa
 	private static String userIdString = "userId";
 	private static String visitIdString = "visitId";
 	private static String commentsString = "comments";
+	private static String date = "date";
 	
 	// daos externos
 
@@ -106,4 +109,26 @@ public class VisitDaoImpl extends BasicDAO <Visit, ObjectId> implements IVisitDa
     	resolveReferences (visits);
     	return visits;	
 	}
+	
+	// obtener visitas de periodo
+	public List <Visit> findByPeriod (Date start, Date end) {
+		System.out.println("---> visits desde -->" + start);
+		System.out.println("---> visits hasta -->" + end);		
+		Query <Visit> query = ds.createQuery (Visit.class).field (date).greaterThan(start).order(date);
+		List<Visit> v = query.asList();
+		List<Visit> retorno = new ArrayList<Visit>();
+		
+		System.out.println("---> antes resultado -->" + v);
+		
+		for (Visit visit : v) {
+			if(visit.getDate().before(end)){
+				retorno.add(visit);
+			}
+			
+		}
+		
+		System.out.println("---> resultado -->" + retorno);
+    	return retorno;
+	}
+
 }

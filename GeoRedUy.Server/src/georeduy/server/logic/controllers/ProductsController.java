@@ -6,12 +6,14 @@ import georeduy.server.dao.IRetailStoreDao;
 import georeduy.server.dao.IRetailerDao;
 import georeduy.server.dao.IReviewDao;
 import georeduy.server.dao.IStoreProductDao;
+import georeduy.server.dao.IVisitDao;
 import georeduy.server.dao.ProductDaoImpl;
 import georeduy.server.dao.PurchaseDaoImpl;
 import georeduy.server.dao.RetailStoreDaoImpl;
 import georeduy.server.dao.RetailerDaoImpl;
 import georeduy.server.dao.ReviewDaoImpl;
 import georeduy.server.dao.StoreProductDaoImpl;
+import georeduy.server.dao.VisitDaoImpl;
 import georeduy.server.logic.model.Comment;
 import georeduy.server.logic.model.GeoRedConstants;
 import georeduy.server.logic.model.Product;
@@ -43,6 +45,7 @@ public class ProductsController {
 	private static IRetailStoreDao storeDao = new RetailStoreDaoImpl();
 	private static IReviewDao reviewDao = new ReviewDaoImpl();
 	private static IStoreProductDao storeProductDao = new StoreProductDaoImpl();
+	private static IVisitDao visitsDao = new VisitDaoImpl();
 	
 	// constructores
 	
@@ -171,6 +174,9 @@ public class ProductsController {
     	return purchaseDao.findByPeriod(start, end);
 	}
 
+	public List <Visit> getVisitsByPeriod (Date start, Date end) {
+    	return visitsDao.findByPeriod(start, end);
+	}
 	public byte[] getProductImage(String productId) {
 	    return productDao.getProductImage(productId);
     }

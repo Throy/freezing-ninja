@@ -261,4 +261,9 @@ public class SitesController {
 	public List<Comment> getCommentsByUser(int from) {
 		return commentDao.findByUser(User.Current().getId(), from, 10);
 	}
+	
+	// obtener comentarios del usuario, sistema paginado
+	public Site getSiteById(String id) {
+		return siteDao.find(new ObjectId(id));
+	}
 }

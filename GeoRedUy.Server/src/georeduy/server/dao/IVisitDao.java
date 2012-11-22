@@ -8,6 +8,7 @@ import georeduy.server.logic.model.Comment;
 import georeduy.server.logic.model.Visit;
 
 import java.awt.Point;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -30,4 +31,7 @@ public interface IVisitDao {
 
 	// obtener visitas del usuario, sistema paginado
 	public List <Visit> findByUser (String userId, int from, int count);
+	
+	// Visitas en periodo de tiempo
+	public List <Visit> findByPeriod (Date start, Date end); 
 }

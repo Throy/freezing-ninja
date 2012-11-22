@@ -3,6 +3,8 @@ package georeduy.backend.controllers;
 import georeduy.backend.util.GeoRedClient;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +20,16 @@ public class ReportServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
+			Enumeration<String> e = request.getParameterNames();
+			String name;
+			while (e.hasMoreElements()) {
+				name = e.nextElement();
+				System.out.println(String.format("parameter name %s, value %s ",
+						name, request.getParameter(name)));
+			}
+			
 			String parameter = request.getParameter("Report");
+			System.out.println("---> parameter report -->" + parameter);
 			if (parameter != null) {
 				if (parameter.equals("Visits")) {
 					GetVisits(request);
@@ -81,7 +92,6 @@ public class ReportServlet extends HttpServlet {
 	}// </editor-fold>
 
 	public void GetPurchases(HttpServletRequest request) throws Exception {
-		System.out.println("---> GetPurchases -->");
 		String fechaDesde = request.getParameter("fechaDesde");
 		fechaDesde = fechaDesde == null ? "0" : fechaDesde;
 		String fechaHasta = request.getParameter("fechaHasta");
@@ -91,17 +101,32 @@ public class ReportServlet extends HttpServlet {
 		params.put("fechaDesde", fechaDesde);
 		params.put("fechaHasta", fechaHasta);
 
+		System.out.println("---> visits desde -->" + fechaDesde);
+		System.out.println("---> visits hasta -->" + fechaHasta);
+
 		String result = GeoRedClient.Get("/Reports/Purchases", params,
 				(String) request.getSession().getAttribute("Token"));
-		System.out.println("---> resultado -->" + result);
 		request.setAttribute("ReportData", result);
 
 	}
 
 	public void GetVisits(HttpServletRequest request) throws Exception {
+		System.out.println("---> GetVisits -->");
+		
+		String fechaDesde = request.getParameter("fechaDesde");
+		fechaDesde = fechaDesde == null ? "0" : fechaDesde;
+		String fechaHasta = request.getParameter("fechaHasta");
+		fechaHasta = fechaHasta == null ? "0" : fechaHasta;
 
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("fechaDesde", fechaDesde);
+		params.put("fechaHasta", fechaHasta);
 
-
+		System.out.println("---> visits desde -->" + fechaDesde);
+		System.out.println("---> visits hasta -->" + fechaHasta);
+		String result = GeoRedClient.Get("/Reports/Visits", params,
+				(String) request.getSession().getAttribute("Token"));
+		System.out.println("---> visits resultado -->" + result);
+		request.setAttribute("ReportData", result);
 	}
-
 }

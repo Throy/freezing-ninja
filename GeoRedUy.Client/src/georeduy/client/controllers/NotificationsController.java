@@ -307,5 +307,11 @@ public class NotificationsController
 	public void setCurrentLocation(double latitude, double longitude) {
 		_latitudCurrent = latitude;
 		_longitudCurrent = longitude;
+		
+		Map <String, String> params = new HashMap <String, String>();
+		params.put ("latitude", Double.toString(latitude));
+		params.put ("longitude", Double.toString(longitude));
+		
+    	GeoRedClient.GetAsync("/Notifications/LocationChange", params, null);	
 	}
 }

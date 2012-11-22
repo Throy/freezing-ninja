@@ -510,7 +510,7 @@ public class SitesService {
 		}
 
 		public String getRadius() {
-			if (radius == null)
+			if (radius == null || radius.trim().equals(""))
 				return "10";
 			return radius;
 		}

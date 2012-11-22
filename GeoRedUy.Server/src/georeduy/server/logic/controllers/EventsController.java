@@ -71,8 +71,9 @@ public class EventsController {
 				@Override
                 public boolean filter(String userId) {
 					User user = SessionController.getInstance().GetUserById(userId);
-					if (Util.distanceHaversine(eventF.getCoordinates()[0], eventF.getCoordinates()[1], 
-						user.getCoordinates()[0], user.getCoordinates()[1]) <= Util.BROADCAST_RANGE) {
+					if ((Util.distanceHaversine(eventF.getCoordinates()[0], eventF.getCoordinates()[1], 
+						user.getCoordinates()[0], user.getCoordinates()[1]) <= Util.BROADCAST_RANGE) ||
+								Util.within(eventF.getCoordinates()[0], eventF.getCoordinates()[1], user.getMapRect())) {
 						return false;
 					}
 	                return true;

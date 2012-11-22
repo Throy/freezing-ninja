@@ -79,6 +79,7 @@ public class CustomItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 	
 	public void clear() {
 		mapOverlays.clear();
+		setLastFocusedIndex(-1);
         this.populate();
     }
 	

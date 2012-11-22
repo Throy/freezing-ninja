@@ -42,6 +42,9 @@ public class User {
     public Double[] coordinates = new Double[2];
     
     @Transient
+    public MapRect mapRect = new MapRect();
+    
+    @Transient
     private String token;
     
     private static User s_currentUser;
@@ -137,6 +140,14 @@ public class User {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public MapRect getMapRect() {
+		return mapRect;
+	}
+
+	public void setMapRect(MapRect mapRect) {
+		this.mapRect = mapRect;
 	}
 
 	@Override

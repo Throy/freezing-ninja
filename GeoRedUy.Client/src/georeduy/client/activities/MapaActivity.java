@@ -195,6 +195,9 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
         
         registerReceiver(m_newStoreReceiver,
                 new IntentFilter(CommonUtilities.NEW_STORE_ACTION));
+        
+        registerReceiver(m_newEventReceiver,
+                new IntentFilter(CommonUtilities.NEW_EVENT_ACTION));
 	}
 		
 	@Override

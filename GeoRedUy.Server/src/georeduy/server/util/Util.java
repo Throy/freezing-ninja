@@ -1,5 +1,7 @@
 package georeduy.server.util;
 
+import georeduy.server.logic.model.MapRect;
+
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
@@ -11,7 +13,7 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 public class Util {
-	public static int BROADCAST_RANGE = 480; // km
+	public static int BROADCAST_RANGE = 480; // m
 	
 	public static int distanceHaversine(double lon1, double lat1, double lon2, double lat2) {
 
@@ -34,6 +36,14 @@ public class Util {
 		double distanceInMeters = earthRadius * c * 1000;
 
 		return (int)distanceInMeters;
+	}
+	
+	public static boolean within(double longitude, double latitude, MapRect mapRect) {
+		return mapRect != null && 
+				longitude > mapRect.bottomLeftLongitude &&
+				longitude < mapRect.topRightLongitude &&
+				latitude > mapRect.bottomLeftLatitude &&
+				latitude < mapRect.topRightLatitude;
 	}
 	
     public static BufferedImage resize(BufferedImage image, int width, int height) {

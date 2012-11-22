@@ -23,6 +23,7 @@ import georeduy.server.dao.UserDaoImpl;
 import georeduy.server.dao.VisitDaoImpl;
 import georeduy.server.logic.model.Comment;
 import georeduy.server.logic.model.GeoRedConstants;
+import georeduy.server.logic.model.MapRect;
 import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.Site;
 import georeduy.server.logic.model.Tag;
@@ -69,7 +70,7 @@ public class SitesController {
 			}
 			site.setTags(realTags);
 			
-			if (site.getImage() != null) {
+			if (site.getImage() != null && site.getImage().length > 0) {
 				BufferedImage image = Util.resize(Util.byteToBufferImage(site.getImage()), 80, 80);
 				site.setImage(Util.toByte(image));
 			}
@@ -86,9 +87,10 @@ public class SitesController {
 				public boolean filter(String userId) {
 					User user = SessionController.getInstance().GetUserById(
 							userId);
-					if (Util.distanceHaversine(siteF.getCoordinates()[0],
+					if ((Util.distanceHaversine(siteF.getCoordinates()[0],
 							siteF.getCoordinates()[1],
-							user.getCoordinates()[0], user.getCoordinates()[1]) <= Util.BROADCAST_RANGE) {
+							user.getCoordinates()[0], user.getCoordinates()[1]) <= Util.BROADCAST_RANGE) ||
+							Util.within(siteF.getCoordinates()[0], siteF.getCoordinates()[1], user.getMapRect())) {
 						return false;
 					}
 					return true;
@@ -123,11 +125,14 @@ public class SitesController {
 
 		// TODO: revisar si se mantiene que la posicion pasada es la ultima
 		// Actualizo la ultima posicion conocida del usuario
-		Double[] coordinates = new Double[2];
-		coordinates[1] = ((bottomLeftLatitude / 1e6) + (topRightLatitude / 1e6))/2;
-		coordinates[0] = ((bottomLeftLongitude / 1e6) + (topRightLongitude / 1e6))/2;
+		
+		MapRect mapRect = new MapRect();
+		mapRect.bottomLeftLatitude = bottomLeftLatitude/1e6;
+		mapRect.bottomLeftLongitude = bottomLeftLongitude/1e6;
+		mapRect.topRightLatitude = topRightLatitude/1e6;
+		mapRect.topRightLongitude = topRightLongitude/1e6;
 		SessionController.getInstance().GetUserById(User.Current().getId())
-				.setCoordinates(coordinates);
+				.setMapRect(mapRect);
 
 		return siteDao.getNearSites(bottomLeftLatitude/1e6, bottomLeftLongitude/1e6, topRightLatitude/1e6, topRightLongitude/1e6);
 	}

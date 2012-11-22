@@ -99,8 +99,9 @@ public class RetailController {
 			@Override
             public boolean filter(String userId) {
 				User user = SessionController.getInstance().GetUserById(userId);
-				if (Util.distanceHaversine(storeF.getCoordinates()[0], storeF.getCoordinates()[1], 
-					user.getCoordinates()[0], user.getCoordinates()[1]) <= Util.BROADCAST_RANGE) {
+				if ((Util.distanceHaversine(storeF.getCoordinates()[0], storeF.getCoordinates()[1], 
+					user.getCoordinates()[0], user.getCoordinates()[1]) <= Util.BROADCAST_RANGE) ||
+							Util.within(storeF.getCoordinates()[0], storeF.getCoordinates()[1], user.getMapRect())) {
 					return false;
 				}
                 return true;

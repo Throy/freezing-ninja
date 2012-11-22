@@ -58,8 +58,8 @@ public class SitesListActivity extends Activity {
         setContentView (R.layout.list_activity);
 
         // poblar lista
-        
-        SitesController.getInstance ().getSites (new OnCompletedCallback() {
+
+        SitesController.getInstance().getSitesByPosition (MapaActivity.latitudCurrent, MapaActivity.longitudCurrent, new OnCompletedCallback() {
 			
 			@Override
 			public void onCompleted (String response, String error)
@@ -74,23 +74,25 @@ public class SitesListActivity extends Activity {
 		            ArrayList <HashMap <String, String>> itemsStringList = new ArrayList <HashMap <String, String>> ();
 		            ArrayList <HashMap <String, Integer>> itemsIntList = new ArrayList <HashMap <String, Integer>> ();
 
-		            for (Site site : sites) {
-		                // crear item
-		                HashMap <String, String> itemStringMap = new HashMap <String, String> ();
-		                itemStringMap.put (SITE_ITEM_ID, site.getId ());
-		                itemStringMap.put (SITE_ITEM_NAME, site.getName ());
-		                itemStringMap.put (SITE_ITEM_DESCRIPTION, site.getDescription ());
-		                itemStringMap.put (SITE_ITEM_ADDRESS, site.getAddress ());
-		     
-		                // adding HashList to ArrayList
-		                itemsStringList.add (itemStringMap);
-
-		                // crear item
-		                HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
-		     
-		                // adding HashList to ArrayList
-		                itemsIntList.add (itemIntMap);
-		            }
+		    		if (sites != null) {
+			            for (Site site : sites) {
+			                // crear item
+			                HashMap <String, String> itemStringMap = new HashMap <String, String> ();
+			                itemStringMap.put (SITE_ITEM_ID, site.getId ());
+			                itemStringMap.put (SITE_ITEM_NAME, site.getName ());
+			                itemStringMap.put (SITE_ITEM_DESCRIPTION, site.getDescription ());
+			                itemStringMap.put (SITE_ITEM_ADDRESS, site.getAddress ());
+			     
+			                // adding HashList to ArrayList
+			                itemsStringList.add (itemStringMap);
+	
+			                // crear item
+			                HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
+			     
+			                // adding HashList to ArrayList
+			                itemsIntList.add (itemIntMap);
+			            }
+		    		}
 		     
 		            // poblar lista de items
 		            SitesListAdapter adapter = new SitesListAdapter (SitesListActivity.this, itemsStringList, itemsIntList);

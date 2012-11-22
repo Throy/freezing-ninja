@@ -57,12 +57,16 @@ public class SitesController
 	
 	// *** hay que ver cuáles se precisan y cuáles no. ***
 	
+	/*
+	
 	// obtener datos de todos los sitios.
 	
 	public void getSites (OnCompletedCallback callback) {
 		Map<String, String> params = new HashMap <String, String>();
     	GeoRedClient.GetAsync("/Sites/Get", params, callback);
 	}
+	
+	*/
 	
 	// obtener datos de todos los sitios, por página.
 	

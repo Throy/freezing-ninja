@@ -59,7 +59,8 @@ public class SitesListActivity extends Activity {
 
         // poblar lista
 
-        SitesController.getInstance().getSitesByPosition (MapaActivity.latitudCurrent, MapaActivity.longitudCurrent, new OnCompletedCallback() {
+        SitesController.getInstance().getSitesByPosition (MapaActivity.bottomLeftLat, MapaActivity.bottomLeftLong, MapaActivity.topRightLat, MapaActivity.topRightLong, 
+        		new OnCompletedCallback() {
 			
 			@Override
 			public void onCompleted (String response, String error)

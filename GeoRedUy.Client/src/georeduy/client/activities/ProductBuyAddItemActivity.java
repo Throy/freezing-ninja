@@ -97,22 +97,11 @@ public class ProductBuyAddItemActivity extends Activity {
     
     public void button_product_add_onClick (View view) {
     	
-		// intentar agrergar el producto a la compra
+		// agrergar el producto a la compra
 		ProductsController.getInstance().purchaseAddItemUnits (productId, units);
 		
-		// mostrar confirmación
-		AlertDialog alertDialog = new AlertDialog.Builder (this).create ();
-
-		alertDialog.setTitle ("Producto agregado");
-		alertDialog.setMessage ("Agregaste a la compra\n" + units + " unidades del producto " + productName + ".");
-		alertDialog.setButton (DialogInterface.BUTTON_NEGATIVE, "Ok", new DialogInterface.OnClickListener() {
-			public void onClick (DialogInterface dialog, int which) {
-				// cerrar la actividad.
-				finish ();
-			}
-		});
-		
-		alertDialog.show();
+		// cerrar la actividad.
+		finish ();
     }
 
     // cliquear Cancelar -> salir del menú

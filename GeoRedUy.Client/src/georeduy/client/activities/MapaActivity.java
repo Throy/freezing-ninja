@@ -92,6 +92,11 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
     public static int lastUpdateBottomLeftLat;
     public static int lastUpdateBottomLeftLong;
     public static int lastUpdateZoom;
+
+    public static int bottomLeftLat;
+    public static int bottomLeftLong;
+    public static int topRightLat;
+    public static int topRightLong;
     
 	//MagicPositionOverlay androidOverlay;	 
 	//private GPS gps;
@@ -209,10 +214,7 @@ public class MapaActivity extends SherlockMapActivity /*implements IGPSActivity 
 		
 	            GeoPoint trGpt; // Top right (NE) Geopoint
 	            GeoPoint blGpt; // Bottom left (SW) GeoPoint
-	            int bottomLeftLat;
-	            int bottomLeftLong;
-	            int topRightLat;
-	            int topRightLong;
+	            
 	            if (!firstCall)
 	            {
 		            trGpt = mapView.getProjection().fromPixels(mapView.getWidth(), 0);

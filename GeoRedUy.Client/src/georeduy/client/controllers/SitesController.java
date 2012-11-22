@@ -78,7 +78,6 @@ public class SitesController
 	}
 	
 	// obtener datos de sitios cercanos.
-	// *** falta definir qué ubicaciones valen para la búsqueda. ***
 	
 	public void getSitesByPosition (int bottomLeftLatitude, int bottomLeftLongitude, int topRightLatitude, int topRightLongitude, OnCompletedCallback callback) {
 		Map<String, String> params = new HashMap <String, String>();

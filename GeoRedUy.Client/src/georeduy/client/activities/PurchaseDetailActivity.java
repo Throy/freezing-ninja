@@ -92,7 +92,7 @@ public class PurchaseDetailActivity extends Activity {
     
     // funciones del programador
 
-    // cliquear botón -> iniciar actividad de Agregar item a la compra.
+    // cliquear botón -> iniciar actividad de Evaluar compra.
     
     public void button_purchase_item_onClick (View view) {
 

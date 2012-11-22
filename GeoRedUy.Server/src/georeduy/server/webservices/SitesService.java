@@ -131,7 +131,7 @@ public class SitesService {
 	}
 
 	// obtener datos de una visita.
-	// recibe un String con el id, y devuelve uno lleno.
+	// recibe un String con el id, y devuelve un Site.
 	@GET()
 	@Produces("text/plain")
 	@Path("GetById")

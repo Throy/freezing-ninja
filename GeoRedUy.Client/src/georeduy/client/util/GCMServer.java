@@ -25,7 +25,9 @@ import java.util.Map;
 import java.util.Random;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -122,6 +124,13 @@ public final class GCMServer {
     public static void InitGCM(Activity activity) {
         GCMRegistrar.checkDevice(activity);
         GCMRegistrar.checkManifest(activity);
+        
+        /*Intent registrationIntent = new Intent("com.google.android.c2dm.intent.REGISTER");
+	    // sets the app name in the intent
+	    registrationIntent.putExtra("app", PendingIntent.getBroadcast(activity, 0, new Intent(), 0));
+	    registrationIntent.putExtra("sender", SENDER_ID);
+	    activity.startService(registrationIntent);*/
+        GCMRegistrar.register(activity, SENDER_ID);
         
         final String regId = GCMRegistrar.getRegistrationId(activity);
         if (regId.equals("")) {

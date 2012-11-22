@@ -64,6 +64,8 @@ public class NotificationsController
 	private double _latitudCurrent = 0;
 	private double _longitudCurrent = 0;
 	
+	private int notiId = 10;
+	
 	// *************
 	// constructores
 	// *************
@@ -117,7 +119,7 @@ public class NotificationsController
         chatIntent.putExtra (VisitsListActivity.EXTRA_VISIT_ID, visit.getId());	 
     	
         if (_userNotiTypes != null && _userNotiTypes.isNotitype1_contactsVisits())
-        	generateNotification(context, visit.getRealUser().getUserName() + " visited a site near you: ", visit.getRealSite().getName(), chatIntent);
+        	generateNotification(context, notiId++, visit.getRealUser().getUserName() + " visited a site near you: ", visit.getRealSite().getName(), chatIntent);
 	}
 	
 	public void handleNotification(Context context, ChatMessage message) {
@@ -142,7 +144,7 @@ public class NotificationsController
         chatIntent.putExtra (CommonUtilities.EXTRA_USER_ID, message.getFromUserId());	 
         chatIntent.putExtra (CommonUtilities.EXTRA_USER_NAME, message.getFromUserName());
     	
-        generateNotification(context, message.getFromUserName() + " says:", message.getMessage(), chatIntent);
+        generateNotification(context, 0, message.getFromUserName() + " says:", message.getMessage(), chatIntent);
 	}
 	
 	public void sendMessage(ChatMessage message, OnCompletedCallback callback) {
@@ -244,7 +246,7 @@ public class NotificationsController
 	}
 	
 	@TargetApi(16)
-    private static void generateNotification(Context context, String title, String message, Intent notificationIntent) {
+    private static void generateNotification(Context context, int id, String title, String message, Intent notificationIntent) {
         int icon = R.drawable.ic_stat_gcm;
         long when = System.currentTimeMillis();
 
@@ -265,7 +267,7 @@ public class NotificationsController
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
         
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify(0, notification);
+        notificationManager.notify(id, notification);
     }
 	
 	public List<Site> getNewSites() {
@@ -296,7 +298,7 @@ public class NotificationsController
 					if (CommonUtilities.distance(_longitudCurrent, _latitudCurrent, site.getCoordinates()[0], site.getCoordinates()[1]) <= CommonUtilities.BROADCAST_RANGE) {
 						_oldSitesId.add(site.getId());
 						Intent mapIntent = new Intent (context, MapaActivity.class);
-						generateNotification(context, "New site " + site.getName(), site.getDescription(), mapIntent);	
+						generateNotification(context, notiId++, "New site " + site.getName(), site.getDescription(), mapIntent);	
 					}
 					break;
 				}

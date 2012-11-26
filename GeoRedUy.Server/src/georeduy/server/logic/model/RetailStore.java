@@ -21,6 +21,8 @@ public class RetailStore {
     @Property
     private String address;
     @Property
+    private String paypalMail;
+    @Property
     private String phoneNumber;
     @Indexed(IndexDirection.GEO2D)
     public Double[] coordinates = new Double[2];
@@ -58,6 +60,15 @@ public class RetailStore {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	
+	public String getPayPalMail() {
+		return paypalMail;
+	}
+
+
+	public void setPayPalMail(String mail) {
+		this.paypalMail = mail;
 	}
 	
 

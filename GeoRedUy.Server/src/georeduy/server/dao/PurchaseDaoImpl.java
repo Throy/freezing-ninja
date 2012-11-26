@@ -15,9 +15,11 @@ import georeduy.server.logic.model.Review;
 import georeduy.server.logic.model.Visit;
 import georeduy.server.persistence.MongoConnectionManager;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
 
 import org.bson.types.ObjectId;
 
@@ -67,7 +69,14 @@ public class PurchaseDaoImpl extends BasicDAO <Purchase, ObjectId> implements IP
 
 	// guardar compra en la base de datos
 	public void savePurchase (Purchase purchase)  {
-	    this.save (purchase);
+		try
+		{
+			this.save (purchase);
+		}
+		catch (Exception e)
+		{
+			
+		}
 	}
 
 	// guardar evaluación en la base de datos

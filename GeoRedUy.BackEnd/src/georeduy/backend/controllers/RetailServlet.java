@@ -135,6 +135,7 @@ public class RetailServlet extends HttpServlet {
     	String name = request.getParameter("Name");
     	String phoneNumber = request.getParameter("PhoneNumber");
     	String address = request.getParameter("Address");
+    	String paypalMail = request.getParameter("PayPalMail");
     	double latitude = Double.parseDouble(request.getParameter("Latitude"));
     	double longitude = Double.parseDouble(request.getParameter("Longitude"));
     	String imageUrl = request.getParameter("ImageUrl");
@@ -142,6 +143,7 @@ public class RetailServlet extends HttpServlet {
     	RetailStore store = new RetailStore();
     	store.setName(name);
     	store.setPhoneNumber(phoneNumber);
+    	store.setPayPalMail(paypalMail);
     	store.setImageUrl(imageUrl);
     	store.setAddress(address);
 

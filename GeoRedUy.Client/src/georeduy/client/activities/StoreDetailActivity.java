@@ -45,7 +45,7 @@ public class StoreDetailActivity extends Activity {
 					// obtener local
 			        Gson gson = new Gson();
 			        RetailStore store = gson.fromJson (response, RetailStore.class);
-
+			        ProductsController.getInstance().setStorePayPalMail(store.getPayPalMail());
 			        // mostrar datos en el menú
 			        TextView viewStoreId = (TextView) findViewById (R.id.textview_store_id);
 			        TextView viewName = (TextView) findViewById (R.id.textview_name);

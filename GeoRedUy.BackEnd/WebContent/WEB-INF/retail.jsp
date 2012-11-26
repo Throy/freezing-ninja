@@ -132,6 +132,13 @@
             </div>
             
             <div class="editor-label">
+                <label for="PayPalMail">PayPal Account Mail</label>
+            </div>
+            <div class="editor-field">
+                <input  id="PayPalMail" name="PayPalMail" type="text" value="" />
+            </div>
+            
+            <div class="editor-label">
                 <label for="Latitude">Latitude</label>
             </div>
             <div class="editor-field">
@@ -162,8 +169,9 @@
     </div>
 </form>
 <% } else if (newForm.equals("Product")) {%>
+
 <form action="?AddProduct&ListMyProducts" method="post" enctype="multipart/form-data">    
-	<div class="reg-box big-red" style="margin:0 auto; float:right">
+	<div class="reg-box big-red" style="margin-left:40%; float:left">
         <fieldset>
             <div class="editor-label">
                 <label for="Name">Name</label>

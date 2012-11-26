@@ -6,6 +6,7 @@ public class RetailStore {
     private String id;
     private String name;
     private String address;
+    private String paypalMail;
     private String phoneNumber;
     public Double[] coordinates = new Double[2];
     private String imageUrl;
@@ -38,6 +39,16 @@ public class RetailStore {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	
+	
+	public String getPayPalMail() {
+		return paypalMail;
+	}
+
+
+	public void setPayPalMail(String mail) {
+		this.paypalMail = mail;
 	}
 	
 

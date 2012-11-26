@@ -40,6 +40,7 @@ public class ProductsController
 	// *********
 	
 	// empresa y local donde se realiza la compra
+	private String _paypalMail;
 	private String _retailerId;
 	private String _storeId;
 
@@ -83,6 +84,17 @@ public class ProductsController
 		Map<String, String> params = new HashMap <String, String>();
 		params.put ("id", retailerId);
     	GeoRedClient.GetAsync("/Products/GetByStore", params, callback);
+	}
+	
+	
+	public String getStorePayPalMail()
+	{
+		return _paypalMail;
+	}
+	
+	public void setStorePayPalMail(String mail)
+	{
+		_paypalMail = mail;
 	}
 	
 	// obtener datos del producto.

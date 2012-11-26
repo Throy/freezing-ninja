@@ -6,6 +6,10 @@
 package georeduy.client.activities;
 
 // imports
+import com.paypal.android.MEP.CheckoutButton;
+import com.paypal.android.MEP.PayPal;
+import com.paypal.android.MEP.PayPalReceiverDetails;
+import com.paypal.android.MEP.PayPalPayment;
 
 import georeduy.client.controllers.ProductsController;
 import georeduy.client.lists.PurchasesListAdapter;
@@ -64,6 +68,7 @@ public class PurchasesListActivity extends Activity {
     // atributos
     
     public static List <Purchase> purchases;
+    public PayPal ppObj;
     
     // constructor
 
@@ -71,7 +76,7 @@ public class PurchasesListActivity extends Activity {
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.list_activity);
-        
+        ppObj = PayPal.initWithAppID(this.getBaseContext(), "APP-80W284485P519543T", PayPal.ENV_SANDBOX);
         updateList();
     }
     

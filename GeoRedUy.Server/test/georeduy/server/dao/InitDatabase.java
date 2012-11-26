@@ -150,12 +150,12 @@ public class InitDatabase {
 
     	tag = new Tag();
     	tag.setName ("Espectaculos");
-    	tag.setDescription ("Espacios de cine, teatro, danza y música");
+    	tag.setDescription ("Espacios de cine, teatro, danza y musica");
     	tagDao.saveTag (tag);
 
     	tag = new Tag();
     	tag.setName ("Restaurantes");
-    	tag.setDescription ("Restaurantes, bares, cafeterías, boliches");
+    	tag.setDescription ("Restaurantes, bares, cafeterias, boliches");
     	tagDao.saveTag (tag);
 
     	tag = new Tag();
@@ -268,6 +268,7 @@ public class InitDatabase {
     	store.setPhoneNumber ("2628 NIKE");
     	store.setImageUrl ("nike_mvd.jpg");
     	store.setAddress ("Herrera casi 26 de Marzo");
+    	store.setPayPalMail("gandre_1353771273_biz@gmail.com");
     	Double[] coordinatesNike1 = {-56.139, -34.903};
     	store.setCoordinates (coordinatesNike1);
     	RetailController.getInstance ().NewStore (store, retailer.getId ());
@@ -279,6 +280,7 @@ public class InitDatabase {
     	store.setPhoneNumber ("2712 NIKE");
     	store.setImageUrl ("nike_carr.jpg");
     	store.setAddress ("Ellauri");
+    	store.setPayPalMail("gandre_1353771273_biz@gmail.com");
     	Double[] coordinatesNike2 = {-56.157, -34.923};
     	store.setCoordinates (coordinatesNike2);
     	RetailController.getInstance ().NewStore (store, retailer.getId ());
@@ -333,6 +335,7 @@ public class InitDatabase {
     	store.setPhoneNumber ("2628 RMCD");
     	store.setImageUrl ("mcd_mvd.jpg");
     	store.setAddress ("Herrera casi 26 de Marzo");
+    	store.setPayPalMail("gandre_1353771273_biz@gmail.com");
     	Double[] coordinatesMcd1 = {-56.138, -34.904};
     	store.setCoordinates (coordinatesMcd1);
     	RetailController.getInstance ().NewStore (store, retailer.getId ());
@@ -344,6 +347,7 @@ public class InitDatabase {
     	store.setPhoneNumber ("2712 RMCD");
     	store.setImageUrl ("mcd_carr.jpg");
     	store.setAddress ("Ellauri");
+    	store.setPayPalMail("gandre_1353771273_biz@gmail.com");
     	Double[] coordinatesMcd2 = {-56.158, -34.924};
     	store.setCoordinates (coordinatesMcd2);
     	RetailController.getInstance ().NewStore (store, retailer.getId ());
@@ -398,6 +402,7 @@ public class InitDatabase {
     	store.setPhoneNumber ("2628 AHOR");
     	store.setImageUrl ("mcd_mvd.jpg");
     	store.setAddress ("Herrera casi 26 de Marzo");
+    	store.setPayPalMail("gandre_1353771273_biz@gmail.com");
     	Double[] coordinatesMul1 = {-56.137, -34.905};
     	store.setCoordinates (coordinatesMul1);
     	RetailController.getInstance ().NewStore (store, retailer.getId ());
@@ -408,6 +413,7 @@ public class InitDatabase {
     	store.setName ("Multiahorro Carretas");
     	store.setPhoneNumber ("2712 AHOR");
     	store.setImageUrl ("mcd_carr.jpg");
+    	store.setPayPalMail("gandre_1353771273_biz@gmail.com");
     	store.setAddress ("Ellauri");
     	Double[] coordinatesMul2 = {-56.159, -34.925};
     	store.setCoordinates (coordinatesMul2);

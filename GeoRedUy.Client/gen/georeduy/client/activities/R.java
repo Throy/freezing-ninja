@@ -1010,7 +1010,7 @@ containing a value of this type.
         public static final int button_configure_notitypes=0x7f050051;
         public static final int button_map=0x7f05004a;
         public static final int button_product_add=0x7f05005d;
-        public static final int button_product_buy=0x7f050064;
+        public static final int button_product_buy=0x7f050067;
         public static final int button_product_cancel=0x7f05005e;
         public static final int button_product_item=0x7f050068;
         public static final int button_purchase_item=0x7f050074;
@@ -1083,9 +1083,9 @@ containing a value of this type.
         public static final int overlay=0x7f050082;
         public static final int price=0x7f050012;
         public static final int pricetotal=0x7f050063;
-        public static final int priceunit=0x7f050066;
+        public static final int priceunit=0x7f050065;
         public static final int productImageView=0x7f05005f;
-        public static final int product_id=0x7f050065;
+        public static final int product_id=0x7f050064;
         public static final int purchase_id=0x7f050073;
         public static final int send=0x7f05003a;
         public static final int showCustom=0x7f050008;
@@ -1124,7 +1124,7 @@ containing a value of this type.
         public static final int textview_user_id=0x7f050091;
         public static final int textview_username=0x7f050092;
         public static final int textview_visit_id=0x7f050099;
-        public static final int units=0x7f050067;
+        public static final int units=0x7f050066;
         public static final int useLogo=0x7f050004;
         public static final int user_id=0x7f050096;
         public static final int username=0x7f050097;

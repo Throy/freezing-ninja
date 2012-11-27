@@ -150,8 +150,8 @@
 		                    </div>
 		                    <div class="footer">
 		                        Address: <%=site.getAddress()%> 
-		                    	Latitude: <%=site.getCoordinates()[0]%>
-		                    	Longitude: <%=site.getCoordinates()[1]%>
+		                    	Latitude: <%=site.getCoordinates()[1]%>
+		                    	Longitude: <%=site.getCoordinates()[0]%>
 		                        <div class="likes">
 		                        	<% for (Tag tag: site.getTags()) { %>
 		                        		<%=tag.getName()%>

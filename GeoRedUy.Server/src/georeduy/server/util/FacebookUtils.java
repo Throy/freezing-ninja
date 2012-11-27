@@ -6,6 +6,7 @@ package georeduy.server.util;
 
 import georeduy.server.logic.model.Roles;
 import georeduy.server.logic.model.UserData;
+import georeduy.server.logic.model.UserNotificationsTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,8 @@ public class FacebookUtils {
             georedUser.setRoles(roles);
 
             georedUser.setUserData(userData);
+            
+            georedUser.setNotificationsTypes(new UserNotificationsTypes());
 
         }
         return georedUser;

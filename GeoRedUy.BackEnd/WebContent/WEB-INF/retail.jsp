@@ -171,7 +171,7 @@
 <% } else if (newForm.equals("Product")) {%>
 
 <form action="?AddProduct&ListMyProducts" method="post" enctype="multipart/form-data">    
-	<div class="reg-box big-red" style="margin-left:40%; float:left">
+	<div class="reg-box big-red" style="margin-left:20%; float:left">
         <fieldset>
             <div class="editor-label">
                 <label for="Name">Name</label>

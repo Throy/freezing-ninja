@@ -130,7 +130,7 @@ public final class GCMServer {
 	    registrationIntent.putExtra("app", PendingIntent.getBroadcast(activity, 0, new Intent(), 0));
 	    registrationIntent.putExtra("sender", SENDER_ID);
 	    activity.startService(registrationIntent);*/
-        GCMRegistrar.register(activity, SENDER_ID);
+        //GCMRegistrar.register(activity, SENDER_ID);
         
         final String regId = GCMRegistrar.getRegistrationId(activity);
         if (regId.equals("")) {

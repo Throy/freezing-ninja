@@ -108,51 +108,53 @@ public class ProductsListActivity extends Activity {
 			        
 			        HashMap <String, String> productPrices = new HashMap <String, String> ();
 
-			        for (Product product : products) {
-			            // crear item
-			            HashMap <String, String> itemStringMap = new HashMap <String, String> ();
-			            itemStringMap.put (PRODUCT_ITEM_ID, product.getId ());
-			            itemStringMap.put (PRODUCT_ITEM_NAME, product.getName ());
-			            itemStringMap.put (PRODUCT_ITEM_DESCRIPTION, product.getDescription ());
-			            itemStringMap.put (PRODUCT_ITEM_PRICE, product.getPrice ());
-			            itemStringMap.put (PRODUCT_ITEM_DATE, CommonUtilities.dateToString (product.getReleaseDate ()));
-			 
-			            // adding HashList to ArrayList
-			            itemsStringList.add (itemStringMap);
-
-			            // crear item
-			            HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
-			 
-			            // adding HashList to ArrayList
-			            itemsIntList.add (itemIntMap);
-			            
-			            // agregar precio
-			            productPrices.put (product.getId (), product.getPrice ());
+			        if (products != null) {
+				        for (Product product : products) {
+				            // crear item
+				            HashMap <String, String> itemStringMap = new HashMap <String, String> ();
+				            itemStringMap.put (PRODUCT_ITEM_ID, product.getId ());
+				            itemStringMap.put (PRODUCT_ITEM_NAME, product.getName ());
+				            itemStringMap.put (PRODUCT_ITEM_DESCRIPTION, product.getDescription ());
+				            itemStringMap.put (PRODUCT_ITEM_PRICE, product.getPrice ());
+				            itemStringMap.put (PRODUCT_ITEM_DATE, CommonUtilities.dateToString (product.getReleaseDate ()));
+				 
+				            // adding HashList to ArrayList
+				            itemsStringList.add (itemStringMap);
+	
+				            // crear item
+				            HashMap <String, Integer> itemIntMap = new HashMap <String, Integer> ();
+				 
+				            // adding HashList to ArrayList
+				            itemsIntList.add (itemIntMap);
+				            
+				            // agregar precio
+				            productPrices.put (product.getId (), product.getPrice ());
+				        }
+	
+				        // iniciar compra nueva
+				        ProductsController.getInstance ().purchaseNew (store.getRetailerId (), store.getId (), products, productPrices);
+				        
+				        // poblar lista de productos
+				        ProductsListAdapter adapter = new ProductsListAdapter (ProductsListActivity.this, itemsStringList, itemsIntList);
+				        ListView listView = (ListView) findViewById (R.id.listView_list);
+				        listView.setAdapter (adapter);
+				        
+				        // cliquear línea -> iniciar actividad de Ver datos
+				        listView.setOnItemClickListener (new OnItemClickListener() {
+	
+				        	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
+				            	// crear intent de la actividad Ver datos de un producto.
+				            	Intent intent_product_detail = new Intent (parent.getContext (), ProductDetailActivity.class);
+				            	
+				            	// agregar id del producto al intent
+				            	String productId = ((TextView) view.findViewById (R.id.product_id)).getText().toString();
+				            	intent_product_detail.putExtra (EXTRA_PRODUCT_ID, productId);
+				            	
+				            	// ejecutar intent.
+				            	startActivity (intent_product_detail);
+				        	}
+				        });
 			        }
-
-			        // iniciar compra nueva
-			        ProductsController.getInstance ().purchaseNew (store.getRetailerId (), store.getId (), products, productPrices);
-			        
-			        // poblar lista de productos
-			        ProductsListAdapter adapter = new ProductsListAdapter (ProductsListActivity.this, itemsStringList, itemsIntList);
-			        ListView listView = (ListView) findViewById (R.id.listView_list);
-			        listView.setAdapter (adapter);
-			        
-			        // cliquear línea -> iniciar actividad de Ver datos
-			        listView.setOnItemClickListener (new OnItemClickListener() {
-
-			        	public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
-			            	// crear intent de la actividad Ver datos de un producto.
-			            	Intent intent_product_detail = new Intent (parent.getContext (), ProductDetailActivity.class);
-			            	
-			            	// agregar id del producto al intent
-			            	String productId = ((TextView) view.findViewById (R.id.product_id)).getText().toString();
-			            	intent_product_detail.putExtra (EXTRA_PRODUCT_ID, productId);
-			            	
-			            	// ejecutar intent.
-			            	startActivity (intent_product_detail);
-			        	}
-			        });
             	}
 			
 				else {

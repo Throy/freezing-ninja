@@ -12,22 +12,22 @@ import com.google.code.morphia.annotations.Property;
 public class UserNotificationsTypes {
 
     @Property
-    private boolean notitype1_contactsVisits;
+    private boolean notitype1_contactsVisits = false;
 	
     @Property
-    private boolean notitype2_contactsComments;
+    private boolean notitype2_contactsComments = false;
 	
     @Property
-    private boolean notitype3_contactsReviews;
+    private boolean notitype3_contactsReviews = false;
 	
     @Property
-    private boolean notitype4_sites;
+    private boolean notitype4_sites = false;
 	
     @Property
-    private boolean notitype5_products;
+    private boolean notitype5_products = false;
 	
     @Property
-    private boolean notitype6_events;
+    private boolean notitype6_events = false;
 
 	/**
 	 * @return the notitype1_contactsVisits
